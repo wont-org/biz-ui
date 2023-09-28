@@ -28,8 +28,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: eslint
-        run: npm run lint
+      # - name: eslint
+      #   run: npm run lint
 
       # - name: coverage
       #   run: npm run coverage

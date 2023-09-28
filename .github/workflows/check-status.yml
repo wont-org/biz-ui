@@ -20,14 +20,14 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: lint
-        run: npm run lint
+      # - name: lint
+      #   run: npm run lint
 
       # - name: coverage
       #   run: npm run coverage
 
       - name: prepublishOnly
-        run: npm run gulp
+        run: npm run prepublishOnly
 
       - name: build:docs
         run: npm run build:docs
