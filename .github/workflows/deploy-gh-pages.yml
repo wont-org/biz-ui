@@ -45,4 +45,4 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GIT_KEY }}
           BRANCH: gh-pages
-          FOLDER: ./docs
+          FOLDER: ./docs-dist
