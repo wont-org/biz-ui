@@ -3,49 +3,34 @@ on: [push, pull_request]
 
 jobs:
   check-status:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        node-version: [16]
     steps:
-    - name: checkout
-      uses: actions/checkout@v2.3.1
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install
 
-    - name: cache package-lock.json
-      uses: actions/cache@v2
-      with:
-        path: package-temp-dir
-        key: lock-${{ github.sha }}
+      - name: lint
+        run: npm run lint
 
-    - name: create package-lock.json
-      run: npm i --package-lock-only --ignore-scripts
+      # - name: coverage
+      #   run: npm run coverage
 
-    - name: hack for singe file
-      run: |
-        if [ ! -d "package-temp-dir" ]; then
-          mkdir package-temp-dir
-        fi
-        cp package-lock.json package-temp-dir
+      - name: prepublishOnly
+        run: npm run gulp
 
-    - name: cache node_modules
-      id: node_modules_cache_id
-      uses: actions/cache@v2
-      with:
-        path: node_modules
-        key: node_modules-${{ hashFiles('**/package-temp-dir/package-lock.json') }}
+      - name: build:docs
+        run: npm run build:docs
 
-    - name: install
-      if: steps.node_modules_cache_id.outputs.cache-hit != 'true'
-      run: npm ci
-
-    - name: lint
-      run: npm run lint
-
-    # - name: coverage
-    #   run: npm run coverage
-
-    - name: prepublishOnly
-      run: npm run gulp
-
-    - name: build:docs
-      run: npm run build:docs
-
-    # - name: moveCoverage
-    #   run: sh ./scripts/mv-coverage.sh
+      # - name: moveCoverage
+      #   run: sh ./scripts/mv-coverage.sh
