@@ -1,7 +1,7 @@
 import classnames from 'classnames';
 import React, { RefObject, useEffect, useRef, useState } from 'react';
 import { getImg, sleep, genRandomXY, isFirefox, drawGap } from './utils';
-import { PuzzleCaptchaProps } from './types';
+import type { PuzzleCaptchaProps } from './types';
 import { StyleContainer } from './style';
 import resetImg from './refresh.png';
 import { useLatest } from 'ahooks';
