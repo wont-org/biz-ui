@@ -6,7 +6,14 @@
     "typescript",
     "html"
   ],
-  "stylelint.validate": ["css", "less", "scss", "postcss"],
+  "stylelint.validate": [
+    "css",
+    "less",
+    "scss",
+    "postcss"
+    // "typescriptreact",
+    // "typescript"
+  ],
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true,
     "source.fixAll.stylelint": true

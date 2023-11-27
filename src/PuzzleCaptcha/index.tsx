@@ -3,8 +3,9 @@ import React, { RefObject, useEffect, useRef, useState } from 'react';
 import { getImg, sleep, genRandomXY, isFirefox, drawGap } from './utils';
 import { PuzzleCaptchaProps } from './types';
 import { StyleContainer } from './style';
-import resetImg from './reset.png';
+import resetImg from './refresh.png';
 import { useLatest } from 'ahooks';
+import { DoubleRightOutlined, LoadingOutlined } from '@ant-design/icons';
 
 const prefix = 'puzzle-captcha';
 
@@ -24,9 +25,10 @@ export default (props: PuzzleCaptchaProps) => {
     useFetch = false,
     fetchData,
   } = props;
-
-  const GAP_WIDTH = 50;
-  const DRAG_WIDTH = 26;
+  // 缺口
+  const GAP_WIDTH = 58;
+  // 拖动
+  const DRAG_WIDTH = 50;
   // 缺口 阴影
   const GAP_SHADOW_BLUR = 3;
   // 拼图和滑块的比例
@@ -333,6 +335,7 @@ export default (props: PuzzleCaptchaProps) => {
       <div className={bodyCls}>
         <div className="title-wrap">
           <h1 className="title">{title}</h1>
+          {/* <RedoOutlined className="reset" onClick={handleReset}/> */}
           <img src={resetImg} onClick={handleReset} className="reset" />
         </div>
         <div
@@ -348,8 +351,12 @@ export default (props: PuzzleCaptchaProps) => {
             }}
             className="loading"
           >
-            {/* TODO loading */}
-            <i className="qax-icon-Loading" />
+            <LoadingOutlined
+              style={{
+                fontSize: '26px',
+                color: '#1890ff',
+              }}
+            />
           </div>
           <canvas
             ref={bgCanvasRef}
@@ -385,7 +392,15 @@ export default (props: PuzzleCaptchaProps) => {
             onMouseDown={handleMoveBegin}
             onTouchStart={handleMoveBegin}
           >
-            <i className="qax-icon-Double-angle-right" />
+            <DoubleRightOutlined
+              className="slider-icon"
+              style={{
+                color:
+                  state.isMoving || state.resultMsg
+                    ? '#1890ff'
+                    : 'rgba(0,0,0,0.65)',
+              }}
+            />
           </div>
           <div
             className="slider-path"
