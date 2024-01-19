@@ -3,9 +3,9 @@ import React, { RefObject, useEffect, useRef, useState } from 'react';
 import { getImg, sleep, genRandomXY, isFirefox, drawGap } from './utils';
 import type { PuzzleCaptchaProps } from './types';
 import { StyleContainer } from './style';
-import resetImg from './refresh.png';
 import { useLatest } from 'ahooks';
 import { DoubleRightOutlined, LoadingOutlined } from '@ant-design/icons';
+import { ICON_TYPE, IconFont } from 'dumi-test/IconFont/icon';
 
 const prefix = 'puzzle-captcha';
 
@@ -335,8 +335,11 @@ export default (props: PuzzleCaptchaProps) => {
       <div className={bodyCls}>
         <div className="title-wrap">
           <h1 className="title">{title}</h1>
-          {/* <RedoOutlined className="reset" onClick={handleReset}/> */}
-          <img src={resetImg} onClick={handleReset} className="reset" />
+          <IconFont
+            type={ICON_TYPE.refresh}
+            onClick={handleReset}
+            className="reset"
+          />
         </div>
         <div
           className="canvas-wrap"

@@ -54,13 +54,11 @@ export const StyleContainer = styled.section`
       }
 
       > .reset {
-        width: 23px;
-        height: 20px;
         position: absolute;
         right: 0;
         cursor: pointer;
-        font-size: 18px;
-        color: #1890ff;
+        font-size: 22px;
+        color: #1296db;
         font-weight: bold;
         /* transform: rotateY(180deg); */
       }
