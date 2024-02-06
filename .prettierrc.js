@@ -4,15 +4,28 @@ module.exports = {
     require.resolve('prettier-plugin-organize-imports'),
     require.resolve('prettier-plugin-packagejson'),
   ],
-  printWidth: 80,
-  proseWrap: 'never',
   singleQuote: true,
   trailingComma: 'all',
+  printWidth: 100,
+  proseWrap: 'never',
+  endOfLine: 'lf',
   overrides: [
     {
       files: '*.md',
       options: {
         proseWrap: 'preserve',
+      },
+    },
+    {
+      files: '.prettierrc',
+      options: {
+        parser: 'json',
+      },
+    },
+    {
+      files: 'document.ejs',
+      options: {
+        parser: 'html',
       },
     },
   ],
