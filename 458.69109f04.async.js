@@ -188,6 +188,13 @@
   width: fit-content;
   overflow: hidden;
 
+  .ant-tag {
+    border-radius: 12px !important;
+    font-size: 12px !important;
+    // padding-bottom: 2px !important;
+    padding: 1px 10px !important;
+  }
+
   .cp {
     cursor: pointer;
   }
