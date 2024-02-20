@@ -18,7 +18,34 @@ export default () => {
 import { DescriptionsWithSkeleton } from 'dumi-test';
 
 export default () => {
-  return <DescriptionsWithSkeleton />;
+  const items = [
+    {
+      key: '1',
+      label: 'UserName',
+      children: <span>Zhou Maomao</span>,
+    },
+    {
+      key: '2',
+      label: 'Telephone',
+      children: <span>1810000000</span>,
+    },
+    {
+      key: '3',
+      label: 'Live',
+      children: <span>Hangzhou, Zhejiang</span>,
+    },
+    {
+      key: '4',
+      label: 'Remark',
+      children: <span>empty</span>,
+    },
+    {
+      key: '5',
+      label: 'Address',
+      children: <span>No. 18, Wantang Road, Xihu District, Hangzhou, Zhejiang, China</span>,
+    },
+  ];
+  return <DescriptionsWithSkeleton loading={true} items={items} />;
 };
 ```
 
