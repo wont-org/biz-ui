@@ -16,7 +16,7 @@ export default () => {
       title: '自动计算',
       dataIndex: 'name',
       key: 'name',
-      width: 300,
+      width: 340,
       ellipsis: true,
       render(text, record) {
         return <MultiExpand data={columns.map((item) => ({ label: item.title }))} />;
