@@ -154,10 +154,37 @@ export default () => {
 
 export default () => {
   return <CardSkeleton />;
-};`},"dumi-test":{type:"NPM",value:"0.0.1"}}}},"src-skeleton-demo-1":{component:a.lazy(P()(S()().mark(function nt(){var Be,Je;return S()().wrap(function(G){for(;;)switch(G.prev=G.next){case 0:return G.next=2,Promise.all([e.e(389),e.e(556),e.e(458)]).then(e.bind(e,73458));case 2:return Be=G.sent,Je=Be.DescriptionsWithSkeleton,G.abrupt("return",{default:function(){return a.createElement(Je,null)}});case 5:case"end":return G.stop()}},nt)}))),asset:{type:"BLOCK",id:"src-skeleton-demo-1",refAtomIds:[],dependencies:{"index.tsx":{type:"FILE",value:`import { DescriptionsWithSkeleton } from 'dumi-test';
+};`},"dumi-test":{type:"NPM",value:"0.0.1"}}}},"src-skeleton-demo-1":{component:a.lazy(P()(S()().mark(function nt(){var Be,Je;return S()().wrap(function(G){for(;;)switch(G.prev=G.next){case 0:return G.next=2,Promise.all([e.e(389),e.e(556),e.e(458)]).then(e.bind(e,73458));case 2:return Be=G.sent,Je=Be.DescriptionsWithSkeleton,G.abrupt("return",{default:function(){var Se=[{key:"1",label:"UserName",children:a.createElement("span",null,"Zhou Maomao")},{key:"2",label:"Telephone",children:a.createElement("span",null,"1810000000")},{key:"3",label:"Live",children:a.createElement("span",null,"Hangzhou, Zhejiang")},{key:"4",label:"Remark",children:a.createElement("span",null,"empty")},{key:"5",label:"Address",children:a.createElement("span",null,"No. 18, Wantang Road, Xihu District, Hangzhou, Zhejiang, China")}];return a.createElement(Je,{loading:!0,items:Se})}});case 5:case"end":return G.stop()}},nt)}))),asset:{type:"BLOCK",id:"src-skeleton-demo-1",refAtomIds:[],dependencies:{"index.tsx":{type:"FILE",value:`import { DescriptionsWithSkeleton } from 'dumi-test';
 
 export default () => {
-  return <DescriptionsWithSkeleton />;
+  const items = [
+    {
+      key: '1',
+      label: 'UserName',
+      children: <span>Zhou Maomao</span>,
+    },
+    {
+      key: '2',
+      label: 'Telephone',
+      children: <span>1810000000</span>,
+    },
+    {
+      key: '3',
+      label: 'Live',
+      children: <span>Hangzhou, Zhejiang</span>,
+    },
+    {
+      key: '4',
+      label: 'Remark',
+      children: <span>empty</span>,
+    },
+    {
+      key: '5',
+      label: 'Address',
+      children: <span>No. 18, Wantang Road, Xihu District, Hangzhou, Zhejiang, China</span>,
+    },
+  ];
+  return <DescriptionsWithSkeleton loading={true} items={items} />;
 };`},"dumi-test":{type:"NPM",value:"0.0.1"}}}},"src-skeleton-demo-2":{component:a.lazy(P()(S()().mark(function nt(){var Be,Je;return S()().wrap(function(G){for(;;)switch(G.prev=G.next){case 0:return G.next=2,Promise.all([e.e(389),e.e(556),e.e(458)]).then(e.bind(e,73458));case 2:return Be=G.sent,Je=Be.ImgInfoSkeleton,G.abrupt("return",{default:function(){return a.createElement(Je,null)}});case 5:case"end":return G.stop()}},nt)}))),asset:{type:"BLOCK",id:"src-skeleton-demo-2",refAtomIds:[],dependencies:{"index.tsx":{type:"FILE",value:`import { ImgInfoSkeleton } from 'dumi-test';
 
 export default () => {
