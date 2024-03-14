@@ -8,15 +8,15 @@
 
 ```jsx
 import { Table } from 'antd';
-import { MultiExpand } from 'dumi-test';
+import { MultiExpand, AntdResizableTable } from 'dumi-test';
 
 export default () => {
   const columns = [
     {
       title: '自动计算',
       dataIndex: 'name',
-      key: 'name',
-      width: 340,
+      // key: 'name',
+      width: 320,
       ellipsis: true,
       render(text, record) {
         return <MultiExpand data={columns.map((item) => ({ label: item.title }))} />;
@@ -46,14 +46,14 @@ export default () => {
       age: 32,
       address: '西湖区湖底公园1号',
     },
-    {
-      key: '2',
-      name: '胡彦祖',
-      age: 42,
-      address: '西湖区湖底公园1号',
-    },
+    // {
+    //   key: '2',
+    //   name: '胡彦祖',
+    //   age: 42,
+    //   address: '西湖区湖底公园1号',
+    // },
   ];
 
-  return <Table columns={columns} dataSource={dataSource} />;
+  return <AntdResizableTable tableType="Table" columns={columns} dataSource={dataSource} />;
 };
 ```
