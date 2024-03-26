@@ -5,8 +5,8 @@ hero:
   actions:
     - text: Hello
       link: /
-    - text: World
-      link: /
+    - text: GitHub
+      link: https://github.com/wont-org/biz-ui
 features:
   - title: Hello
     emoji: 💎
