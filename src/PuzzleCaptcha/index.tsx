@@ -5,7 +5,7 @@ import type { PuzzleCaptchaProps } from './types';
 import { StyleContainer } from './style';
 import { useLatest } from 'ahooks';
 import { DoubleRightOutlined, LoadingOutlined } from '@ant-design/icons';
-import { ICON_TYPE, IconFont } from 'dumi-test/IconFont/icon';
+import { ICON_TYPE, IconFont } from '../IconFont/icon';
 
 const prefix = 'puzzle-captcha';
 
@@ -96,13 +96,7 @@ export default (props: PuzzleCaptchaProps) => {
     // 复制背景图到缺口图
     gapCtx.putImageData(imgData, width, height);
     // 填充缺口图画布
-    gapCtx.drawImage(
-      bgCanvasRef.current,
-      0 - coord.current.x + GAP_SHADOW_BLUR,
-      0,
-      width,
-      height,
-    );
+    gapCtx.drawImage(bgCanvasRef.current, 0 - coord.current.x + GAP_SHADOW_BLUR, 0, width, height);
     bgCtx.restore();
 
     // 重置背景
@@ -335,11 +329,7 @@ export default (props: PuzzleCaptchaProps) => {
       <div className={bodyCls}>
         <div className="title-wrap">
           <h1 className="title">{title}</h1>
-          <IconFont
-            type={ICON_TYPE.refresh}
-            onClick={handleReset}
-            className="reset"
-          />
+          <IconFont type={ICON_TYPE.refresh} onClick={handleReset} className="reset" />
         </div>
         <div
           className="canvas-wrap"
@@ -361,12 +351,7 @@ export default (props: PuzzleCaptchaProps) => {
               }}
             />
           </div>
-          <canvas
-            ref={bgCanvasRef}
-            className="bg"
-            width={width}
-            height={height}
-          />
+          <canvas ref={bgCanvasRef} className="bg" width={width} height={height} />
           <canvas
             ref={gapCanvasRef}
             className="gap"
@@ -398,10 +383,7 @@ export default (props: PuzzleCaptchaProps) => {
             <DoubleRightOutlined
               className="slider-icon"
               style={{
-                color:
-                  state.isMoving || state.resultMsg
-                    ? '#1890ff'
-                    : 'rgba(0,0,0,0.65)',
+                color: state.isMoving || state.resultMsg ? '#1890ff' : 'rgba(0,0,0,0.65)',
               }}
             />
           </div>

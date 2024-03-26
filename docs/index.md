@@ -1,7 +1,7 @@
 ---
 hero:
-  title: library
-  description: A react library developed with dumi
+  title: @wont/biz-ui
+  description: A react library, base on ant-design and pro-components
   actions:
     - text: Hello
       link: /
@@ -18,5 +18,3 @@ features:
     emoji: 🚀
     description: Put ! description here
 ---
-
-dumi-test

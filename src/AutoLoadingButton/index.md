@@ -4,7 +4,7 @@
 
 ```jsx
 import { Space } from 'antd';
-import { AutoLoadingButton } from 'dumi-test';
+import { AutoLoadingButton } from '@wont/biz-ui';
 
 const sleep = (timeout) => {
   return new Promise((res, rej) => {

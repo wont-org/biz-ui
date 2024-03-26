@@ -3,9 +3,10 @@
 滑动拼图验证码
 
 ## 前端实现
+
 ```jsx
 import { Space, Button } from 'antd';
-import { PuzzleCaptcha } from 'dumi-test';
+import { PuzzleCaptcha } from '@wont/biz-ui';
 import React, { useState } from 'react';
 
 export default () => {
@@ -44,12 +45,8 @@ export default () => {
       >
         点击验证
       </Button>
-      <PuzzleCaptcha
-        {...state}
-        onFail={onFail}
-        onClose={onClose}
-        onSuccess={onSuccess}
-      />
+      <PuzzleCaptcha {...state} onFail={onFail} onClose={onClose} onSuccess={onSuccess} />
     </Space>
   );
 };
+```

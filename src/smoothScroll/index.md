@@ -18,7 +18,7 @@ function smoothScroll(
 ## 基础用法
 
 ```jsx
-import { smoothScroll } from 'dumi-test';
+import { smoothScroll } from '@wont/biz-ui';
 import { Button } from 'antd';
 import React from 'react';
 
@@ -40,10 +40,7 @@ export default class Test extends React.Component {
         }}
       >
         <div style={{ height: MAX_HEIGHT * 3, position: 'relative' }}>
-          <Button
-            style={{ position: 'absolute', top: 0, left: 0 }}
-            onClick={this.toBottom}
-          >
+          <Button style={{ position: 'absolute', top: 0, left: 0 }} onClick={this.toBottom}>
             to bottom
           </Button>
           <Button

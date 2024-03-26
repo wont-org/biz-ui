@@ -1,7 +1,7 @@
-# dumi-test
+# @wont/biz-ui
 
-[![NPM version](https://img.shields.io/npm/v/dumi-test.svg?style=flat)](https://npmjs.org/package/dumi-test)
-[![NPM downloads](http://img.shields.io/npm/dm/dumi-test.svg?style=flat)](https://npmjs.org/package/dumi-test)
+[![NPM version](https://img.shields.io/npm/v/@wont/biz-ui.svg?style=flat)](https://npmjs.org/package/@wont/biz-ui)
+[![NPM downloads](http://img.shields.io/npm/dm/@wont/biz-ui.svg?style=flat)](https://npmjs.org/package/@wont/biz-ui)
 
 A react library developed with dumi
 

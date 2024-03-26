@@ -8,7 +8,7 @@
 
 ```jsx
 import { Table } from 'antd';
-import { MultiExpand, AntdResizableTable } from 'dumi-test';
+import { MultiExpand, AntdResizableTable } from '@wont/biz-ui';
 
 export default () => {
   const columns = [

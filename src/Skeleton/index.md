@@ -5,7 +5,7 @@
 ## CardSkeleton
 
 ```jsx
-import { CardSkeleton } from 'dumi-test';
+import { CardSkeleton } from '@wont/biz-ui';
 
 export default () => {
   return <CardSkeleton />;
@@ -15,7 +15,7 @@ export default () => {
 ## DescriptionsWithSkeleton
 
 ```jsx
-import { DescriptionsWithSkeleton } from 'dumi-test';
+import { DescriptionsWithSkeleton } from '@wont/biz-ui';
 
 export default () => {
   const items = [
@@ -52,7 +52,7 @@ export default () => {
 ## ImgInfoSkeleton
 
 ```jsx
-import { ImgInfoSkeleton } from 'dumi-test';
+import { ImgInfoSkeleton } from '@wont/biz-ui';
 
 export default () => {
   return <ImgInfoSkeleton />;
@@ -62,7 +62,7 @@ export default () => {
 ## PaginationSkeleton
 
 ```jsx
-import { PaginationSkeleton } from 'dumi-test';
+import { PaginationSkeleton } from '@wont/biz-ui';
 
 export default () => {
   return <PaginationSkeleton />;
@@ -72,7 +72,7 @@ export default () => {
 ## ParagraphSkeleton
 
 ```jsx
-import { ParagraphSkeleton } from 'dumi-test';
+import { ParagraphSkeleton } from '@wont/biz-ui';
 
 export default () => {
   return <ParagraphSkeleton />;
@@ -82,7 +82,7 @@ export default () => {
 ## TableSkeleton
 
 ```jsx
-import { TableSkeleton } from 'dumi-test';
+import { TableSkeleton } from '@wont/biz-ui';
 
 export default () => {
   return <TableSkeleton />;
