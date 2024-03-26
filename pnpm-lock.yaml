@@ -11,6 +11,9 @@ dependencies:
   '@ant-design/pro-components':
     specifier: ^2.6.49
     version: 2.6.49(antd@5.15.4)(rc-field-form@1.42.1)(react-dom@18.0.0)(react@18.0.0)
+  '@babel/runtime':
+    specifier: ^7.24.1
+    version: 7.24.1
   '@wont/use-antd-resizable-header':
     specifier: ^1.0.1
     version: 1.0.1(react-dom@18.0.0)(react@18.0.0)
@@ -31,9 +34,6 @@ dependencies:
     version: 6.1.1(react-dom@18.0.0)(react@18.0.0)
 
 devDependencies:
-  '@babel/runtime':
-    specifier: ^7.24.1
-    version: 7.24.1
   '@commitlint/cli':
     specifier: ^17.1.2
     version: 17.1.2

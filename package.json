@@ -50,12 +50,6 @@
     "!public/js/**/*": [],
     "!public/data/**/*": []
   },
-  "browserslist": [
-    "last 2 versions",
-    "Firefox ESR",
-    "> 1%",
-    "ie >= 11"
-  ],
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
     "@ant-design/pro-components": "^2.6.49",
