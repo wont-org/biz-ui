@@ -2,6 +2,14 @@
   "name": "@wont/biz-ui",
   "version": "0.0.2-beta.1",
   "description": "A react library developed with dumi",
+  "homepage": "wont-org.github.io/biz-ui/",
+  "bugs": {
+    "url": "https://github.com/wont-org/biz-ui/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wont-org/biz-ui"
+  },
   "license": "MIT",
   "main": "lib/index.js",
   "module": "es/index.js",
