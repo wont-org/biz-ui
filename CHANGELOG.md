@@ -1,3 +1,9 @@
+## [0.0.2-beta.3](https://github.com/wont-org/biz-ui/compare/v0.0.2-beta.2...v0.0.2-beta.3) (2024-03-27)
+
+### Features
+
+- **MultiExpand:** 新增自定义渲染更多触发器 ([761021f](https://github.com/wont-org/biz-ui/commit/761021f8236e050d4d372756679fca31859b0d4d))
+
 ## [0.0.2-beta.2](https://github.com/wont-org/biz-ui/compare/v0.0.2-beta.1...v0.0.2-beta.2) (2024-03-27)
 
 ### Bug Fixes
