@@ -54,6 +54,20 @@ export default () => {
     // },
   ];
 
-  return <AntdResizableTable tableType="Table" columns={columns} dataSource={dataSource} />;
+  return (
+    <AntdResizableTable
+      columnsState={{
+        persistenceType: 'sessionStorage',
+        persistenceKey: 'columnsState',
+      }}
+      resizeColumnsState={{
+        persistenceType: 'sessionStorage',
+        persistenceKey: 'resizeColumnsState',
+      }}
+      tableType="ProTable"
+      columns={columns}
+      dataSource={dataSource}
+    />
+  );
 };
 ```

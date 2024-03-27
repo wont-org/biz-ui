@@ -17,8 +17,7 @@ export type AntdResizableTableProps<
 > = Omit<ProTableProps<DataType, Params, ValueType>, 'columns'> & {
   columns: AntdResizableTableColumns<DataType>[];
   tableType?: 'ProTable' | 'Table';
-  persistenceKey?: string;
-  columnsState?: ColumnsState;
+  resizeColumnsState?: ColumnsState;
 };
 
 export type AntdResizableTableComponent = <
@@ -35,12 +34,12 @@ const tableMap = {
 };
 
 const AntdResizableTable: AntdResizableTableComponent = (props) => {
-  const { tableType = 'ProTable', columns, columnsState, ...tableProps } = props;
+  const { tableType = 'ProTable', resizeColumnsState, columns, ...tableProps } = props;
 
   const Component = tableMap[tableType] as ElementType<typeof tableMap[typeof tableType]>;
   const { components, resizableColumns, tableWidth } = useAntdResizableHeader({
     columns,
-    columnsState,
+    columnsState: resizeColumnsState,
     minConstraints: 80,
   });
   return (
