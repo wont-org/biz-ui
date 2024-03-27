@@ -111,6 +111,7 @@ export default (props: IMultiExpandProps) => {
     onClickItem,
     tagProps = {},
     moreTagProps = {},
+    moreRender,
     showTitle = true,
     style,
     maxSize,
@@ -198,6 +199,10 @@ export default (props: IMultiExpandProps) => {
       [className]: !!className,
     });
 
+    if (typeof maxSize === 'number' && maxSize <= 0) {
+      return null;
+    }
+
     return data.slice(0, lastVisibleIndex || 1).map((item, index) => {
       const isOneMore = lastVisibleIndex === 0;
       if (isTag) {
@@ -267,10 +272,11 @@ export default (props: IMultiExpandProps) => {
           <Tag
             style={{
               visibility:
-                data.length > 1 && lastVisibleIndex !== data.length ? 'visible' : 'hidden',
-              position: maxSize === data.length ? 'fixed' : 'unset',
-              right: maxSize === data.length ? '-999999px' : 'unset',
-              // display: data.length > 1 && lastVisibleIndex !== data.length ? 'flex' : 'none',
+                !moreRender && data.length > 1 && lastVisibleIndex !== data.length
+                  ? 'visible'
+                  : 'hidden',
+              position: moreRender && maxSize !== data.length ? 'fixed' : 'unset',
+              right: moreRender && maxSize !== data.length ? '-999999px' : 'unset',
             }}
             ref={moreTagRef}
             className="cp"
@@ -279,6 +285,15 @@ export default (props: IMultiExpandProps) => {
           >
             {isTag ? `+${data.length}` : data.length}
           </Tag>
+          <div
+            style={{
+              visibility: moreRender ? 'visible' : 'hidden',
+              position: !moreRender ? 'fixed' : 'unset',
+              right: !moreRender ? '-999999px' : 'unset',
+            }}
+          >
+            {moreRender}
+          </div>
         </Popover>
       </>
     </StyleContainer>
