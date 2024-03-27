@@ -1,4 +1,10 @@
-## 0.0.2-beta.1 (2024-03-26)
+## [0.0.2-beta.2](https://github.com/wont-org/biz-ui/compare/v0.0.2-beta.1...v0.0.2-beta.2) (2024-03-27)
+
+### Bug Fixes
+
+- **AntdResizableTable:** 使用 resizeColumnsState 区分 protable 的 columnsState ([cb26eb0](https://github.com/wont-org/biz-ui/commit/cb26eb0fcdc762f4f3365b0c6ebfc52052032dad))
+
+## [0.0.2-beta.1](https://github.com/wont-org/biz-ui/compare/df378597de6ae0e6185b1c6759c41a7489df21d0...v0.0.2-beta.1) (2024-03-26)
 
 ### Bug Fixes
 
