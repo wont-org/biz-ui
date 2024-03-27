@@ -11,6 +11,10 @@
     "url": "https://github.com/wont-org/biz-ui"
   },
   "license": "MIT",
+  "author": {
+    "name": "liukun",
+    "email": "919590347@qq.com"
+  },
   "main": "lib/index.js",
   "module": "es/index.js",
   "types": "es/index.d.ts",
