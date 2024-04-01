@@ -275,8 +275,14 @@ export default (props: IMultiExpandProps) => {
                 !moreRender && data.length > 1 && lastVisibleIndex !== data.length
                   ? 'visible'
                   : 'hidden',
-              position: moreRender && maxSize !== data.length ? 'fixed' : 'unset',
-              right: moreRender && maxSize !== data.length ? '-999999px' : 'unset',
+              position:
+                moreRender || (maxSize && maxSize === data.length) || data.length <= 1
+                  ? 'fixed'
+                  : 'unset',
+              right:
+                moreRender || (maxSize && maxSize === data.length) || data.length <= 1
+                  ? '-999999px'
+                  : 'unset',
             }}
             ref={moreTagRef}
             className="cp"
