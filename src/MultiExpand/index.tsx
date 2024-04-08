@@ -276,11 +276,17 @@ export default (props: IMultiExpandProps) => {
                   ? 'visible'
                   : 'hidden',
               position:
-                moreRender || (maxSize && maxSize === data.length) || data.length <= 1
+                moreRender ||
+                lastVisibleIndex === data.length ||
+                (maxSize && maxSize === data.length) ||
+                data.length <= 1
                   ? 'fixed'
                   : 'unset',
               right:
-                moreRender || (maxSize && maxSize === data.length) || data.length <= 1
+                moreRender ||
+                lastVisibleIndex === data.length ||
+                (maxSize && maxSize === data.length) ||
+                data.length <= 1
                   ? '-999999px'
                   : 'unset',
             }}
@@ -293,9 +299,9 @@ export default (props: IMultiExpandProps) => {
           </Tag>
           <div
             style={{
-              visibility: moreRender ? 'visible' : 'hidden',
-              position: !moreRender ? 'fixed' : 'unset',
-              right: !moreRender ? '-999999px' : 'unset',
+              visibility: moreRender && lastVisibleIndex !== data.length ? 'visible' : 'hidden',
+              position: !moreRender || lastVisibleIndex === data.length ? 'fixed' : 'unset',
+              right: !moreRender || lastVisibleIndex === data.length ? '-999999px' : 'unset',
             }}
           >
             {moreRender}

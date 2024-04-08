@@ -23,6 +23,31 @@ export default () => {
       },
     },
     {
+      title: '刚好两个',
+      dataIndex: 'name',
+      // key: 'name',
+      width: 320,
+      ellipsis: true,
+      render(text, record) {
+        return <MultiExpand data={[{ label: '111' }, { label: '222' }]} />;
+      },
+    },
+    {
+      title: '刚好两个, 自定义render',
+      dataIndex: 'name',
+      // key: 'name',
+      width: 320,
+      ellipsis: true,
+      render(text, record) {
+        return (
+          <MultiExpand
+            data={[{ label: '111' }, { label: '222' }]}
+            moreRender={<Typography.Link>{'更多>'}</Typography.Link>}
+          />
+        );
+      },
+    },
+    {
       title: '小于maxSize无更多',
       dataIndex: 'maxSize',
       // key: 'name',
