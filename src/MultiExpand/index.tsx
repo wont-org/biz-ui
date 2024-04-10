@@ -299,9 +299,12 @@ export default (props: IMultiExpandProps) => {
           </Tag>
           <div
             style={{
-              visibility: moreRender && lastVisibleIndex !== data.length ? 'visible' : 'hidden',
-              position: !moreRender || lastVisibleIndex === data.length ? 'fixed' : 'unset',
-              right: !moreRender || lastVisibleIndex === data.length ? '-999999px' : 'unset',
+              visibility:
+                moreRender && (lastVisibleIndex !== data.length || !maxSize) ? 'visible' : 'hidden',
+              position:
+                !moreRender || lastVisibleIndex === data.length || maxSize ? 'fixed' : 'unset',
+              right:
+                !moreRender || lastVisibleIndex === data.length || maxSize ? '-999999px' : 'unset',
             }}
           >
             {moreRender}

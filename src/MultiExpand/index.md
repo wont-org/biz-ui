@@ -48,6 +48,22 @@ export default () => {
       },
     },
     {
+      title: 'maxSize 0, 自定义render',
+      dataIndex: 'name',
+      // key: 'name',
+      width: 320,
+      ellipsis: true,
+      render(text, record) {
+        return (
+          <MultiExpand
+            maxSize={0}
+            data={[{ label: '111' }, { label: '222' }]}
+            moreRender={<Typography.Link>{'更多>'}</Typography.Link>}
+          />
+        );
+      },
+    },
+    {
       title: '小于maxSize无更多',
       dataIndex: 'maxSize',
       // key: 'name',
