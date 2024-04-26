@@ -9,22 +9,41 @@
 ```jsx
 import { Table, Typography } from 'antd';
 import { MultiExpand, AntdResizableTable } from '@wont/biz-ui';
+import phpIcon from './php.ico';
+import { MODE } from './constant.ts';
 
 export default () => {
   const columns = [
     {
       title: '自动计算',
-      dataIndex: 'name',
+      dataIndex: 'name1',
       // key: 'name',
       width: 320,
       ellipsis: true,
       render(text, record) {
-        return <MultiExpand data={columns.map((item) => ({ label: item.title }))} />;
+        return (
+          <MultiExpand data={columns.map((item) => ({ label: item.title, icon: '/xxx.svg' }))} />
+        );
+      },
+    },
+    {
+      title: '自动计算 mode Text',
+      dataIndex: 'name2',
+      // key: 'name',
+      width: 320,
+      ellipsis: true,
+      render(text, record) {
+        return (
+          <MultiExpand
+            data={columns.map((item) => ({ label: item.title, icon: phpIcon }))}
+            mode={MODE.text}
+          />
+        );
       },
     },
     {
       title: '刚好两个',
-      dataIndex: 'name',
+      dataIndex: 'name3',
       // key: 'name',
       width: 320,
       ellipsis: true,
@@ -34,7 +53,7 @@ export default () => {
     },
     {
       title: '刚好两个, 自定义render',
-      dataIndex: 'name',
+      dataIndex: 'name4',
       // key: 'name',
       width: 320,
       ellipsis: true,
@@ -49,7 +68,7 @@ export default () => {
     },
     {
       title: 'maxSize 0, 自定义render',
-      dataIndex: 'name',
+      dataIndex: 'name5',
       // key: 'name',
       width: 320,
       ellipsis: true,
@@ -76,7 +95,7 @@ export default () => {
     {
       title: '地方很大，但只展示一个',
       dataIndex: 'age',
-      key: 'age',
+      // key: 'age',
       width: 300,
       ellipsis: true,
       render(text, record) {
@@ -86,7 +105,7 @@ export default () => {
     {
       title: '自定义触发器',
       dataIndex: 'moreRender',
-      key: 'age',
+      // key: 'age',
       width: 160,
       ellipsis: true,
       render(text, record) {
@@ -102,12 +121,13 @@ export default () => {
     {
       title: '很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长',
       dataIndex: 'address',
-      key: 'address',
+      // key: 'address',
       ellipsis: true,
     },
   ];
   const dataSource = [
     {
+      // id: '1',
       key: '1',
       name: '胡彦斌',
       age: 32,
@@ -120,6 +140,7 @@ export default () => {
     //   name: '胡彦祖',
     //   age: 42,
     //   address: '西湖区湖底公园1号',
+    //   moreRender: 'moreRender',
     // },
   ];
 
@@ -129,6 +150,7 @@ export default () => {
         persistenceType: 'sessionStorage',
         persistenceKey: 'columnsState',
       }}
+      rowKey="key"
       resizeColumnsState={{
         persistenceType: 'sessionStorage',
         persistenceKey: 'resizeColumnsState',

@@ -5,6 +5,12 @@ export const StyleContainer = styled.section`
   align-items: center;
   width: fit-content;
   overflow: hidden;
+  .multi-expand-icon {
+    width: 12px;
+    height: 12px;
+    margin-right: 4px;
+    /* margin-top: 2px; */
+  }
 
   .ant-tag {
     border-radius: 12px !important;
@@ -44,6 +50,7 @@ export const StyleContainer = styled.section`
   .contentItem {
     padding: 4px;
     display: flex;
+    align-items: center;
 
     /* line-height: 1.4; */
 
@@ -70,6 +77,14 @@ export const PopoverStyleReset = createGlobalStyle`
       width: initial;
     }
 
+
+  .multi-expand-icon {
+    width: 12px;
+    height: 12px;
+    margin-right: 4px;
+    /* margin-top: 2px; */
+  }
+
     .ant-popover-title {
       min-width: initial;
     }
@@ -83,6 +98,7 @@ export const PopoverStyleReset = createGlobalStyle`
   .contentItem {
     padding: 4px;
     display: flex;
+    align-items: center;
 
     /* line-height: 1.4; */
     border-bottom: 1px solid rgba(0, 0, 0, 6%);
@@ -98,6 +114,8 @@ export const PopoverStyleReset = createGlobalStyle`
   }
 
     .contentTag {
+    display: inline-flex;
+    align-items: center;
       margin-bottom: 4px;
     }
   }

@@ -8,6 +8,7 @@ import { sleep } from '../utils/commom';
 import { isEmpty, isEqual, throttle } from 'lodash';
 import type { IMultiExpandProps } from './types';
 import { MODE } from './constant';
+import ImgPreload from '../ImgPreload';
 
 const MAX_LENGTH = 30;
 
@@ -39,6 +40,7 @@ const Content = ({ data = [], mode, onClickItem, tagProps = {} } = {}, showTitle
               }}
               title={showTitle && item.label}
             >
+              <ImgPreload src={item.icon} className="multi-expand-icon" />
               <Ellipsis
                 fullWidthRecognition
                 style={{
@@ -55,16 +57,17 @@ const Content = ({ data = [], mode, onClickItem, tagProps = {} } = {}, showTitle
           cp: item.canClick,
         });
         return (
-          <Ellipsis
-            className={contentItem}
-            key={item.label}
-            onClick={() => onClickItem?.(item, index)}
-            fullWidthRecognition
-            length={MAX_LENGTH}
-            title={showTitle && item.label}
-          >
-            {item.label}
-          </Ellipsis>
+          <div key={item.label} className={contentItem}>
+            <ImgPreload src={item.icon} className="multi-expand-icon" />
+            <Ellipsis
+              onClick={() => onClickItem?.(item, index)}
+              fullWidthRecognition
+              length={MAX_LENGTH}
+              title={showTitle && item.label}
+            >
+              {item.label}
+            </Ellipsis>
+          </div>
         );
       })}
     </section>
@@ -103,7 +106,7 @@ export default (props: IMultiExpandProps) => {
   const {
     data = [],
     title = '',
-    trigger = 'hover',
+    trigger = 'click',
     // mode,
     mode = MODE.tag,
     empty = '-',
@@ -218,6 +221,7 @@ export default (props: IMultiExpandProps) => {
             onClick={() => onClickItem?.(item, index)}
             title={showTitle && item.label}
           >
+            <ImgPreload src="https://plus.unsplash.com/premium_photo-1687653081151-8b2716238fc7?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1fHx8ZW58MHx8fHx8" />
             <Ellipsis
               fullWidthRecognition
               // length={isOneMore ? 10 : undefined}
@@ -237,6 +241,7 @@ export default (props: IMultiExpandProps) => {
           onClick={() => onClickItem?.(item, index)}
           title={showTitle && item.label}
         >
+          <ImgPreload src={item.icon} className="multi-expand-icon" />
           <Ellipsis fullWidthRecognition length={isOneMore ? 10 : undefined}>
             {item.label}
           </Ellipsis>
