@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import { Tooltip } from 'antd';
 import classNames from 'classnames';
 import './index.less';
@@ -8,6 +8,7 @@ import type { IEllipsisProps } from './type.d.ts';
 /* eslint no-param-reassign: 0 */
 
 const isSupportLineClamp = document.body.style.webkitLineClamp !== undefined;
+// const isSupportLineClamp = false;
 
 const TooltipOverlayStyle = {
   overflowWrap: 'break-word',
@@ -119,6 +120,7 @@ export default class Ellipsis extends Component<IEllipsisProps> {
       const mid = Math.ceil(len / 2);
 
       const count = this.bisection(targetHeight, mid, 0, len, text, shadowNode);
+      // console.log('count :>> ', count);
 
       this.setState({
         text,

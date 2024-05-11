@@ -9,3 +9,4 @@ export { default as PaginationSkeleton } from './Skeleton/PaginationSkeleton';
 export { default as ParagraphSkeleton } from './Skeleton/ParagraphSkeleton';
 export { default as TableSkeleton } from './Skeleton/TableSkeleton';
 export { default as AntdResizableTable } from './AntdResizableTable';
+export { default as Ellipsis } from './Ellipsis';
