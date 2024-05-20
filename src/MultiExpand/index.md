@@ -9,10 +9,11 @@
 ```jsx
 import { Table, Typography } from 'antd';
 import { MultiExpand, AntdResizableTable } from '@wont/biz-ui';
-import phpIcon from './php.ico';
 import { MODE } from './constant.ts';
 
 export default () => {
+  const icon =
+    'https://plus.unsplash.com/premium_photo-1687653081151-8b2716238fc7?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1fHx8ZW58MHx8fHx8';
   const columns = [
     {
       title: '自动计算',
@@ -25,7 +26,7 @@ export default () => {
           <MultiExpand
             data={columns.map((item) => ({
               label: item.title,
-              icon: 'https://plus.unsplash.com/premium_photo-1687653081151-8b2716238fc7?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1fHx8ZW58MHx8fHx8',
+              icon,
             }))}
           />
         );
@@ -40,7 +41,7 @@ export default () => {
       render(text, record) {
         return (
           <MultiExpand
-            data={columns.map((item) => ({ label: item.title, icon: phpIcon }))}
+            data={columns.map((item) => ({ label: item.title, icon }))}
             mode={MODE.text}
           />
         );
@@ -140,14 +141,17 @@ export default () => {
       maxSize: 'maxSize',
       moreRender: 'moreRender',
     },
-    // {
-    //   key: '2',
-    //   name: '胡彦祖',
-    //   age: 42,
-    //   address: '西湖区湖底公园1号',
-    //   moreRender: 'moreRender',
-    // },
   ];
+  return (
+    <span>
+      <MultiExpand
+        data={columns.map((item) => ({
+          label: item.title,
+          icon: 'https://plus.unsplash.com/premium_photo-1687653081151-8b2716238fc7?w=700&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw1fHx8ZW58MHx8fHx8',
+        }))}
+      />
+    </span>
+  );
 
   return (
     <AntdResizableTable

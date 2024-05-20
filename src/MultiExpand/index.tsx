@@ -1,27 +1,35 @@
 import { Popover, Tag } from 'antd';
 import classNames from 'classnames';
 import Ellipsis from '../Ellipsis';
-import { PopoverStyleReset, StyleContainer } from './style';
+import { PopoverStyleReset, StyleContainer, StyleContent } from './style';
 import React, { useLayoutEffect, useRef, useState } from 'react';
 import { useLatest, usePrevious } from 'ahooks';
 import { sleep } from '../utils/commom';
-import { isEmpty, isEqual, throttle } from 'lodash';
-import type { IMultiExpandProps } from './types';
-import { MODE } from './constant';
+import { isEmpty, throttle } from 'lodash';
 import ImgPreload from '../ImgPreload';
+import type { IMultiExpandContentProps, IMultiExpandProps } from './types';
+import { MODE } from './constant';
 
-const MAX_LENGTH = 30;
+const OUT_MAX_LENGTH = 20;
+const INNER_MAX_LENGTH = 30;
+const DEFAULT_TOOLTIP = {
+  arrow: true,
+};
 
-const Content = ({ data = [], mode, onClickItem, tagProps = {} } = {}, showTitle) => {
+export const Content = (props: IMultiExpandContentProps) => {
+  const {
+    data = [],
+    mode,
+    onClickItem,
+    tagProps = {},
+    style,
+    tooltip = DEFAULT_TOOLTIP,
+    maxLength = INNER_MAX_LENGTH,
+  } = props;
   const { className, ...restTagProps } = tagProps;
   return (
-    <section
-      className="content"
-      style={{
-        maxHeight: '200px',
-      }}
-    >
-      {data.map((item = {}, index) => {
+    <StyleContent style={style}>
+      {data.map((item, index) => {
         const isTag = mode === MODE.tag;
         if (isTag) {
           const contentTag = classNames('contentTag', {
@@ -35,10 +43,9 @@ const Content = ({ data = [], mode, onClickItem, tagProps = {} } = {}, showTitle
               className={contentTag}
               {...restTagProps}
               onClick={() => {
-                onClickItem[0]?.(item, index);
-                onClickItem[1]?.();
+                onClickItem?.[0]?.(item, index);
+                onClickItem?.[1]?.();
               }}
-              title={showTitle && item.label}
             >
               <ImgPreload src={item.icon} className="multi-expand-icon" />
               <Ellipsis
@@ -46,7 +53,8 @@ const Content = ({ data = [], mode, onClickItem, tagProps = {} } = {}, showTitle
                 style={{
                   display: 'inline-flex',
                 }}
-                length={MAX_LENGTH}
+                length={maxLength}
+                tooltip={tooltip}
               >
                 {item.label}
               </Ellipsis>
@@ -57,23 +65,27 @@ const Content = ({ data = [], mode, onClickItem, tagProps = {} } = {}, showTitle
           cp: item.canClick,
         });
         return (
-          <div key={item.label} className={contentItem}>
+          <div className="contentItem" key={item.label}>
             <ImgPreload src={item.icon} className="multi-expand-icon" />
             <Ellipsis
-              onClick={() => onClickItem?.(item, index)}
+              className={contentItem}
+              onClick={() => {
+                onClickItem?.[0]?.(item, index);
+                onClickItem?.[1]?.();
+              }}
               fullWidthRecognition
-              length={MAX_LENGTH}
-              title={showTitle && item.label}
+              length={maxLength}
+              tooltip={tooltip}
             >
               {item.label}
             </Ellipsis>
           </div>
         );
       })}
-    </section>
+    </StyleContent>
   );
 };
-const ContentWrap = (props = {}) => {
+const ContentWrap = (props: IMultiExpandProps) => {
   const { data = [] } = props;
   const groupData = {};
   let needClassify = true;
@@ -106,7 +118,7 @@ export default (props: IMultiExpandProps) => {
   const {
     data = [],
     title = '',
-    trigger = ['click', 'hover'],
+    trigger = 'hover',
     // mode,
     mode = MODE.tag,
     empty = '-',
@@ -114,10 +126,11 @@ export default (props: IMultiExpandProps) => {
     onClickItem,
     tagProps = {},
     moreTagProps = {},
-    moreRender,
-    showTitle = true,
+    tooltip = DEFAULT_TOOLTIP,
     style,
     maxSize,
+    outMaxLength = OUT_MAX_LENGTH,
+    moreRender,
   } = props;
   const [open, setOpen] = useState(false);
   const isTag = mode === MODE.tag;
@@ -126,10 +139,10 @@ export default (props: IMultiExpandProps) => {
   const contentRef = useRef<HTMLElement>(null);
   const [lastVisibleIndex, setLastVisibleIndex] = useState(0);
   const lastVisibleIndexRef = useLatest(lastVisibleIndex);
-  const preData = usePrevious(data);
+  const preData = usePrevious(data) || [];
 
   const getLastVisibleIndex = () => {
-    const container = contentRef.current?.parentElement;
+    const container = contentRef.current;
     const containerRect = container?.getBoundingClientRect();
     let index = lastVisibleIndexRef.current;
     let idx = 0;
@@ -146,16 +159,20 @@ export default (props: IMultiExpandProps) => {
     for (const ele of tagsRef.current) {
       const eleRect = ele.getBoundingClientRect();
       const moreRect = moreTagRef.current.getBoundingClientRect();
-      const { marginRight = '' } = getComputedStyle(ele);
-      const { paddingRight = '', paddingLeft } = getComputedStyle(container);
+      // const { marginRight = '' } = getComputedStyle(ele);
+      // const { paddingRight = '', paddingLeft } = getComputedStyle(container);
       eleWidth = eleWidth + eleRect.width;
+      const isOverflowing =
+        eleRect?.left < containerRect?.left ||
+        eleRect?.right + moreRect?.width > containerRect?.right;
       if (
-        eleWidth +
-          parseFloat(marginRight) * (idx + 2) +
-          moreRect.width +
-          parseFloat(paddingRight) +
-          parseFloat(paddingLeft) >
-        containerRect.width
+        isOverflowing
+        // eleWidth +
+        //   parseFloat(marginRight) * (idx + 2) +
+        //   moreRect.width +
+        //   parseFloat(paddingRight) +
+        //   parseFloat(paddingLeft) >
+        // containerRect.width
       ) {
         index = idx;
         break;
@@ -174,7 +191,7 @@ export default (props: IMultiExpandProps) => {
     if (!lastVisibleIndexRef.current) {
       setLastVisibleIndex(data.length);
     }
-    if (isEqual(preData, data)) {
+    if (preData.length === data.length || !data) {
       return;
     }
     // console.log('tagsRef.current :>> ', tagsRef.current);
@@ -195,19 +212,19 @@ export default (props: IMultiExpandProps) => {
   }, [data]);
 
   const getFirst = () => {
-    const { className, ...restTagProps } = tagProps;
+    const { className = '', ...restTagProps } = tagProps;
     const firstCls = classNames('contentItem', {
       cp: data[0]?.canClick,
       mr4: !isTag,
+      p4: !isTag,
       [className]: !!className,
     });
-
     if (typeof maxSize === 'number' && maxSize <= 0) {
       return null;
     }
 
     return data.slice(0, lastVisibleIndex || 1).map((item, index) => {
-      const isOneMore = lastVisibleIndex === 0;
+      // const isOneMore = lastVisibleIndex === 0;
       if (isTag) {
         return (
           <Tag
@@ -219,13 +236,9 @@ export default (props: IMultiExpandProps) => {
             color="blue"
             {...restTagProps}
             onClick={() => onClickItem?.(item, index)}
-            title={showTitle && item.label}
           >
             <ImgPreload src={item.icon} className="multi-expand-icon" />
-            <Ellipsis
-              fullWidthRecognition
-              // length={isOneMore ? 10 : undefined}
-            >
+            <Ellipsis fullWidthRecognition tooltip={tooltip} length={outMaxLength}>
               {item.label}
             </Ellipsis>
           </Tag>
@@ -239,10 +252,9 @@ export default (props: IMultiExpandProps) => {
           key={item.label}
           className={firstCls}
           onClick={() => onClickItem?.(item, index)}
-          title={showTitle && item.label}
         >
           <ImgPreload src={item.icon} className="multi-expand-icon" />
-          <Ellipsis fullWidthRecognition length={isOneMore ? 10 : undefined}>
+          <Ellipsis fullWidthRecognition tooltip={tooltip} length={outMaxLength}>
             {item.label}
           </Ellipsis>
         </span>
@@ -300,7 +312,7 @@ export default (props: IMultiExpandProps) => {
             color={isTag ? undefined : 'blue'}
             {...moreTagProps}
           >
-            {isTag ? `+${data.length}` : data.length}
+            {isTag ? `+${data.length - lastVisibleIndex}` : data.length}
           </Tag>
           <div
             style={{
