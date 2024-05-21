@@ -19,19 +19,20 @@ export interface IMultiExpandProps {
    */
   data: IMultiExpandDataItem[];
   title?: string;
-  trigger: PopoverProps['trigger'];
+  trigger?: PopoverProps['trigger'];
   mode?: keyof typeof MODE;
   empty?: string;
   // func
-  onClickItem: (item: IMultiExpandProps['data'][number], index: number) => void;
+  onClickItem?: (item: IMultiExpandProps['data'][number], index: number) => void;
   tagProps?: TagProps;
   moreTagProps?: TagProps;
   moreRender?: ReactNode;
   showTitle?: boolean;
   style?: CSSProperties;
+  className?: string;
   maxSize?: number;
   outMaxLength?: number;
-  tooltip: TooltipProps;
+  tooltip?: TooltipProps;
 }
 export type IMultiExpandContentProps = Pick<
   IMultiExpandProps,

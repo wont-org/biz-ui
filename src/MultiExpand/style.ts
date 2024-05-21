@@ -40,9 +40,8 @@ export const StyleContainer = styled.section`
   display: flex;
   align-items: center;
   /* width: fit-content; */
-  width: 100%;
+  /* width: 100%; */
   overflow: hidden;
-  /* border: 1px solid red; */
 
   .multi-expand-icon {
     width: 14px;
@@ -58,16 +57,12 @@ export const StyleContainer = styled.section`
     display: flex !important;
   }
 
-  .mr4 {
-    margin-right: 4px;
+  .mr8 {
+    margin-right: 8px;
   }
 
   .mb4 {
     margin-bottom: 4px;
-  }
-
-  .p4 {
-    padding: 4px;
   }
 
   .groupTitle {
@@ -87,6 +82,8 @@ export const StyleContainer = styled.section`
     display: flex;
     align-items: center;
     white-space: nowrap;
+    /* 修复标签显隐无限抖动问题 */
+    transition: all 0.1s;
 
     &:last-of-type {
       border: none;
@@ -95,6 +92,16 @@ export const StyleContainer = styled.section`
     &:hover {
       background-color: #f5f7fa;
     }
+  }
+  .contentItemHidden {
+    position: fixed;
+    right: 999999px;
+    /* width: 0;
+    height: 0;
+    overflow: hidden;
+    border: 0;
+    padding: 0 !important;
+    margin: 0; */
   }
 
   .contentTag {

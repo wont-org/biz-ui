@@ -4,7 +4,6 @@ import Ellipsis from '../Ellipsis';
 import { PopoverStyleReset, StyleContainer, StyleContent } from './style';
 import React, { useLayoutEffect, useRef, useState } from 'react';
 import { useLatest, usePrevious } from 'ahooks';
-import { sleep } from '../utils/commom';
 import { isEmpty, throttle } from 'lodash';
 import ImgPreload from '../ImgPreload';
 import type { IMultiExpandContentProps, IMultiExpandProps } from './types';
@@ -128,6 +127,7 @@ export default (props: IMultiExpandProps) => {
     moreTagProps = {},
     tooltip = DEFAULT_TOOLTIP,
     style,
+    className,
     maxSize,
     outMaxLength = OUT_MAX_LENGTH,
     moreRender,
@@ -136,15 +136,16 @@ export default (props: IMultiExpandProps) => {
   const isTag = mode === MODE.tag;
   const tagsRef = useRef<HTMLElement[]>([]);
   const moreTagRef = useRef<HTMLElement>(null);
-  const contentRef = useRef<HTMLElement>(null);
+  const containerRef = useRef<HTMLElement>(null);
   const [lastVisibleIndex, setLastVisibleIndex] = useState(0);
   const lastVisibleIndexRef = useLatest(lastVisibleIndex);
   const preData = usePrevious(data) || [];
 
   const getLastVisibleIndex = () => {
-    const container = contentRef.current;
+    const container = containerRef.current;
     const containerRect = container?.getBoundingClientRect();
-    let index = lastVisibleIndexRef.current;
+    // let index = lastVisibleIndexRef.current;
+    let index = data.length;
     let idx = 0;
     if (
       !containerRect?.width ||
@@ -159,28 +160,28 @@ export default (props: IMultiExpandProps) => {
     for (const ele of tagsRef.current) {
       const eleRect = ele.getBoundingClientRect();
       const moreRect = moreTagRef.current.getBoundingClientRect();
-      // const { marginRight = '' } = getComputedStyle(ele);
+      const { marginRight = '' } = getComputedStyle(ele);
       // const { paddingRight = '', paddingLeft } = getComputedStyle(container);
       eleWidth = eleWidth + eleRect.width;
-      const isOverflowing =
-        eleRect?.left < containerRect?.left ||
-        eleRect?.right + moreRect?.width > containerRect?.right;
+      // const isOverflowing =
+      //   eleRect?.left < containerRect?.left ||
+      //   eleRect?.right + moreRect?.width + parseFloat(marginRight)* (idx + 2) > containerRect?.right;
       if (
-        isOverflowing
-        // eleWidth +
-        //   parseFloat(marginRight) * (idx + 2) +
-        //   moreRect.width +
-        //   parseFloat(paddingRight) +
-        //   parseFloat(paddingLeft) >
-        // containerRect.width
+        // isOverflowing
+        eleWidth + parseFloat(marginRight) * (idx + 2) + moreRect.width >
+        // +
+        // parseFloat(paddingRight) +
+        // parseFloat(paddingLeft)
+        containerRect.width
       ) {
+        // console.log('idx :>> ', idx);
         index = idx;
         break;
       }
       idx += 1;
     }
     // console.log('index :>> ', index);
-    return index;
+    return index || 1;
   };
 
   useLayoutEffect(() => {
@@ -194,36 +195,39 @@ export default (props: IMultiExpandProps) => {
     if (preData.length === data.length || !data) {
       return;
     }
-    // console.log('tagsRef.current :>> ', tagsRef.current);
-    sleep(100).then(async () => {
-      await sleep(50);
-      setLastVisibleIndex(getLastVisibleIndex());
-      window.addEventListener(
-        'resize',
-        throttle(() => {
-          setLastVisibleIndex(getLastVisibleIndex());
-        }, 300),
-      );
-    });
-
+    if (!containerRef.current) {
+      return;
+    }
+    const resizeObserver = new ResizeObserver(
+      throttle((entries) => {
+        for (const entry of entries) {
+          if (entry.target === containerRef.current) {
+            const _index = getLastVisibleIndex();
+            setLastVisibleIndex(_index);
+          }
+        }
+      }, 50),
+    );
+    resizeObserver.observe(containerRef.current);
     () => {
-      window.removeEventListener('resize', () => setLastVisibleIndex(0));
+      resizeObserver.disconnect();
     };
   }, [data]);
 
   const getFirst = () => {
     const { className = '', ...restTagProps } = tagProps;
-    const firstCls = classNames('contentItem', {
-      cp: data[0]?.canClick,
-      mr4: !isTag,
-      p4: !isTag,
-      [className]: !!className,
-    });
+    const firstCls = (idx: number) =>
+      classNames('contentItem', {
+        cp: data[0]?.canClick,
+        mr8: !isTag,
+        [className]: !!className,
+        contentItemHidden: idx >= lastVisibleIndexRef.current,
+      });
     if (typeof maxSize === 'number' && maxSize <= 0) {
       return null;
     }
 
-    return data.slice(0, lastVisibleIndex || 1).map((item, index) => {
+    return data.map((item, index) => {
       // const isOneMore = lastVisibleIndex === 0;
       if (isTag) {
         return (
@@ -232,7 +236,7 @@ export default (props: IMultiExpandProps) => {
               el && (tagsRef.current[index] = el);
             }}
             key={item.label}
-            className={firstCls}
+            className={firstCls(index)}
             color="blue"
             {...restTagProps}
             onClick={() => onClickItem?.(item, index)}
@@ -250,7 +254,7 @@ export default (props: IMultiExpandProps) => {
             el && (tagsRef.current[index] = el);
           }}
           key={item.label}
-          className={firstCls}
+          className={firstCls(index)}
           onClick={() => onClickItem?.(item, index)}
         >
           <ImgPreload src={item.icon} className="multi-expand-icon" />
@@ -261,12 +265,13 @@ export default (props: IMultiExpandProps) => {
       );
     });
   };
+
   if (isEmpty(data)) {
     return empty;
   }
 
   return (
-    <StyleContainer ref={contentRef} style={style}>
+    <StyleContainer ref={containerRef} style={style} className={className}>
       {getFirst()}
       <>
         <PopoverStyleReset />

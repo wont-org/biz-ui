@@ -1,7 +1,7 @@
 export { default as AutoLoadingButton } from './AutoLoadingButton';
 export { default as PuzzleCaptcha } from './PuzzleCaptcha';
 export { default as smoothScroll } from './smoothScroll';
-export { default as MultiExpand } from './MultiExpand';
+export { default as MultiExpand } from './MultiExpand/index';
 export { default as CardSkeleton } from './Skeleton/CardSkeleton';
 export { default as DescriptionsWithSkeleton } from './Skeleton/DescriptionsWithSkeleton';
 export { default as ImgInfoSkeleton } from './Skeleton/ImgInfoSkeleton';

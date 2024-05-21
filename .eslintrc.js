@@ -44,6 +44,7 @@ module.exports = {
       alias: {
         map: [
           ['lodash', 'lodash-es'],
+          ['@wont/biz-ui', './src'],
           // ['@/', './src'],
         ],
         extensions: ['.js', '.jsx', '.ts', '.tsx', 'json'],

@@ -1,0 +1,17 @@
+.descriptions-reset {
+  .ant-descriptions-row {
+    display: flex;
+
+    .ant-descriptions-item-content {
+      > span {
+        // 2px不准确，可能是hack或border？
+        width: calc(100% - 2px);
+        display: inline-block;
+      }
+    }
+  }
+}
+
+.multi-expand-reset {
+  border: 1px solid green;
+}
