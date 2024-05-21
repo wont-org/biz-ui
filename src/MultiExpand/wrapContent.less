@@ -1,0 +1,36 @@
+/* stylelint-disable selector-class-pattern */
+.wrap-content {
+  padding-right: 8px;
+  overflow: hidden auto;
+  max-width: 260px;
+  max-height: 200px;
+  line-height: 1;
+
+  .contentItem {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+
+    &:last-of-type {
+      border: none;
+    }
+
+    &:hover {
+      background-color: #f5f7fa;
+    }
+  }
+
+  .contentTag {
+    margin-bottom: 6px;
+  }
+
+  .cp {
+    cursor: pointer;
+  }
+
+  .multi-expand-icon {
+    width: 14px;
+    height: 14px;
+    margin-right: 6px;
+  }
+}

@@ -1,13 +1,14 @@
 import { Popover, Tag } from 'antd';
 import classNames from 'classnames';
 import Ellipsis from '../Ellipsis';
-import { PopoverStyleReset, StyleContainer, StyleContent } from './style';
 import React, { useLayoutEffect, useRef, useState } from 'react';
 import { useLatest, usePrevious } from 'ahooks';
 import { isEmpty, throttle } from 'lodash';
 import ImgPreload from '../ImgPreload';
 import type { IMultiExpandContentProps, IMultiExpandProps } from './types';
 import { MODE } from './constant';
+import './index.less';
+import './wrapContent.less';
 
 const OUT_MAX_LENGTH = 20;
 const INNER_MAX_LENGTH = 30;
@@ -27,7 +28,7 @@ export const Content = (props: IMultiExpandContentProps) => {
   } = props;
   const { className, ...restTagProps } = tagProps;
   return (
-    <StyleContent style={style}>
+    <section style={style} className="wrap-content">
       {data.map((item, index) => {
         const isTag = mode === MODE.tag;
         if (isTag) {
@@ -81,7 +82,7 @@ export const Content = (props: IMultiExpandContentProps) => {
           </div>
         );
       })}
-    </StyleContent>
+    </section>
   );
 };
 const ContentWrap = (props: IMultiExpandProps) => {
@@ -105,7 +106,7 @@ const ContentWrap = (props: IMultiExpandProps) => {
   if (needClassify) {
     return Object.values(groupData).map((item) => (
       <section key={item.label}>
-        <div className="groupTitle">{item.label}</div>
+        <div className="group-tittle">{item.label}</div>
         <Content {...props} data={item.optionList || []} />
       </section>
     ));
@@ -270,11 +271,13 @@ export default (props: IMultiExpandProps) => {
     return empty;
   }
 
+  const cls = classNames('multi-expand-container', {
+    className,
+  });
   return (
-    <StyleContainer ref={containerRef} style={style} className={className}>
+    <section ref={containerRef} style={style} className={cls}>
       {getFirst()}
       <>
-        <PopoverStyleReset />
         <Popover
           placement="rightTop"
           overlayClassName="popoverReset"
@@ -333,6 +336,6 @@ export default (props: IMultiExpandProps) => {
           </div>
         </Popover>
       </>
-    </StyleContainer>
+    </section>
   );
 };
