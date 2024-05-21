@@ -69,7 +69,7 @@ export default () => {
 };
 ```
 
-## ParagraphSkeleton
+<!-- ## ParagraphSkeleton
 
 ```jsx
 import { ParagraphSkeleton } from '@wont/biz-ui';
@@ -77,7 +77,7 @@ import { ParagraphSkeleton } from '@wont/biz-ui';
 export default () => {
   return <ParagraphSkeleton />;
 };
-```
+``` -->
 
 ## TableSkeleton
 

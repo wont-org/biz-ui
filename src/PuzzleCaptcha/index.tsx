@@ -2,10 +2,10 @@ import classnames from 'classnames';
 import React, { RefObject, useEffect, useRef, useState } from 'react';
 import { getImg, sleep, genRandomXY, isFirefox, drawGap } from './utils';
 import type { PuzzleCaptchaProps } from './types';
-import { StyleContainer } from './style';
 import { useLatest } from 'ahooks';
 import { DoubleRightOutlined, LoadingOutlined } from '@ant-design/icons';
 import { ICON_TYPE, IconFont } from '../IconFont/icon';
+import './index.less';
 
 const prefix = 'puzzle-captcha';
 
@@ -319,7 +319,7 @@ export default (props: PuzzleCaptchaProps) => {
   });
 
   return (
-    <StyleContainer
+    <section
       className={cls}
       style={{
         display: (useMask && visible) || !useMask ? 'block' : 'none',
@@ -403,6 +403,6 @@ export default (props: PuzzleCaptchaProps) => {
           </span>
         </div>
       </div>
-    </StyleContainer>
+    </section>
   );
 };
