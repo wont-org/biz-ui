@@ -1,8 +1,7 @@
 import { TooltipProps } from 'antd/lib/tooltip';
-import { ReactNode } from 'react';
+import { CSSProperties, ReactNode } from 'react';
 import { PopoverProps, TagProps } from 'antd';
 import { MODE } from './constant';
-import { CSSProperties } from 'styled-components';
 
 export interface IMultiExpandDataItem {
   label: string;
