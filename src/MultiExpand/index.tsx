@@ -128,7 +128,7 @@ export default (props: IMultiExpandProps) => {
     moreTagProps = {},
     tooltip = DEFAULT_TOOLTIP,
     style,
-    className,
+    className = '',
     maxSize,
     outMaxLength = OUT_MAX_LENGTH,
     moreRender,
@@ -272,7 +272,7 @@ export default (props: IMultiExpandProps) => {
   }
 
   const cls = classNames('multi-expand-container', {
-    className,
+    [className]: !!className,
   });
   return (
     <section ref={containerRef} style={style} className={cls}>
