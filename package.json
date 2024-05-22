@@ -1,6 +1,6 @@
 {
   "name": "@wont/biz-ui",
-  "version": "0.0.2-beta.3",
+  "version": "0.0.2-beta.4",
   "description": "A react library developed with dumi",
   "homepage": "wont-org.github.io/biz-ui/",
   "bugs": {
@@ -65,6 +65,7 @@
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
     "@ant-design/pro-components": "^2.6.49",
+    "@babel/runtime": "^7.24.5",
     "@wont/use-antd-resizable-header": "^1.0.1",
     "ahooks": "^3.7.8",
     "classnames": "^2.3.2",
