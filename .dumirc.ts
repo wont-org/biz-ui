@@ -7,9 +7,15 @@ export default defineConfig({
   publicPath: '/biz-ui/',
   themeConfig: {
     name: 'biz-ui',
-    // nav: [
-    //   { title: 'Blog', link: '/blog' }
-    // ]
+    nav: [
+      { title: '指南', link: '/guide' },
+      { title: '组件列表', link: '/components' },
+      { title: '更新日志', link: '/changelog' },
+      { title: 'GitHub', link: 'https://github.com/wont-org/biz-ui' },
+    ],
+    footer: `Open-source MIT Licensed | Copyright © 2024-present
+<br />
+Powered by liukun`,
   },
   // apiParser: {},
   resolve: {

@@ -5,35 +5,29 @@
 
 A react library developed with dumi
 
-## Usage
-
-TODO
-
-## Options
-
-TODO
-
-## Development
+## 安装
 
 ```bash
-# install dependencies
-$ npm install
-
-# develop library by docs demo
-$ npm start
-
-# build library source code
-$ npm run build
-
-# build library source code in watch mode
-$ npm run build:watch
-
-# build docs
-$ npm run docs:build
-
-# check your project for potential problems
-$ npm run doctor
+npm install antd --save
 ```
+
+```bash
+yarn add antd
+```
+
+```bash
+pnpm add antd
+```
+
+如果你的网络环境不佳，推荐使用 [nrm](https://github.com/Pana/nrm)切换源
+
+## 按需加载
+
+`antd` 默认支持基于 ES modules 的 tree shaking。
+
+## TypeScript
+
+`antd` 使用 TypeScript 进行书写并提供了完整的定义文件（不要引用 `@types/antd`）。
 
 ## LICENSE
 
