@@ -1,3 +1,18 @@
+## [0.0.2-beta.4](https://github.com/wont-org/biz-ui/compare/v0.0.2-beta.3...v0.0.2-beta.4) (2024-05-22)
+
+### Bug Fixes
+
+- more tag 相等情况还展示问题修复 ([5f0a82a](https://github.com/wont-org/biz-ui/commit/5f0a82a8b8a5d89beb8945d17d93ac65ef45c217))
+- **MultiExpand:** 更多展示逻辑修复 ([5a5f04b](https://github.com/wont-org/biz-ui/commit/5a5f04b367e63705bab2e6af1a597150b82fbbea))
+- **MultiExpand:** maxSize 0, 自定义 render 不展示问题修复 ([55cc8be](https://github.com/wont-org/biz-ui/commit/55cc8be2efbf4215e3f3ebef84972bcf48634e4e))
+
+### Features
+
+- ellipsis ([56b7a6a](https://github.com/wont-org/biz-ui/commit/56b7a6a171afa45370766050670edc84088df674))
+- **MultiExpand:** 检测宽度并且响应式计算 ([4cd6a62](https://github.com/wont-org/biz-ui/commit/4cd6a62c3a50ed70d2660d33d319952f55ba97c5))
+- **MultiExpand:** 外层不再必须是 block 或 inline-block 元素 ([78865a5](https://github.com/wont-org/biz-ui/commit/78865a51a04bdeef23b6065e2968ea3b09ffe72c))
+- **MultiExpand:** 增加 icon 展示，增加图片预加载 ([153db24](https://github.com/wont-org/biz-ui/commit/153db246cc9612a65ea2e6a752d639aad34ac092))
+
 ## [0.0.2-beta.3](https://github.com/wont-org/biz-ui/compare/v0.0.2-beta.2...v0.0.2-beta.3) (2024-03-27)
 
 ### Features
