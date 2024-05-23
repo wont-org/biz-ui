@@ -8,6 +8,10 @@
 
 <code src="./Demo/Inline.tsx"></code>
 
+## 独立使用 popover 弹出层场景
+
+<code src="./Demo/ContentWrap.tsx"></code>
+
 ## Table 场景
 
 > 表格支持拖拽，拖拽时，组件检测宽度变化并自动计算

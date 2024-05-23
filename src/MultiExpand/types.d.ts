@@ -35,10 +35,8 @@ export interface IMultiExpandProps {
 }
 export type IMultiExpandContentProps = Pick<
   IMultiExpandProps,
-  'data' | 'mode' | 'tagProps' | 'style' | 'tooltip'
+  'data' | 'mode' | 'tagProps' | 'style' | 'tooltip' | 'className'
 > & {
   maxLength?: number;
   onClickItem?: [(item: IMultiExpandProps['data'][number], index: number) => void, () => void];
 };
-
-export type IMultiExpandContentWrapProps = Pick<IMultiExpandProps, 'data'>;

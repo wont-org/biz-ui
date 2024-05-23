@@ -16,7 +16,7 @@ const DEFAULT_TOOLTIP = {
   arrow: true,
 };
 
-export const Content = (props: IMultiExpandContentProps) => {
+const Content = (props: IMultiExpandContentProps) => {
   const {
     data = [],
     mode,
@@ -24,11 +24,12 @@ export const Content = (props: IMultiExpandContentProps) => {
     tagProps = {},
     style,
     tooltip = DEFAULT_TOOLTIP,
+    className: contentCls = '',
     maxLength = INNER_MAX_LENGTH,
   } = props;
-  const { className, ...restTagProps } = tagProps;
+  const { className = '', ...restTagProps } = tagProps;
   return (
-    <section style={style} className="wrap-content">
+    <section style={style} className={`wrap-content ${contentCls}`}>
       {data.map((item, index) => {
         const isTag = mode === MODE.tag;
         if (isTag) {
@@ -61,11 +62,11 @@ export const Content = (props: IMultiExpandContentProps) => {
             </Tag>
           );
         }
-        const contentItem = classNames('contentItem', {
+        const contentItem = classNames('contentItem p4', {
           cp: item.canClick,
         });
         return (
-          <div className="contentItem" key={item.label}>
+          <div className="contentItem p4" key={item.label}>
             <ImgPreload src={item.icon} className="multi-expand-icon" />
             <Ellipsis
               className={contentItem}
@@ -85,7 +86,7 @@ export const Content = (props: IMultiExpandContentProps) => {
     </section>
   );
 };
-const ContentWrap = (props: IMultiExpandProps) => {
+const ContentWrap = (props: IMultiExpandContentProps) => {
   const { data = [] } = props;
   const groupData = {};
   let needClassify = true;
@@ -114,11 +115,11 @@ const ContentWrap = (props: IMultiExpandProps) => {
   return <Content {...props} />;
 };
 
-export default (props: IMultiExpandProps) => {
+const MultiExpand = (props: IMultiExpandProps) => {
   const {
     data = [],
     title = '',
-    trigger = 'hover',
+    trigger = 'click',
     // mode,
     mode = MODE.tag,
     empty = '-',
@@ -339,3 +340,6 @@ export default (props: IMultiExpandProps) => {
     </section>
   );
 };
+MultiExpand.ContentWrap = ContentWrap;
+
+export default MultiExpand;
