@@ -1,3 +1,13 @@
+## [0.0.2-beta.5](https://github.com/wont-org/biz-ui/compare/v0.0.2-beta.4...v0.0.2-beta.5) (2024-05-23)
+
+### Bug Fixes
+
+- **MultiExpand:** container classname not work ([7e29fe2](https://github.com/wont-org/biz-ui/commit/7e29fe28869accdb58cf51ef0074ff805fee1fc5))
+
+### Features
+
+- **MultiExpand:** 提供可单独使用的 popover 内容组件 ([6755a40](https://github.com/wont-org/biz-ui/commit/6755a4036b5c674e9ca7f3dc83bf6845d010275e))
+
 ## [0.0.2-beta.4](https://github.com/wont-org/biz-ui/compare/v0.0.2-beta.3...v0.0.2-beta.4) (2024-05-22)
 
 ### Bug Fixes
