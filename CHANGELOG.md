@@ -1,3 +1,9 @@
+## [0.0.2-beta.6](https://github.com/wont-org/biz-ui/compare/v0.0.2-beta.5...v0.0.2-beta.6) (2024-05-31)
+
+### Features
+
+- 新增 a 链接和表格操作列按钮组件 ([7ff590a](https://github.com/wont-org/biz-ui/commit/7ff590a1328c4e39f9b49858486b10fb25cee8ad))
+
 ## [0.0.2-beta.5](https://github.com/wont-org/biz-ui/compare/v0.0.2-beta.4...v0.0.2-beta.5) (2024-05-23)
 
 ### Bug Fixes
