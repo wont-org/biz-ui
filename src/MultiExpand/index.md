@@ -1,3 +1,9 @@
+---
+title: MultiExpand
+path: component/block-header
+group: 信息展示
+---
+
 # MultiExpand
 
 多值折叠展示, 自动计算存放标签数量
