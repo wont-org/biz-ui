@@ -1,3 +1,9 @@
+## [0.0.2-beta.7](https://github.com/wont-org/biz-ui/compare/v0.0.2-beta.6...v0.0.2-beta.7) (2024-06-04)
+
+### Features
+
+- **BlockHeader:** 新增标题组件 ([ef28207](https://github.com/wont-org/biz-ui/commit/ef2820750b25fb55bfb51b4ea501173ff6116d4d))
+
 ## [0.0.2-beta.6](https://github.com/wont-org/biz-ui/compare/v0.0.2-beta.5...v0.0.2-beta.6) (2024-05-31)
 
 ### Features
