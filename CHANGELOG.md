@@ -1,3 +1,9 @@
+## [0.0.2-beta.8](https://github.com/wont-org/biz-ui/compare/v0.0.2-beta.7...v0.0.2-beta.8) (2024-06-05)
+
+### Features
+
+- **AutoLoadingButton:** 支持 Generator ([896fd6f](https://github.com/wont-org/biz-ui/commit/896fd6fa5f8b7a8730f41ab3cae9a483215981c0))
+
 ## [0.0.2-beta.7](https://github.com/wont-org/biz-ui/compare/v0.0.2-beta.6...v0.0.2-beta.7) (2024-06-04)
 
 ### Features
