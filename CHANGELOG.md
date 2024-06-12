@@ -1,3 +1,9 @@
+## [0.0.2-beta.9](https://github.com/wont-org/biz-ui/compare/v0.0.2-beta.8...v0.0.2-beta.9) (2024-06-12)
+
+### Features
+
+- **antd5:** 导出 antd5 新增 Flex 组件 ([bac3221](https://github.com/wont-org/biz-ui/commit/bac322118b72f8435fc6076a782fdb7e5350ce83))
+
 ## [0.0.2-beta.8](https://github.com/wont-org/biz-ui/compare/v0.0.2-beta.7...v0.0.2-beta.8) (2024-06-05)
 
 ### Features
