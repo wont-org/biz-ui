@@ -4,7 +4,7 @@
 
 ```jsx
 import { Space } from 'antd';
-import { AutoLoadingButton } from '@wont/biz-ui';
+import { AutoLoadingButton, Flex } from '@wont/biz-ui';
 
 const sleep = (timeout) => {
   return new Promise((res, rej) => {
@@ -41,11 +41,11 @@ export default () => {
     console.log('syncClick');
   };
   return (
-    <Space>
+    <Flex gap={16} align="center">
       <AutoLoadingButton onClick={asyncClick}>async promise button</AutoLoadingButton>
       <AutoLoadingButton onClick={generatorCLick}>async generator button</AutoLoadingButton>
       <AutoLoadingButton onClick={syncClick}>sync button</AutoLoadingButton>
-    </Space>
+    </Flex>
   );
 };
 ```

@@ -13,3 +13,4 @@ export { default as Ellipsis } from './Ellipsis';
 export { default as BlankLink } from './BlankLink';
 export { default as Operate } from './Operate';
 export { default as BlockHeader } from './BlockHeader';
+export { Flex } from 'antd';
