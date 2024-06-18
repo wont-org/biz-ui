@@ -1,4 +1,5 @@
 import { Descriptions, DescriptionsProps, Skeleton } from 'antd';
+import React from 'react';
 
 export default (props: DescriptionsProps & { loading?: boolean }) => {
   const { items, colon, title, loading, ...restProps } = props;

@@ -1,13 +1,13 @@
+import { useLatest, usePrevious } from 'ahooks';
 import { Popover, Tag } from 'antd';
 import classNames from 'classnames';
-import Ellipsis from '../Ellipsis';
-import React, { useLayoutEffect, useRef, useState } from 'react';
-import { useLatest, usePrevious } from 'ahooks';
 import { isEmpty, throttle } from 'lodash';
+import React, { useLayoutEffect, useRef, useState } from 'react';
+import Ellipsis from '../Ellipsis';
 import ImgPreload from '../ImgPreload';
-import type { IMultiExpandContentProps, IMultiExpandProps } from './types';
 import { MODE } from './constant';
 import './index.less';
+import type { IMultiExpandContentProps, IMultiExpandProps } from './types';
 import './wrapContent.less';
 
 const OUT_MAX_LENGTH = 20;
@@ -119,7 +119,7 @@ const MultiExpand = (props: IMultiExpandProps) => {
   const {
     data = [],
     title = '',
-    trigger = 'click',
+    trigger = 'hover',
     // mode,
     mode = MODE.tag,
     empty = '-',

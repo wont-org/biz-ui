@@ -1,4 +1,5 @@
-import { Card, Flex, Skeleton } from 'antd';
+import { Card, Skeleton } from 'antd';
+import React from 'react';
 import PaginationSkeleton from './PaginationSkeleton';
 
 export default ({ active = true, length = 1 }) => {
@@ -12,7 +13,7 @@ export default ({ active = true, length = 1 }) => {
           key={index}
           bordered
           title={
-            <Flex justify="space-between" style={{ margin: '16px 0' }}>
+            <div className="df jc-sb" style={{ margin: '16px 0' }}>
               <Skeleton.Button
                 block
                 active={active}
@@ -25,10 +26,10 @@ export default ({ active = true, length = 1 }) => {
                 size="default"
                 style={{ float: 'right', width: '20%' }}
               />
-            </Flex>
+            </div>
           }
         >
-          <Flex gap={24}>
+          <div className="df g-24">
             <div
               style={{
                 width: '35%',
@@ -44,32 +45,31 @@ export default ({ active = true, length = 1 }) => {
                   width: '100%',
                 }}
               />
-              <Flex gap={8}>
+              <div className="df g8">
                 <Skeleton.Button active={active} size="small" />
                 <Skeleton.Button active={active} size="small" />
-              </Flex>
+              </div>
             </div>
             <div
               style={{
                 width: '65%',
               }}
             >
-              <Flex
-                gap={8}
-                justify="space-between"
+              <div
+                className="df jc-sb g8"
                 style={{
                   marginBottom: 16,
                 }}
               >
-                <Flex gap={8}>
+                <div className="df g8">
                   <Skeleton.Button active={active} size="small" />
                   <Skeleton.Button active={active} size="small" />
-                </Flex>
-                <Flex gap={8}>
+                </div>
+                <div className="df g8">
                   <Skeleton.Button active={active} size="small" />
                   <Skeleton.Button active={active} size="small" />
-                </Flex>
-              </Flex>
+                </div>
+              </div>
               <Skeleton.Button
                 active={active}
                 block
@@ -78,7 +78,7 @@ export default ({ active = true, length = 1 }) => {
                 }}
               />
             </div>
-          </Flex>
+          </div>
         </Card>
       ))}
       <PaginationSkeleton />

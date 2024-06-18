@@ -1,13 +1,13 @@
 import { MultiExpand } from '@wont/biz-ui';
-import { columns } from './constant';
-import './index.less';
+import { Space } from 'antd';
 import React from 'react';
 import { MODE } from '../constant';
-import { Flex } from 'antd';
+import { columns } from './constant';
+import './index.less';
 
 export default () => {
   return (
-    <Flex gap={24}>
+    <Space size={'large'}>
       <MultiExpand.ContentWrap
         data={columns.map((item) => ({
           label: item.title,
@@ -26,6 +26,6 @@ export default () => {
           height: 120,
         }}
       />
-    </Flex>
+    </Space>
   );
 };
