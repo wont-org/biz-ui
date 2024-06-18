@@ -1,3 +1,9 @@
+## [0.0.2-beta.10](https://github.com/wont-org/biz-ui/compare/v0.0.2-beta.9...v0.0.2-beta.10) (2024-06-18)
+
+### Features
+
+- 移除 Flex 组件，确保 antd 4 5 统一 ([01c196a](https://github.com/wont-org/biz-ui/commit/01c196a1a5375d69026ab4dbc17d6cb83a113455))
+
 ## [0.0.2-beta.9](https://github.com/wont-org/biz-ui/compare/v0.0.2-beta.8...v0.0.2-beta.9) (2024-06-12)
 
 ### Features
