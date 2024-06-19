@@ -216,7 +216,7 @@ const MultiExpand = (props: IMultiExpandProps) => {
     };
   }, [data]);
 
-  const getFirst = () => {
+  const FirstEle = () => {
     const { className = '', ...restTagProps } = tagProps;
     const firstCls = (idx: number) =>
       classNames('contentItem', {
@@ -229,43 +229,47 @@ const MultiExpand = (props: IMultiExpandProps) => {
       return null;
     }
 
-    return data.map((item, index) => {
-      // const isOneMore = lastVisibleIndex === 0;
-      if (isTag) {
-        return (
-          <Tag
-            ref={(el) => {
-              el && (tagsRef.current[index] = el);
-            }}
-            key={item.label}
-            className={firstCls(index)}
-            color="blue"
-            {...restTagProps}
-            onClick={() => onClickItem?.(item, index)}
-          >
-            <ImgPreload src={item.icon} className="multi-expand-icon" />
-            <Ellipsis fullWidthRecognition tooltip={tooltip} length={outMaxLength}>
-              {item.label}
-            </Ellipsis>
-          </Tag>
-        );
-      }
-      return (
-        <span
-          ref={(el) => {
-            el && (tagsRef.current[index] = el);
-          }}
-          key={item.label}
-          className={firstCls(index)}
-          onClick={() => onClickItem?.(item, index)}
-        >
-          <ImgPreload src={item.icon} className="multi-expand-icon" />
-          <Ellipsis fullWidthRecognition tooltip={tooltip} length={outMaxLength}>
-            {item.label}
-          </Ellipsis>
-        </span>
-      );
-    });
+    return (
+      <>
+        {data.map((item, index) => {
+          // const isOneMore = lastVisibleIndex === 0;
+          if (isTag) {
+            return (
+              <Tag
+                ref={(el) => {
+                  el && (tagsRef.current[index] = el);
+                }}
+                key={item.label}
+                className={firstCls(index)}
+                color="blue"
+                {...restTagProps}
+                onClick={() => onClickItem?.(item, index)}
+              >
+                <ImgPreload src={item.icon} className="multi-expand-icon" />
+                <Ellipsis fullWidthRecognition tooltip={tooltip} length={outMaxLength}>
+                  {item.label}
+                </Ellipsis>
+              </Tag>
+            );
+          }
+          return (
+            <span
+              ref={(el) => {
+                el && (tagsRef.current[index] = el);
+              }}
+              key={item.label}
+              className={firstCls(index)}
+              onClick={() => onClickItem?.(item, index)}
+            >
+              <ImgPreload src={item.icon} className="multi-expand-icon" />
+              <Ellipsis fullWidthRecognition tooltip={tooltip} length={outMaxLength}>
+                {item.label}
+              </Ellipsis>
+            </span>
+          );
+        })}
+      </>
+    );
   };
 
   if (isEmpty(data)) {
@@ -277,7 +281,7 @@ const MultiExpand = (props: IMultiExpandProps) => {
   });
   return (
     <section ref={containerRef} style={style} className={cls}>
-      {getFirst()}
+      <FirstEle />
       <>
         <Popover
           placement="rightTop"
