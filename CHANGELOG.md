@@ -1,3 +1,9 @@
+## [0.0.2-beta.11](https://github.com/wont-org/biz-ui/compare/v0.0.2-beta.10...v0.0.2-beta.11) (2024-06-19)
+
+### Bug Fixes
+
+- **MultiExpand:** 外部展示元素使用组件渲染，而不是函数，避免 state 不渲染问题 ([db122ac](https://github.com/wont-org/biz-ui/commit/db122ac84768e1508bb611280fd745b84d4952ed))
+
 ## [0.0.2-beta.10](https://github.com/wont-org/biz-ui/compare/v0.0.2-beta.9...v0.0.2-beta.10) (2024-06-18)
 
 ### Features
