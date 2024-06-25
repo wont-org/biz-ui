@@ -1,3 +1,9 @@
+## [0.0.2-beta.12](https://github.com/wont-org/biz-ui/compare/v0.0.2-beta.11...v0.0.2-beta.12) (2024-06-25)
+
+### Bug Fixes
+
+- **AntdResizableTable:** scroll 未透传问题 ([9789554](https://github.com/wont-org/biz-ui/commit/97895541ab86e7247866d03827f1c74555f0cde5))
+
 ## [0.0.2-beta.11](https://github.com/wont-org/biz-ui/compare/v0.0.2-beta.10...v0.0.2-beta.11) (2024-06-19)
 
 ### Bug Fixes
