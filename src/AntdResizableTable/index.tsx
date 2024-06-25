@@ -1,7 +1,7 @@
 import { useAntdResizableHeader } from '@wont/use-antd-resizable-header';
 
+import type { ParamsType, ProColumns, ProTableProps } from '@ant-design/pro-components';
 import { ProTable } from '@ant-design/pro-components';
-import type { ProTableProps, ProColumns, ParamsType } from '@ant-design/pro-components';
 import { Table } from 'antd';
 import React, { ElementType } from 'react';
 
@@ -34,7 +34,7 @@ const tableMap = {
 };
 
 const AntdResizableTable: AntdResizableTableComponent = (props) => {
-  const { tableType = 'ProTable', resizeColumnsState, columns, ...tableProps } = props;
+  const { tableType = 'ProTable', resizeColumnsState, columns, scroll, ...tableProps } = props;
 
   const Component = tableMap[tableType] as ElementType<typeof tableMap[typeof tableType]>;
   const { components, resizableColumns, tableWidth } = useAntdResizableHeader({
@@ -47,7 +47,10 @@ const AntdResizableTable: AntdResizableTableComponent = (props) => {
       {...tableProps}
       components={components}
       columns={resizableColumns}
-      scroll={{ x: tableWidth }}
+      scroll={{
+        ...scroll,
+        x: tableWidth,
+      }}
     />
   );
 };
