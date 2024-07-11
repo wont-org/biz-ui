@@ -5,7 +5,11 @@ import './index.less';
 
 export default () => {
   return (
-    <span>
+    <span
+      style={{
+        display: 'flex',
+      }}
+    >
       <MultiExpand
         data={columns.map((item) => ({
           label: item.title,

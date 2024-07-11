@@ -22,7 +22,7 @@ const Content = (props: IMultiExpandContentProps) => {
     mode,
     onClickItem,
     tagProps = {},
-    style,
+    style = {},
     tooltip = DEFAULT_TOOLTIP,
     className: contentCls = '',
     maxLength = INNER_MAX_LENGTH,
@@ -217,12 +217,12 @@ const MultiExpand = (props: IMultiExpandProps) => {
   }, [data]);
 
   const FirstEle = () => {
-    const { className = '', ...restTagProps } = tagProps;
+    const { className: _className = '', ...restTagProps } = tagProps;
     const firstCls = (idx: number) =>
       classNames('contentItem', {
         cp: data[0]?.canClick,
         mr8: !isTag,
-        [className]: !!className,
+        [_className]: !!_className,
         contentItemHidden: idx >= lastVisibleIndexRef.current,
       });
     if (typeof maxSize === 'number' && maxSize <= 0) {
@@ -279,68 +279,74 @@ const MultiExpand = (props: IMultiExpandProps) => {
   const cls = classNames('multi-expand-container', {
     [className]: !!className,
   });
+  const showMore = !moreRender && data.length > 1 && lastVisibleIndex !== data.length;
   return (
-    <section ref={containerRef} style={style} className={cls}>
+    <section
+      ref={containerRef}
+      style={{
+        ...style,
+        width: showMore ? 'auto' : '100%',
+      }}
+      className={cls}
+    >
       <FirstEle />
-      <>
-        <Popover
-          placement="rightTop"
-          overlayClassName="popoverReset"
-          trigger={trigger}
-          title={title}
-          open={open}
-          onOpenChange={setOpen}
-          content={
-            <ContentWrap
-              tagProps={tagProps}
-              data={data}
-              onClickItem={[onClickItem, () => open && setOpen(false)]}
-              mode={mode}
-            />
-          }
+      <Popover
+        placement="rightTop"
+        overlayClassName="popoverReset"
+        trigger={trigger}
+        title={title}
+        open={open}
+        onOpenChange={setOpen}
+        content={
+          <ContentWrap
+            tagProps={tagProps}
+            data={data}
+            onClickItem={[onClickItem, () => open && setOpen(false)]}
+            mode={mode}
+          />
+        }
+      >
+        <Tag
+          style={{
+            visibility:
+              !moreRender && data.length > 1 && lastVisibleIndex !== data.length
+                ? 'visible'
+                : 'hidden',
+            position:
+              moreRender ||
+              lastVisibleIndex === data.length ||
+              (maxSize && maxSize === data.length) ||
+              data.length <= 1
+                ? 'fixed'
+                : 'unset',
+            right:
+              moreRender ||
+              lastVisibleIndex === data.length ||
+              (maxSize && maxSize === data.length) ||
+              data.length <= 1
+                ? '-999999px'
+                : 'unset',
+          }}
+          ref={moreTagRef}
+          className="cp"
+          color={isTag ? undefined : 'blue'}
+          {...moreTagProps}
         >
-          <Tag
-            style={{
-              visibility:
-                !moreRender && data.length > 1 && lastVisibleIndex !== data.length
-                  ? 'visible'
-                  : 'hidden',
-              position:
-                moreRender ||
-                lastVisibleIndex === data.length ||
-                (maxSize && maxSize === data.length) ||
-                data.length <= 1
-                  ? 'fixed'
-                  : 'unset',
-              right:
-                moreRender ||
-                lastVisibleIndex === data.length ||
-                (maxSize && maxSize === data.length) ||
-                data.length <= 1
-                  ? '-999999px'
-                  : 'unset',
-            }}
-            ref={moreTagRef}
-            className="cp"
-            color={isTag ? undefined : 'blue'}
-            {...moreTagProps}
-          >
-            {isTag ? `+${data.length - lastVisibleIndex}` : data.length}
-          </Tag>
-          <div
-            style={{
-              visibility:
-                moreRender && (lastVisibleIndex !== data.length || !maxSize) ? 'visible' : 'hidden',
-              position:
-                !moreRender || lastVisibleIndex === data.length || maxSize ? 'fixed' : 'unset',
-              right:
-                !moreRender || lastVisibleIndex === data.length || maxSize ? '-999999px' : 'unset',
-            }}
-          >
-            {moreRender}
-          </div>
-        </Popover>
-      </>
+          {isTag ? `+${data.length - lastVisibleIndex}` : data.length}
+        </Tag>
+        <div
+          style={{
+            visibility:
+              moreRender && (lastVisibleIndex !== data.length || !maxSize) ? 'visible' : 'hidden',
+            position:
+              !moreRender || lastVisibleIndex === data.length || maxSize ? 'fixed' : 'unset',
+            right:
+              !moreRender || lastVisibleIndex === data.length || maxSize ? '-999999px' : 'unset',
+          }}
+        >
+          {moreRender}
+        </div>
+      </Popover>
     </section>
   );
 };
