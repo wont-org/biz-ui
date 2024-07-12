@@ -1,3 +1,15 @@
+# [1.0.0](https://github.com/wont-org/biz-ui/compare/v0.0.2-beta.12...v1.0.0) (2024-07-12)
+
+### Bug Fixes
+
+- **MultiExpand:** 标签超出时的宽度动态设置 ([e570baf](https://github.com/wont-org/biz-ui/commit/e570bafa082bd974860c2f0395f2b55ffd71b798))
+- **MultiExpand:** 去掉图片预加载，防止 popover 加载抖动 ([d06cb1d](https://github.com/wont-org/biz-ui/commit/d06cb1ddd9fd766b06fab18cd8c8ee518df7795a))
+- **MultiExpand:** 统一+x 逻辑 ([d0925fb](https://github.com/wont-org/biz-ui/commit/d0925fb8d76b46af98fa030c82b51f9b3e3f9de7))
+
+### Features
+
+- **MultiExpand:** icon 增加底色 ([d5b3014](https://github.com/wont-org/biz-ui/commit/d5b3014660f61f43070fb1c3bc50a7bf4f0dca8e))
+
 ## [0.0.2-beta.12](https://github.com/wont-org/biz-ui/compare/v0.0.2-beta.11...v0.0.2-beta.12) (2024-06-25)
 
 ### Bug Fixes
