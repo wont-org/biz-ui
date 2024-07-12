@@ -332,7 +332,8 @@ const MultiExpand = (props: IMultiExpandProps) => {
           color={isTag ? undefined : 'blue'}
           {...moreTagProps}
         >
-          {isTag ? `+${data.length - lastVisibleIndex}` : data.length}
+          {/* {isTag ? `+${data.length - lastVisibleIndex}` : data.length} */}
+          {`+${data.length - lastVisibleIndex}`}
         </Tag>
         <div
           style={{
