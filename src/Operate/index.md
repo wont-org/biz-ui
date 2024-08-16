@@ -6,6 +6,20 @@
 
 <code src="./demo/Basic.tsx"></code>
 
+## 指定展示个数
+
+- `showCount={0}`全部收起
+- `dropDownProps`透传所有属性，除`menu`以及`DropDown.Button`
+- 以下使用`click`
+
+<code src="./demo/ShowCount0.tsx"></code>
+
+## 指定展示个数
+
+- `showCount={-1}`全部展开
+
+<code src="./demo/ShowCount-1.tsx"></code>
+
 ## 表格场景
 
 <code src="./demo/Table.tsx"></code>

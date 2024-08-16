@@ -14,7 +14,7 @@ export default () => {
     },
     {
       title: '操作',
-      width: 100,
+      width: 300,
       render: (record = {}) => <Basic record={record} />,
     },
   ];
@@ -24,5 +24,5 @@ export default () => {
       name: '第一列名称',
     },
   ];
-  return <Table columns={columns} dataSource={dataSource} />;
+  return <Table rowKey={'name'} columns={columns} dataSource={dataSource} />;
 };

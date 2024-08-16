@@ -62,5 +62,13 @@ export default (props: BasicProps) => {
       },
     },
   ];
-  return <Operate data={data} />;
+  return (
+    <Operate
+      data={data}
+      showCount={0}
+      dropDownProps={{
+        trigger: 'click',
+      }}
+    />
+  );
 };
