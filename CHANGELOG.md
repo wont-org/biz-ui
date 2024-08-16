@@ -1,3 +1,9 @@
+## [1.0.1](https://github.com/wont-org/biz-ui/compare/v1.0.0...v1.0.1) (2024-08-16)
+
+### Features
+
+- **Operate:** 新增展开更多, showCount split dropDownProps ([acac6ca](https://github.com/wont-org/biz-ui/commit/acac6ca95c37f26891a078f475c1924a636827fe))
+
 # [1.0.0](https://github.com/wont-org/biz-ui/compare/v0.0.2-beta.12...v1.0.0) (2024-07-12)
 
 ### Bug Fixes
