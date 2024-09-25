@@ -1,15 +1,15 @@
 import { AntdResizableTable } from '@wont/biz-ui';
+import React from 'react';
 import { columns, dataSource } from './constant';
 import './index.less';
-import React from 'react';
 
 export default () => {
   return (
     <AntdResizableTable
-      columnsState={{
-        persistenceType: 'sessionStorage',
-        persistenceKey: 'columnsState',
-      }}
+      // columnsState={{
+      //   persistenceType: 'sessionStorage',
+      //   persistenceKey: 'columnsState',
+      // }}
       rowKey="key"
       resizeColumnsState={{
         persistenceType: 'sessionStorage',
