@@ -66,7 +66,7 @@
     "@ant-design/icons": "^5.2.6",
     "@ant-design/pro-components": "^2.6.49",
     "@babel/runtime": "^7.24.5",
-    "@wont/use-antd-resizable-header": "^1.0.1",
+    "@wont/use-antd-resizable-header": "1.0.2",
     "ahooks": "^3.7.8",
     "classnames": "^2.3.2",
     "lodash": "^4.17.21"
