@@ -18,8 +18,8 @@ importers:
         specifier: ^7.24.5
         version: 7.24.5
       '@wont/use-antd-resizable-header':
-        specifier: 1.0.2
-        version: 1.0.2(react-dom@18.0.0(react@18.0.0))(react@18.0.0)
+        specifier: 1.0.3
+        version: 1.0.3(react-dom@18.0.0(react@18.0.0))(react@18.0.0)
       ahooks:
         specifier: ^3.7.8
         version: 3.7.8(react@18.0.0)
@@ -1774,8 +1774,8 @@ packages:
   '@webassemblyjs/wast-printer@1.11.6':
     resolution: {integrity: sha512-JM7AhRcE+yW2GWYaKeHL5vt4xqee5N2WcezptmgyhNS+ScggqcT1OtXykhAb13Sn5Yas0j2uv9tHgrjwvzAP4A==}
 
-  '@wont/use-antd-resizable-header@1.0.2':
-    resolution: {integrity: sha512-K1x5llXAMKRXJV6oZfMX3h4mEMV3MPpc5fLAg9plkpJSgi9UZtqGEYtutR3XzpYQO0RloNufIIupKwSie4ohKw==}
+  '@wont/use-antd-resizable-header@1.0.3':
+    resolution: {integrity: sha512-Z9FdxhFY2gDIX7dq5ZI/6xHRgnZi11vEjLx48Tuh+8D5s2BCWNGwUyxmpwjy7sKNzVO0af9KDe1lJQaf5q1UIw==}
     peerDependencies:
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
@@ -9839,7 +9839,7 @@ snapshots:
       '@webassemblyjs/ast': 1.11.6
       '@xtuc/long': 4.2.2
 
-  '@wont/use-antd-resizable-header@1.0.2(react-dom@18.0.0(react@18.0.0))(react@18.0.0)':
+  '@wont/use-antd-resizable-header@1.0.3(react-dom@18.0.0(react@18.0.0))(react@18.0.0)':
     dependencies:
       lodash.debounce: 4.0.8
       lodash.throttle: 4.1.1
