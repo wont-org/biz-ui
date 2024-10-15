@@ -9,3 +9,5 @@ node_modules
 docs-dist
 *.zip
 test.*
+.yalc
+yalc.lock
