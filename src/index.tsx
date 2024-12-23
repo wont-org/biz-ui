@@ -4,6 +4,7 @@ export { default as AntdResizableTable } from './AntdResizableTable';
 export { default as AutoLoadingButton } from './AutoLoadingButton';
 export { default as BlankLink } from './BlankLink';
 export { default as BlockHeader } from './BlockHeader';
+export { default as CaptchaInput } from './CaptchaInput';
 export { default as Ellipsis } from './Ellipsis';
 export { default as MultiExpand } from './MultiExpand/index';
 export { default as Operate } from './Operate';
