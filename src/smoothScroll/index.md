@@ -1,3 +1,11 @@
+---
+title: smoothScroll
+path: component/smoothScroll
+group:
+  title: 通用
+  order: 9999
+---
+
 # smoothScroll
 
 平滑滚动。将某个 DOM 节点平滑滚动到指定位置，避免生硬的长距离页面跳动。

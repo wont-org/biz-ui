@@ -1,3 +1,11 @@
+---
+title: Skeleton
+path: component/Skeleton
+group:
+  title: 通用
+  order: 9999
+---
+
 # Skeleton
 
 骨架屏

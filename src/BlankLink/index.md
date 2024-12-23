@@ -1,3 +1,11 @@
+---
+title: BlankLink
+path: component/BlankLink
+group:
+  title: 通用
+  order: 9999
+---
+
 # BlankLink
 
 封装 a 链接新开窗口安全跳转行为，默认增加`rel="noopener noreferrer"`

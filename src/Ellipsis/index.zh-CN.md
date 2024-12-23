@@ -1,3 +1,11 @@
+---
+title: Ellipsis
+path: component/Ellipsis
+group:
+  title: 通用
+  order: 9999
+---
+
 # Ellipsis
 
 文本过长自动处理省略号，支持按照文本长度和最大行数两种方式截取。

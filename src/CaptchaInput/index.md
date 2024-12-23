@@ -1,7 +1,7 @@
 ---
 title: CaptchaInput
 path: component/CaptchaInput
-group: 表单
+group: 数据录入
 ---
 
 # CaptchaInput
