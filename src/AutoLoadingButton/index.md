@@ -1,3 +1,11 @@
+---
+title: AutoLoadingButton
+path: component/AutoLoadingButton
+group:
+  title: 通用
+  order: 9999
+---
+
 # AutoLoadingButton
 
 异步函数自动处理 loading 按钮

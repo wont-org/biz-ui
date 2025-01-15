@@ -1,3 +1,9 @@
+---
+title: PuzzleCaptcha
+path: component/PuzzleCaptcha
+group: 数据录入
+---
+
 # PuzzleCaptcha
 
 滑动拼图验证码

@@ -1,7 +1,7 @@
 ---
 title: AntdResizableTable
 path: component/AntdResizableTable
-group: 信息展示
+group: 数据展示
 ---
 
 # AntdResizableTable
