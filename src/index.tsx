@@ -7,6 +7,7 @@ export { default as BlockHeader } from './BlockHeader';
 export { default as CaptchaInput } from './CaptchaInput';
 export { default as Ellipsis } from './Ellipsis';
 export { default as MultiExpand } from './MultiExpand/index';
+export { default as NumberRange } from './NumberRange';
 export { default as Operate } from './Operate';
 export { default as PuzzleCaptcha } from './PuzzleCaptcha';
 export { default as CardSkeleton } from './Skeleton/CardSkeleton';

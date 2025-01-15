@@ -9,7 +9,15 @@ module.exports = {
     'plugin:import/typescript',
   ],
   rules: {
+    curly: ['error', 'all'],
+    'no-else-return': [
+      2,
+      {
+        allowElseIf: false,
+      },
+    ],
     semi: ['error', 'always'],
+    '@typescript-eslint/no-shadow': 2,
     '@typescript-eslint/no-unused-expressions': [
       0,
       {
