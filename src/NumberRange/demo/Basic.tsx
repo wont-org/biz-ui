@@ -1,8 +1,15 @@
 import { NumberRange } from '@wont/biz-ui';
-import { Button, Form } from 'antd';
+import { Button, Form, InputNumber, Select, Space } from 'antd';
 import React from 'react';
 import { NumberRangeProps, validate } from '..';
+import { RANGE_TYPE } from './constant';
 
+export type ValueOf<T> = T[keyof T];
+export type ValueOfConst<T, K extends keyof T[keyof T]> = T[keyof T][K];
+// interface DemoValues {
+//   rangeUnit: ValueOfConst<typeof RANGE_TYPE, 'value'>;
+//   rangeNum: number;
+// }
 export default () => {
   const onFinish = (values: any) => {
     console.log('Success:', values);
@@ -37,33 +44,52 @@ export default () => {
           { min: -5, max: 0 },
           { min: 0, max: 5 },
         ],
+        rangeNum: 5,
+        rangeUnit: RANGE_TYPE.count.value,
       }}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
     >
-      <Form.Item
-        label="按区间生成"
-        name="numberRange1"
-        rules={[
-          {
-            required: true,
-            validator,
-          },
-        ]}
-      >
-        <NumberRange showAddButton showDelButton max={30} min={-20} rangeNum={5} />
+      <Form.Item label="区间">
+        <Space>
+          <Form.Item name="rangeUnit">
+            <Select options={Object.values(RANGE_TYPE)} />
+          </Form.Item>
+          <Form.Item name="rangeNum">
+            <InputNumber />
+          </Form.Item>
+        </Space>
       </Form.Item>
       <Form.Item
-        label="按步长生成"
-        name="numberRange2"
-        rules={[
-          {
-            required: true,
-            validator,
-          },
-        ]}
+        shouldUpdate={(pre, next) => {
+          return pre.rangeNum !== next.rangeNum || pre.rangeUnit !== next.rangeUnit;
+        }}
       >
-        <NumberRange max={30} min={-20} step={30} />
+        {({ getFieldValue }) => {
+          const rangeUnit = getFieldValue('rangeUnit');
+          const rangeNum = getFieldValue('rangeNum');
+          return (
+            <Form.Item
+              label={RANGE_TYPE[rangeUnit].label}
+              name="numberRange1"
+              rules={[
+                {
+                  required: true,
+                  validator,
+                },
+              ]}
+            >
+              <NumberRange
+                showAddButton
+                showDelButton
+                max={30}
+                min={-20}
+                rangeNum={rangeUnit === RANGE_TYPE.count.value ? rangeNum : undefined}
+                step={rangeUnit !== RANGE_TYPE.count.value ? rangeNum : undefined}
+              />
+            </Form.Item>
+          );
+        }}
       </Form.Item>
       <Form.Item
         label="传入数值区间"

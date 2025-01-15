@@ -1,6 +1,6 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
-import { isEmpty } from 'lodash';
+import { isEqual } from 'lodash';
 import React, { FC, useEffect } from 'react';
 import { StyleContainer, StyleInputNumber } from './style';
 
@@ -77,30 +77,29 @@ export const getDefaultRangesByStep = (
   return defaultRanges;
 };
 
-const NumberRange: FC<NumberRangeProps> = ({
-  value = [],
-  max,
-  min,
-  rangeNum,
-  step,
-  showAddButton,
-  showDelButton,
-  onChange,
-}) => {
+const NumberRange: FC<NumberRangeProps> = (props) => {
+  const { value = [], max, min, rangeNum, step, showAddButton, showDelButton, onChange } = props;
+
   useEffect(() => {
-    if (typeof max === 'number' && typeof min === 'number' && max > min && isEmpty(value)) {
+    if (typeof max === 'number' && typeof min === 'number' && max > min) {
       if (typeof rangeNum === 'number' && rangeNum > 0) {
         const defaultRanges = getDefaultRangesByRangeNum({ max, min, rangeNum });
+        if (isEqual(value, defaultRanges)) {
+          return;
+        }
         onChange?.(defaultRanges);
         return;
       }
       if (typeof step === 'number' && step > 0) {
         const defaultRanges = getDefaultRangesByStep({ max, min, step });
+        if (isEqual(value, defaultRanges)) {
+          return;
+        }
         onChange?.(defaultRanges);
         return;
       }
     }
-  }, [value, max, min, rangeNum, onChange]);
+  }, [value, max, min, rangeNum, step, onChange]);
 
   const handleInputChange = (index: number, type: 'min' | 'max', newValue: number) => {
     const updatedRanges = [...value];
