@@ -1,3 +1,10 @@
+## [1.0.2-beta.1](https://github.com/wont-org/biz-ui/compare/v1.0.1...v1.0.2-beta.1) (2025-01-15)
+
+### Features
+
+- **CaptchaInput:** 新增验证码输入组件 ([1578e53](https://github.com/wont-org/biz-ui/commit/1578e532e93e7c3c3e2010b3e53bd94ed1df7331))
+- **NumberRange:** 新增区间组件 ([9b78930](https://github.com/wont-org/biz-ui/commit/9b78930b0680ed191f0db7d4c0ee5d52f268ac75))
+
 ## [1.0.1](https://github.com/wont-org/biz-ui/compare/v1.0.0...v1.0.1) (2024-08-16)
 
 ### Features
