@@ -1,3 +1,9 @@
+## [1.0.2-beta.2](https://github.com/wont-org/biz-ui/compare/v1.0.2-beta.1...v1.0.2-beta.2) (2025-01-15)
+
+### Bug Fixes
+
+- **NumberRange:** 区间组件联动问题 ([f989b48](https://github.com/wont-org/biz-ui/commit/f989b48f706b7753ac2e65af49104a401e9c2c03))
+
 ## [1.0.2-beta.1](https://github.com/wont-org/biz-ui/compare/v1.0.1...v1.0.2-beta.1) (2025-01-15)
 
 ### Features
