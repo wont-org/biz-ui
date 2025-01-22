@@ -1,3 +1,9 @@
+## [1.0.2-beta.3](https://github.com/wont-org/biz-ui/compare/v1.0.2-beta.2...v1.0.2-beta.3) (2025-01-22)
+
+### Features
+
+- 增加虚拟滚动, 兼容大数据模式 ([0b76223](https://github.com/wont-org/biz-ui/commit/0b7622356697c450059004bfb36001ac07d09c8b))
+
 ## [1.0.2-beta.2](https://github.com/wont-org/biz-ui/compare/v1.0.2-beta.1...v1.0.2-beta.2) (2025-01-15)
 
 ### Bug Fixes
