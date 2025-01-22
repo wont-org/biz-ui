@@ -1,7 +1,9 @@
 import { PlusOutlined } from '@ant-design/icons';
+import { useVirtualList } from 'ahooks';
 import { Button } from 'antd';
-import { isEqual } from 'lodash';
-import React, { FC, useEffect } from 'react';
+import { produce } from 'immer';
+import { isEmpty, isEqual } from 'lodash';
+import React, { CSSProperties, FC, useEffect, useRef } from 'react';
 import { StyleContainer, StyleInputNumber } from './style';
 
 type Ranges = { min: number; max: number }[];
@@ -9,11 +11,14 @@ export interface NumberRangeProps {
   value?: Ranges;
   max?: number;
   min?: number;
+  itemHeight?: number;
   rangeNum?: number;
+  rangeLimit?: number;
   step?: number;
   showAddButton?: boolean;
   showDelButton?: boolean;
   onChange?: (value: Ranges) => void;
+  style?: CSSProperties;
 }
 export const validate = ({
   ranges,
@@ -38,7 +43,7 @@ export const validate = ({
         isValid: false,
       };
     }
-    if (end <= start) {
+    if (end < start) {
       return {
         message: '起始值不能大于结束值',
         isValid: false,
@@ -56,54 +61,134 @@ export const validate = ({
   };
 };
 export const getDefaultRangesByRangeNum = (
-  params: Required<Pick<NumberRangeProps, 'max' | 'min' | 'rangeNum'>>,
+  params: Required<Pick<NumberRangeProps, 'max' | 'min' | 'rangeNum' | 'rangeLimit'>>,
 ): Ranges => {
-  const { max: _max, min: _min, rangeNum: _rangeNum } = params;
-  const step = Math.floor((_max - _min) / _rangeNum);
-  const defaultRanges: Ranges = Array.from({ length: _rangeNum }, (_, i) => ({
-    min: _min + i * step,
-    max: _min + (i + 1) * step,
+  const { max, min, rangeNum: _rangeNum, rangeLimit } = params;
+  if (max === min) {
+    return [{ max, min }];
+  }
+  if (max < min) {
+    return [];
+  }
+  const rangeSize = max - min;
+  const _rangLimit = Math.min(rangeLimit, _rangeNum);
+  const adjustedRangeNum = Math.min(_rangLimit, rangeSize);
+  const step = adjustedRangeNum > 0 ? Math.floor(rangeSize / adjustedRangeNum) : 0;
+  const defaultRanges: Ranges = Array.from({ length: adjustedRangeNum }, (_, i) => ({
+    min: min + i * step,
+    max: min + (i + 1) * step,
   }));
   return defaultRanges;
 };
 export const getDefaultRangesByStep = (
-  params: Required<Pick<NumberRangeProps, 'max' | 'min' | 'step'>>,
+  params: Required<Pick<NumberRangeProps, 'max' | 'min' | 'step' | 'rangeLimit'>>,
 ): Ranges => {
-  const { max: _max, min: _min, step } = params;
+  const { max, min, step, rangeLimit } = params;
+  if (max === min) {
+    return [{ max, min }];
+  }
+  if (max < min) {
+    return [];
+  }
   const defaultRanges: Ranges = [];
-  for (let currentMin = _min; currentMin < _max; currentMin += step) {
-    defaultRanges.push({ min: currentMin, max: Math.min(currentMin + step, _max) });
+  let rangeNum = 1;
+  for (let currentMin = min; currentMin < max; currentMin += step) {
+    if (rangeNum > rangeLimit) {
+      break;
+    }
+    rangeNum += 1;
+    defaultRanges.push({
+      min: currentMin,
+      max: Math.min(currentMin + step, max),
+    });
   }
   return defaultRanges;
 };
 
 const NumberRange: FC<NumberRangeProps> = (props) => {
-  const { value = [], max, min, rangeNum, step, showAddButton, showDelButton, onChange } = props;
+  const {
+    value = [],
+    max,
+    min,
+    rangeNum,
+    rangeLimit = 1000,
+    itemHeight = 40,
+    step,
+    showAddButton,
+    showDelButton,
+    onChange,
+    style = {
+      // height: 200,
+    },
+  } = props;
 
+  const containerRef = useRef(null);
+  const wrapperRef = useRef(null);
+  const [list, scrollTo] = useVirtualList(value, {
+    containerTarget: containerRef,
+    wrapperTarget: wrapperRef,
+    itemHeight,
+    overscan: 6,
+  });
+
+  const preConfigRef = useRef({ rangeNum, step });
   useEffect(() => {
-    if (typeof max === 'number' && typeof min === 'number' && max > min) {
+    // console.log('props :>> ', props);
+    const rangeNumChanged = preConfigRef.current.rangeNum !== rangeNum;
+    const stepChanged = preConfigRef.current.step !== step;
+    // console.log(
+    //   'rangeNumChanged stepChanged:>> ',
+    //   rangeNumChanged,
+    //   stepChanged,
+    // );
+    if (rangeNumChanged || stepChanged) {
+      preConfigRef.current = {
+        step,
+        rangeNum,
+      };
+    }
+    if (typeof max === 'number' && typeof min === 'number') {
       if (typeof rangeNum === 'number' && rangeNum > 0) {
-        const defaultRanges = getDefaultRangesByRangeNum({ max, min, rangeNum });
+        const defaultRanges = getDefaultRangesByRangeNum({
+          max,
+          min,
+          rangeNum,
+          rangeLimit,
+        });
         if (isEqual(value, defaultRanges)) {
           return;
         }
+        if (!rangeNumChanged && !isEmpty(value)) {
+          return;
+        }
         onChange?.(defaultRanges);
+        scrollTo(1);
         return;
       }
       if (typeof step === 'number' && step > 0) {
-        const defaultRanges = getDefaultRangesByStep({ max, min, step });
+        const defaultRanges = getDefaultRangesByStep({
+          max,
+          min,
+          step,
+          rangeLimit,
+        });
         if (isEqual(value, defaultRanges)) {
           return;
         }
+        if (!stepChanged && !isEmpty(value)) {
+          return;
+        }
         onChange?.(defaultRanges);
+        scrollTo(1);
         return;
       }
     }
-  }, [value, max, min, rangeNum, step, onChange]);
+  }, [value, max, min, rangeNum, step, onChange, scrollTo, rangeLimit]);
 
   const handleInputChange = (index: number, type: 'min' | 'max', newValue: number) => {
-    const updatedRanges = [...value];
-    updatedRanges[index][type] = newValue;
+    const updatedRanges = produce([...value], (draft) => {
+      draft[index][type] = newValue;
+    });
     onChange?.(updatedRanges);
   };
 
@@ -117,32 +202,47 @@ const NumberRange: FC<NumberRangeProps> = (props) => {
   };
 
   return (
-    <StyleContainer>
-      {value.map(({ min: _min, max: _max }, index) => (
-        <div className="number-range-item-wrap" key={index}>
-          <StyleInputNumber
-            value={_min}
-            onChange={(val) => handleInputChange(index, 'min', val || 0)}
-          />
-          <span className="split">-</span>
-          <StyleInputNumber
-            value={_max}
-            onChange={(val) => handleInputChange(index, 'max', val || 0)}
-          />
+    <>
+      <StyleContainer
+        ref={containerRef}
+        style={{
+          height: value.length > 5 ? 200 : undefined,
+          ...style,
+        }}
+      >
+        <div
+          style={{
+            minHeight: itemHeight,
+          }}
+          ref={wrapperRef}
+        >
+          {list.map(({ data: { min: _min, max: _max } }, index) => (
+            <div className="number-range-item-wrap" key={index}>
+              <StyleInputNumber
+                value={_min}
+                onChange={(val) => handleInputChange(index, 'min', val || 0)}
+              />
+              <span className="split">-</span>
+              <StyleInputNumber
+                value={_max}
+                onChange={(val) => handleInputChange(index, 'max', val || 0)}
+              />
 
-          {showDelButton && (
-            <Button type="link" danger onClick={() => deleteRange(index)}>
-              删除
-            </Button>
-          )}
+              {showDelButton && (
+                <Button type="link" danger onClick={() => deleteRange(index)}>
+                  删除
+                </Button>
+              )}
+            </div>
+          ))}
         </div>
-      ))}
+      </StyleContainer>
       {showAddButton && (
         <Button block icon={<PlusOutlined />} onClick={addRange}>
           添加区间
         </Button>
       )}
-    </StyleContainer>
+    </>
   );
 };
 

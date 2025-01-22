@@ -3,6 +3,9 @@ import { FC } from 'react';
 import { styled } from 'styled-components';
 
 export const StyleContainer = styled.section`
+  overflow-y: auto;
+  margin-bottom: 12px;
+  padding-right: 8px;
   .number-range-item-wrap {
     display: flex;
     align-items: center;
