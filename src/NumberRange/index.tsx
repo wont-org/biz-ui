@@ -8,16 +8,32 @@ import { StyleContainer, StyleInputNumber } from './style';
 
 type Ranges = { min: number; max: number }[];
 export interface NumberRangeProps {
+  /**
+   * @description 区间值
+   * @default []
+   */
   value?: Ranges;
   max?: number;
   min?: number;
+  /**
+   * @description 长度>5默认开启虚拟滚动，每条元素高度
+   * @default 40
+   */
   itemHeight?: number;
   rangeNum?: number;
+  /**
+   * @description 最大区间数量
+   * @default 1000
+   */
   rangeLimit?: number;
   step?: number;
   showAddButton?: boolean;
   showDelButton?: boolean;
   onChange?: (value: Ranges) => void;
+  /**
+   * @description 容器样式，配合虚拟滚动设置高度
+   * @default {}
+   */
   style?: CSSProperties;
 }
 export const validate = ({
@@ -117,9 +133,7 @@ const NumberRange: FC<NumberRangeProps> = (props) => {
     showAddButton,
     showDelButton,
     onChange,
-    style = {
-      // height: 200,
-    },
+    style = {},
   } = props;
 
   const containerRef = useRef(null);

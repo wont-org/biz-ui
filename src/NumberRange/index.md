@@ -8,6 +8,10 @@ group: 数据录入
 
 数值区间
 
+## API
+
+<API id="NumberRange"></API>
+
 ## 基础用法
 
 <code src="./demo/Basic.tsx"></code>

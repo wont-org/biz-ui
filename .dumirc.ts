@@ -17,11 +17,11 @@ export default defineConfig({
 <br />
 Powered by liukun`,
   },
-  // apiParser: {},
+  apiParser: {},
   resolve: {
     docDirs: ['docs'],
     // 配置入口文件路径，API 解析将从这里开始
-    // entryFile: './src/index.tsx',
+    entryFile: './src/index.tsx',
   },
   alias: {
     '@wont/biz-ui': path.join(__dirname, 'src'),
