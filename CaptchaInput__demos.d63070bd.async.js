@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_wont_biz_ui=self.webpackChunk_wont_biz_ui||[]).push([[599,919],{67023:function(d,n,_){_.r(n);var t=_(48305),o=_.n(t),a=_(35442),l=_(75271),s=_(52676);n.default=function(){var i=(0,l.useState)(),e=o()(i,2),r=e[0],E=e[1];return(0,s.jsx)(a.CaptchaInput,{value:r,onChange:function(u){console.log("value :>> ",u),E(u)}})}}}]);
