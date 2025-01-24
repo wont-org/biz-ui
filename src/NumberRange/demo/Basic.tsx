@@ -91,7 +91,7 @@ export default () => {
               rules={[
                 {
                   required: true,
-                  validator,
+                  validator: (rule, val) => validator(rule, val),
                 },
               ]}
             >
