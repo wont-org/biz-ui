@@ -1,3 +1,10 @@
+## [1.0.2-beta.4](https://github.com/wont-org/biz-ui/compare/v1.0.2-beta.3...v1.0.2-beta.4) (2025-01-24)
+
+### Features
+
+- **Form:** 新增 form 二次封存组件 ([ff28087](https://github.com/wont-org/biz-ui/commit/ff28087135b6b0b56125fd01b1bbb2763a0aafd2))
+- **FormulaInput:** 公式输入框 ([46174d7](https://github.com/wont-org/biz-ui/commit/46174d7a4f835ee4d584673ae646a499242d7259))
+
 ## [1.0.2-beta.3](https://github.com/wont-org/biz-ui/compare/v1.0.2-beta.2...v1.0.2-beta.3) (2025-01-22)
 
 ### Features
