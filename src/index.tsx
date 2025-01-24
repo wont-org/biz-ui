@@ -6,6 +6,14 @@ export { default as BlankLink } from './BlankLink';
 export { default as BlockHeader } from './BlockHeader';
 export { default as CaptchaInput } from './CaptchaInput';
 export { default as Ellipsis } from './Ellipsis';
+export {
+  CheckBoxWithAll,
+  // FormItemWithFormily,
+  InputWithDefault,
+  // NumberPickerWithDefault,
+  // SelectWithDefault,
+  SwitchPro,
+} from './Formily';
 export { default as MultiExpand } from './MultiExpand/index';
 export { default as NumberRange } from './NumberRange';
 export { default as Operate } from './Operate';
