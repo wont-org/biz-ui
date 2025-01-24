@@ -14,6 +14,7 @@ export {
   // SelectWithDefault,
   SwitchPro,
 } from './Formily';
+export { default as FormulaInput } from './FormulaInput';
 export { default as MultiExpand } from './MultiExpand/index';
 export { default as NumberRange } from './NumberRange';
 export { default as Operate } from './Operate';
