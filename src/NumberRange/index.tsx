@@ -3,7 +3,7 @@ import { useVirtualList } from 'ahooks';
 import { Button } from 'antd';
 import { produce } from 'immer';
 import { isEmpty, isEqual } from 'lodash';
-import React, { CSSProperties, FC, useEffect, useRef } from 'react';
+import React, { CSSProperties, FC, useEffect, useMemo, useRef } from 'react';
 import { StyleContainer, StyleInputNumber } from './style';
 
 type Ranges = { min: number; max: number }[];
@@ -138,7 +138,15 @@ const NumberRange: FC<NumberRangeProps> = (props) => {
 
   const containerRef = useRef(null);
   const wrapperRef = useRef(null);
-  const [list, scrollTo] = useVirtualList(value, {
+  const _value = useMemo(
+    () =>
+      value.map((item, index) => ({
+        ...item,
+        index,
+      })),
+    [value],
+  );
+  const [list, scrollTo] = useVirtualList(_value, {
     containerTarget: containerRef,
     wrapperTarget: wrapperRef,
     itemHeight,
@@ -230,7 +238,7 @@ const NumberRange: FC<NumberRangeProps> = (props) => {
           }}
           ref={wrapperRef}
         >
-          {list.map(({ data: { min: _min, max: _max } }, index) => (
+          {list.map(({ data: { min: _min, max: _max, index } }) => (
             <div className="number-range-item-wrap" key={index}>
               <StyleInputNumber
                 value={_min}
