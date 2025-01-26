@@ -1,3 +1,9 @@
+## [1.0.2-beta.5](https://github.com/wont-org/biz-ui/compare/v1.0.2-beta.4...v1.0.2-beta.5) (2025-01-26)
+
+### Bug Fixes
+
+- **NumberRange:** 虚拟滚动, 渲染 key 问题 ([159aab2](https://github.com/wont-org/biz-ui/commit/159aab2e7fc564284d0f16f1b9d2c8a63aad51d1))
+
 ## [1.0.2-beta.4](https://github.com/wont-org/biz-ui/compare/v1.0.2-beta.3...v1.0.2-beta.4) (2025-01-24)
 
 ### Features
