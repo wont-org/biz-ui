@@ -1,3 +1,9 @@
+## [1.0.2](https://github.com/wont-org/biz-ui/compare/v1.0.2-beta.6...v1.0.2) (2025-02-05)
+
+### Bug Fixes
+
+- **NumberRange:** 区间计算应为向上取整, 最后一个区间和 max 值取小值 ([92aec71](https://github.com/wont-org/biz-ui/commit/92aec71f65fa3afb2e1d87a1231baad8488b41e0))
+
 ## [1.0.2-beta.6](https://github.com/wont-org/biz-ui/compare/v1.0.2-beta.5...v1.0.2-beta.6) (2025-02-05)
 
 ### Features
