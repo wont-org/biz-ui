@@ -60,6 +60,7 @@ export default () => {
         numberRange4: [],
         numberRange5: [],
         numberRange6: [],
+        numberRange7: [],
         rangeNum: 5,
         rangeUnit: RANGE_TYPE.step.value,
       }}
@@ -176,6 +177,22 @@ export default () => {
         ]}
       >
         <NumberRange max={MAX_DOT} min={MIN_DOT} step={10} />
+      </Form.Item>
+      <Form.Item
+        label={`区间计算向上取整案例。最大值：${1027}；最小值：${1}`}
+        name="numberRange7"
+        rules={[
+          {
+            required: true,
+            validator: (rule, val) =>
+              validator(rule, val, {
+                max: 1027,
+                min: 1,
+              }),
+          },
+        ]}
+      >
+        <NumberRange max={1027} min={1} rangeNum={10} />
       </Form.Item>
 
       <Form.Item label=" " colon={false}>
