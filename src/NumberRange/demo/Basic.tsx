@@ -11,9 +11,13 @@ export type ValueOfConst<T, K extends keyof T[keyof T]> = T[keyof T][K];
 //   rangeNum: number;
 // }
 
-const MAX = 303582079;
-const MIN = 0;
 export default () => {
+  const MAX = 303582079;
+  const MIN = 0;
+  const MAX_DOT_RAW = 1000.5678;
+  const MAX_DOT = Math.ceil(MAX_DOT_RAW);
+  const MIN_DOT_RAW = -1.5678;
+  const MIN_DOT = Math.floor(MIN_DOT_RAW);
   const onFinish = (values: any) => {
     console.log('Success:', values);
   };
@@ -44,8 +48,8 @@ export default () => {
 
   return (
     <Form
-      labelCol={{ span: 4 }}
-      wrapperCol={{ span: 20 }}
+      labelCol={{ span: 6 }}
+      wrapperCol={{ span: 18 }}
       initialValues={{
         numberRange1: [],
         numberRange2: [],
@@ -55,6 +59,7 @@ export default () => {
         ],
         numberRange4: [],
         numberRange5: [],
+        numberRange6: [],
         rangeNum: 5,
         rangeUnit: RANGE_TYPE.step.value,
       }}
@@ -156,11 +161,30 @@ export default () => {
       >
         <NumberRange max={0} min={1} step={111} />
       </Form.Item>
+      <Form.Item
+        label={`最大值：${MAX_DOT_RAW}；最小值：${MIN_DOT_RAW}`}
+        name="numberRange6"
+        rules={[
+          {
+            required: true,
+            validator: (rule, val) =>
+              validator(rule, val, {
+                max: MAX_DOT,
+                min: MIN_DOT,
+              }),
+          },
+        ]}
+      >
+        <NumberRange max={MAX_DOT} min={MIN_DOT} step={10} />
+      </Form.Item>
 
       <Form.Item label=" " colon={false}>
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
+        <Space>
+          <Button type="primary" htmlType="submit">
+            Submit
+          </Button>
+          <Button htmlType="reset">Reset</Button>
+        </Space>
       </Form.Item>
     </Form>
   );

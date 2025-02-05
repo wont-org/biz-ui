@@ -1,6 +1,6 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { useVirtualList } from 'ahooks';
-import { Button } from 'antd';
+import { Button, InputNumberProps } from 'antd';
 import { produce } from 'immer';
 import { isEmpty, isEqual } from 'lodash';
 import React, { CSSProperties, FC, useEffect, useMemo, useRef } from 'react';
@@ -35,6 +35,11 @@ export interface NumberRangeProps {
    * @default {}
    */
   style?: CSSProperties;
+  /**
+   * @description inputNumberProps
+   * @default {}
+   */
+  inputNumberProps?: InputNumberProps<number>;
 }
 export const validate = ({
   ranges,
@@ -49,13 +54,13 @@ export const validate = ({
     const { min: start, max: end } = ranges[i];
     if (i === 0 && start < min) {
       return {
-        message: '第一个区间的起始值不能小于最小值',
+        message: `第一个区间的起始值不能小于${min}`,
         isValid: false,
       };
     }
     if (i === ranges.length - 1 && end > max) {
       return {
-        message: '最后一个区间的结束值不能大于最大值',
+        message: `最后一个区间的结束值不能大于${max}`,
         isValid: false,
       };
     }
@@ -134,6 +139,11 @@ const NumberRange: FC<NumberRangeProps> = (props) => {
     showDelButton,
     onChange,
     style = {},
+    inputNumberProps = {
+      precision: 0,
+      formatter: (val) => `${val}`.replace(/\B(?=(\d{3})+(?!\d))/g, ','),
+      parser: (val) => parseFloat(val?.replace(/(,*)/g, '') || '0'),
+    },
   } = props;
 
   const containerRef = useRef(null);
@@ -241,11 +251,13 @@ const NumberRange: FC<NumberRangeProps> = (props) => {
           {list.map(({ data: { min: _min, max: _max, index } }) => (
             <div className="number-range-item-wrap" key={index}>
               <StyleInputNumber
+                {...inputNumberProps}
                 value={_min}
                 onChange={(val) => handleInputChange(index, 'min', val || 0)}
               />
               <span className="split">-</span>
               <StyleInputNumber
+                {...inputNumberProps}
                 value={_max}
                 onChange={(val) => handleInputChange(index, 'max', val || 0)}
               />

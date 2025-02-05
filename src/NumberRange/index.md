@@ -8,9 +8,9 @@ group: 数据录入
 
 数值区间
 
-## API
+<!-- ## API
 
-<API id="NumberRange"></API>
+<API id="NumberRange"></API> -->
 
 ## 基础用法
 
