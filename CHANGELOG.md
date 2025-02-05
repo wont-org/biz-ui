@@ -1,3 +1,9 @@
+## [1.0.2-beta.6](https://github.com/wont-org/biz-ui/compare/v1.0.2-beta.5...v1.0.2-beta.6) (2025-02-05)
+
+### Features
+
+- **NumberRange:** 校验提示优化; 新增 inputNumberProps 透传 ([7b11533](https://github.com/wont-org/biz-ui/commit/7b11533197e2178d1f27acba9723971813869f6b))
+
 ## [1.0.2-beta.5](https://github.com/wont-org/biz-ui/compare/v1.0.2-beta.4...v1.0.2-beta.5) (2025-01-26)
 
 ### Bug Fixes
