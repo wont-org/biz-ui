@@ -1,3 +1,9 @@
+## [1.0.3-beta.1](https://github.com/wont-org/biz-ui/compare/v1.0.2...v1.0.3-beta.1) (2025-02-05)
+
+### Bug Fixes
+
+- **NumberRange:** rangeNum 超出处理 ([db493ee](https://github.com/wont-org/biz-ui/commit/db493ee5ae1f2f9a923fb076c5a10ccca7777b57))
+
 ## [1.0.2](https://github.com/wont-org/biz-ui/compare/v1.0.2-beta.6...v1.0.2) (2025-02-05)
 
 ### Bug Fixes
