@@ -95,14 +95,19 @@ export const getDefaultRangesByRangeNum = (
   const _rangLimit = Math.min(rangeLimit, _rangeNum);
   const adjustedRangeNum = Math.min(_rangLimit, rangeSize);
   const step = adjustedRangeNum > 0 ? Math.ceil(rangeSize / adjustedRangeNum) : 0;
-  const defaultRanges: Ranges = Array.from({ length: adjustedRangeNum }, (_, i) => {
-    const isLast = adjustedRangeNum - 1 === i;
-    const lastVal = min + (i + 1) * step;
-    return {
-      min: min + i * step,
-      max: isLast ? Math.min(lastVal, max) : lastVal,
-    };
-  });
+
+  const defaultRanges: Ranges = [];
+  for (let i = 0; i < adjustedRangeNum; i++) {
+    const rangeMin = min + i * step;
+    let rangeMax = rangeMin + step;
+    if (i === adjustedRangeNum - 1 || rangeMax > max) {
+      rangeMax = max;
+    }
+    defaultRanges.push({ min: rangeMin, max: rangeMax });
+    if (rangeMax >= max) {
+      break;
+    }
+  }
   return defaultRanges;
 };
 export const getDefaultRangesByStep = (

@@ -1,7 +1,8 @@
 import { NumberRange } from '@wont/biz-ui';
-import { Button, Form, InputNumber, Select, Space } from 'antd';
+import { Button, Form, Select, Space } from 'antd';
 import React from 'react';
 import { NumberRangeProps, validate } from '..';
+import { StyleInputNumber } from '../style';
 import { RANGE_TYPE } from './constant';
 
 export type ValueOf<T> = T[keyof T];
@@ -12,7 +13,7 @@ export type ValueOfConst<T, K extends keyof T[keyof T]> = T[keyof T][K];
 // }
 
 export default () => {
-  const MAX = 303582079;
+  const MAX = 7966.319861650467;
   const MIN = 0;
   const MAX_DOT_RAW = 1000.5678;
   const MAX_DOT = Math.ceil(MAX_DOT_RAW);
@@ -51,6 +52,8 @@ export default () => {
       labelCol={{ span: 6 }}
       wrapperCol={{ span: 18 }}
       initialValues={{
+        min: MIN,
+        max: MAX,
         numberRange1: [],
         numberRange2: [],
         numberRange3: [
@@ -61,25 +64,24 @@ export default () => {
         numberRange5: [],
         numberRange6: [],
         numberRange7: [],
-        rangeNum: 5,
+        rangeNum: 1000,
         rangeUnit: RANGE_TYPE.step.value,
       }}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
     >
-      <Form.Item label="区间">
-        <Space>
-          <Form.Item>
-            <span>最大值：{MAX}</span>
-            <span>最小值:{MIN}</span>
-          </Form.Item>
-          <Form.Item name="rangeUnit">
-            <Select options={Object.values(RANGE_TYPE)} />
-          </Form.Item>
-          <Form.Item name="rangeNum">
-            <InputNumber />
-          </Form.Item>
-        </Space>
+      <h1>联动案例</h1>
+      <Form.Item label="最大值" name="max">
+        <StyleInputNumber />
+      </Form.Item>
+      <Form.Item label="最小值" name="min">
+        <StyleInputNumber />
+      </Form.Item>
+      <Form.Item label="区间单位" name="rangeUnit">
+        <Select options={Object.values(RANGE_TYPE)} />
+      </Form.Item>
+      <Form.Item label="区间值" name="rangeNum">
+        <StyleInputNumber />
       </Form.Item>
       <Form.Item
         shouldUpdate={(pre, next) => {
@@ -113,6 +115,7 @@ export default () => {
           );
         }}
       </Form.Item>
+      <h1>其他案例</h1>
       <Form.Item
         label="传入具体区间"
         name="numberRange3"
