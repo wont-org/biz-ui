@@ -230,7 +230,7 @@ const NumberRange: FC<NumberRangeProps> = (props) => {
     const updatedRanges = produce([...value], (draft) => {
       draft[index][type] = newValue;
     });
-    onChange?.(updatedRanges);
+    onChange?.([...updatedRanges]);
   };
 
   const addRange = () => {
@@ -239,7 +239,7 @@ const NumberRange: FC<NumberRangeProps> = (props) => {
 
   const deleteRange = (index: number) => {
     const updatedRanges = value.filter((_, i) => i !== index);
-    onChange?.(updatedRanges);
+    onChange?.([...updatedRanges]);
   };
 
   return (
