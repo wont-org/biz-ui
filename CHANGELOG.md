@@ -1,3 +1,9 @@
+## [1.0.3-beta.2](https://github.com/wont-org/biz-ui/compare/v1.0.3-beta.1...v1.0.3-beta.2) (2025-02-06)
+
+### Bug Fixes
+
+- **NumberRange:** onchange 导出浅拷贝数据 ([e94a12e](https://github.com/wont-org/biz-ui/commit/e94a12edd9a41183995451ebfd811f643ffa660e))
+
 ## [1.0.3-beta.1](https://github.com/wont-org/biz-ui/compare/v1.0.2...v1.0.3-beta.1) (2025-02-05)
 
 ### Bug Fixes
