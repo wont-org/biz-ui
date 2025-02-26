@@ -1,6 +1,7 @@
 import { CheckBoxWithAll, InputWithDefault, SwitchPro } from '@wont/biz-ui';
 import { Button, Form } from 'antd';
 import React from 'react';
+import EditableSelect from '../EditableSelect';
 
 const OPTIONS = [
   {
@@ -68,6 +69,17 @@ export default () => {
         ]}
       >
         <InputWithDefault maxLength={11} />
+      </Form.Item>
+      <Form.Item
+        label="EditableSelect"
+        name="EditableSelect"
+        rules={[
+          {
+            required: true,
+          },
+        ]}
+      >
+        <EditableSelect options={OPTIONS} />
       </Form.Item>
 
       <Form.Item label=" " colon={false}>
