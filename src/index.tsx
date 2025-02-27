@@ -5,15 +5,12 @@ export { default as AutoLoadingButton } from './AutoLoadingButton';
 export { default as BlankLink } from './BlankLink';
 export { default as BlockHeader } from './BlockHeader';
 export { default as CaptchaInput } from './CaptchaInput';
+export { default as EditableSelect } from './EditableSelect';
 export { default as Ellipsis } from './Ellipsis';
-export {
-  CheckBoxWithAll,
-  // FormItemWithFormily,
-  InputWithDefault,
-  // NumberPickerWithDefault,
-  // SelectWithDefault,
-  SwitchPro,
-} from './Formily';
+export { default as CheckBoxWithAll } from './Formily/CheckBoxWithAll';
+export { default as InputWithDefault } from './Formily/InputWithDefault';
+export { default as SwitchPro } from './Formily/SwitchPro';
+export { default as TextAreaWithDefault } from './Formily/TextAreaWithDefault';
 export { default as FormulaInput } from './FormulaInput';
 export { default as MultiExpand } from './MultiExpand/index';
 export { default as NumberRange } from './NumberRange';

@@ -1,11 +1,15 @@
-import { CheckBoxWithAll, InputWithDefault, SwitchPro } from '@wont/biz-ui';
+import {
+  CheckBoxWithAll,
+  EditableSelect,
+  InputWithDefault,
+  SwitchPro,
+  TextAreaWithDefault,
+} from '@wont/biz-ui';
 import { sleep } from '@wont/biz-ui/utils/commom';
 import { Button, Form } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
 import { SelectProps } from 'antd/lib';
 import React, { useState } from 'react';
-import EditableSelect from '../../EditableSelect';
-import TextAreaWithDefault from '../TextAreaWithDefault';
 
 const OPTIONS = [
   {
@@ -119,6 +123,7 @@ export default () => {
           options={options}
           isServer
           mode="tags"
+          // defaultOpen
           onAdd={async ({ label }) => {
             const list = await onAdd(label);
             setOptions(list);

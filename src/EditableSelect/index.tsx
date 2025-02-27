@@ -19,7 +19,8 @@ const { Option } = Select;
 
 let isDelete = false;
 
-interface EditableSelectProps extends SelectProps {
+interface EditableSelectProps
+  extends Omit<SelectProps, 'optionLabelProp' | 'popupClassName' | 'dropdownRender'> {
   onDelete?: (val: DefaultOptionType) => Promise<void>;
   onAdd?: (val: DefaultOptionType & { label: string }) => Promise<void>;
   onEdit?: (val: DefaultOptionType) => Promise<void>;
@@ -99,13 +100,15 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
 
   return (
     <Select
+      placeholder="请选择"
+      allowClear
+      showSearch
       {...props}
       mode={mode}
-      popupClassName={mode && 'select-dropdown-reset'}
-      placeholder="请选择"
       value={value}
       onChange={onChange}
       optionLabelProp="label"
+      popupClassName={mode && 'select-dropdown-reset'}
       dropdownRender={(menu) => (
         <div
           onMouseDown={(e) => {
@@ -188,6 +191,7 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
                   loading={submitting}
                   type="link"
                   htmlType="submit"
+                  className="submit-btn-reset"
                   style={{
                     marginRight: mode ? 12 : 0,
                   }}
