@@ -1,7 +1,9 @@
 import { CheckBoxWithAll, InputWithDefault, SwitchPro } from '@wont/biz-ui';
+import { sleep } from '@wont/biz-ui/utils/commom';
 import { Button, Form } from 'antd';
-import React from 'react';
-import EditableSelect from '../EditableSelect';
+import { SelectProps } from 'antd/lib';
+import React, { useState } from 'react';
+import EditableSelect from '../../EditableSelect';
 
 const OPTIONS = [
   {
@@ -17,7 +19,20 @@ const OPTIONS = [
     label: '橙子',
   },
 ];
+
+const onAdd = async (label) => {
+  await sleep(1000);
+  return [
+    ...OPTIONS,
+    {
+      value: label,
+      label: label,
+    },
+  ];
+};
+
 export default () => {
+  const [options, setOptions] = useState<SelectProps['options']>(OPTIONS);
   const onFinish = (values: any) => {
     console.log('Success:', values);
   };
@@ -31,6 +46,7 @@ export default () => {
       labelCol={{ span: 4 }}
       wrapperCol={{ span: 20 }}
       initialValues={{
+        EditableSelect: ['apple'],
         checkBoxWithAll: [],
         switchPro: true,
       }}
@@ -79,11 +95,20 @@ export default () => {
           },
         ]}
       >
-        <EditableSelect options={OPTIONS} />
+        <EditableSelect
+          options={options}
+          isServer
+          mode="tags"
+          onAdd={async ({ label }) => {
+            const list = await onAdd(label);
+            setOptions(list);
+          }}
+          defaultOpen
+        />
       </Form.Item>
 
-      <Form.Item label=" " colon={false}>
-        <Button type="primary" htmlType="submit">
+      <Form.Item>
+        <Button type="primary" htmlType="submit" style={{ paddingRight: 20 }}>
           Submit
         </Button>
       </Form.Item>

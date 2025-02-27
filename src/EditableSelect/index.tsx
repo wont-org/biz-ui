@@ -13,17 +13,18 @@ import {
 } from 'antd';
 import { DefaultOptionType, SelectProps } from 'antd/es/select';
 import React, { useEffect, useState } from 'react';
+import './index.less';
+
+const { Option } = Select;
 
 let isDelete = false;
 
 interface EditableSelectProps extends SelectProps {
   onDelete?: (val: DefaultOptionType) => Promise<void>;
-  onAdd?: (val: DefaultOptionType) => Promise<{
-    value: DefaultOptionType['value'];
-  }>;
+  onAdd?: (val: DefaultOptionType & { label: string }) => Promise<void>;
   onEdit?: (val: DefaultOptionType) => Promise<void>;
-  operateFormItemName: string;
-  inputProps: InputProps;
+  operateFormItemName?: string;
+  inputProps?: InputProps;
   inputFormItemRules?: FormItemProps['rules'];
   isServer?: boolean;
 }
@@ -39,9 +40,11 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
   inputProps = {},
   inputFormItemRules = [{ required: true, message: '该字段是必填字段' }],
   isServer,
+  mode,
   ...props
 }) => {
   const [form] = Form.useForm();
+  const [submitting, setSubmitting] = useState(false);
   const [optionList, setOptionList] = useState<DefaultOptionType[]>(options);
   const [editingItem, setEditingItem] = useState<DefaultOptionType>();
 
@@ -70,8 +73,11 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
 
   const deleteItem = async (item: DefaultOptionType) => {
     setOptionList(optionList.filter((i) => i.value !== item.value));
-    if (item.value === value) {
+    if (typeof value === 'string' && item.value === value) {
       onChange?.(undefined, optionList);
+    } else if (Array.isArray(value) && mode) {
+      const multiValue = value.filter((val) => item.value !== val) || [];
+      onChange?.(multiValue, optionList);
     }
     if (isServer) {
       await onDelete?.(item);
@@ -88,6 +94,8 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
   return (
     <Select
       {...props}
+      mode={mode}
+      popupClassName={mode && 'select-dropdown-reset'}
       placeholder="请选择"
       value={value}
       onChange={onChange}
@@ -103,31 +111,46 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
         >
           {menu}
           <Divider style={{ margin: '8px 0' }} />
-          <Space style={{ padding: '0 8px 4px' }}>
-            <Form
-              form={form}
-              onFinish={async () => {
-                let operateItem: DefaultOptionType | undefined;
-                const label = form.getFieldValue(operateFormItemName);
+          <Form
+            style={{ padding: '0 8px 4px' }}
+            form={form}
+            onFinish={async () => {
+              let operateItem: DefaultOptionType | undefined;
+              const label = form.getFieldValue(operateFormItemName);
 
-                isDelete = false;
+              isDelete = false;
+              try {
                 if (editingItem) {
                   operateItem = optionList.find((item) => item.value === editingItem?.value) || {};
                   operateItem = {
                     ...operateItem,
                     label,
                   };
-                  isServer && (await onEdit?.(operateItem));
-                  const needUpdateValue = operateItem.label !== label;
-                  needUpdateValue && value && onChange?.(operateItem.label, editingItem);
+                  if (isServer) {
+                    setSubmitting(true);
+                    await onEdit?.(operateItem);
+                  }
+                  let needUpdateValue = false;
+                  const _optionList = optionList.map((i) => {
+                    if (i.label !== operateItem?.label && i.value === operateItem?.value) {
+                      needUpdateValue = true;
+                      return {
+                        ...i,
+                        label: operateItem?.label,
+                      };
+                    }
+                    return i;
+                  });
+                  needUpdateValue && setOptionList(_optionList);
                 } else {
-                  const { value: _value } = isServer
-                    ? (await onAdd?.({
-                        label,
-                      })) || {}
-                    : {};
+                  if (isServer) {
+                    setSubmitting(true);
+                    await onAdd?.({
+                      label,
+                    });
+                  }
                   operateItem = {
-                    value: _value || label,
+                    value: label,
                     label,
                   };
                 }
@@ -136,27 +159,45 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
                 if (!isServer) {
                   handleOperateItem(operateItem);
                 }
-              }}
-            >
-              <Space>
-                <Form.Item name={operateFormItemName} rules={inputFormItemRules}>
-                  <Input placeholder="请输入" maxLength={10} showCount {...inputProps} />
-                </Form.Item>
+              } finally {
+                setSubmitting(false);
+              }
+            }}
+          >
+            <div style={{ display: 'flex' }}>
+              <Form.Item
+                name={operateFormItemName}
+                rules={inputFormItemRules}
+                style={{
+                  flex: 1,
+                }}
+              >
+                <Input placeholder="请输入" maxLength={10} showCount {...inputProps} />
+              </Form.Item>
 
-                <Form.Item>
-                  <Button type="link" htmlType="submit">
-                    {editingItem ? '更新' : '添加'}
-                  </Button>
-                </Form.Item>
-              </Space>
-            </Form>
-          </Space>
+              <Form.Item>
+                <Button
+                  loading={submitting}
+                  type="link"
+                  htmlType="submit"
+                  style={{
+                    marginRight: mode ? 12 : 0,
+                  }}
+                >
+                  {editingItem ? '更新' : '添加'}
+                </Button>
+              </Form.Item>
+            </div>
+          </Form>
         </div>
       )}
     >
       {optionList.map((item) => (
-        <Select.Option key={item.value} value={item.value} label={item.label}>
-          <Space style={{ display: 'flex', justifyContent: 'space-between' }} align="center">
+        <Option key={item.value} value={item.value} label={item.label}>
+          <Space
+            style={{ display: 'flex', justifyContent: 'space-between', marginRight: 4 }}
+            align="center"
+          >
             <span>{item.label}</span>
             {/* edit */}
             <div>
@@ -196,7 +237,7 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
               </Popconfirm>
             </div>
           </Space>
-        </Select.Option>
+        </Option>
       ))}
     </Select>
   );
