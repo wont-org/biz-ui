@@ -45,6 +45,7 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
 }) => {
   const [form] = Form.useForm();
   const [submitting, setSubmitting] = useState(false);
+  const [deletingIndex, setDeletingIndex] = useState(-1);
   const [optionList, setOptionList] = useState<DefaultOptionType[]>(options);
   const [editingItem, setEditingItem] = useState<DefaultOptionType>();
 
@@ -71,19 +72,24 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
     }
   };
 
-  const deleteItem = async (item: DefaultOptionType) => {
-    setOptionList(optionList.filter((i) => i.value !== item.value));
-    if (typeof value === 'string' && item.value === value) {
-      onChange?.(undefined, optionList);
-    } else if (Array.isArray(value) && mode) {
-      const multiValue = value.filter((val) => item.value !== val) || [];
-      onChange?.(multiValue, optionList);
+  const deleteItem = async (item: DefaultOptionType, index: number) => {
+    try {
+      if (isServer) {
+        setDeletingIndex(index);
+        await onDelete?.(item);
+      } else {
+        setOptionList(optionList.filter((i) => i.value !== item.value));
+      }
+      if (typeof value === 'string' && item.value === value) {
+        onChange?.(undefined, optionList);
+      } else if (Array.isArray(value) && mode) {
+        const multiValue = value.filter((val) => item.value !== val) || [];
+        onChange?.(multiValue, optionList);
+      }
+      message.success(`删除成功`);
+    } finally {
+      setDeletingIndex(-1);
     }
-    if (isServer) {
-      await onDelete?.(item);
-      return;
-    }
-    message.success(`删除成功`);
   };
 
   // 确保在 options 变更时同步更新 optionList
@@ -129,30 +135,32 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
                   if (isServer) {
                     setSubmitting(true);
                     await onEdit?.(operateItem);
+                  } else {
+                    let needUpdateValue = false;
+                    const _optionList = optionList.map((i) => {
+                      if (i.label !== operateItem?.label && i.value === operateItem?.value) {
+                        needUpdateValue = true;
+                        return {
+                          ...i,
+                          label: operateItem?.label,
+                        };
+                      }
+                      return i;
+                    });
+                    needUpdateValue && setOptionList(_optionList);
                   }
-                  let needUpdateValue = false;
-                  const _optionList = optionList.map((i) => {
-                    if (i.label !== operateItem?.label && i.value === operateItem?.value) {
-                      needUpdateValue = true;
-                      return {
-                        ...i,
-                        label: operateItem?.label,
-                      };
-                    }
-                    return i;
-                  });
-                  needUpdateValue && setOptionList(_optionList);
                 } else {
                   if (isServer) {
                     setSubmitting(true);
                     await onAdd?.({
                       label,
                     });
+                  } else {
+                    operateItem = {
+                      value: label,
+                      label,
+                    };
                   }
-                  operateItem = {
-                    value: label,
-                    label,
-                  };
                 }
                 form.resetFields();
                 setEditingItem(undefined);
@@ -192,7 +200,7 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
         </div>
       )}
     >
-      {optionList.map((item) => (
+      {optionList.map((item, index) => (
         <Option key={item.value} value={item.value} label={item.label}>
           <Space
             style={{ display: 'flex', justifyContent: 'space-between', marginRight: 4 }}
@@ -216,7 +224,7 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
                 description="删除当前分组后，所属事件将被移入未分组中，确认删除吗？"
                 onConfirm={(e) => {
                   e?.stopPropagation();
-                  deleteItem(item);
+                  deleteItem(item, index);
                 }}
                 onCancel={(e) => {
                   e?.stopPropagation();
@@ -228,6 +236,7 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
                   type="link"
                   icon={<DeleteOutlined />}
                   size="small"
+                  loading={deletingIndex === index}
                   onClick={(e) => {
                     isDelete = true;
                     // 阻止点击事件关闭下拉框

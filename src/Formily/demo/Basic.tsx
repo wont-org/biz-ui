@@ -1,6 +1,7 @@
 import { CheckBoxWithAll, InputWithDefault, SwitchPro } from '@wont/biz-ui';
 import { sleep } from '@wont/biz-ui/utils/commom';
 import { Button, Form } from 'antd';
+import { DefaultOptionType } from 'antd/es/select';
 import { SelectProps } from 'antd/lib';
 import React, { useState } from 'react';
 import EditableSelect from '../../EditableSelect';
@@ -19,8 +20,7 @@ const OPTIONS = [
     label: '橙子',
   },
 ];
-
-const onAdd = async (label) => {
+const onAdd = async (label: string) => {
   await sleep(1000);
   return [
     ...OPTIONS,
@@ -29,6 +29,22 @@ const onAdd = async (label) => {
       label: label,
     },
   ];
+};
+const onEdit = async (editOptionItem: DefaultOptionType, options: SelectProps['options'] = []) => {
+  await sleep(1000);
+  return options.map((i) => {
+    if (i.value === editOptionItem.value && i.label !== editOptionItem.label) {
+      return {
+        ...i,
+        label: editOptionItem.label,
+      };
+    }
+    return i;
+  });
+};
+const onDelete = async (delOptionItem: DefaultOptionType, options: SelectProps['options'] = []) => {
+  await sleep(1000);
+  return options.filter((i) => i.value !== delOptionItem.value);
 };
 
 export default () => {
@@ -101,6 +117,14 @@ export default () => {
           mode="tags"
           onAdd={async ({ label }) => {
             const list = await onAdd(label);
+            setOptions(list);
+          }}
+          onEdit={async (editOptionItem) => {
+            const list = await onEdit(editOptionItem, options);
+            setOptions(list);
+          }}
+          onDelete={async (editOptionItem) => {
+            const list = await onDelete(editOptionItem, options);
             setOptions(list);
           }}
           defaultOpen
