@@ -5,6 +5,7 @@ import { DefaultOptionType } from 'antd/es/select';
 import { SelectProps } from 'antd/lib';
 import React, { useState } from 'react';
 import EditableSelect from '../../EditableSelect';
+import TextAreaWithDefault from '../TextAreaWithDefault';
 
 const OPTIONS = [
   {
@@ -100,7 +101,10 @@ export default () => {
           },
         ]}
       >
-        <InputWithDefault maxLength={11} />
+        <InputWithDefault />
+      </Form.Item>
+      <Form.Item label="TextAreaWithDefault" name="TextAreaWithDefault">
+        <TextAreaWithDefault />
       </Form.Item>
       <Form.Item
         label="EditableSelect"
@@ -127,7 +131,6 @@ export default () => {
             const list = await onDelete(editOptionItem, options);
             setOptions(list);
           }}
-          defaultOpen
         />
       </Form.Item>
 
