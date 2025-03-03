@@ -11,7 +11,7 @@ import { DefaultOptionType } from 'antd/es/select';
 import { SelectProps } from 'antd/lib';
 import React, { useState } from 'react';
 
-const OPTIONS = [
+const OPTIONS: SelectProps['options'] = [
   {
     value: 'apple',
     label: '苹果',
@@ -19,6 +19,7 @@ const OPTIONS = [
   {
     value: 'bannan',
     label: '香蕉',
+    disabled: true,
   },
   {
     value: 'orange',

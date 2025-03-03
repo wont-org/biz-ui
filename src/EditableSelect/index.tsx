@@ -205,50 +205,52 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
       )}
     >
       {optionList.map((item, index) => (
-        <Option key={item.value} value={item.value} label={item.label}>
+        <Option key={item.value} value={item.value} label={item.label} disabled={item.disabled}>
           <Space
             style={{ display: 'flex', justifyContent: 'space-between', marginRight: 4 }}
             align="center"
           >
             <span>{item.label}</span>
             {/* edit */}
-            <div>
-              <Button
-                type="link"
-                icon={<EditOutlined />}
-                size="small"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setEditingItem(item);
-                  form.setFieldValue(operateFormItemName, item.label);
-                }}
-              />
-              <Popconfirm
-                title="确认删除？"
-                description="删除当前分组后，所属事件将被移入未分组中，确认删除吗？"
-                onConfirm={(e) => {
-                  e?.stopPropagation();
-                  deleteItem(item, index);
-                }}
-                onCancel={(e) => {
-                  e?.stopPropagation();
-                }}
-                okText="确认"
-                cancelText="取消"
-              >
+            {!item.disabled && (
+              <div>
                 <Button
                   type="link"
-                  icon={<DeleteOutlined />}
+                  icon={<EditOutlined />}
                   size="small"
-                  loading={deletingIndex === index}
                   onClick={(e) => {
-                    isDelete = true;
-                    // 阻止点击事件关闭下拉框
                     e.stopPropagation();
+                    setEditingItem(item);
+                    form.setFieldValue(operateFormItemName, item.label);
                   }}
                 />
-              </Popconfirm>
-            </div>
+                <Popconfirm
+                  title="确认删除？"
+                  description="删除当前分组后，所属事件将被移入未分组中，确认删除吗？"
+                  onConfirm={(e) => {
+                    e?.stopPropagation();
+                    deleteItem(item, index);
+                  }}
+                  onCancel={(e) => {
+                    e?.stopPropagation();
+                  }}
+                  okText="确认"
+                  cancelText="取消"
+                >
+                  <Button
+                    type="link"
+                    icon={<DeleteOutlined />}
+                    size="small"
+                    loading={deletingIndex === index}
+                    onClick={(e) => {
+                      isDelete = true;
+                      // 阻止点击事件关闭下拉框
+                      e.stopPropagation();
+                    }}
+                  />
+                </Popconfirm>
+              </div>
+            )}
           </Space>
         </Option>
       ))}
