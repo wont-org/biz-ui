@@ -1,3 +1,17 @@
+# [1.1.0-beta.1](https://github.com/wont-org/biz-ui/compare/v1.0.3-beta.2...v1.1.0-beta.1) (2025-03-03)
+
+### Features
+
+- 支持禁用功能 ([15d1d71](https://github.com/wont-org/biz-ui/commit/15d1d71e7e531d2ed9e357d3ef7e37cccbfe94ce))
+- **EditableSelect:** 可增删改的 select ([bcee9c9](https://github.com/wont-org/biz-ui/commit/bcee9c973b773fab1391c728c01830f5a2edd9db))
+- **EditableSelect:** 支持多选 ([2be6db8](https://github.com/wont-org/biz-ui/commit/2be6db80bd311511ea1e390388ed9701d4625c0b))
+- **EditableSelect:** 支持服务端删除编辑 ([a2d29ad](https://github.com/wont-org/biz-ui/commit/a2d29ad74d211fa0780af817b3570d2df934d403))
+- **TextAreaWithDefault:** 文本域 ([dfc8df5](https://github.com/wont-org/biz-ui/commit/dfc8df5205cc3fd3769fb5eabfbfe016de98845e))
+
+### Reverts
+
+- Revert "fix(NumberRange): onchange 导出浅拷贝数据" ([4ad5be7](https://github.com/wont-org/biz-ui/commit/4ad5be759d73a932b84539ad8a7b78af2c6b04c8))
+
 ## [1.0.3-beta.2](https://github.com/wont-org/biz-ui/compare/v1.0.3-beta.1...v1.0.3-beta.2) (2025-02-06)
 
 ### Bug Fixes
