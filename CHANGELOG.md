@@ -1,3 +1,9 @@
+# [1.1.0-beta.2](https://github.com/wont-org/biz-ui/compare/v1.1.0-beta.1...v1.1.0-beta.2) (2025-03-07)
+
+### Bug Fixes
+
+- select open, reset state ([51d90b6](https://github.com/wont-org/biz-ui/commit/51d90b6a3ef3d5af2f6827e0e041e4ac8712e5ff))
+
 # [1.1.0-beta.1](https://github.com/wont-org/biz-ui/compare/v1.0.3-beta.2...v1.1.0-beta.1) (2025-03-03)
 
 ### Features
