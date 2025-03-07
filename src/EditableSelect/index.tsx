@@ -54,6 +54,12 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
     isServer && setOptionList(options);
   }, [isServer, options]);
 
+  const reset = () => {
+    setDeletingIndex(-1);
+    setEditingItem(undefined);
+    form.resetFields();
+  };
+
   const handleOperateItem = (optionItem?: DefaultOptionType) => {
     const _value = optionItem?.value;
     if (!_value) {
@@ -109,6 +115,11 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
       onChange={onChange}
       optionLabelProp="label"
       popupClassName={mode && 'select-dropdown-reset'}
+      onDropdownVisibleChange={(open) => {
+        if (open) {
+          reset();
+        }
+      }}
       dropdownRender={(menu) => (
         <div
           onMouseDown={(e) => {
