@@ -2,9 +2,12 @@ import {
   CheckBoxWithAll,
   EditableSelect,
   InputWithDefault,
+  MultipleSelect,
+  PrefixInput,
   SwitchPro,
   TextAreaWithDefault,
 } from '@wont/biz-ui';
+import { PREFIX } from '@wont/biz-ui/PrefixInput/constant';
 import { sleep } from '@wont/biz-ui/utils/commom';
 import { Button, Form } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
@@ -71,6 +74,11 @@ export default () => {
         EditableSelect: ['apple'],
         checkBoxWithAll: [],
         switchPro: true,
+        PrefixInput: {
+          type: PREFIX.global.value,
+          value: '111',
+        },
+        MultipleSelect: ['apple'],
       }}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
@@ -138,6 +146,28 @@ export default () => {
             setOptions(list);
           }}
         />
+      </Form.Item>
+      <Form.Item
+        label="PrefixInput"
+        name="PrefixInput"
+        rules={[
+          {
+            required: true,
+          },
+        ]}
+      >
+        <PrefixInput />
+      </Form.Item>
+      <Form.Item
+        label="MultipleSelect"
+        name="MultipleSelect"
+        rules={[
+          {
+            required: true,
+          },
+        ]}
+      >
+        <MultipleSelect options={OPTIONS} />
       </Form.Item>
 
       <Form.Item>
