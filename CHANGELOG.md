@@ -1,3 +1,9 @@
+# [1.1.0-beta.3](https://github.com/wont-org/biz-ui/compare/v1.1.0-beta.2...v1.1.0-beta.3) (2025-03-10)
+
+### Features
+
+- 自定义多选下拉和前缀输入框 ([407f7f8](https://github.com/wont-org/biz-ui/commit/407f7f82cee316eec527b0cbb488f9796842a313))
+
 # [1.1.0-beta.2](https://github.com/wont-org/biz-ui/compare/v1.1.0-beta.1...v1.1.0-beta.2) (2025-03-07)
 
 ### Bug Fixes
