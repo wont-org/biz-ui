@@ -5,19 +5,18 @@ export { default as AutoLoadingButton } from './AutoLoadingButton';
 export { default as BlankLink } from './BlankLink';
 export { default as BlockHeader } from './BlockHeader';
 export { default as CaptchaInput } from './CaptchaInput';
+export { default as EditableSelect } from './EditableSelect';
 export { default as Ellipsis } from './Ellipsis';
-export {
-  CheckBoxWithAll,
-  // FormItemWithFormily,
-  InputWithDefault,
-  // NumberPickerWithDefault,
-  // SelectWithDefault,
-  SwitchPro,
-} from './Formily';
+export { default as CheckBoxWithAll } from './Formily/CheckBoxWithAll';
+export { default as InputWithDefault } from './Formily/InputWithDefault';
+export { default as MultipleSelect } from './Formily/MultipleSelect';
+export { default as SwitchPro } from './Formily/SwitchPro';
+export { default as TextAreaWithDefault } from './Formily/TextAreaWithDefault';
 export { default as FormulaInput } from './FormulaInput';
 export { default as MultiExpand } from './MultiExpand/index';
 export { default as NumberRange } from './NumberRange';
 export { default as Operate } from './Operate';
+export { default as PrefixInput } from './PrefixInput';
 export { default as PuzzleCaptcha } from './PuzzleCaptcha';
 export { default as CardSkeleton } from './Skeleton/CardSkeleton';
 export { default as DescriptionsWithSkeleton } from './Skeleton/DescriptionsWithSkeleton';
