@@ -1,3 +1,9 @@
+# [1.1.0-beta.4](https://github.com/wont-org/biz-ui/compare/v1.1.0-beta.3...v1.1.0-beta.4) (2025-03-24)
+
+### Features
+
+- **EditableSelect:** 删除确认参数透传 ([835a6ba](https://github.com/wont-org/biz-ui/commit/835a6ba6ae827aba0d4c82eeb2c540f5169df581))
+
 # [1.1.0-beta.3](https://github.com/wont-org/biz-ui/compare/v1.1.0-beta.2...v1.1.0-beta.3) (2025-03-10)
 
 ### Features
