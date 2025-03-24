@@ -14,7 +14,7 @@ import { DefaultOptionType } from 'antd/es/select';
 import { SelectProps } from 'antd/lib';
 import React, { useState } from 'react';
 
-const OPTIONS: SelectProps['options'] = [
+const getDefaultOptions = (): Required<SelectProps>['options'] => [
   {
     value: 'apple',
     label: '苹果',
@@ -32,7 +32,7 @@ const OPTIONS: SelectProps['options'] = [
 const onAdd = async (label: string) => {
   await sleep(1000);
   return [
-    ...OPTIONS,
+    ...getDefaultOptions(),
     {
       value: label,
       label: label,
@@ -57,7 +57,7 @@ const onDelete = async (delOptionItem: DefaultOptionType, options: SelectProps['
 };
 
 export default () => {
-  const [options, setOptions] = useState<SelectProps['options']>(OPTIONS);
+  const [options, setOptions] = useState<SelectProps['options']>(getDefaultOptions());
   const onFinish = (values: any) => {
     console.log('Success:', values);
   };
@@ -78,7 +78,8 @@ export default () => {
           type: PREFIX.global.value,
           value: '111',
         },
-        MultipleSelect: ['apple'],
+        MultipleSelect: 'apple',
+        // MultipleSelect: ['apple'],
       }}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
@@ -92,7 +93,7 @@ export default () => {
           },
         ]}
       >
-        <CheckBoxWithAll options={OPTIONS} />
+        <CheckBoxWithAll options={getDefaultOptions()} />
       </Form.Item>
       <Form.Item
         label="SwitchPro"
@@ -131,7 +132,7 @@ export default () => {
         <EditableSelect
           options={options}
           isServer
-          mode="tags"
+          // mode="tags"
           // defaultOpen
           onAdd={async ({ label }) => {
             const list = await onAdd(label);
@@ -167,12 +168,20 @@ export default () => {
           },
         ]}
       >
-        <MultipleSelect options={OPTIONS} />
+        <MultipleSelect options={getDefaultOptions()} />
       </Form.Item>
 
       <Form.Item>
         <Button type="primary" htmlType="submit" style={{ paddingRight: 20 }}>
           Submit
+        </Button>
+        <Button
+          style={{ paddingRight: 20 }}
+          onClick={() => {
+            setOptions(getDefaultOptions());
+          }}
+        >
+          重置下拉框
         </Button>
       </Form.Item>
     </Form>

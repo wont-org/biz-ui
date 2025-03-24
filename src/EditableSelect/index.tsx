@@ -99,7 +99,7 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
       } else {
         setOptionList(optionList.filter((i) => i.value !== item.value));
       }
-      if (typeof value === 'string' && item.value === value) {
+      if (item.value && String(item.value) === String(value)) {
         onChange?.(undefined, optionList);
       } else if (Array.isArray(value) && mode) {
         const multiValue = value.filter((val) => item.value !== val) || [];
