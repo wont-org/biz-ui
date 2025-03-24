@@ -1,3 +1,9 @@
+# [1.1.0-beta.5](https://github.com/wont-org/biz-ui/compare/v1.1.0-beta.4...v1.1.0-beta.5) (2025-03-24)
+
+### Bug Fixes
+
+- **EditableSelect:** 单选, 删除选项时,值相同则清空 ([e1d789a](https://github.com/wont-org/biz-ui/commit/e1d789a141f2a6e18c71de5019dc50c614ef7871))
+
 # [1.1.0-beta.4](https://github.com/wont-org/biz-ui/compare/v1.1.0-beta.3...v1.1.0-beta.4) (2025-03-24)
 
 ### Features
