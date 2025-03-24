@@ -8,6 +8,7 @@ import {
   InputProps,
   message,
   Popconfirm,
+  PopconfirmProps,
   Select,
   Space,
 } from 'antd';
@@ -28,6 +29,7 @@ interface EditableSelectProps
   inputProps?: InputProps;
   inputFormItemRules?: FormItemProps['rules'];
   isServer?: boolean;
+  popconfirmProps?: PopconfirmProps;
 }
 
 const EditableSelect: React.FC<EditableSelectProps> = ({
@@ -39,6 +41,16 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
   onAdd,
   operateFormItemName = 'editLabel',
   inputProps = {},
+  popconfirmProps = {
+    title: (
+      <>
+        <div>确认删除？</div>
+        <div>删除当前分组后，所属事件将被移入未分组中，确认删除吗？</div>
+      </>
+    ),
+    okText: '确认',
+    cancelText: '取消',
+  },
   inputFormItemRules = [{ required: true, message: '该字段是必填字段' }],
   isServer,
   mode,
@@ -141,9 +153,10 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
               isDelete = false;
               try {
                 if (editingItem) {
-                  operateItem = optionList.find((item) => item.value === editingItem?.value) || {};
+                  const _operateItem =
+                    optionList.find((item) => item.value === editingItem?.value) || {};
                   operateItem = {
-                    ...operateItem,
+                    ..._operateItem,
                     label,
                   };
                   if (isServer) {
@@ -236,8 +249,7 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
                   }}
                 />
                 <Popconfirm
-                  title="确认删除？"
-                  description="删除当前分组后，所属事件将被移入未分组中，确认删除吗？"
+                  {...popconfirmProps}
                   onConfirm={(e) => {
                     e?.stopPropagation();
                     deleteItem(item, index);
@@ -245,8 +257,6 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
                   onCancel={(e) => {
                     e?.stopPropagation();
                   }}
-                  okText="确认"
-                  cancelText="取消"
                 >
                   <Button
                     type="link"
