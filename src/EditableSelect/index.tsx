@@ -125,7 +125,9 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
       mode={mode}
       value={value}
       onChange={onChange}
-      optionLabelProp="label"
+      filterOption={(input, option) =>
+        (option?.label as string)?.toLowerCase().includes(input?.toLowerCase())
+      }
       popupClassName={mode && 'select-dropdown-reset'}
       onDropdownVisibleChange={(open) => {
         if (open) {
