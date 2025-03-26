@@ -11,3 +11,4 @@ docs-dist
 test.*
 .yalc
 yalc.lock
+coverage

@@ -236,7 +236,7 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
           >
             <span>{item.label}</span>
             {/* edit */}
-            {!item.disabled && (
+            {!item.disabled && !item.operateDisabled && (
               <div>
                 <Button
                   type="link"

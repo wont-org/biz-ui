@@ -28,6 +28,11 @@ const getDefaultOptions = (): Required<SelectProps>['options'] => [
     value: 'orange',
     label: '橙子',
   },
+  {
+    value: 'none',
+    label: '未分组',
+    operateDisabled: true,
+  },
 ];
 const onAdd = async (label: string) => {
   await sleep(1000);
