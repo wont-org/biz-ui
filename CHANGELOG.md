@@ -1,3 +1,14 @@
+# [1.1.0-beta.6](https://github.com/wont-org/biz-ui/compare/v1.1.0-beta.5...v1.1.0-beta.6) (2025-03-26)
+
+### Bug Fixes
+
+- **EditableSelect:** 增加检索功能 ([55b4679](https://github.com/wont-org/biz-ui/commit/55b4679bf61374a76febda26fbffa562660a91c2))
+- **EditableSelect:** disabled ([37bcd5c](https://github.com/wont-org/biz-ui/commit/37bcd5c3f83062a2b4b9936b738fb20733af9708))
+
+### Features
+
+- **EditableSelect:** 增加 afterDelete ([497d77a](https://github.com/wont-org/biz-ui/commit/497d77a2c8c152e9d387dfb40acfd90250d0548d))
+
 # [1.1.0-beta.5](https://github.com/wont-org/biz-ui/compare/v1.1.0-beta.4...v1.1.0-beta.5) (2025-03-24)
 
 ### Bug Fixes
