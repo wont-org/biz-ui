@@ -23,6 +23,7 @@ let isDelete = false;
 interface EditableSelectProps
   extends Omit<SelectProps, 'optionLabelProp' | 'popupClassName' | 'dropdownRender'> {
   onDelete?: (val: DefaultOptionType) => Promise<void>;
+  afterDelete?: (val: DefaultOptionType) => Promise<void>;
   onAdd?: (val: DefaultOptionType & { label: string }) => Promise<void>;
   onEdit?: (val: DefaultOptionType) => Promise<void>;
   operateFormItemName?: string;
@@ -37,6 +38,7 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
   onChange,
   options = [],
   onDelete,
+  afterDelete,
   onEdit,
   onAdd,
   operateFormItemName = 'editLabel',
@@ -105,6 +107,7 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
         const multiValue = value.filter((val) => item.value !== val) || [];
         onChange?.(multiValue, optionList);
       }
+      await afterDelete?.(item);
       message.success(`删除成功`);
     } finally {
       setDeletingIndex(-1);
