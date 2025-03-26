@@ -1,2 +1,5 @@
 _assets/
 .eslintrc.js
+es
+lib
+node_modules
