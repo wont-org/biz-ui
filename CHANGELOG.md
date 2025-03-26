@@ -1,3 +1,9 @@
+# [1.1.0-beta.7](https://github.com/wont-org/biz-ui/compare/v1.1.0-beta.6...v1.1.0-beta.7) (2025-03-26)
+
+### Bug Fixes
+
+- **EditableSelect:** optionLabelProp ([d5212eb](https://github.com/wont-org/biz-ui/commit/d5212ebad4875c7101746378dbc8b4a91d0dd83b))
+
 # [1.1.0-beta.6](https://github.com/wont-org/biz-ui/compare/v1.1.0-beta.5...v1.1.0-beta.6) (2025-03-26)
 
 ### Bug Fixes
