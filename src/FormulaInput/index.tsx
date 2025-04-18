@@ -18,7 +18,7 @@ export const validator = (rule: any, val: FormulaInputProps['value']) => {
 interface ValueItem extends Record<string, any> {
   value?: string | number | null;
   valueType: ValueOfConst<typeof FORMULA, 'valueType'>;
-  type?: ValueOfConst<typeof FORMULA, 'value'>;
+  type?: string | number | null;
 }
 export interface FormulaInputProps {
   value?: (ValueItem | string)[];
@@ -26,6 +26,11 @@ export interface FormulaInputProps {
   typeSelectProps?: SelectProps;
   valueSelectProps?: SelectProps;
   inputNumberProps?: InputNumberProps;
+  // fieldNames?: {
+  //   value?: string;
+  //   valueType?: ValueItem['valueType'];
+  //   type?: string;
+  // };
 }
 const FormulaInput = (props: FormulaInputProps) => {
   const {
@@ -34,6 +39,11 @@ const FormulaInput = (props: FormulaInputProps) => {
     typeSelectProps = {},
     onChange,
     inputNumberProps = {},
+    // fieldNames = {
+    //   value: 'value',
+    //   valueType: 'valueType',
+    //   type: 'type',
+    // },
   } = props;
   const { options: valueOptions = [], ...restValueSelectProps } = valueSelectProps;
   const { options: typeOptions = Object.values(FORMULA), ...restTypeSelectProps } = typeSelectProps;
@@ -57,7 +67,7 @@ const FormulaInput = (props: FormulaInputProps) => {
       value.map((e) => {
         if (typeof e === 'object') {
           return {
-            valueType: e.type || 'text',
+            valueType: e.valueType || FORMULA.text.valueType,
             value: e.value,
           };
         }
