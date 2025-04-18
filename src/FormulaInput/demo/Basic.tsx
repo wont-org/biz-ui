@@ -1,7 +1,8 @@
 import { FormulaInput } from '@wont/biz-ui';
-import { Button, Form } from 'antd';
+import { Button, Form, Space } from 'antd';
 import React from 'react';
 import { validator } from '..';
+import { FORMULA } from '../constant';
 
 const OPTIONS = [
   {
@@ -46,12 +47,29 @@ export default () => {
           },
         ]}
       >
-        <FormulaInput options={OPTIONS} />
+        <FormulaInput
+          valueSelectProps={{
+            options: OPTIONS,
+          }}
+          typeSelectProps={{
+            options: [
+              {
+                value: 'clicks',
+                valueType: 'text',
+                label: '点击数(clicks)',
+              },
+              ...Object.values(FORMULA),
+            ],
+          }}
+        />
       </Form.Item>
       <Form.Item label=" " colon={false}>
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
+        <Space>
+          <Button type="primary" htmlType="submit">
+            Submit
+          </Button>
+          <Button htmlType="reset">Reset</Button>
+        </Space>
       </Form.Item>
     </Form>
   );
