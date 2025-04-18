@@ -8,6 +8,7 @@ import {
   InputProps,
   message,
   Popconfirm,
+  PopconfirmProps,
   Select,
   Space,
 } from 'antd';
@@ -22,12 +23,14 @@ let isDelete = false;
 interface EditableSelectProps
   extends Omit<SelectProps, 'optionLabelProp' | 'popupClassName' | 'dropdownRender'> {
   onDelete?: (val: DefaultOptionType) => Promise<void>;
+  afterDelete?: (val: DefaultOptionType) => Promise<void>;
   onAdd?: (val: DefaultOptionType & { label: string }) => Promise<void>;
   onEdit?: (val: DefaultOptionType) => Promise<void>;
   operateFormItemName?: string;
   inputProps?: InputProps;
   inputFormItemRules?: FormItemProps['rules'];
   isServer?: boolean;
+  popconfirmProps?: PopconfirmProps;
 }
 
 const EditableSelect: React.FC<EditableSelectProps> = ({
@@ -35,10 +38,21 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
   onChange,
   options = [],
   onDelete,
+  afterDelete,
   onEdit,
   onAdd,
   operateFormItemName = 'editLabel',
   inputProps = {},
+  popconfirmProps = {
+    title: (
+      <>
+        <div>确认删除？</div>
+        <div>删除当前分组后，所属事件将被移入未分组中，确认删除吗？</div>
+      </>
+    ),
+    okText: '确认',
+    cancelText: '取消',
+  },
   inputFormItemRules = [{ required: true, message: '该字段是必填字段' }],
   isServer,
   mode,
@@ -87,12 +101,13 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
       } else {
         setOptionList(optionList.filter((i) => i.value !== item.value));
       }
-      if (typeof value === 'string' && item.value === value) {
+      if (item.value && String(item.value) === String(value)) {
         onChange?.(undefined, optionList);
       } else if (Array.isArray(value) && mode) {
         const multiValue = value.filter((val) => item.value !== val) || [];
         onChange?.(multiValue, optionList);
       }
+      await afterDelete?.(item);
       message.success(`删除成功`);
     } finally {
       setDeletingIndex(-1);
@@ -114,6 +129,9 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
       value={value}
       onChange={onChange}
       optionLabelProp="label"
+      filterOption={(input, option) =>
+        (option?.label as string)?.toLowerCase().includes(input?.toLowerCase())
+      }
       popupClassName={mode && 'select-dropdown-reset'}
       onDropdownVisibleChange={(open) => {
         if (open) {
@@ -141,9 +159,10 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
               isDelete = false;
               try {
                 if (editingItem) {
-                  operateItem = optionList.find((item) => item.value === editingItem?.value) || {};
+                  const _operateItem =
+                    optionList.find((item) => item.value === editingItem?.value) || {};
                   operateItem = {
-                    ...operateItem,
+                    ..._operateItem,
                     label,
                   };
                   if (isServer) {
@@ -223,7 +242,7 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
           >
             <span>{item.label}</span>
             {/* edit */}
-            {!item.disabled && (
+            {!item.disabled && !item.operateDisabled && (
               <div>
                 <Button
                   type="link"
@@ -236,8 +255,7 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
                   }}
                 />
                 <Popconfirm
-                  title="确认删除？"
-                  description="删除当前分组后，所属事件将被移入未分组中，确认删除吗？"
+                  {...popconfirmProps}
                   onConfirm={(e) => {
                     e?.stopPropagation();
                     deleteItem(item, index);
@@ -245,8 +263,6 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
                   onCancel={(e) => {
                     e?.stopPropagation();
                   }}
-                  okText="确认"
-                  cancelText="取消"
                 >
                   <Button
                     type="link"
