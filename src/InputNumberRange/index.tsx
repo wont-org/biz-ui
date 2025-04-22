@@ -1,5 +1,5 @@
 import { InputNumber, InputNumberProps } from 'antd';
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import { styled } from 'styled-components';
 import { INPUT_NUMBER_PROPS } from '../utils/antd';
 
@@ -9,9 +9,10 @@ const RangeContainer = styled.div`
 `;
 
 export interface InputNumberRangeProps {
-  value?: [number | undefined, number | undefined];
-  onChange?: (value: [number | undefined, number | undefined]) => void;
+  value?: [number | undefined | null, number | undefined | null];
+  onChange?: (value: InputNumberRangeProps['value']) => void;
   disabled?: boolean;
+  style?: CSSProperties;
   inputNumberProps?: InputNumberProps;
 }
 
@@ -20,17 +21,11 @@ type ValueType = string | number;
 const InputNumberRange: React.FC<InputNumberRangeProps> = ({
   value = [undefined, undefined],
   onChange,
+  style = {},
   inputNumberProps = INPUT_NUMBER_PROPS,
   disabled = false,
 }) => {
-  const {
-    min,
-    max,
-    style = {
-      width: 100,
-    },
-    ...restInputNumberProps
-  } = inputNumberProps;
+  const { min, max, ...restInputNumberProps } = inputNumberProps;
   const [start, end] = value;
 
   const handleStartChange = (newStart: ValueType | null) => {
@@ -50,12 +45,14 @@ const InputNumberRange: React.FC<InputNumberRangeProps> = ({
   };
 
   return (
-    <RangeContainer>
+    <RangeContainer style={style}>
       <InputNumber
         placeholder="请输入"
         {...INPUT_NUMBER_PROPS}
         {...restInputNumberProps}
-        style={style}
+        style={{
+          width: '100%',
+        }}
         min={min}
         max={end !== undefined ? end : max}
         value={start}
@@ -65,8 +62,11 @@ const InputNumberRange: React.FC<InputNumberRangeProps> = ({
       <span style={{ margin: '0 8px' }}>至</span>
       <InputNumber
         placeholder="请输入"
+        {...INPUT_NUMBER_PROPS}
         {...restInputNumberProps}
-        style={style}
+        style={{
+          width: '100%',
+        }}
         value={end}
         onChange={handleEndChange}
         min={start !== undefined ? start : min}
@@ -77,5 +77,4 @@ const InputNumberRange: React.FC<InputNumberRangeProps> = ({
   );
 };
 
-export { InputNumberRange };
 export default InputNumberRange;

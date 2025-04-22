@@ -9,6 +9,7 @@ export const StyledRelation = styled.div<{
   margin: 0 0 10px 20px;
   border-left: 1px solid #cbd5ee;
   .radioItem {
+    text-align: center;
     position: absolute;
     left: -15px;
     z-index: 10;
@@ -47,21 +48,5 @@ export const StyledFilterItem = styled.div`
   .operator-field {
     width: 100px;
     margin-right: 8px;
-  }
-
-  .value-field {
-    min-width: 150px;
-  }
-
-  .add-condition {
-    margin-left: 8px;
-    cursor: pointer;
-    color: #0251ff;
-  }
-
-  .remove-condition {
-    margin-left: 8px;
-    cursor: pointer;
-    color: #ff4d4f;
   }
 `;

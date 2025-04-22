@@ -1,20 +1,50 @@
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
-import { InputNumberRange } from '@wont/biz-ui';
+import {
+  ProFormDatePicker,
+  ProFormDateRangePicker,
+  ProFormDateTimePicker,
+  ProFormDateTimeRangePicker,
+  ProFormSelect,
+  ProFormText,
+  ProFormTextArea,
+} from '@ant-design/pro-components';
 import { Button, Form, InputNumber, InputNumberProps, Select, SelectProps, Tooltip } from 'antd';
+import { FormItemProps } from 'antd/es/form';
 import { DefaultOptionType } from 'antd/lib/select';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { CSSProperties, useCallback, useState } from 'react';
+import MultipleSelect from '../Formily/MultipleSelect';
+import InputNumberRange from '../InputNumberRange';
 import { INPUT_NUMBER_PROPS } from '../utils/antd';
-import { ValueOfConstWithType } from '../utils/types';
-import { OPERATORS, RELATION } from './constant';
+import {
+  COMPONENT,
+  ComponentType,
+  FieldType,
+  FilterFieldMapItem,
+  FilterFieldMapType,
+  FILTER_FIELD_MAP,
+  OPERATORS,
+  OperatorType,
+  RELATION,
+} from './constant';
 import Relation, { RelationProps } from './Relation';
 import { StyledFilterItem } from './styled';
 
-export type OperatorType = ValueOfConstWithType<typeof OPERATORS, 'value'>;
+// 条件值类型
+export type ConditionValue =
+  | string
+  | number
+  | boolean
+  | [number | undefined | null, number | undefined | null]
+  | null
+  | undefined;
+
 export type ConditionType = {
   field: DefaultOptionType['value'];
+  fieldType: FieldType;
   operator: OperatorType;
-  value: number | [number | undefined, number | undefined] | null | undefined;
-} & Record<string, any>;
+  value: ConditionValue;
+  [key: string]: unknown;
+};
 
 export interface FilterValue {
   relation: RelationProps['value'];
@@ -54,77 +84,277 @@ export interface FilterProps {
    * 初始化时是否校验
    */
   validateOnInit?: boolean;
+  /**
+   * 字段类型映射配置
+   */
+  filterFieldMap?: FilterFieldMapType;
 }
 
 // 验证条件值是否有效
-const isValueValid = (condition: ConditionType) => {
+const isValueValid = (condition: ConditionType): boolean => {
   const { operator, value: conditionValue } = condition;
 
-  // hasValue 和 noValue 不需要额外的值
-  if (operator === OPERATORS.hasValue.value || operator === OPERATORS.noValue.value) {
+  // hasValue、noValue、isTrue、isFalse 不需要额外的值
+  if (
+    operator === OPERATORS.hasValue.value ||
+    operator === OPERATORS.noValue.value ||
+    operator === OPERATORS.isTrue.value ||
+    operator === OPERATORS.isFalse.value
+  ) {
     return true;
   }
 
   // 区间操作符需要两个值都有效
-  if (condition.operator === OPERATORS.range.value) {
-    const rangeValue = conditionValue as [number | undefined, number | undefined] | undefined;
-    if (!rangeValue || !Array.isArray(rangeValue)) {
-      return false;
+  if (operator === OPERATORS.range.value) {
+    if (Array.isArray(conditionValue)) {
+      const rangeValue = conditionValue as [number | undefined | null, number | undefined | null];
+      return (
+        rangeValue[0] !== undefined &&
+        rangeValue[0] !== null &&
+        rangeValue[1] !== undefined &&
+        rangeValue[1] !== null
+      );
     }
-    // 两个值都需要有效
-    return rangeValue[0] !== undefined && rangeValue[1] !== undefined;
+    return false;
   }
 
   // 其他操作符需要值
-  return conditionValue !== undefined && conditionValue !== null;
+  return conditionValue !== undefined && conditionValue !== null && conditionValue !== '';
 };
-export const validator = (value?: FilterValue) => {
-  if (value && value.filterList && value.filterList.length > 0) {
-    // 检查每个条件是否有效
-    const isValid = value.filterList.every((condition: ConditionType) => {
-      return isValueValid(condition);
-    });
 
-    return isValid;
+/**
+ * 验证过滤条件是否有效
+ * @param value 过滤条件值
+ * @returns 是否有效
+ */
+export const validator = (value?: FilterValue): boolean => {
+  if (!value || !value.filterList || value.filterList.length === 0) {
+    return false;
   }
-  return false;
+
+  // 检查每个条件是否有效
+  return value.filterList.every((condition: ConditionType) => {
+    // 检查是否存在必填字段
+    if (!condition.field || !condition.fieldType || !condition.operator) {
+      return false;
+    }
+    return isValueValid(condition);
+  });
 };
 
-export default function Filter(props: FilterProps) {
+// 根据组件类型和属性渲染不同的值组件
+const renderValueComponent = (
+  component: ComponentType | undefined,
+  props: Record<string, unknown>,
+  formItemProps: FormItemProps,
+) => {
+  if (!component) {
+    return null;
+  }
+
+  const { value, onChange, style = {}, ...restProps } = props;
+
+  const styleProps: CSSProperties = {
+    ...(style as CSSProperties),
+    width: '100%',
+  };
+
+  switch (component) {
+    case COMPONENT.input.value:
+      return (
+        <ProFormText
+          formItemProps={formItemProps}
+          fieldProps={{
+            style: styleProps,
+            placeholder: '请输入',
+            allowClear: true,
+            ...(restProps as any),
+            value: value as string,
+            onChange: (e) => {
+              if (typeof onChange === 'function') {
+                onChange(e.target.value);
+              }
+            },
+          }}
+        />
+      );
+    case COMPONENT.textarea.value:
+      return (
+        <ProFormTextArea
+          formItemProps={formItemProps}
+          fieldProps={{
+            style: styleProps,
+            placeholder: '请输入',
+            allowClear: true,
+            ...(restProps as any),
+            value: value as string,
+            onChange: (e) => {
+              if (typeof onChange === 'function') {
+                onChange(e.target.value);
+              }
+            },
+          }}
+        />
+      );
+    case COMPONENT.inputNumber.value:
+      return (
+        <Form.Item {...formItemProps}>
+          <InputNumber
+            style={styleProps}
+            {...restProps}
+            value={value as number}
+            onChange={(val) => {
+              if (typeof onChange === 'function') {
+                onChange(val);
+              }
+            }}
+          />
+        </Form.Item>
+      );
+    case COMPONENT.inputNumberRange.value:
+      return (
+        <Form.Item {...formItemProps}>
+          <InputNumberRange
+            style={{
+              ...styleProps,
+              width: 390,
+            }}
+            {...restProps}
+            inputNumberProps={{
+              ...restProps,
+            }}
+            value={value as [number | undefined | null, number | undefined | null]}
+            onChange={(val) => {
+              if (typeof onChange === 'function') {
+                onChange(val);
+              }
+            }}
+          />
+        </Form.Item>
+      );
+    case COMPONENT.select.value:
+      return (
+        <ProFormSelect
+          formItemProps={formItemProps}
+          fieldProps={{
+            style: styleProps,
+            ...(restProps as any),
+            value: value as string,
+            onChange: (val) => {
+              if (typeof onChange === 'function') {
+                onChange(val);
+              }
+            },
+          }}
+        />
+      );
+    case COMPONENT.multipleSelect.value:
+      return (
+        <Form.Item {...formItemProps}>
+          <MultipleSelect
+            style={styleProps}
+            {...restProps}
+            value={value}
+            onChange={(val) => {
+              if (typeof onChange === 'function') {
+                onChange(val);
+              }
+            }}
+          />
+        </Form.Item>
+      );
+    case COMPONENT.datePicker.value:
+      return (
+        <ProFormDatePicker
+          formItemProps={formItemProps}
+          fieldProps={{
+            style: styleProps,
+            ...(restProps as any),
+            value: value,
+            onChange: (_, dateString) => {
+              if (typeof onChange === 'function') {
+                onChange(dateString ? dateString : undefined);
+              }
+            },
+          }}
+        />
+      );
+    case COMPONENT.dateRangePicker.value:
+      return (
+        <ProFormDateRangePicker
+          formItemProps={formItemProps}
+          fieldProps={{
+            style: styleProps,
+            ...(restProps as any),
+            value: value,
+            onChange: (_, formatString) => {
+              if (typeof onChange === 'function') {
+                onChange(formatString.some((item) => !item) ? [] : formatString);
+              }
+            },
+          }}
+        />
+      );
+    case COMPONENT.dateTimePicker.value:
+      return (
+        <ProFormDateTimePicker
+          formItemProps={formItemProps}
+          fieldProps={{
+            style: styleProps,
+            ...(restProps as any),
+            value: value,
+            onChange: (_, dateString) => {
+              if (typeof onChange === 'function') {
+                onChange(dateString ? dateString : undefined);
+              }
+            },
+          }}
+        />
+      );
+    case COMPONENT.dateTimeRangePicker.value:
+      return (
+        <ProFormDateTimeRangePicker
+          formItemProps={formItemProps}
+          fieldProps={{
+            style: styleProps,
+            ...(restProps as any),
+            value: value,
+            onChange: (_, formatString) => {
+              if (typeof onChange === 'function') {
+                onChange(formatString.some((item) => !item) ? [] : formatString);
+              }
+            },
+          }}
+        />
+      );
+    default:
+      return null;
+  }
+};
+
+export default function FilterList(props: FilterProps) {
   const {
     value = { relation: RELATION.and.value, filterList: [] },
     onChange,
     conditionSelectProps = {},
     operatorSelectProps = {},
-    conditionNumberValueProps = INPUT_NUMBER_PROPS,
+    conditionNumberValueProps = {},
     canAddCondition = true,
     canRemoveCondition = true,
     validateOnInit = false,
+    filterFieldMap = FILTER_FIELD_MAP,
   } = props;
 
   const { options: conditionOptions = [], ...restConditionSelectProps } = conditionSelectProps;
-  const { options: operatorOptions = [], ...restOperatorSelectProps } = operatorSelectProps;
-  const { min, max, ...restConditionNumberValueProps } = conditionNumberValueProps;
+  const { ...restOperatorSelectProps } = operatorSelectProps;
+  const {
+    // min, max,
+    ...restConditionNumberValueProps
+  } = conditionNumberValueProps;
   const { relation, filterList } = value;
-  console.log(
-    'restConditionNumberValueProps :>> ',
-    conditionNumberValueProps,
-    restConditionNumberValueProps,
-  );
 
   // 用于控制是否显示校验信息
   const [showValidation, setShowValidation] = useState(validateOnInit);
-
-  // 如果没有提供操作符选项，则使用默认的 OPERATORS
-  const defaultOperatorOptions = useMemo(() => {
-    if (operatorOptions.length > 0) {
-      return operatorOptions;
-    }
-    return Object.values(OPERATORS).map((item) => ({
-      label: item.label,
-      value: item.value,
-    }));
-  }, [operatorOptions]);
 
   const handleRelationChange = useCallback(
     (newRelation: RelationProps['value']) => {
@@ -135,27 +365,81 @@ export default function Filter(props: FilterProps) {
 
   const handleConditionChange = useCallback(
     (index: number, field: DefaultOptionType['value']) => {
+      // 获取选中条件的完整配置
+      const selectedOption = conditionOptions.find((opt) => opt.value === field);
+      if (!selectedOption) {
+        return;
+      }
+
+      // 从选项中获取字段类型
+      const fieldType = (selectedOption as DefaultOptionType & { fieldType: FieldType }).fieldType;
+      if (!fieldType) {
+        return;
+      }
+
+      // 获取该字段类型可用的操作符列表
+      const operators = filterFieldMap[fieldType] || [];
+      // 默认选择第一个可用的操作符
+      const defaultOperator = operators.length > 0 ? operators[0].value : undefined;
+
       const newFilterList = [...filterList];
+      // 保留选项中的其他属性
+      const otherProps: Record<string, unknown> = {};
+      Object.keys(selectedOption).forEach((key) => {
+        if (key !== 'value' && key !== 'label' && key !== 'fieldType') {
+          otherProps[key] = (selectedOption as Record<string, unknown>)[key];
+        }
+      });
+      let _value = undefined;
+      if (defaultOperator === OPERATORS.isTrue.value) {
+        _value = true;
+      } else if (defaultOperator === OPERATORS.isFalse.value) {
+        _value = false;
+      }
+
       newFilterList[index] = {
         ...newFilterList[index],
+        ...otherProps,
         field,
+        fieldType,
+        operator: defaultOperator as OperatorType,
+        value: _value,
       };
+
       onChange?.({ ...value, filterList: newFilterList });
       setShowValidation(true);
     },
-    [onChange, value, filterList],
+    [onChange, value, filterList, conditionOptions, filterFieldMap],
   );
 
   const handleOperatorChange = useCallback(
     (index: number, operator: OperatorType) => {
+      const condition = filterList[index];
+      if (!condition || !condition.fieldType) {
+        return;
+      }
+
+      // 查找当前操作符的配置
+      const operatorConfig = filterFieldMap[condition.fieldType]?.find(
+        (item) => item.value === operator,
+      );
+
+      if (!operatorConfig) {
+        return;
+      }
+
       const newFilterList = [...filterList];
       // 根据不同操作符设置不同的默认值
-      let defaultValue: ConditionType['value'] = null;
+      let defaultValue: ConditionValue = undefined;
 
       if (operator === OPERATORS.range.value) {
-        defaultValue = [undefined, undefined];
-      } else if (operator !== OPERATORS.hasValue.value && operator !== OPERATORS.noValue.value) {
-        defaultValue = undefined;
+        if (condition.fieldType === 'number') {
+          defaultValue = [undefined, undefined] as [number | undefined, number | undefined];
+        }
+      } else if (operator === OPERATORS.isTrue.value) {
+        defaultValue = true;
+      } else if (operator === OPERATORS.isFalse.value) {
+        defaultValue = false;
       }
 
       newFilterList[index] = {
@@ -163,14 +447,15 @@ export default function Filter(props: FilterProps) {
         operator,
         value: defaultValue,
       };
-      onChange?.({ ...value, filterList: newFilterList });
+      const _value = { ...value, filterList: newFilterList };
+      onChange?.(_value);
       setShowValidation(true);
     },
-    [onChange, value, filterList],
+    [onChange, value, filterList, filterFieldMap],
   );
 
   const handleValueChange = useCallback(
-    (index: number, newValue: ConditionType['value']) => {
+    (index: number, newValue: ConditionValue) => {
       const newFilterList = [...filterList];
       newFilterList[index] = {
         ...newFilterList[index],
@@ -187,15 +472,36 @@ export default function Filter(props: FilterProps) {
       return;
     }
 
+    // 获取第一个选项的字段类型
+    const firstOption = conditionOptions[0] as DefaultOptionType & { fieldType: FieldType };
+    if (!firstOption.fieldType) {
+      return;
+    }
+
+    // 获取该字段类型可用的操作符列表
+    const operators = filterFieldMap[firstOption.fieldType] || [];
+    // 默认选择第一个可用的操作符
+    const defaultOperator = operators.length > 0 ? operators[0].value : OPERATORS.equal.value;
+
+    // 保留选项中的其他属性
+    const otherProps: Record<string, unknown> = {};
+    Object.keys(firstOption).forEach((key) => {
+      if (key !== 'value' && key !== 'label' && key !== 'fieldType') {
+        otherProps[key] = (firstOption as Record<string, unknown>)[key];
+      }
+    });
+
     const newCondition: ConditionType = {
-      field: conditionOptions[0].value,
-      operator: OPERATORS.equal.value,
+      ...otherProps,
+      field: firstOption.value,
+      fieldType: firstOption.fieldType,
+      operator: defaultOperator as OperatorType,
       value: undefined,
     };
 
     onChange?.({ ...value, filterList: [...filterList, newCondition] });
     setShowValidation(true);
-  }, [conditionOptions, onChange, value, filterList]);
+  }, [conditionOptions, onChange, value, filterList, filterFieldMap]);
 
   const handleRemoveCondition = useCallback(
     (index: number) => {
@@ -207,71 +513,122 @@ export default function Filter(props: FilterProps) {
     [onChange, value, filterList],
   );
 
+  // 获取条件类型对应的可用操作符
+  const getOperatorsByFieldType = useCallback(
+    (fieldType: FieldType): FilterFieldMapItem[] => {
+      return filterFieldMap[fieldType] || [];
+    },
+    [filterFieldMap],
+  );
+
   const renderValueField = useCallback(
     (condition: ConditionType, index: number) => {
-      const { operator, value: conditionValue } = condition;
-      const needValidation = showValidation && !isValueValid(condition);
-
-      if (operator === OPERATORS.hasValue.value || operator === OPERATORS.noValue.value) {
+      const { fieldType, operator, value: conditionValue } = condition;
+      if (!fieldType || !operator) {
         return null;
       }
 
-      if (operator === OPERATORS.range.value) {
-        return (
-          <Form.Item
-            validateStatus={needValidation ? 'error' : ''}
-            help={needValidation ? '请输入有效的区间值' : ''}
-            style={{ marginBottom: 0 }}
-          >
-            <InputNumberRange
-              value={conditionValue as [number | undefined, number | undefined]}
-              onChange={(newValue) => handleValueChange(index, newValue)}
-              inputNumberProps={conditionNumberValueProps}
-            />
-          </Form.Item>
-        );
+      // 特定操作符不需要值组件
+      if (
+        operator === OPERATORS.hasValue.value ||
+        operator === OPERATORS.noValue.value ||
+        operator === OPERATORS.isTrue.value ||
+        operator === OPERATORS.isFalse.value
+      ) {
+        return null;
       }
 
+      const needValidation = showValidation && !isValueValid(condition);
+
+      // 查找操作符对应的组件配置
+      const operatorConfig = filterFieldMap[fieldType]?.find((item) => item.value === operator);
+      if (!operatorConfig || !operatorConfig.component) {
+        return null;
+      }
+
+      // 准备组件属性
+      let componentProps: Record<string, unknown> = {
+        ...(operatorConfig.componentProps || {}),
+        value: conditionValue,
+        onChange: (newValue: ConditionValue) => {
+          handleValueChange(index, newValue);
+        },
+      };
+
+      // 针对数值输入框添加额外属性
+      if (operatorConfig.component === COMPONENT.inputNumber.value) {
+        // componentProps.min = min;
+        // componentProps.max = max;
+        componentProps.placeholder = '请输入';
+        componentProps.className = 'value-field';
+        Object.assign(componentProps, INPUT_NUMBER_PROPS, restConditionNumberValueProps);
+      } else if (operatorConfig.component === COMPONENT.inputNumberRange.value) {
+        componentProps = {
+          ...componentProps,
+          ...INPUT_NUMBER_PROPS,
+          ...conditionNumberValueProps,
+        };
+      }
+      const formItemProps: FormItemProps = {
+        validateStatus: needValidation ? 'error' : '',
+        help: needValidation ? '请补全必填项' : '',
+        style: { marginBottom: 0 },
+      };
+
       return (
-        <Form.Item
-          validateStatus={needValidation ? 'error' : ''}
-          help={needValidation ? '请输入有效的值' : ''}
-          style={{ marginBottom: 0 }}
+        <div
+          style={{
+            minWidth: 261,
+          }}
         >
-          <InputNumber
-            {...INPUT_NUMBER_PROPS}
-            {...restConditionNumberValueProps}
-            className="value-field"
-            value={conditionValue as number}
-            placeholder="请输入"
-            onChange={(newValue) => handleValueChange(index, newValue as number)}
-            min={min}
-            max={max}
-          />
-        </Form.Item>
+          {renderValueComponent(operatorConfig.component, componentProps, formItemProps)}
+        </div>
       );
     },
     [
       showValidation,
-      restConditionNumberValueProps,
-      min,
-      max,
-      conditionNumberValueProps,
+      filterFieldMap,
       handleValueChange,
+      // min,
+      // max,
+      restConditionNumberValueProps,
+      conditionNumberValueProps,
     ],
   );
 
   // 如果没有条件，初始化一个默认条件
-  useEffect(() => {
-    if (filterList.length === 0 && conditionOptions.length > 0) {
-      const defaultCondition: ConditionType = {
-        field: conditionOptions[0].value,
-        operator: OPERATORS.equal.value,
-        value: undefined,
-      };
-      onChange?.({ ...value, filterList: [defaultCondition] });
-    }
-  }, [conditionOptions, onChange, filterList.length, value]);
+  // useEffect(() => {
+  //   if (filterList.length === 0 && conditionOptions.length > 0) {
+  //     // 获取第一个选项的字段类型
+  //     const firstOption = conditionOptions[0] as DefaultOptionType & { fieldType: FieldType };
+  //     if (!firstOption.fieldType) {
+  //       return;
+  //     }
+
+  //     // 获取该字段类型可用的操作符列表
+  //     const operators = filterFieldMap[firstOption.fieldType] || [];
+  //     // 默认选择第一个可用的操作符
+  //     const defaultOperator = operators.length > 0 ? operators[0].value : OPERATORS.equal.value;
+
+  //     // 保留选项中的其他属性
+  //     const otherProps: Record<string, unknown> = {};
+  //     Object.keys(firstOption).forEach((key) => {
+  //       if (key !== 'value' && key !== 'label' && key !== 'fieldType') {
+  //         otherProps[key] = (firstOption as Record<string, unknown>)[key];
+  //       }
+  //     });
+
+  //     const defaultCondition: ConditionType = {
+  //       ...otherProps,
+  //       field: firstOption.value,
+  //       fieldType: firstOption.fieldType,
+  //       operator: defaultOperator as OperatorType,
+  //       value: undefined,
+  //     };
+  //     onChange?.({ ...value, filterList: [defaultCondition] });
+  //   }
+  // }, [conditionOptions, onChange, filterList.length, value, filterFieldMap]);
+  // console.log('props :>> ', props);
 
   return (
     <>
@@ -292,10 +649,12 @@ export default function Filter(props: FilterProps) {
               help={showValidation && !condition.field ? '请选择' : ''}
               style={{ marginBottom: 0 }}
             >
+              {/* 条件选择框 */}
               <Select
                 placeholder="请选择"
+                showSearch
                 {...restConditionSelectProps}
-                allowClear
+                allowClear={false}
                 className="condition-field"
                 value={condition.field}
                 onChange={(field) => handleConditionChange(index, field)}
@@ -308,23 +667,34 @@ export default function Filter(props: FilterProps) {
               help={showValidation && !condition.operator ? '请选择' : ''}
               style={{ marginBottom: 0 }}
             >
+              {/* 操作符选择框 */}
               <Select
-                allowClear
                 placeholder="请选择"
+                showSearch
+                {...restOperatorSelectProps}
+                allowClear={false}
                 className="operator-field"
                 value={condition.operator}
                 onChange={(operator) => handleOperatorChange(index, operator as OperatorType)}
-                options={defaultOperatorOptions}
-                {...restOperatorSelectProps}
+                options={
+                  condition.fieldType
+                    ? getOperatorsByFieldType(condition.fieldType).map((item) => ({
+                        label: item.label,
+                        value: item.value,
+                      }))
+                    : []
+                }
               />
             </Form.Item>
-
+            {/* 条件值组件 */}
             {renderValueField(condition, index)}
 
-            {canRemoveCondition && filterList.length > 1 && (
+            {canRemoveCondition && (
               <Tooltip title="删除">
-                <DeleteOutlined
-                  className="remove-condition"
+                <Button
+                  type="link"
+                  danger
+                  icon={<DeleteOutlined />}
                   onClick={() => handleRemoveCondition(index)}
                 />
               </Tooltip>

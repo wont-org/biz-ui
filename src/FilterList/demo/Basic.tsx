@@ -1,8 +1,8 @@
 import { FilterList } from '@wont/biz-ui';
+import { validator } from '@wont/biz-ui/FilterList';
+import { FIELD_TYPES, RELATION } from '@wont/biz-ui/FilterList/constant';
 import { Button, Card, Form, Space, Switch, Typography } from 'antd';
 import React, { useState } from 'react';
-import { validator } from '..';
-import { OPERATORS, RELATION } from '../constant';
 
 const { Title, Paragraph } = Typography;
 
@@ -10,45 +10,78 @@ const OPTIONS = [
   {
     value: 'price',
     label: '价格',
+    fieldType: FIELD_TYPES.number.value,
   },
   {
     value: 'quantity',
     label: '数量',
+    fieldType: FIELD_TYPES.number.value,
   },
   {
-    value: 'weight',
-    label: '重量',
+    value: 'productName',
+    label: '产品名称',
+    fieldType: FIELD_TYPES.string.value,
+  },
+  {
+    value: 'isActive',
+    label: '是否激活',
+    fieldType: FIELD_TYPES.boolean.value,
+  },
+  {
+    value: 'createDate',
+    label: '创建日期',
+    fieldType: FIELD_TYPES.date.value,
+  },
+  {
+    value: 'updateTime',
+    label: '更新时间',
+    fieldType: FIELD_TYPES.dateTime.value,
   },
 ];
+const getInitialFilterValue = () => {
+  return {
+    relation: 'and',
+    filterList: [
+      {
+        field: 'price',
+        fieldType: 'number',
+        operator: 'equal',
+      },
 
-// 可以自定义操作符选项
-const CUSTOM_OPERATORS = [
-  {
-    value: OPERATORS.equal.value,
-    label: '等于',
-  },
-  {
-    value: OPERATORS.greater.value,
-    label: '大于',
-  },
-  {
-    value: OPERATORS.less.value,
-    label: '小于',
-  },
-  {
-    value: OPERATORS.range.value,
-    label: '范围',
-  },
-];
+      {
+        field: 'updateTime',
+        fieldType: 'dateTime',
+        operator: 'equal',
+      },
+      {
+        field: 'productName',
+        fieldType: 'string',
+        operator: 'equal',
+      },
+      {
+        field: 'createDate',
+        fieldType: 'date',
+        operator: 'range',
+      },
+      {
+        field: 'price',
+        fieldType: 'number',
+        operator: 'range',
+        value: [null, null],
+      },
+      {
+        field: 'updateTime',
+        fieldType: 'dateTime',
+        operator: 'range',
+      },
+    ],
+  };
+};
 
 export default () => {
   const [form] = Form.useForm();
-  const [filterValue, setFilterValue] = useState<any>({
-    relation: RELATION.and.value,
-    filterList: [],
-  });
+  const [filterValue, setFilterValue] = useState<any>(getInitialFilterValue());
   const [validateOnInit, setValidateOnInit] = useState(true);
-  const [useCustomOperators, setUseCustomOperators] = useState(false);
 
   const onFinish = (values: any) => {
     console.log('提交的表单值:', values);
@@ -64,7 +97,7 @@ export default () => {
 
   const handleReset = () => {
     form.resetFields();
-    setFilterValue({ relation: RELATION.and.value, filterList: [] });
+    setFilterValue(getInitialFilterValue());
   };
 
   const handleValidate = () => {
@@ -91,11 +124,6 @@ export default () => {
           <span style={{ marginRight: 8 }}>初始化时校验:</span>
           <Switch checked={validateOnInit} onChange={setValidateOnInit} />
         </div>
-
-        <div style={{ marginBottom: 16 }}>
-          <span style={{ marginRight: 8 }}>使用自定义操作符:</span>
-          <Switch checked={useCustomOperators} onChange={setUseCustomOperators} />
-        </div>
       </Typography>
 
       <Form
@@ -103,35 +131,36 @@ export default () => {
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 20 }}
         initialValues={{
-          filterConditions: { relation: RELATION.and.value, filterList: [] },
+          filterConditions: getInitialFilterValue(),
         }}
         onFinish={onFinish}
         onValuesChange={onValuesChange}
       >
         <Form.Item
-          label="筛选条件"
+          label="筛选条件-非必填"
           name="filterConditions"
           rules={[
             {
-              required: true,
+              required: false,
               validator: (_, value) => {
+                // console.log('value :>> ', value);
+                if (value.filterList.length === 0) {
+                  return Promise.resolve();
+                }
                 const isValid = validator(value);
                 if (isValid) {
                   return Promise.resolve();
                 }
-                return Promise.reject(new Error('请补全筛选条件'));
+                return Promise.reject('请补全筛选条件');
               },
             },
           ]}
         >
           <FilterList
             conditionSelectProps={{ options: OPTIONS }}
-            operatorSelectProps={{
-              options: useCustomOperators ? CUSTOM_OPERATORS : [],
-            }}
             conditionNumberValueProps={{
               min: 1,
-              max: 10000000,
+              max: 10000,
             }}
             validateOnInit={validateOnInit}
           />
