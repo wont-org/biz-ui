@@ -595,9 +595,7 @@ export default function FilterList(props: FilterProps) {
             minWidth: 261,
           }}
         >
-          <ConfigProvider locale={zhCN}>
-            {renderValueComponent(operatorConfig.component, componentProps, formItemProps)}
-          </ConfigProvider>
+          {renderValueComponent(operatorConfig.component, componentProps, formItemProps)}
         </div>
       );
     },
@@ -645,9 +643,8 @@ export default function FilterList(props: FilterProps) {
   //   }
   // }, [conditionOptions, onChange, filterList.length, value, filterFieldMap]);
   // console.log('props :>> ', props);
-
   return (
-    <>
+    <ConfigProvider locale={zhCN}>
       {canAddCondition && (
         <Button type="link" icon={<PlusOutlined />} onClick={handleAddCondition}>
           添加
@@ -718,6 +715,6 @@ export default function FilterList(props: FilterProps) {
           </StyledFilterItem>
         ))}
       </Relation>
-    </>
+    </ConfigProvider>
   );
 }

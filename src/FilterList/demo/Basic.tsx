@@ -69,15 +69,15 @@ const getInitialFilterValue = () => {
         operator: 'range',
       },
       {
+        field: 'updateTime',
+        fieldType: 'dateTime',
+        operator: 'range',
+      },
+      {
         field: 'price',
         fieldType: 'number',
         operator: 'range',
         value: [null, null],
-      },
-      {
-        field: 'updateTime',
-        fieldType: 'dateTime',
-        operator: 'range',
       },
     ],
   };
