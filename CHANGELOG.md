@@ -1,3 +1,11 @@
+# [1.2.0-beta.1](https://github.com/wont-org/biz-ui/compare/v1.1.0-beta.7...v1.2.0-beta.1) (2025-04-22)
+
+### Features
+
+- 新增数值范围输入框, 过滤列表录入组件 ([da354c3](https://github.com/wont-org/biz-ui/commit/da354c31f0a4fdceca93cf470660cb0ed24969c7))
+- **FilterList:** 过滤组件 ([7cd49d5](https://github.com/wont-org/biz-ui/commit/7cd49d51dd583da481e76091ae69868eed7630f6))
+- **FormulaInput:** 新增扩展参数 ([66eb458](https://github.com/wont-org/biz-ui/commit/66eb4586c056c76041b6af0bcdd4f5b48be60653))
+
 # [1.1.0-beta.7](https://github.com/wont-org/biz-ui/compare/v1.1.0-beta.6...v1.1.0-beta.7) (2025-03-26)
 
 ### Bug Fixes
