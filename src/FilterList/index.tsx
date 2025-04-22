@@ -8,9 +8,21 @@ import {
   ProFormText,
   ProFormTextArea,
 } from '@ant-design/pro-components';
-import { Button, Form, InputNumber, InputNumberProps, Select, SelectProps, Tooltip } from 'antd';
+import {
+  Button,
+  ConfigProvider,
+  Form,
+  InputNumber,
+  InputNumberProps,
+  Select,
+  SelectProps,
+  Tooltip,
+} from 'antd';
 import { FormItemProps } from 'antd/es/form';
+import zhCN from 'antd/lib/locale/zh_CN';
 import { DefaultOptionType } from 'antd/lib/select';
+import moment from 'moment';
+import 'moment/locale/zh-cn';
 import React, { CSSProperties, useCallback, useState } from 'react';
 import MultipleSelect from '../Formily/MultipleSelect';
 import InputNumberRange from '../InputNumberRange';
@@ -28,6 +40,8 @@ import {
 } from './constant';
 import Relation, { RelationProps } from './Relation';
 import { StyledFilterItem } from './styled';
+
+moment.locale('zh-cn');
 
 // 条件值类型
 export type ConditionValue =
@@ -581,7 +595,9 @@ export default function FilterList(props: FilterProps) {
             minWidth: 261,
           }}
         >
-          {renderValueComponent(operatorConfig.component, componentProps, formItemProps)}
+          <ConfigProvider locale={zhCN}>
+            {renderValueComponent(operatorConfig.component, componentProps, formItemProps)}
+          </ConfigProvider>
         </div>
       );
     },

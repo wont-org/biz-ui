@@ -49,13 +49,18 @@ const getInitialFilterValue = () => {
       },
 
       {
-        field: 'updateTime',
-        fieldType: 'dateTime',
+        field: 'productName',
+        fieldType: 'string',
         operator: 'equal',
       },
       {
-        field: 'productName',
-        fieldType: 'string',
+        field: 'createDate',
+        fieldType: 'date',
+        operator: 'equal',
+      },
+      {
+        field: 'updateTime',
+        fieldType: 'dateTime',
         operator: 'equal',
       },
       {
