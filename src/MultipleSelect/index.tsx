@@ -97,7 +97,7 @@ const MultipleSelect = ({
               type="text"
               size="small"
               onClick={() => {
-                onChange?.([], {});
+                onChange?.([], []);
               }}
             >
               清空

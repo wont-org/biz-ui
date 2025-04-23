@@ -1,8 +1,8 @@
 import { DatePicker, Input, InputNumber, Select } from 'antd';
 import moment from 'moment';
 import React, { CSSProperties } from 'react';
-import MultipleSelect from '../Formily/MultipleSelect';
 import InputNumberRange from '../InputNumberRange';
+import MultipleSelect from '../MultipleSelect';
 import { COMPONENT, ComponentType } from './constant';
 import { ConditionArrayValue } from './type';
 
