@@ -1,17 +1,10 @@
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import {
-  ProFormDatePicker,
-  ProFormDateRangePicker,
-  ProFormDateTimePicker,
-  ProFormDateTimeRangePicker,
-  ProFormSelect,
-  ProFormText,
-  ProFormTextArea,
-} from '@ant-design/pro-components';
-import {
   Button,
   ConfigProvider,
+  DatePicker,
   Form,
+  Input,
   InputNumber,
   InputNumberProps,
   Select,
@@ -160,7 +153,6 @@ export const validator = (value?: FilterValue): boolean => {
 const renderValueComponent = (
   component: ComponentType | undefined,
   props: Record<string, unknown>,
-  formItemProps: FormItemProps,
 ) => {
   if (!component) {
     return null;
@@ -176,168 +168,159 @@ const renderValueComponent = (
   switch (component) {
     case COMPONENT.input.value:
       return (
-        <ProFormText
-          formItemProps={formItemProps}
-          fieldProps={{
-            style: styleProps,
-            placeholder: '请输入',
-            allowClear: true,
-            ...(restProps as any),
-            value: value as string,
-            onChange: (e) => {
-              if (typeof onChange === 'function') {
-                onChange(e.target.value);
-              }
-            },
+        <Input
+          style={styleProps}
+          placeholder="请输入"
+          allowClear
+          {...(restProps as any)}
+          value={value as string}
+          onChange={(e) => {
+            if (typeof onChange === 'function') {
+              onChange(e.target.value);
+            }
           }}
         />
       );
     case COMPONENT.textarea.value:
       return (
-        <ProFormTextArea
-          formItemProps={formItemProps}
-          fieldProps={{
-            style: styleProps,
-            placeholder: '请输入',
-            allowClear: true,
-            ...(restProps as any),
-            value: value as string,
-            onChange: (e) => {
-              if (typeof onChange === 'function') {
-                onChange(e.target.value);
-              }
-            },
+        <Input.TextArea
+          style={styleProps}
+          placeholder="请输入"
+          allowClear
+          {...(restProps as any)}
+          value={value as string}
+          onChange={(e) => {
+            if (typeof onChange === 'function') {
+              onChange(e.target.value);
+            }
           }}
         />
       );
     case COMPONENT.inputNumber.value:
       return (
-        <Form.Item {...formItemProps}>
-          <InputNumber
-            style={styleProps}
-            {...restProps}
-            value={value as number}
-            onChange={(val) => {
-              if (typeof onChange === 'function') {
-                onChange(val);
-              }
-            }}
-          />
-        </Form.Item>
+        <InputNumber
+          style={styleProps}
+          {...restProps}
+          value={value as number}
+          onChange={(val) => {
+            if (typeof onChange === 'function') {
+              onChange(val);
+            }
+          }}
+        />
       );
-    case COMPONENT.inputNumberRange.value:
+    case COMPONENT.inputNumberRange.value: {
+      const placeholders = (restProps.placeholder as [string, string]) || ['最小值', '最大值'];
+      const { ...restInputNumberRangeProps } = restProps;
       return (
-        <Form.Item {...formItemProps}>
-          <InputNumberRange
-            style={{
-              ...styleProps,
-              width: 390,
-            }}
-            {...restProps}
-            inputNumberProps={{
-              ...restProps,
-            }}
-            value={value as [number | undefined | null, number | undefined | null]}
-            onChange={(val) => {
-              if (typeof onChange === 'function') {
-                onChange(val);
-              }
-            }}
-          />
-        </Form.Item>
+        <InputNumberRange
+          style={{
+            ...styleProps,
+            width: 390,
+          }}
+          placeholder={placeholders}
+          inputNumberProps={{
+            ...restInputNumberRangeProps,
+          }}
+          value={value as [number | undefined | null, number | undefined | null]}
+          onChange={(val) => {
+            if (typeof onChange === 'function') {
+              onChange(val);
+            }
+          }}
+        />
       );
+    }
     case COMPONENT.select.value:
       return (
-        <ProFormSelect
-          formItemProps={formItemProps}
-          fieldProps={{
-            style: styleProps,
-            ...(restProps as any),
-            value: value as string,
-            onChange: (val) => {
-              if (typeof onChange === 'function') {
-                onChange(val);
-              }
-            },
+        <Select
+          placeholder="请选择"
+          style={styleProps}
+          {...(restProps as any)}
+          value={value as string}
+          onChange={(val) => {
+            if (typeof onChange === 'function') {
+              onChange(val);
+            }
           }}
         />
       );
     case COMPONENT.multipleSelect.value:
       return (
-        <Form.Item {...formItemProps}>
-          <MultipleSelect
-            style={styleProps}
-            {...restProps}
-            value={value}
-            onChange={(val) => {
-              if (typeof onChange === 'function') {
-                onChange(val);
-              }
-            }}
-          />
-        </Form.Item>
+        <MultipleSelect
+          style={styleProps}
+          {...restProps}
+          value={value}
+          onChange={(val) => {
+            if (typeof onChange === 'function') {
+              onChange(val);
+            }
+          }}
+        />
       );
     case COMPONENT.datePicker.value:
       return (
-        <ProFormDatePicker
-          formItemProps={formItemProps}
-          fieldProps={{
-            style: styleProps,
-            ...(restProps as any),
-            value: value,
-            onChange: (_, dateString) => {
-              if (typeof onChange === 'function') {
-                onChange(dateString ? dateString : undefined);
-              }
-            },
+        <DatePicker
+          style={styleProps}
+          placeholder="请选择日期"
+          {...(restProps as any)}
+          value={value ? moment(value as string) : null}
+          onChange={(date, dateString) => {
+            if (typeof onChange === 'function') {
+              onChange(dateString || undefined);
+            }
           }}
         />
       );
     case COMPONENT.dateRangePicker.value:
       return (
-        <ProFormDateRangePicker
-          formItemProps={formItemProps}
-          fieldProps={{
-            style: styleProps,
-            ...(restProps as any),
-            value: value,
-            onChange: (_, formatString) => {
-              if (typeof onChange === 'function') {
-                onChange(formatString.some((item) => !item) ? [] : formatString);
-              }
-            },
+        <DatePicker.RangePicker
+          style={styleProps}
+          placeholder={['开始日期', '结束日期']}
+          {...(restProps as any)}
+          value={
+            Array.isArray(value) && value.length === 2
+              ? [value[0] ? moment(value[0]) : null, value[1] ? moment(value[1]) : null]
+              : [null, null]
+          }
+          onChange={(dates, formatString) => {
+            if (typeof onChange === 'function') {
+              onChange(formatString.some((item) => !item) ? [] : formatString);
+            }
           }}
         />
       );
     case COMPONENT.dateTimePicker.value:
       return (
-        <ProFormDateTimePicker
-          formItemProps={formItemProps}
-          fieldProps={{
-            style: styleProps,
-            ...(restProps as any),
-            value: value,
-            onChange: (_, dateString) => {
-              if (typeof onChange === 'function') {
-                onChange(dateString ? dateString : undefined);
-              }
-            },
+        <DatePicker
+          showTime
+          style={styleProps}
+          placeholder="请选择日期时间"
+          {...(restProps as any)}
+          value={value ? moment(value as string) : null}
+          onChange={(date, dateString) => {
+            if (typeof onChange === 'function') {
+              onChange(dateString || undefined);
+            }
           }}
         />
       );
     case COMPONENT.dateTimeRangePicker.value:
       return (
-        <ProFormDateTimeRangePicker
-          formItemProps={formItemProps}
-          fieldProps={{
-            style: styleProps,
-            ...(restProps as any),
-            value: value,
-            onChange: (_, formatString) => {
-              if (typeof onChange === 'function') {
-                onChange(formatString.some((item) => !item) ? [] : formatString);
-              }
-            },
+        <DatePicker.RangePicker
+          showTime
+          style={styleProps}
+          placeholder={['开始日期时间', '结束日期时间']}
+          {...(restProps as any)}
+          value={
+            Array.isArray(value) && value.length === 2
+              ? [value[0] ? moment(value[0]) : null, value[1] ? moment(value[1]) : null]
+              : [null, null]
+          }
+          onChange={(dates, formatString) => {
+            if (typeof onChange === 'function') {
+              onChange(formatString.some((item) => !item) ? [] : formatString);
+            }
           }}
         />
       );
@@ -571,8 +554,6 @@ export default function FilterList(props: FilterProps) {
 
       // 针对数值输入框添加额外属性
       if (operatorConfig.component === COMPONENT.inputNumber.value) {
-        // componentProps.min = min;
-        // componentProps.max = max;
         componentProps.placeholder = '请输入';
         componentProps.className = 'value-field';
         Object.assign(componentProps, INPUT_NUMBER_PROPS, restConditionNumberValueProps);
@@ -586,7 +567,8 @@ export default function FilterList(props: FilterProps) {
       const formItemProps: FormItemProps = {
         validateStatus: needValidation ? 'error' : '',
         help: needValidation ? '请补全必填项' : '',
-        style: { marginBottom: 0 },
+        // noStyle: true,
+        style: { marginBottom: 6 },
       };
 
       return (
@@ -595,7 +577,9 @@ export default function FilterList(props: FilterProps) {
             minWidth: 261,
           }}
         >
-          {renderValueComponent(operatorConfig.component, componentProps, formItemProps)}
+          <Form.Item {...formItemProps}>
+            {renderValueComponent(operatorConfig.component, componentProps)}
+          </Form.Item>
         </div>
       );
     },
@@ -609,40 +593,6 @@ export default function FilterList(props: FilterProps) {
       conditionNumberValueProps,
     ],
   );
-
-  // 如果没有条件，初始化一个默认条件
-  // useEffect(() => {
-  //   if (filterList.length === 0 && conditionOptions.length > 0) {
-  //     // 获取第一个选项的字段类型
-  //     const firstOption = conditionOptions[0] as DefaultOptionType & { fieldType: FieldType };
-  //     if (!firstOption.fieldType) {
-  //       return;
-  //     }
-
-  //     // 获取该字段类型可用的操作符列表
-  //     const operators = filterFieldMap[firstOption.fieldType] || [];
-  //     // 默认选择第一个可用的操作符
-  //     const defaultOperator = operators.length > 0 ? operators[0].value : OPERATORS.equal.value;
-
-  //     // 保留选项中的其他属性
-  //     const otherProps: Record<string, unknown> = {};
-  //     Object.keys(firstOption).forEach((key) => {
-  //       if (key !== 'value' && key !== 'label' && key !== 'fieldType') {
-  //         otherProps[key] = (firstOption as Record<string, unknown>)[key];
-  //       }
-  //     });
-
-  //     const defaultCondition: ConditionType = {
-  //       ...otherProps,
-  //       field: firstOption.value,
-  //       fieldType: firstOption.fieldType,
-  //       operator: defaultOperator as OperatorType,
-  //       value: undefined,
-  //     };
-  //     onChange?.({ ...value, filterList: [defaultCondition] });
-  //   }
-  // }, [conditionOptions, onChange, filterList.length, value, filterFieldMap]);
-  // console.log('props :>> ', props);
   return (
     <ConfigProvider locale={zhCN}>
       {canAddCondition && (
@@ -660,6 +610,7 @@ export default function FilterList(props: FilterProps) {
             <Form.Item
               validateStatus={showValidation && !condition.field ? 'error' : ''}
               help={showValidation && !condition.field ? '请选择' : ''}
+              className="form-item-reset"
               style={{ marginBottom: 0 }}
             >
               {/* 条件选择框 */}
@@ -674,11 +625,10 @@ export default function FilterList(props: FilterProps) {
                 options={conditionOptions}
               />
             </Form.Item>
-
             <Form.Item
               validateStatus={showValidation && !condition.operator ? 'error' : ''}
               help={showValidation && !condition.operator ? '请选择' : ''}
-              style={{ marginBottom: 0 }}
+              className="form-item-reset"
             >
               {/* 操作符选择框 */}
               <Select
@@ -701,7 +651,6 @@ export default function FilterList(props: FilterProps) {
             </Form.Item>
             {/* 条件值组件 */}
             {renderValueField(condition, index)}
-
             {canRemoveCondition && (
               <Tooltip title="删除">
                 <Button

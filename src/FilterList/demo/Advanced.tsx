@@ -14,28 +14,28 @@ const { Title, Paragraph } = Typography;
 
 const OPTIONS = [
   {
-    value: 'price',
-    label: '价格',
+    value: 'number',
+    label: 'number',
     fieldType: FIELD_TYPES.number.value,
   },
   {
-    value: 'productName',
-    label: '产品名称',
+    value: 'string',
+    label: 'string',
     fieldType: FIELD_TYPES.string.value,
   },
   {
-    value: 'createDate',
-    label: '创建日期',
+    value: 'date',
+    label: 'date',
     fieldType: FIELD_TYPES.date.value,
   },
   {
-    value: 'createDate',
-    label: '开始日期',
+    value: 'dateTime',
+    label: 'dateTime',
     fieldType: FIELD_TYPES.dateTime.value,
   },
   {
-    value: 'isActive',
-    label: '是否激活',
+    value: 'boolean',
+    label: 'boolean',
     fieldType: FIELD_TYPES.boolean.value,
   },
 ];
@@ -47,22 +47,39 @@ const CUSTOM_FILTER_FIELD_MAP: FilterFieldMapType = {
       ...OPERATORS.equal,
       component: COMPONENT.input.value,
       componentProps: {
-        placeholder: '请输入产品名称',
+        placeholder: 'input',
         maxLength: 50,
       },
     },
     {
       ...OPERATORS.contains,
-      component: COMPONENT.input.value,
+      component: COMPONENT.textarea.value,
       componentProps: {
-        placeholder: '包含关键词',
+        placeholder: 'textarea',
       },
     },
     {
       ...OPERATORS.startsWith,
       component: COMPONENT.select.value,
       componentProps: {
-        // placeholder: '以...开头',
+        placeholder: 'select',
+        options: [
+          {
+            value: '#',
+            label: '#',
+          },
+          {
+            value: '!',
+            label: '!',
+          },
+        ],
+      },
+    },
+    {
+      ...OPERATORS.in,
+      component: COMPONENT.multipleSelect.value,
+      componentProps: {
+        placeholder: 'multipleSelect',
         options: [
           {
             value: '#',
@@ -152,13 +169,54 @@ const CUSTOM_FILTER_FIELD_MAP: FilterFieldMapType = {
 
 const getInitialFilterValue = () => {
   return {
-    relation: RELATION.and.value,
+    relation: 'and',
     filterList: [
       {
-        field: 'productName',
-        fieldType: FIELD_TYPES.string.value,
-        operator: OPERATORS.startsWith.value,
-        value: undefined,
+        field: 'string',
+        fieldType: 'string',
+        operator: 'equal',
+      },
+      {
+        field: 'string',
+        fieldType: 'string',
+        operator: 'contains',
+      },
+      {
+        field: 'string',
+        fieldType: 'string',
+        operator: 'startsWith',
+      },
+      {
+        field: 'string',
+        fieldType: 'string',
+        operator: 'in',
+      },
+      {
+        field: 'number',
+        fieldType: 'number',
+        operator: 'equal',
+      },
+      {
+        field: 'number',
+        fieldType: 'number',
+        operator: 'range',
+        value: [null, null],
+      },
+      {
+        field: 'date',
+        fieldType: 'date',
+        operator: 'equal',
+      },
+      {
+        field: 'dateTime',
+        fieldType: 'dateTime',
+        operator: 'range',
+      },
+      {
+        field: 'boolean',
+        fieldType: 'boolean',
+        operator: 'isTrue',
+        value: true,
       },
     ],
   };

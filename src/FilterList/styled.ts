@@ -38,15 +38,15 @@ export const StyledRelation = styled.div<{
 export const StyledFilterItem = styled.div`
   display: flex;
   align-items: baseline;
-  margin-bottom: 8px;
-
-  .condition-field {
-    width: 120px;
-    margin-right: 8px;
-  }
-
-  .operator-field {
-    width: 100px;
-    margin-right: 8px;
+  .ant-form-item.form-item-reset {
+    margin-bottom: 0px;
+    .ant-select.condition-field {
+      width: 120px;
+      margin-right: 6px;
+    }
+    .ant-select.operator-field {
+      width: 100px;
+      margin-right: 6px;
+    }
   }
 `;

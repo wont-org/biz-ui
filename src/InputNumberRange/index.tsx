@@ -13,6 +13,7 @@ export interface InputNumberRangeProps {
   onChange?: (value: InputNumberRangeProps['value']) => void;
   disabled?: boolean;
   style?: CSSProperties;
+  placeholder?: [string, string];
   inputNumberProps?: InputNumberProps;
 }
 
@@ -22,6 +23,7 @@ const InputNumberRange: React.FC<InputNumberRangeProps> = ({
   value = [undefined, undefined],
   onChange,
   style = {},
+  placeholder = ['最小值', '最大值'],
   inputNumberProps = INPUT_NUMBER_PROPS,
   disabled = false,
 }) => {
@@ -47,21 +49,21 @@ const InputNumberRange: React.FC<InputNumberRangeProps> = ({
   return (
     <RangeContainer style={style}>
       <InputNumber
-        placeholder="请输入"
+        placeholder={placeholder[0] || '请输入'}
         {...INPUT_NUMBER_PROPS}
         {...restInputNumberProps}
         style={{
           width: '100%',
         }}
         min={min}
-        max={end !== undefined ? end : max}
+        max={end !== undefined && end !== null ? end : max}
         value={start}
         onChange={handleStartChange}
         disabled={disabled}
       />
       <span style={{ margin: '0 8px' }}>至</span>
       <InputNumber
-        placeholder="请输入"
+        placeholder={placeholder[1] || '请输入'}
         {...INPUT_NUMBER_PROPS}
         {...restInputNumberProps}
         style={{
@@ -69,7 +71,7 @@ const InputNumberRange: React.FC<InputNumberRangeProps> = ({
         }}
         value={end}
         onChange={handleEndChange}
-        min={start !== undefined ? start : min}
+        min={start !== undefined && start !== null ? start : min}
         max={max}
         disabled={disabled}
       />

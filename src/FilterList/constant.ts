@@ -98,42 +98,34 @@ export const FILTER_FIELD_MAP: FilterFieldMapType = {
     {
       ...OPERATORS.equal,
       component: COMPONENT.input.value,
-      componentProps: {},
     },
     {
       ...OPERATORS.notEqual,
       component: COMPONENT.input.value,
-      componentProps: {},
     },
     {
       ...OPERATORS.contains,
       component: COMPONENT.input.value,
-      componentProps: {},
     },
     {
       ...OPERATORS.notContains,
       component: COMPONENT.input.value,
-      componentProps: {},
     },
     {
       ...OPERATORS.startsWith,
       component: COMPONENT.input.value,
-      componentProps: {},
     },
     {
       ...OPERATORS.endsWith,
       component: COMPONENT.input.value,
-      componentProps: {},
     },
     {
       ...OPERATORS.regexLike,
       component: COMPONENT.input.value,
-      componentProps: {},
     },
     {
       ...OPERATORS.regexNotLike,
       component: COMPONENT.input.value,
-      componentProps: {},
     },
     {
       ...OPERATORS.hasValue,
@@ -160,32 +152,30 @@ export const FILTER_FIELD_MAP: FilterFieldMapType = {
     {
       ...OPERATORS.equal,
       component: COMPONENT.inputNumber.value,
-      componentProps: {},
     },
     {
       ...OPERATORS.notEqual,
       component: COMPONENT.inputNumber.value,
-      componentProps: {},
     },
     {
       ...OPERATORS.greaterThan,
       component: COMPONENT.inputNumber.value,
-      componentProps: {},
     },
     {
       ...OPERATORS.greaterThanOrEqual,
       component: COMPONENT.inputNumber.value,
-      componentProps: {},
     },
     {
       ...OPERATORS.lessThan,
       component: COMPONENT.inputNumber.value,
-      componentProps: {},
     },
     {
       ...OPERATORS.lessThanOrEqual,
       component: COMPONENT.inputNumber.value,
-      componentProps: {},
+    },
+    {
+      ...OPERATORS.range,
+      component: COMPONENT.inputNumberRange.value,
     },
     {
       ...OPERATORS.hasValue,
@@ -193,37 +183,27 @@ export const FILTER_FIELD_MAP: FilterFieldMapType = {
     {
       ...OPERATORS.noValue,
     },
-    {
-      ...OPERATORS.range,
-      component: COMPONENT.inputNumberRange.value,
-      componentProps: {},
-    },
   ],
   [FIELD_TYPES.date.value]: [
     {
       ...OPERATORS.equal,
       component: COMPONENT.datePicker.value,
-      componentProps: {},
     },
     {
       ...OPERATORS.notEqual,
       component: COMPONENT.datePicker.value,
-      componentProps: {},
     },
     {
       ...OPERATORS.before,
       component: COMPONENT.datePicker.value,
-      componentProps: {},
     },
     {
       ...OPERATORS.after,
       component: COMPONENT.datePicker.value,
-      componentProps: {},
     },
     {
       ...OPERATORS.range,
       component: COMPONENT.dateRangePicker.value,
-      componentProps: {},
     },
     {
       ...OPERATORS.hasValue,
@@ -236,27 +216,22 @@ export const FILTER_FIELD_MAP: FilterFieldMapType = {
     {
       ...OPERATORS.equal,
       component: COMPONENT.dateTimePicker.value,
-      componentProps: {},
     },
     {
       ...OPERATORS.notEqual,
       component: COMPONENT.dateTimePicker.value,
-      componentProps: {},
     },
     {
       ...OPERATORS.before,
       component: COMPONENT.dateTimePicker.value,
-      componentProps: {},
     },
     {
       ...OPERATORS.after,
       component: COMPONENT.dateTimePicker.value,
-      componentProps: {},
     },
     {
       ...OPERATORS.range,
       component: COMPONENT.dateTimeRangePicker.value,
-      componentProps: {},
     },
     {
       ...OPERATORS.hasValue,
