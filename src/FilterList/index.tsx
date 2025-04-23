@@ -33,6 +33,7 @@ import {
 } from './constant';
 import Relation, { RelationProps } from './Relation';
 import { StyledFilterItem } from './styled';
+import { CustomOp, updateOperatorsByFilterMap } from './utils';
 
 moment.locale('zh-cn');
 
@@ -98,15 +99,15 @@ export interface FilterProps {
 }
 
 // 验证条件值是否有效
-const isValueValid = (condition: ConditionType): boolean => {
+const isValueValid = (condition: ConditionType, operators: Record<string, CustomOp>): boolean => {
   const { operator, value: conditionValue } = condition;
 
   // hasValue、noValue、isTrue、isFalse 不需要额外的值
   if (
-    operator === OPERATORS.hasValue.value ||
-    operator === OPERATORS.noValue.value ||
-    operator === OPERATORS.isTrue.value ||
-    operator === OPERATORS.isFalse.value
+    operator === operators.hasValue.value ||
+    operator === operators.noValue.value ||
+    operator === operators.isTrue.value ||
+    operator === operators.isFalse.value
   ) {
     return true;
   }
@@ -134,10 +135,14 @@ const isValueValid = (condition: ConditionType): boolean => {
  * @param value 过滤条件值
  * @returns 是否有效
  */
-export const validator = (value?: FilterValue): boolean => {
+export const validator = (
+  value?: FilterValue,
+  filterFieldMap: FilterFieldMapType = FILTER_FIELD_MAP,
+): boolean => {
   if (!value || !value.filterList || value.filterList.length === 0) {
     return false;
   }
+  const newOperators = updateOperatorsByFilterMap(OPERATORS, filterFieldMap);
 
   // 检查每个条件是否有效
   return value.filterList.every((condition: ConditionType) => {
@@ -145,7 +150,7 @@ export const validator = (value?: FilterValue): boolean => {
     if (!condition.field || !condition.fieldType || !condition.operator) {
       return false;
     }
-    return isValueValid(condition);
+    return isValueValid(condition, newOperators);
   });
 };
 
@@ -210,15 +215,14 @@ const renderValueComponent = (
         />
       );
     case COMPONENT.inputNumberRange.value: {
-      const placeholders = (restProps.placeholder as [string, string]) || ['最小值', '最大值'];
-      const { ...restInputNumberRangeProps } = restProps;
+      const { placeholder, ...restInputNumberRangeProps } = restProps;
       return (
         <InputNumberRange
           style={{
             ...styleProps,
             width: 390,
           }}
-          placeholder={placeholders}
+          placeholder={placeholder as [string, string]}
           inputNumberProps={{
             ...restInputNumberRangeProps,
           }}
@@ -352,6 +356,7 @@ export default function FilterList(props: FilterProps) {
 
   // 用于控制是否显示校验信息
   const [showValidation, setShowValidation] = useState(validateOnInit);
+  const newOperators = updateOperatorsByFilterMap(OPERATORS, filterFieldMap);
 
   const handleRelationChange = useCallback(
     (newRelation: RelationProps['value']) => {
@@ -388,9 +393,9 @@ export default function FilterList(props: FilterProps) {
         }
       });
       let _value = undefined;
-      if (defaultOperator === OPERATORS.isTrue.value) {
+      if (defaultOperator === newOperators.isTrue.value) {
         _value = true;
-      } else if (defaultOperator === OPERATORS.isFalse.value) {
+      } else if (defaultOperator === newOperators.isFalse.value) {
         _value = false;
       }
 
@@ -406,7 +411,15 @@ export default function FilterList(props: FilterProps) {
       onChange?.({ ...value, filterList: newFilterList });
       setShowValidation(true);
     },
-    [onChange, value, filterList, conditionOptions, filterFieldMap],
+    [
+      conditionOptions,
+      filterFieldMap,
+      filterList,
+      newOperators.isTrue.value,
+      newOperators.isFalse.value,
+      onChange,
+      value,
+    ],
   );
 
   const handleOperatorChange = useCallback(
@@ -429,13 +442,13 @@ export default function FilterList(props: FilterProps) {
       // 根据不同操作符设置不同的默认值
       let defaultValue: ConditionValue = undefined;
 
-      if (operator === OPERATORS.range.value) {
+      if (operator === newOperators.range.value) {
         if (condition.fieldType === 'number') {
           defaultValue = [undefined, undefined] as [number | undefined, number | undefined];
         }
-      } else if (operator === OPERATORS.isTrue.value) {
+      } else if (operator === newOperators.isTrue.value) {
         defaultValue = true;
-      } else if (operator === OPERATORS.isFalse.value) {
+      } else if (operator === newOperators.isFalse.value) {
         defaultValue = false;
       }
 
@@ -448,7 +461,15 @@ export default function FilterList(props: FilterProps) {
       onChange?.(_value);
       setShowValidation(true);
     },
-    [onChange, value, filterList, filterFieldMap],
+    [
+      filterList,
+      filterFieldMap,
+      newOperators.range.value,
+      newOperators.isTrue.value,
+      newOperators.isFalse.value,
+      value,
+      onChange,
+    ],
   );
 
   const handleValueChange = useCallback(
@@ -478,7 +499,7 @@ export default function FilterList(props: FilterProps) {
     // 获取该字段类型可用的操作符列表
     const operators = filterFieldMap[firstOption.fieldType] || [];
     // 默认选择第一个可用的操作符
-    const defaultOperator = operators.length > 0 ? operators[0].value : OPERATORS.equal.value;
+    const defaultOperator = operators.length > 0 ? operators[0].value : newOperators.equal.value;
 
     // 保留选项中的其他属性
     const otherProps: Record<string, unknown> = {};
@@ -498,7 +519,7 @@ export default function FilterList(props: FilterProps) {
 
     onChange?.({ ...value, filterList: [...filterList, newCondition] });
     setShowValidation(true);
-  }, [conditionOptions, onChange, value, filterList, filterFieldMap]);
+  }, [conditionOptions, filterFieldMap, newOperators.equal.value, onChange, value, filterList]);
 
   const handleRemoveCondition = useCallback(
     (index: number) => {
@@ -527,15 +548,15 @@ export default function FilterList(props: FilterProps) {
 
       // 特定操作符不需要值组件
       if (
-        operator === OPERATORS.hasValue.value ||
-        operator === OPERATORS.noValue.value ||
-        operator === OPERATORS.isTrue.value ||
-        operator === OPERATORS.isFalse.value
+        operator === newOperators.hasValue.value ||
+        operator === newOperators.noValue.value ||
+        operator === newOperators.isTrue.value ||
+        operator === newOperators.isFalse.value
       ) {
         return null;
       }
 
-      const needValidation = showValidation && !isValueValid(condition);
+      const needValidation = showValidation && !isValueValid(condition, newOperators);
 
       // 查找操作符对应的组件配置
       const operatorConfig = filterFieldMap[fieldType]?.find((item) => item.value === operator);
@@ -584,11 +605,10 @@ export default function FilterList(props: FilterProps) {
       );
     },
     [
+      newOperators,
       showValidation,
       filterFieldMap,
       handleValueChange,
-      // min,
-      // max,
       restConditionNumberValueProps,
       conditionNumberValueProps,
     ],
