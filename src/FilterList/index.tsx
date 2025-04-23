@@ -33,7 +33,7 @@ export default function FilterList(props: FilterProps) {
     conditionNumberValueProps = {},
     canAddCondition = true,
     canRemoveCondition = true,
-    validateOnInit = false,
+    validateOnInit = true,
     filterFieldMap = FILTER_FIELD_MAP,
   } = props;
 
