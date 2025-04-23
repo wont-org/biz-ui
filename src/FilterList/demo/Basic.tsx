@@ -1,6 +1,6 @@
 import { FilterList } from '@wont/biz-ui';
-import { validator } from '@wont/biz-ui/FilterList';
 import { FIELD_TYPES, RELATION } from '@wont/biz-ui/FilterList/constant';
+import { validator } from '@wont/biz-ui/FilterList/utils';
 import { Button, Card, Form, Space, Switch, Typography } from 'antd';
 import React, { useState } from 'react';
 
