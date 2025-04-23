@@ -190,6 +190,7 @@ const getInitialFilterValue = () => {
         field: 'string',
         fieldType: 'string',
         operator: 'in',
+        value: ['#', '!'],
       },
       {
         field: 'number',
@@ -211,6 +212,7 @@ const getInitialFilterValue = () => {
         field: 'dateTime',
         fieldType: 'dateTime',
         operator: 'range',
+        value: ['2025-04-01 17:01:14', '2025-04-30 17:01:20'],
       },
       {
         field: 'boolean',

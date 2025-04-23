@@ -287,7 +287,7 @@ export default function FilterList(props: FilterProps) {
         <div
           style={{
             minWidth: 261,
-            maxWidth: 390,
+            maxWidth: 360,
           }}
         >
           <Form.Item {...formItemProps}>

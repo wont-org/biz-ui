@@ -71,7 +71,7 @@ export const renderValueComponent = (
         <InputNumberRange
           style={{
             ...styleProps,
-            width: 390,
+            width: 360,
           }}
           placeholder={placeholder as [string, string]}
           inputNumberProps={{
