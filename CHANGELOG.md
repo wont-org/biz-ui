@@ -1,3 +1,14 @@
+# [1.2.0-beta.2](https://github.com/wont-org/biz-ui/compare/v1.2.0-beta.1...v1.2.0-beta.2) (2025-04-23)
+
+### Bug Fixes
+
+- 解决样式被覆盖问题, 解决必填不展示问题 ([f3cc82f](https://github.com/wont-org/biz-ui/commit/f3cc82fa81e3abd38feb5a43a8b2421c75ffd926))
+- **FilterList:** 或和且样式居中问题 ([cf94695](https://github.com/wont-org/biz-ui/commit/cf9469560676ae333eae1d3936331569b749be38))
+
+### Features
+
+- **FilterList:** 支持自定义操作符比如 equal=> eq ([4b56486](https://github.com/wont-org/biz-ui/commit/4b56486a50fc63a9c866d8562d5296e48eb33962))
+
 # [1.2.0-beta.1](https://github.com/wont-org/biz-ui/compare/v1.1.0-beta.7...v1.2.0-beta.1) (2025-04-22)
 
 ### Features
