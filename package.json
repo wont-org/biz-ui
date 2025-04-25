@@ -81,6 +81,7 @@
     "@types/react-dom": "^16.9.0",
     "@umijs/lint": "^4.0.0",
     "antd": "^4.23.0",
+    "babel-plugin-import": "^1.13.8",
     "bumpp": "^9.4.0",
     "conventional-changelog-cli": "^4.1.0",
     "dumi": "2.2.13",

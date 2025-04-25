@@ -3,5 +3,5 @@ _assets/
 es
 lib
 coverage
-docs-dist
+docs-dist/*
 node_modules

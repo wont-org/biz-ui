@@ -1,6 +1,7 @@
-import { message, Modal } from 'antd';
 import { Operate } from '@wont/biz-ui';
+import { message, Modal } from 'antd';
 import React from 'react';
+import { OperateProps } from '..';
 
 const sleep = (timeout: number) => {
   return new Promise((res) => {
@@ -21,7 +22,7 @@ export default (props: BasicProps) => {
     console.log('syncClick');
     message.success('这是一个同步操作');
   };
-  const data = [
+  const data: OperateProps['data'] = [
     {
       title: '同步按钮',
       onClick: syncClick,
@@ -45,7 +46,9 @@ export default (props: BasicProps) => {
     },
     {
       title: '下个隐藏',
-      onClick: console,
+      onClick: (e) => {
+        console.log('e', e);
+      },
     },
     {
       title: '更多操作1',
