@@ -1,3 +1,15 @@
+# [1.2.0-beta.3](https://github.com/wont-org/biz-ui/compare/v1.2.0-beta.2...v1.2.0-beta.3) (2025-04-25)
+
+### Bug Fixes
+
+- **FilterList:** 范围宽度对齐 ([2c58a39](https://github.com/wont-org/biz-ui/commit/2c58a397aecbabb0b4bd9f12ea72e9c8cf201d9e))
+
+### Features
+
+- **FilterList:** 区间宽度为 360 ([aaf2ec8](https://github.com/wont-org/biz-ui/commit/aaf2ec885e33e3d76266cc52fcac0b7134493dd5))
+- **FilterList:** validateOnInit 默认为 true ([144953b](https://github.com/wont-org/biz-ui/commit/144953b044a31e3d583a9febfce10d6705c20628))
+- **FormulaInput:** 新增 maxItem, minItem valueSelectProps 联动,公式严格校验 ([afeb0de](https://github.com/wont-org/biz-ui/commit/afeb0de34b603ee298690367066e0a9dbdb05a08))
+
 # [1.2.0-beta.2](https://github.com/wont-org/biz-ui/compare/v1.2.0-beta.1...v1.2.0-beta.2) (2025-04-23)
 
 ### Bug Fixes
