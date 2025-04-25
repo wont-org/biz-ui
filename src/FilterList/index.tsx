@@ -6,7 +6,7 @@ import { DefaultOptionType } from 'antd/lib/select';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import React, { useCallback, useState } from 'react';
-import { INPUT_NUMBER_PROPS } from '../utils/antd';
+import { INPUT_NUMBER_PROPS } from '../constant/antd';
 import {
   COMPONENT,
   FieldType,
