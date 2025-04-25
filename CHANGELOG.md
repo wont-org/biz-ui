@@ -1,3 +1,34 @@
+# [1.2.0-beta.3](https://github.com/wont-org/biz-ui/compare/v1.2.0-beta.2...v1.2.0-beta.3) (2025-04-25)
+
+### Bug Fixes
+
+- **FilterList:** 范围宽度对齐 ([2c58a39](https://github.com/wont-org/biz-ui/commit/2c58a397aecbabb0b4bd9f12ea72e9c8cf201d9e))
+
+### Features
+
+- **FilterList:** 区间宽度为 360 ([aaf2ec8](https://github.com/wont-org/biz-ui/commit/aaf2ec885e33e3d76266cc52fcac0b7134493dd5))
+- **FilterList:** validateOnInit 默认为 true ([144953b](https://github.com/wont-org/biz-ui/commit/144953b044a31e3d583a9febfce10d6705c20628))
+- **FormulaInput:** 新增 maxItem, minItem valueSelectProps 联动,公式严格校验 ([afeb0de](https://github.com/wont-org/biz-ui/commit/afeb0de34b603ee298690367066e0a9dbdb05a08))
+
+# [1.2.0-beta.2](https://github.com/wont-org/biz-ui/compare/v1.2.0-beta.1...v1.2.0-beta.2) (2025-04-23)
+
+### Bug Fixes
+
+- 解决样式被覆盖问题, 解决必填不展示问题 ([f3cc82f](https://github.com/wont-org/biz-ui/commit/f3cc82fa81e3abd38feb5a43a8b2421c75ffd926))
+- **FilterList:** 或和且样式居中问题 ([cf94695](https://github.com/wont-org/biz-ui/commit/cf9469560676ae333eae1d3936331569b749be38))
+
+### Features
+
+- **FilterList:** 支持自定义操作符比如 equal=> eq ([4b56486](https://github.com/wont-org/biz-ui/commit/4b56486a50fc63a9c866d8562d5296e48eb33962))
+
+# [1.2.0-beta.1](https://github.com/wont-org/biz-ui/compare/v1.1.0-beta.7...v1.2.0-beta.1) (2025-04-22)
+
+### Features
+
+- 新增数值范围输入框, 过滤列表录入组件 ([da354c3](https://github.com/wont-org/biz-ui/commit/da354c31f0a4fdceca93cf470660cb0ed24969c7))
+- **FilterList:** 过滤组件 ([7cd49d5](https://github.com/wont-org/biz-ui/commit/7cd49d51dd583da481e76091ae69868eed7630f6))
+- **FormulaInput:** 新增扩展参数 ([66eb458](https://github.com/wont-org/biz-ui/commit/66eb4586c056c76041b6af0bcdd4f5b48be60653))
+
 # [1.1.0-beta.7](https://github.com/wont-org/biz-ui/compare/v1.1.0-beta.6...v1.1.0-beta.7) (2025-03-26)
 
 ### Bug Fixes

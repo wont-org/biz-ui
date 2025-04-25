@@ -1,2 +1,7 @@
 _assets/
 .eslintrc.js
+es
+lib
+coverage
+docs-dist/*
+node_modules

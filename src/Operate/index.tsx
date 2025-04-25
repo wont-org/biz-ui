@@ -1,7 +1,7 @@
-import { Divider, Space, ButtonProps, Dropdown, DropDownProps } from 'antd';
+import { DownOutlined } from '@ant-design/icons';
+import { ButtonProps, Divider, Dropdown, DropDownProps, Space } from 'antd';
 import React from 'react';
 import AutoLoadingButton from '../AutoLoadingButton';
-import { DownOutlined } from '@ant-design/icons';
 
 type OperateDataItem = ButtonProps & {
   title: string;
@@ -15,11 +15,11 @@ export interface OperateProps {
 export default (props: OperateProps) => {
   const { data = [], showCount = 3, split = true, dropDownProps = {} } = props;
   const count = showCount === -1 ? data.length : Math.min(showCount, data.length);
-  const getListRender = (count: number) => {
+  const getListRender = (_count: number) => {
     if (showCount === 0) {
       return null;
     }
-    return data.slice(0, count).map((item) => {
+    return data.slice(0, _count).map((item) => {
       const { title, ...rest } = item;
       return (
         <AutoLoadingButton key={title} type="link" style={{ padding: 0 }} {...rest}>

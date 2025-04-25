@@ -36,12 +36,13 @@ const MultipleSelect = ({
       filterOption={(input, option) =>
         String(option?.label).toLowerCase().includes(input.toLowerCase())
       }
+      dropdownMatchSelectWidth={200}
       autoClearSearchValue={false}
+      {...props}
       onChange={onChange}
       onSearch={setSearchValue}
       onBlur={() => setSearchValue('')}
       onClear={() => setSearchValue('')}
-      {...props}
       dropdownRender={(menu) => (
         <>
           {menu}
@@ -96,7 +97,7 @@ const MultipleSelect = ({
               type="text"
               size="small"
               onClick={() => {
-                onChange?.([], {});
+                onChange?.([], []);
               }}
             >
               清空
