@@ -23,6 +23,20 @@ Powered by liukun`,
     // 配置入口文件路径，API 解析将从这里开始
     entryFile: './src/index.tsx',
   },
+  extraBabelPlugins: [
+    [
+      'import',
+      {
+        libraryName: 'antd',
+        libraryDirectory: 'es',
+        style: true,
+      },
+      'antd',
+    ],
+  ],
+  lessLoader: {
+    javascriptEnabled: true,
+  },
   alias: {
     '@wont/biz-ui': path.join(__dirname, 'src'),
   },
