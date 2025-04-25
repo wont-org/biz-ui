@@ -1,7 +1,7 @@
 import { FormulaInput } from '@wont/biz-ui';
-import { Button, Form, Space } from 'antd';
+import { validator } from '@wont/biz-ui/FormulaInput';
+import { Button, Card, Form, Space } from 'antd';
 import React from 'react';
-import { validator } from '..';
 import { FORMULA } from '../constant';
 
 const OPTIONS = [
@@ -33,6 +33,19 @@ export default () => {
       wrapperCol={{ span: 20 }}
       initialValues={{
         FormulaInput: [],
+        // FormulaInput: [
+        //   {
+        //     valueType: 'text',
+        //     value: 'apple',
+        //     type: 'clicks',
+        //   },
+        //   '-',
+        //   {
+        //     value: 'apple',
+        //     valueType: 'text',
+        //     type: 'clicks',
+        //   },
+        // ],
       }}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
@@ -43,11 +56,18 @@ export default () => {
         rules={[
           {
             required: true,
-            validator: (rule, val) => validator(rule, val),
+            validator: (rule, val) => {
+              const { validateStatus, message } = validator(val);
+              if (validateStatus === 'error') {
+                return Promise.reject(message);
+              }
+              return Promise.resolve();
+            },
           },
         ]}
       >
         <FormulaInput
+          minItem={0}
           valueSelectProps={{
             options: OPTIONS,
           }}
@@ -55,7 +75,8 @@ export default () => {
             options: [
               {
                 value: 'clicks',
-                valueType: 'text',
+                // valueType: keyof typeof FORMULA text|number
+                valueType: FORMULA.text.valueType,
                 label: '点击数(clicks)',
               },
               ...Object.values(FORMULA),
@@ -70,6 +91,17 @@ export default () => {
           </Button>
           <Button htmlType="reset">Reset</Button>
         </Space>
+      </Form.Item>
+      <Form.Item
+        shouldUpdate={(prevValues, curValues) => prevValues.FormulaInput !== curValues.FormulaInput}
+      >
+        {({ getFieldValue }) => {
+          return (
+            <Card title="公式数据">
+              <pre>{JSON.stringify(getFieldValue('FormulaInput'), null, 2)}</pre>
+            </Card>
+          );
+        }}
       </Form.Item>
     </Form>
   );

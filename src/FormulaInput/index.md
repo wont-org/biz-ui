@@ -12,3 +12,7 @@ group:
 ## 基础用法
 
 <code src="./demo/Basic.tsx"></code>
+
+## 高级用法
+
+<code src="./demo/Advanced.tsx"></code>
