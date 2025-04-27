@@ -1,5 +1,5 @@
 import { FormulaInput } from '@wont/biz-ui';
-import { validator } from '@wont/biz-ui/FormulaInput';
+import { validator } from '@wont/biz-ui/FormulaInput/utils';
 import { Button, Card, Form, Space } from 'antd';
 import React, { useState } from 'react';
 import { FORMULA } from '../constant';
@@ -78,25 +78,29 @@ export default () => {
         labelCol={{ span: 4 }}
         wrapperCol={{ span: 20 }}
         initialValues={{
-          FormulaInput: [
-            {
-              valueType: 'text',
-              value: 'pageViews',
-              type: 'clicks',
-            },
-            '+',
-            {
-              valueType: 'text',
-              value: 'purchases',
-              type: 'conversions',
-            },
-            '/',
-            {
-              valueType: 'number',
-              value: 100,
-              type: 'number',
-            },
-          ],
+          FormulaInput: {
+            formula: [
+              {
+                valueType: 'text',
+                value: 'pageViews',
+                type: 'clicks',
+              },
+              '+',
+              {
+                valueType: 'text',
+                value: 'purchases',
+                type: 'conversions',
+              },
+              '/',
+              {
+                valueType: 'number',
+                value: 100,
+                type: 'number',
+              },
+            ],
+            name: '示例公式名称',
+            precision: 2,
+          },
         }}
         onFinish={onFinish}
       >
@@ -117,6 +121,12 @@ export default () => {
           ]}
         >
           <FormulaInput
+            nameInputProps={{
+              useName: true,
+              minLength: 1,
+              maxLength: 50,
+              showCount: true,
+            }}
             valueSelectProps={useAsync ? getAsyncValueOptions : getValueOptions}
             typeSelectProps={{
               options: [
