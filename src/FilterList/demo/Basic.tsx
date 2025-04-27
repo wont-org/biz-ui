@@ -1,7 +1,7 @@
+import { MinusOutlined } from '@ant-design/icons';
 import { FilterList } from '@wont/biz-ui';
 import { FIELD_TYPES, RELATION } from '@wont/biz-ui/FilterList/constant';
 import { validator } from '@wont/biz-ui/FilterList/utils';
-import { IconFont, ICON_TYPE } from '@wont/biz-ui/IconFont/icon';
 import { Button, Card, Form, Space, Switch, Typography } from 'antd';
 import React, { useState } from 'react';
 
@@ -163,7 +163,7 @@ export default () => {
           ]}
         >
           <FilterList
-            deleteIcon={<IconFont type={ICON_TYPE.refresh} />}
+            deleteIcon={<MinusOutlined />}
             conditionSelectProps={{ options: OPTIONS }}
             conditionNumberValueProps={{
               min: 1,
