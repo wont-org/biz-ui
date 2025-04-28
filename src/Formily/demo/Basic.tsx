@@ -13,8 +13,11 @@ import { Button, Form } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
 import { SelectProps } from 'antd/lib';
 import React, { useState } from 'react';
+import { Option } from '../CheckBoxWithAll';
 
-const getDefaultOptions = (): Required<SelectProps>['options'] => [
+const getDefaultOptions = (): (Option<string> & {
+  operateDisabled?: boolean;
+})[] => [
   {
     value: 'apple',
     label: '苹果',
