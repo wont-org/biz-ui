@@ -6,7 +6,7 @@ import { DefaultOptionType } from 'antd/lib/select';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import React, { useCallback, useState } from 'react';
-import { INPUT_NUMBER_PROPS } from '../utils/antd';
+import { INPUT_NUMBER_PROPS } from '../constant/antd';
 import {
   COMPONENT,
   FieldType,
@@ -26,6 +26,7 @@ moment.locale('zh-cn');
 
 export default function FilterList(props: FilterProps) {
   const {
+    deleteIcon = <DeleteOutlined />,
     value = { relation: RELATION.and.value, filterList: [] },
     onChange,
     conditionSelectProps = {},
@@ -368,7 +369,7 @@ export default function FilterList(props: FilterProps) {
                 <Button
                   type="link"
                   danger
-                  icon={<DeleteOutlined />}
+                  icon={deleteIcon}
                   onClick={() => handleRemoveCondition(index)}
                 />
               </Tooltip>

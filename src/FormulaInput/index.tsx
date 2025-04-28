@@ -1,202 +1,40 @@
-import { InputNumber, InputNumberProps, message, Select, SelectProps } from 'antd';
+import { Input, InputNumber, message, Select, SelectProps, Space } from 'antd';
 import { omit } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
-import { isInvalidValue } from '../utils/commom';
-import { ValueOfConst } from '../utils/types';
-import { BRACKETS, FORMULA, OP_LIST } from './constant';
-import './index.less';
+import { BRACKETS, DECIMAL_PLACES, FORMULA, OP_LIST } from './constant';
+import { StyledFormulaInput } from './styled';
+import { FormulaInputProps, ValueItem } from './type';
+import { validator } from './utils';
 
-export const validator = (val: FormulaInputProps['value']) => {
-  if (!val || val.length === 0) {
-    return {
-      validateStatus: 'error',
-      message: '公式不能为空',
-    };
-  }
-
-  // 步骤1: 检查基本语法规则
-
-  // 检查表达式是否以运算符开头
-  const first = val[0];
-  if (typeof first === 'string' && OP_LIST.includes(first)) {
-    return {
-      validateStatus: 'error',
-      message: '公式不能以运算符开头',
-    };
-  }
-
-  // 检查表达式是否以运算符结尾
-  const last = val?.[val.length - 1];
-  if (typeof last === 'string' && OP_LIST.includes(last)) {
-    return {
-      validateStatus: 'error',
-      message: '公式末尾不能为运算符',
-    };
-  }
-
-  // 检查括号是否成对出现且正确嵌套
-  const bracketStack: string[] = [];
-  for (const item of val) {
-    if (typeof item === 'string') {
-      if (item === '(') {
-        bracketStack.push(item);
-      } else if (item === ')') {
-        if (bracketStack.length === 0 || bracketStack.pop() !== '(') {
-          return {
-            validateStatus: 'error',
-            message: '括号必须成对出现且正确嵌套',
-          };
-        }
-      }
-    }
-  }
-
-  if (bracketStack.length > 0) {
-    return {
-      validateStatus: 'error',
-      message: '括号必须成对出现且正确嵌套',
-    };
-  }
-
-  // 步骤2: 检查运算符与操作数、括号的位置关系
-  let hasOperandOrCloseBracket = false; // 跟踪前一个元素是否为操作数或右括号
-  let hasOperandOrBracket = false; // 跟踪是否至少有一个操作数或括号
-
-  for (let i = 0; i < val.length; i++) {
-    const current = val[i];
-    const next = i < val.length - 1 ? val[i + 1] : null;
-
-    // 检查运算符是否位于两个操作数之间
-    if (typeof current === 'string' && OP_LIST.includes(current)) {
-      if (!hasOperandOrCloseBracket) {
-        return {
-          validateStatus: 'error',
-          message: '运算符前必须是操作数或右括号',
-        };
-      }
-
-      if (!next || (typeof next === 'string' && OP_LIST.includes(next))) {
-        return {
-          validateStatus: 'error',
-          message: '运算符不能连续',
-        };
-      }
-
-      if (next === ')') {
-        return {
-          validateStatus: 'error',
-          message: '运算符后不能直接跟右括号',
-        };
-      }
-
-      hasOperandOrCloseBracket = false;
-    }
-    // 检查左括号位置规则
-    else if (current === '(') {
-      if (next === ')') {
-        return {
-          validateStatus: 'error',
-          message: '括号内必须包含合法子表达式',
-        };
-      }
-
-      if (next && typeof next === 'string' && OP_LIST.includes(next)) {
-        return {
-          validateStatus: 'error',
-          message: '左括号后不能直接跟运算符',
-        };
-      }
-
-      hasOperandOrCloseBracket = false;
-    }
-    // 检查右括号位置规则
-    else if (current === ')') {
-      if (!hasOperandOrCloseBracket) {
-        return {
-          validateStatus: 'error',
-          message: '右括号前必须是操作数或右括号',
-        };
-      }
-
-      hasOperandOrCloseBracket = true;
-    }
-    // 操作数
-    else if (typeof current === 'object' && next && typeof next === 'object') {
-      // 检查连续的操作数之间是否缺少运算符
-      return {
-        validateStatus: 'error',
-        message: '操作数之间必须有运算符',
-      };
-    } else {
-      hasOperandOrCloseBracket = true;
-      hasOperandOrBracket = true;
-    }
-  }
-
-  // 检查表达式中是否至少有一个操作数
-  if (!hasOperandOrBracket) {
-    return {
-      validateStatus: 'error',
-      message: '公式必须包含至少一个操作数',
-    };
-  }
-
-  // 步骤3: 检查操作数为空值
-  if (
-    val?.some((e) => typeof e === 'object' && (isInvalidValue(e.value) || isInvalidValue(e.type)))
-  ) {
-    return {
-      validateStatus: 'error',
-      message: '公式每项不能为空',
-    };
-  }
-
-  return {
-    validateStatus: undefined,
-    message: undefined,
-  };
+const defaultValue = {
+  formula: [],
+  name: '',
+  precision: 0,
 };
-
-interface ValueItem extends Record<string, any> {
-  value?: string | number | null;
-  valueType: ValueOfConst<typeof FORMULA, 'valueType'>;
-  type?: string | number | null;
-}
-export interface FormulaInputProps {
-  value?: (ValueItem | string)[];
-  onChange?: (val: FormulaInputProps['value']) => void;
-  typeSelectProps?: SelectProps;
-  valueSelectProps?:
-    | SelectProps
-    | ((type?: string | number | null) => SelectProps | Promise<SelectProps>);
-  inputNumberProps?: InputNumberProps;
-  maxItem?: number;
-  minItem?: number;
-  // fieldNames?: {
-  //   value?: string;
-  //   valueType?: ValueItem['valueType'];
-  //   type?: string;
-  // };
-}
 const FormulaInput = (props: FormulaInputProps) => {
   const {
     maxItem = 5,
     minItem = 1,
-    value = [],
+    value,
+    nameInputProps = {},
     valueSelectProps = {},
     typeSelectProps = {},
+    precisionSelectProps = {
+      options: Object.values(DECIMAL_PLACES),
+    },
     onChange,
     inputNumberProps = {},
-    // fieldNames = {
-    //   value: 'value',
-    //   valueType: 'valueType',
-    //   type: 'type',
-    // },
   } = props;
+  const { useName = true } = nameInputProps;
+  const [showValidation, setShowValidation] = useState(false);
   const [cursorIndex, setCursorIndex] = useState<undefined | number>(undefined);
-  const [valueOptions, setValueOptions] = useState<Record<number, SelectProps['options']>>({});
+  const [valueOptions, setValueOptions] = useState<Record<number, SelectProps['options']>>([]);
   const [optionsLoading, setOptionsLoading] = useState<Record<number, boolean>>({});
   const formulaInputRef = useRef<HTMLInputElement>(null);
+
+  const formulaValue = value?.formula || defaultValue.formula;
+  const formulaName = value?.name || defaultValue.name;
+  const formulaPrecision = value?.precision ?? defaultValue.precision;
 
   // 获取指定类型对应的valueOptions
   const getValueOptions = async (index: number, type?: string | number | null) => {
@@ -231,17 +69,22 @@ const FormulaInput = (props: FormulaInputProps) => {
 
   // 处理初始值和空值情况
   useEffect(() => {
-    // 如果value为空且需要默认项，则通知外部
-    if ((!value || value.length === 0) && minItem >= 1 && onChange) {
-      onChange([{ value: undefined, valueType: FORMULA.text.valueType }]);
+    // 如果value未定义或formula为空且需要默认项，则通知外部
+    if ((!value?.formula || value?.formula.length === 0) && minItem >= 1 && onChange) {
+      onChange({
+        formula: [{ value: undefined, valueType: FORMULA.text.valueType }],
+        name: formulaName,
+        precision: formulaPrecision,
+      });
+      setShowValidation(false);
     }
-  }, [value, minItem, onChange]);
+  }, [value, minItem, onChange, formulaName, formulaPrecision, valueOptions]);
 
   // 初始化时预加载所有类型的选项
   useEffect(() => {
     // 收集所有不同的类型
     const typeSet = new Set<string | number | null>();
-    value.forEach((item) => {
+    formulaValue.forEach((item) => {
       if (typeof item === 'object' && item.type) {
         typeSet.add(item.type);
       }
@@ -250,20 +93,22 @@ const FormulaInput = (props: FormulaInputProps) => {
     // 为每种类型加载选项
     const loadOptions = async () => {
       // 保存当前选中项目的索引和类型，用于更新状态
-      const currentItemIndex = value.findIndex(
+      const currentItemIndex = formulaValue.findIndex(
         (item) =>
           typeof item === 'object' && item.valueType === FORMULA.text.valueType && item.value,
       );
 
       if (currentItemIndex >= 0) {
-        const currentItem = value[currentItemIndex] as ValueItem;
+        const currentItem = formulaValue[currentItemIndex] as ValueItem;
         // 为当前选中项加载选项
         await getValueOptions(currentItemIndex, currentItem.type);
       }
 
       // 为所有其他类型预加载选项
       Array.from(typeSet).forEach(async (type) => {
-        const typeIndex = value.findIndex((item) => typeof item === 'object' && item.type === type);
+        const typeIndex = formulaValue.findIndex(
+          (item) => typeof item === 'object' && item.type === type,
+        );
         if (typeIndex >= 0 && typeIndex !== currentItemIndex) {
           await getValueOptions(typeIndex, type);
         }
@@ -281,7 +126,7 @@ const FormulaInput = (props: FormulaInputProps) => {
   const allowInputs = [...OP_LIST, ...BRACKETS];
 
   const focusInput = () => {
-    setCursorIndex(value.length);
+    setCursorIndex(formulaValue.length);
     formulaInputRef.current?.focus();
   };
 
@@ -297,28 +142,43 @@ const FormulaInput = (props: FormulaInputProps) => {
       return;
     }
 
-    const itemLength = value.filter((i) => typeof i === 'object').length;
+    const itemLength = formulaValue.filter((i) => typeof i === 'object').length;
     if (itemLength >= maxItem) {
       message.error(`最多输入${maxItem}个公式`);
       return;
     }
 
     // 当光标不在最后时，在当前位置插入字符
-    if (cursorIndex !== value.length) {
-      const newValue = [...value];
-      newValue.splice(cursorIndex, 0, data);
-      onChange(newValue);
+    if (cursorIndex !== formulaValue.length) {
+      const newFormula = [...formulaValue];
+      newFormula.splice(cursorIndex, 0, data);
+      onChange({
+        formula: newFormula,
+        name: formulaName,
+        precision: formulaPrecision,
+      });
+      setShowValidation(true);
       setCursorIndex(cursorIndex + 1);
       return;
     }
 
     if (BRACKETS.includes(data)) {
-      const newValue = [...value];
-      newValue.splice(cursorIndex, 0, data);
-      onChange(newValue);
+      const newFormula = [...formulaValue];
+      newFormula.splice(cursorIndex, 0, data);
+      onChange({
+        formula: newFormula,
+        name: formulaName,
+        precision: formulaPrecision,
+      });
+      setShowValidation(true);
       setCursorIndex(cursorIndex + 1);
     } else {
-      onChange([...value, data, { value: undefined, valueType: FORMULA.text.valueType }]);
+      onChange({
+        formula: [...formulaValue, data, { value: undefined, valueType: FORMULA.text.valueType }],
+        name: formulaName,
+        precision: formulaPrecision,
+      });
+      setShowValidation(true);
       setCursorIndex(cursorIndex + 2);
     }
   };
@@ -341,7 +201,7 @@ const FormulaInput = (props: FormulaInputProps) => {
     if (typeof cursorIndex !== 'number') {
       return;
     }
-    if (cursorIndex < value.length) {
+    if (cursorIndex < formulaValue.length) {
       setCursorIndex(cursorIndex + 1);
     }
   };
@@ -352,23 +212,71 @@ const FormulaInput = (props: FormulaInputProps) => {
     }
     if (cursorIndex > 0) {
       if (
-        value.filter((e) => typeof e === 'object').length <= minItem &&
-        typeof value[cursorIndex - 1] === 'object'
+        formulaValue.filter((e) => typeof e === 'object').length <= minItem &&
+        typeof formulaValue[cursorIndex - 1] === 'object'
       ) {
         message.error(`至少保留${minItem}个公式`);
         return;
       }
-      const newValue = [...value];
-      newValue.splice(cursorIndex - 1, 1);
-      onChange(newValue);
+      const newFormula = [...formulaValue];
+      newFormula.splice(cursorIndex - 1, 1);
+      onChange({
+        formula: newFormula,
+        name: formulaName,
+        precision: formulaPrecision,
+      });
+      setShowValidation(true);
       setCursorIndex(cursorIndex - 1);
     }
   };
 
+  const updateName = (name: string) => {
+    if (onChange) {
+      onChange({
+        formula: formulaValue,
+        name,
+        precision: formulaPrecision,
+      });
+      setShowValidation(true);
+    }
+  };
+
+  const updatePrecision = (precision: number) => {
+    if (onChange) {
+      onChange({
+        formula: formulaValue,
+        name: formulaName,
+        precision,
+      });
+      setShowValidation(true);
+    }
+  };
+
+  // 使用validator的结果来确定验证状态
+  const _showValidation = showValidation && validator(value, props).validateStatus === 'error';
   return (
-    <div className="formulaInputComponent">
+    <StyledFormulaInput $validateStatus={_showValidation}>
+      <Space className="space-reset">
+        {useName && (
+          <Input
+            placeholder="请输入"
+            allowClear
+            showCount={typeof nameInputProps.maxLength === 'number' ? true : false}
+            {...omit(nameInputProps, ['validator', 'useName'])}
+            value={formulaName}
+            onChange={(e) => updateName(e.target.value)}
+          />
+        )}
+        <Select
+          style={{ width: 110 }}
+          placeholder="请选择"
+          {...precisionSelectProps}
+          value={formulaPrecision}
+          onChange={(_value) => updatePrecision(_value as number)}
+        />
+      </Space>
       <div className="showBox" onClick={focusInput}>
-        {value.map((item, index) => (
+        {formulaValue.map((item, index) => (
           <div key={index} className="showBox__Item" onClick={(e) => e.stopPropagation()}>
             <div
               className={`blank ${cursorIndex === index ? 'ing' : ''}`}
@@ -395,14 +303,19 @@ const FormulaInput = (props: FormulaInputProps) => {
                       }
 
                       // 处理类型变更
-                      const newValue = [...value];
-                      newValue[index] = {
+                      const newFormula = [...formulaValue];
+                      newFormula[index] = {
                         ...item,
                         ...omit(option, ['value', 'label']),
                         type: val,
                         value: val !== FORMULA.number.valueType ? undefined : item.value,
                       };
-                      onChange(newValue);
+                      onChange({
+                        formula: newFormula,
+                        name: formulaName,
+                        precision: formulaPrecision,
+                      });
+                      setShowValidation(true);
 
                       // 加载对应类型的选项
                       getValueOptions(index, val);
@@ -429,13 +342,18 @@ const FormulaInput = (props: FormulaInputProps) => {
                             return;
                           }
 
-                          const newValue = [...value];
-                          newValue[index] = {
+                          const newFormula = [...formulaValue];
+                          newFormula[index] = {
                             ...item,
                             ...omit(option, ['value', 'label']),
                             value: _value,
                           };
-                          onChange(newValue);
+                          onChange({
+                            formula: newFormula,
+                            name: formulaName,
+                            precision: formulaPrecision,
+                          });
+                          setShowValidation(true);
                         }}
                         onFocus={() => {
                           getValueOptions(index, item.type);
@@ -457,12 +375,17 @@ const FormulaInput = (props: FormulaInputProps) => {
                             return;
                           }
 
-                          const newValue = [...value];
-                          newValue[index] = {
+                          const newFormula = [...formulaValue];
+                          newFormula[index] = {
                             ...item,
                             value: _value,
                           };
-                          onChange(newValue);
+                          onChange({
+                            formula: newFormula,
+                            name: formulaName,
+                            precision: formulaPrecision,
+                          });
+                          setShowValidation(true);
                         }}
                       />
                     )}
@@ -475,7 +398,7 @@ const FormulaInput = (props: FormulaInputProps) => {
           </div>
         ))}
         <div className="showBox__Item">
-          <div className={`blank ${cursorIndex === value.length ? 'ing' : ''}`} />
+          <div className={`blank ${cursorIndex === formulaValue.length ? 'ing' : ''}`} />
         </div>
       </div>
 
@@ -502,7 +425,7 @@ const FormulaInput = (props: FormulaInputProps) => {
           }
         }}
       />
-    </div>
+    </StyledFormulaInput>
   );
 };
 

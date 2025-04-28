@@ -1,3 +1,11 @@
+# [1.2.0](https://github.com/wont-org/biz-ui/compare/v1.2.0-beta.3...v1.2.0) (2025-04-27)
+
+### Features
+
+- **FilterList:** 自定义删除 icon ([3c2fea0](https://github.com/wont-org/biz-ui/commit/3c2fea0e403e02e2abca8464dc7a4f8f26b96a00))
+- **FormulaInput:** 新增名称和小数位设置 ([ee8a8e8](https://github.com/wont-org/biz-ui/commit/ee8a8e8eb0745ed4507789aa4d4e0b77f3999aa9))
+- utils 新增 antd table 删除刷新方法 ([4c42f4a](https://github.com/wont-org/biz-ui/commit/4c42f4ae64c45f847f80bf444820903ce4264722))
+
 # [1.2.0-beta.3](https://github.com/wont-org/biz-ui/compare/v1.2.0-beta.2...v1.2.0-beta.3) (2025-04-25)
 
 ### Bug Fixes

@@ -1,7 +1,7 @@
 import { InputNumber, InputNumberProps } from 'antd';
 import React, { CSSProperties } from 'react';
 import { styled } from 'styled-components';
-import { INPUT_NUMBER_PROPS } from '../utils/antd';
+import { INPUT_NUMBER_PROPS } from '../constant/antd';
 
 const RangeContainer = styled.div`
   display: flex;

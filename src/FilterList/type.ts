@@ -21,6 +21,7 @@ export interface FilterValue {
 }
 
 export interface FilterProps {
+  deleteIcon?: React.ReactNode;
   /**
    * 筛选器值，包含关系和条件列表
    */

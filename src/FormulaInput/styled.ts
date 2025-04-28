@@ -1,13 +1,14 @@
-@keyframes flick {
-  50% {
-    border: none;
-  }
-}
+import { styled } from 'styled-components';
 
-.formulaInputComponent {
+export const StyledFormulaInput = styled.div<{
+  $validateStatus?: boolean;
+}>`
+  .space-reset {
+    margin-bottom: 8px;
+  }
+
   .showBox {
     padding: 2px 5px;
-    // width: 500px;
     min-height: 50px;
     border: 1px solid #cbd5ee;
     border-radius: 4px;
@@ -16,9 +17,11 @@
     flex-wrap: wrap;
     overflow: auto;
     position: relative;
-    resize: both;
+    resize: vertical;
     box-sizing: border-box;
     outline-color: #000;
+
+    border-color: ${({ $validateStatus }) => ($validateStatus ? '#ff4d4f' : '#cbd5ee')};
 
     &__Item {
       display: flex;
@@ -78,4 +81,10 @@
     overflow: visible;
     z-index: -1;
   }
-}
+
+  @keyframes flick {
+    50% {
+      border: none;
+    }
+  }
+`;

@@ -1,3 +1,4 @@
+import { MinusOutlined } from '@ant-design/icons';
 import { FilterList } from '@wont/biz-ui';
 import { FIELD_TYPES, RELATION } from '@wont/biz-ui/FilterList/constant';
 import { validator } from '@wont/biz-ui/FilterList/utils';
@@ -162,6 +163,7 @@ export default () => {
           ]}
         >
           <FilterList
+            deleteIcon={<MinusOutlined />}
             conditionSelectProps={{ options: OPTIONS }}
             conditionNumberValueProps={{
               min: 1,
