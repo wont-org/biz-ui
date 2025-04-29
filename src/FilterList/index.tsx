@@ -84,11 +84,11 @@ export default function FilterList(props: FilterProps) {
           otherProps[key] = (selectedOption as Record<string, unknown>)[key];
         }
       });
-      let _value = undefined;
+      let _value: ConditionValue = [];
       if (defaultOperator === newOperators.isTrue.value) {
-        _value = true;
+        _value = [true];
       } else if (defaultOperator === newOperators.isFalse.value) {
-        _value = false;
+        _value = [false];
       }
 
       newFilterList[index] = {
@@ -132,16 +132,18 @@ export default function FilterList(props: FilterProps) {
 
       const newFilterList = [...filterList];
       // 根据不同操作符设置不同的默认值
-      let defaultValue: ConditionValue = undefined;
+      let defaultValue: ConditionValue = [];
 
       if (operator === newOperators.range.value) {
         if (condition.fieldType === 'number') {
-          defaultValue = [undefined, undefined] as [number | undefined, number | undefined];
+          defaultValue = [undefined, undefined];
         }
       } else if (operator === newOperators.isTrue.value) {
-        defaultValue = true;
+        defaultValue = [true];
       } else if (operator === newOperators.isFalse.value) {
-        defaultValue = false;
+        defaultValue = [false];
+      } else {
+        defaultValue = [];
       }
 
       newFilterList[index] = {
@@ -206,7 +208,7 @@ export default function FilterList(props: FilterProps) {
       field: firstOption.value,
       fieldType: firstOption.fieldType,
       operator: defaultOperator as OperatorType,
-      value: undefined,
+      value: [],
     };
 
     onChange?.({ ...value, filterList: [...filterList, newCondition] });

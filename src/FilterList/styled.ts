@@ -12,7 +12,6 @@ export const StyledRelation = styled.div<{
     text-align: center;
     position: absolute;
     left: -15px;
-    z-index: 10;
     display: flex;
     align-items: center;
     justify-content: center;

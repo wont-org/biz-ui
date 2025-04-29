@@ -29,10 +29,10 @@ export const renderValueComponent = (
           placeholder="请输入"
           allowClear
           {...(restProps as any)}
-          value={value as string}
+          value={Array.isArray(value) && value.length > 0 ? (value[0] as string) : ''}
           onChange={(e) => {
             if (typeof onChange === 'function') {
-              onChange(e.target.value);
+              onChange([e.target.value]);
             }
           }}
         />
@@ -44,10 +44,10 @@ export const renderValueComponent = (
           placeholder="请输入"
           allowClear
           {...(restProps as any)}
-          value={value as string}
+          value={Array.isArray(value) && value.length > 0 ? (value[0] as string) : ''}
           onChange={(e) => {
             if (typeof onChange === 'function') {
-              onChange(e.target.value);
+              onChange([e.target.value]);
             }
           }}
         />
@@ -57,10 +57,10 @@ export const renderValueComponent = (
         <InputNumber
           style={styleProps}
           {...restProps}
-          value={value as number}
+          value={Array.isArray(value) && value.length > 0 ? (value[0] as number) : undefined}
           onChange={(val) => {
             if (typeof onChange === 'function') {
-              onChange(val);
+              onChange([val]);
             }
           }}
         />
@@ -92,10 +92,10 @@ export const renderValueComponent = (
           placeholder="请选择"
           style={styleProps}
           {...(restProps as any)}
-          value={value as string}
+          value={Array.isArray(value) && value.length > 0 ? (value[0] as string) : undefined}
           onChange={(val) => {
             if (typeof onChange === 'function') {
-              onChange(val);
+              onChange([val]);
             }
           }}
         />
@@ -119,10 +119,12 @@ export const renderValueComponent = (
           style={styleProps}
           placeholder="请选择日期"
           {...(restProps as any)}
-          value={value ? moment(value as string) : null}
+          value={
+            Array.isArray(value) && value.length > 0 && value[0] ? moment(value[0] as string) : null
+          }
           onChange={(date, dateString) => {
             if (typeof onChange === 'function') {
-              onChange(dateString || undefined);
+              onChange([dateString || undefined]);
             }
           }}
         />
@@ -152,10 +154,12 @@ export const renderValueComponent = (
           style={styleProps}
           placeholder="请选择日期时间"
           {...(restProps as any)}
-          value={value ? moment(value as string) : null}
+          value={
+            Array.isArray(value) && value.length > 0 && value[0] ? moment(value[0] as string) : null
+          }
           onChange={(date, dateString) => {
             if (typeof onChange === 'function') {
-              onChange(dateString || undefined);
+              onChange([dateString || undefined]);
             }
           }}
         />
