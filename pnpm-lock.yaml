@@ -38,6 +38,9 @@ importers:
       react:
         specifier: '>=16.9.0'
         version: 18.3.1
+      react-color:
+        specifier: ^2.19.3
+        version: 2.19.3(react@18.3.1)
       react-dom:
         specifier: '>=16.9.0'
         version: 18.3.1(react@18.3.1)
@@ -57,6 +60,9 @@ importers:
       '@types/react':
         specifier: ^16.9.0
         version: 16.14.63
+      '@types/react-color':
+        specifier: ^3.0.13
+        version: 3.0.13(@types/react@16.14.63)
       '@types/react-dom':
         specifier: ^16.9.0
         version: 16.9.25(@types/react@16.14.63)
@@ -69,6 +75,9 @@ importers:
       babel-plugin-import:
         specifier: ^1.13.8
         version: 1.13.8
+      babel-plugin-styled-components:
+        specifier: ^2.1.4
+        version: 2.1.4(@babel/core@7.26.10)(styled-components@6.1.17(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
       bumpp:
         specifier: ^9.4.0
         version: 9.11.1
@@ -271,6 +280,10 @@ packages:
     resolution: {integrity: sha512-VybsKvpiN1gU1sdMZIp7FcqphVVKEwcuj02x73uvcHE0PTihx1nlBcowYWhDwjpoAXRv43+gDzyggGnn1XZhVw==}
     engines: {node: '>=6.9.0'}
 
+  '@babel/helper-annotate-as-pure@7.25.9':
+    resolution: {integrity: sha512-gv7320KBUFJz1RnylIg5WWYPRXKZ884AGkYpgpWW02TH66Dl+HaC1t1CKd0z3R4b6hdYEcmrNZHUmfCP+1u3/g==}
+    engines: {node: '>=6.9.0'}
+
   '@babel/helper-compilation-targets@7.27.0':
     resolution: {integrity: sha512-LVk7fbXml0H2xH34dFzKQ7TDZ2G4/rVTOrq9V+icbbadjbVxxeFeDsNHv2SrZeWoA+6ZiTyWYWtScEIW07EAcA==}
     engines: {node: '>=6.9.0'}
@@ -348,6 +361,12 @@ packages:
 
   '@babel/plugin-syntax-json-strings@7.8.3':
     resolution: {integrity: sha512-lY6kdGpWHvjoe2vk4WrAapEuBR69EMxZl+RoGRhrFGNYVK8mOPAW8VfbT/ZgrFbXlDNiiaxQnAtgVCZ6jv30EA==}
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+
+  '@babel/plugin-syntax-jsx@7.25.9':
+    resolution: {integrity: sha512-ld6oezHQMZsZfp6pWtbjaNDF2tiiCYYDqQszHt5VV437lewP9aSi2Of99CK0D0XB21k7FLgnLcmQKyKzynfeAA==}
+    engines: {node: '>=6.9.0'}
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
@@ -992,6 +1011,11 @@ packages:
 
   '@iconify/utils@2.1.1':
     resolution: {integrity: sha512-H8xz74JDzDw8f0qLxwIaxFMnFkbXTZNWEufOk3WxaLFHV4h0A2FjIDgNk5LzC0am4jssnjdeJJdRs3UFu3582Q==}
+
+  '@icons/material@0.2.4':
+    resolution: {integrity: sha512-QPcGmICAPbGLGb6F/yNf/KzKqvFx8z5qx3D1yFqVAjoFmXK35EgyW+cJ57Te3CNsmzblwtzakLGFqHPqrfb4Tw==}
+    peerDependencies:
+      react: '*'
 
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
@@ -1639,6 +1663,11 @@ packages:
   '@types/ramda@0.29.3':
     resolution: {integrity: sha512-Yh/RHkjN0ru6LVhSQtTkCRo6HXkfL9trot/2elzM/yXLJmbLm2v6kJc8yftTnwv1zvUob6TEtqI2cYjdqG3U0Q==}
 
+  '@types/react-color@3.0.13':
+    resolution: {integrity: sha512-2c/9FZ4ixC5T3JzN0LP5Cke2Mf0MKOP2Eh0NPDPWmuVH3NjPyhEjqNMQpN1Phr5m74egAy+p2lYNAFrX1z9Yrg==}
+    peerDependencies:
+      '@types/react': '*'
+
   '@types/react-dom@16.9.25':
     resolution: {integrity: sha512-ZK//eAPhwft9Ul2/Zj+6O11YR6L4JX0J2sVeBC9Ft7x7HFN7xk7yUV/zDxqV6rjvqgl6r8Dq7oQImxtyf/Mzcw==}
     peerDependencies:
@@ -1646,6 +1675,11 @@ packages:
 
   '@types/react@16.14.63':
     resolution: {integrity: sha512-s83gano0fRBVEw3ejdLpjgvU83F0LIeeuXqdxfPZF/Sc2bhr60tEqCK1zZ+aLirBwRSD6V5zCtOsEjcwKow3JQ==}
+
+  '@types/reactcss@1.2.13':
+    resolution: {integrity: sha512-gi3S+aUi6kpkF5vdhUsnkwbiSEIU/BEJyD7kBy2SudWBUuKmJk8AQKE0OVcQQeEy40Azh0lV6uynxlikYIJuwg==}
+    peerDependencies:
+      '@types/react': '*'
 
   '@types/resolve@1.20.6':
     resolution: {integrity: sha512-A4STmOXPhMUtHH+S6ymgE2GiBSMqf4oTvcQZMcHzokuTLVYzXTB8ttjcgxOVaAp2lGwEdzZ0J+cRbbeevQj1UQ==}
@@ -2298,6 +2332,11 @@ packages:
 
   babel-plugin-react-require@3.1.3:
     resolution: {integrity: sha512-kDXhW2iPTL81x4Ye2aUMdEXQ56JP0sBJmRQRXJPH5FsNB7fOc/YCsHTqHv8IovPyw9Rk07gdd7MVUz8tUmRBCA==}
+
+  babel-plugin-styled-components@2.1.4:
+    resolution: {integrity: sha512-Xgp9g+A/cG47sUyRwwYxGM4bR/jDRg5N6it/8+HxCnbT5XNKSKDT9xm4oag/osgqjC2It/vH0yXsomOG6k558g==}
+    peerDependencies:
+      styled-components: '>= 2'
 
   babel-plugin-transform-define@2.0.1:
     resolution: {integrity: sha512-7lDR1nFGSJHmhq/ScQtp9LTDmNE2yKPoLtwfiu+WQZnj84XL/J/5AZWZXwYcOwbDtUPhtg+y0yxTiP/oGDU6Kw==}
@@ -5086,6 +5125,9 @@ packages:
   markdown-table@3.0.4:
     resolution: {integrity: sha512-wiYz4+JrLyb/DqW2hkFJxP7Vd7JuTDm77fvbM8VfEQdmSMqcImWeeRbHwZjBjIFki/VaMK2BhFi7oUUZeM5bqw==}
 
+  material-colors@1.2.6:
+    resolution: {integrity: sha512-6qE4B9deFBIa9YSpOc9O0Sgc43zTeVYbgDT5veRKSlB2+ZuHNoVVxA1L/ckMUayV9Ay9y7Z/SZCLcGteW9i7bg==}
+
   math-intrinsics@1.1.0:
     resolution: {integrity: sha512-/IXtbwEk5HTPyEwyKX6hGkYXxM9nbj64B+ilVJnC/R6B0pH5G4V3b0pVbL7DBj4tkhBAppbQUlf6F6Xl9LHu1g==}
     engines: {node: '>= 0.4'}
@@ -6611,6 +6653,11 @@ packages:
   rc@1.2.8:
     resolution: {integrity: sha512-y3bGgqKj3QBdxLbLkomlohkvsA8gdAiUQlSBJnBhfn+BPxg4bc62d8TcBW15wavDfgexCgccckhcZvywyQYPOw==}
     hasBin: true
+
+  react-color@2.19.3:
+    resolution: {integrity: sha512-LEeGE/ZzNLIsFWa1TMe8y5VYqr7bibneWmvJwm1pCn/eNmrabWDh659JSPn9BuaMpEfU83WTOJfnCcjDZwNQTA==}
+    peerDependencies:
+      react: '*'
 
   react-copy-to-clipboard@5.1.0:
     resolution: {integrity: sha512-k61RsNgAayIJNoy9yDsYzDe/yAZAzEbEgcz3DZMhF686LEyukcE1hzurxe85JandPUG+yTfGVFzuEw3xt8WP/A==}
@@ -8447,6 +8494,10 @@ snapshots:
       '@jridgewell/trace-mapping': 0.3.25
       jsesc: 3.1.0
 
+  '@babel/helper-annotate-as-pure@7.25.9':
+    dependencies:
+      '@babel/types': 7.27.0
+
   '@babel/helper-compilation-targets@7.27.0':
     dependencies:
       '@babel/compat-data': 7.26.8
@@ -8535,6 +8586,11 @@ snapshots:
       '@babel/helper-plugin-utils': 7.26.5
 
   '@babel/plugin-syntax-json-strings@7.8.3(@babel/core@7.26.10)':
+    dependencies:
+      '@babel/core': 7.26.10
+      '@babel/helper-plugin-utils': 7.26.5
+
+  '@babel/plugin-syntax-jsx@7.25.9(@babel/core@7.26.10)':
     dependencies:
       '@babel/core': 7.26.10
       '@babel/helper-plugin-utils': 7.26.5
@@ -9134,6 +9190,10 @@ snapshots:
       local-pkg: 0.4.3
     transitivePeerDependencies:
       - supports-color
+
+  '@icons/material@0.2.4(react@18.3.1)':
+    dependencies:
+      react: 18.3.1
 
   '@isaacs/cliui@8.0.2':
     dependencies:
@@ -9775,6 +9835,11 @@ snapshots:
     dependencies:
       types-ramda: 0.29.10
 
+  '@types/react-color@3.0.13(@types/react@16.14.63)':
+    dependencies:
+      '@types/react': 16.14.63
+      '@types/reactcss': 1.2.13(@types/react@16.14.63)
+
   '@types/react-dom@16.9.25(@types/react@16.14.63)':
     dependencies:
       '@types/react': 16.14.63
@@ -9784,6 +9849,10 @@ snapshots:
       '@types/prop-types': 15.7.14
       '@types/scheduler': 0.16.8
       csstype: 3.1.3
+
+  '@types/reactcss@1.2.13(@types/react@16.14.63)':
+    dependencies:
+      '@types/react': 16.14.63
 
   '@types/resolve@1.20.6': {}
 
@@ -10766,6 +10835,18 @@ snapshots:
       zod-validation-error: 2.1.0(zod@3.24.3)
 
   babel-plugin-react-require@3.1.3: {}
+
+  babel-plugin-styled-components@2.1.4(@babel/core@7.26.10)(styled-components@6.1.17(react-dom@18.3.1(react@18.3.1))(react@18.3.1)):
+    dependencies:
+      '@babel/helper-annotate-as-pure': 7.25.9
+      '@babel/helper-module-imports': 7.25.9
+      '@babel/plugin-syntax-jsx': 7.25.9(@babel/core@7.26.10)
+      lodash: 4.17.21
+      picomatch: 2.3.1
+      styled-components: 6.1.17(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+    transitivePeerDependencies:
+      - '@babel/core'
+      - supports-color
 
   babel-plugin-transform-define@2.0.1:
     dependencies:
@@ -14144,6 +14225,8 @@ snapshots:
 
   markdown-table@3.0.4: {}
 
+  material-colors@1.2.6: {}
+
   math-intrinsics@1.1.0: {}
 
   mathml-tag-names@2.1.3: {}
@@ -16103,6 +16186,17 @@ snapshots:
       ini: 1.3.8
       minimist: 1.2.8
       strip-json-comments: 2.0.1
+
+  react-color@2.19.3(react@18.3.1):
+    dependencies:
+      '@icons/material': 0.2.4(react@18.3.1)
+      lodash: 4.17.21
+      lodash-es: 4.17.21
+      material-colors: 1.2.6
+      prop-types: 15.8.1
+      react: 18.3.1
+      reactcss: 1.2.3(react@18.3.1)
+      tinycolor2: 1.6.0
 
   react-copy-to-clipboard@5.1.0(react@18.3.1):
     dependencies:

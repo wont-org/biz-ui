@@ -33,6 +33,13 @@ Powered by liukun`,
       },
       'antd',
     ],
+    [
+      'babel-plugin-styled-components',
+      {
+        displayName: true,
+        fileName: true,
+      },
+    ],
   ],
   lessLoader: {
     javascriptEnabled: true,
