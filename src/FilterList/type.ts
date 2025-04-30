@@ -5,7 +5,7 @@ import { RelationProps } from './Relation';
 
 export type ConditionArrayValue = [number | undefined | null, number | undefined | null];
 // 条件值类型
-export type ConditionValue = string | number | boolean | ConditionArrayValue | null | undefined;
+export type ConditionValue = (string | number | boolean | null | undefined)[];
 
 export type ConditionType = {
   field: DefaultOptionType['value'];

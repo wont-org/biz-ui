@@ -1,3 +1,10 @@
+## [1.2.1-beta.1](https://github.com/wont-org/biz-ui/compare/v1.2.0...v1.2.1-beta.1) (2025-04-29)
+
+### Features
+
+- **ColorPicker:** 新增颜色选择器 ([13c4500](https://github.com/wont-org/biz-ui/commit/13c45009e1be1cfb54c01c57133f4340e285cf31))
+- **FilterList:** 组件至改为数组类型 ([f33c1db](https://github.com/wont-org/biz-ui/commit/f33c1db412b77e362408704f693da081cda476df))
+
 # [1.2.0](https://github.com/wont-org/biz-ui/compare/v1.2.0-beta.3...v1.2.0) (2025-04-27)
 
 ### Features

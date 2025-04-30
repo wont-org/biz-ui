@@ -198,13 +198,13 @@ const getInitialFilterValue = () => {
         field: 'number',
         fieldType: 'number',
         operator: 'eq',
-        value: 1,
+        value: [1],
       },
       {
         field: 'number',
         fieldType: 'number',
         operator: 'gt',
-        value: 3,
+        value: [1],
       },
       {
         field: 'number',

@@ -9,6 +9,13 @@ export const antdImport: NonNullable<IFatherConfig['extraBabelPlugins']>[number]
   },
   'antd',
 ];
+const styledComponentsImport: NonNullable<IFatherConfig['extraBabelPlugins']>[number] = [
+  'babel-plugin-styled-components',
+  {
+    displayName: true,
+    fileName: true,
+  },
+];
 export default defineConfig({
   // more father config: https://github.com/umijs/father/blob/master/docs/config.md
   // 以下为 esm 配置项启用时的默认值，有自定义需求时才需配置
@@ -17,6 +24,7 @@ export default defineConfig({
     output: 'es',
     extraBabelPlugins: [
       // antdImport,
+      styledComponentsImport,
       [require.resolve('./scripts/replaceLib'), {}],
     ],
     platform: 'browser', // 默认构建为 Browser 环境的产物
@@ -26,6 +34,7 @@ export default defineConfig({
   cjs: {
     extraBabelPlugins: [
       // antdImport,
+      styledComponentsImport,
       [require.resolve('./scripts/replaceEs'), {}],
     ],
     input: 'src', // 默认编译目录

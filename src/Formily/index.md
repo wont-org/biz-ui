@@ -2,7 +2,7 @@
 title: Form
 path: component/Form
 group:
-  title: Form通用组件
+  title: 表单组件
 ---
 
 # Form

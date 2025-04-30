@@ -1,5 +1,5 @@
 import { FilterFieldMapType, FILTER_FIELD_MAP, OPERATORS } from './constant';
-import { ConditionArrayValue, ConditionType, FilterValue } from './type';
+import { ConditionType, FilterValue } from './type';
 
 export type CustomOp = { value: string; label: string };
 
@@ -58,20 +58,25 @@ export const isValueValid = (
 
   // 区间操作符需要两个值都有效
   if (operator === OPERATORS.range.value) {
-    if (Array.isArray(conditionValue)) {
-      const rangeValue = conditionValue as ConditionArrayValue;
+    if (Array.isArray(conditionValue) && conditionValue.length >= 2) {
       return (
-        rangeValue[0] !== undefined &&
-        rangeValue[0] !== null &&
-        rangeValue[1] !== undefined &&
-        rangeValue[1] !== null
+        conditionValue[0] !== undefined &&
+        conditionValue[0] !== null &&
+        conditionValue[1] !== undefined &&
+        conditionValue[1] !== null
       );
     }
     return false;
   }
 
   // 其他操作符需要值
-  return conditionValue !== undefined && conditionValue !== null && conditionValue !== '';
+  return (
+    Array.isArray(conditionValue) &&
+    conditionValue.length > 0 &&
+    conditionValue[0] !== undefined &&
+    conditionValue[0] !== null &&
+    conditionValue[0] !== ''
+  );
 };
 
 /**
