@@ -20,7 +20,7 @@ export interface FilterValue {
   filterList: ConditionType[];
 }
 
-export interface FilterProps {
+export interface FilterListProps {
   deleteIcon?: React.ReactNode;
   /**
    * 筛选器值，包含关系和条件列表

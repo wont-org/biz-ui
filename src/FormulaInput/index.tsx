@@ -430,3 +430,4 @@ const FormulaInput = (props: FormulaInputProps) => {
 };
 
 export default FormulaInput;
+export type { FormulaInputProps };

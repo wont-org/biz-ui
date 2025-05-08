@@ -19,12 +19,12 @@ import {
 import { renderValueComponent } from './domUtils';
 import Relation, { RelationProps } from './Relation';
 import { StyledFilterItem } from './styled';
-import { ConditionType, ConditionValue, FilterProps } from './type';
+import { ConditionType, ConditionValue, FilterListProps } from './type';
 import { isValueValid, updateOperatorsByFilterMap } from './utils';
 
 moment.locale('zh-cn');
 
-export default function FilterList(props: FilterProps) {
+export default function FilterList(props: FilterListProps) {
   const {
     deleteIcon = <DeleteOutlined />,
     value = { relation: RELATION.and.value, filterList: [] },
@@ -382,3 +382,5 @@ export default function FilterList(props: FilterProps) {
     </ConfigProvider>
   );
 }
+
+export type { FilterListProps };
