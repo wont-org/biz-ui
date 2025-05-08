@@ -41,7 +41,7 @@ export default function MergedTable() {
     const startIndex = (pagination.current - 1) * pagination.pageSize;
     const endIndex = startIndex + pagination.pageSize;
     setCurrentPageData(data.slice(startIndex, endIndex));
-  }, [data, pagination.current, pagination.pageSize]);
+  }, [data, pagination, pagination.pageSize]);
 
   // 处理表格排序和分页
   const handleTableChange: TableProps<DataItem>['onChange'] = (
@@ -91,12 +91,14 @@ export default function MergedTable() {
 
   return (
     <Table
+      style={{ width: 800 }}
       columns={columns}
       dataSource={data}
       pagination={pagination}
       bordered
       onChange={handleTableChange}
       rowKey="key"
+      scroll={{ x: '800px' }}
     />
   );
 }
