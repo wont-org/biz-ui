@@ -1,8 +1,8 @@
 ---
 title: FilterList
-path: component/Form
+path: component/FilterList
 group:
-  title: 表单组件
+  title: 数据录入
 ---
 
 # FilterList
