@@ -2,8 +2,7 @@
 title: smoothScroll
 path: component/smoothScroll
 group:
-  title: 通用
-  order: 9999
+  title: Dom
 ---
 
 # smoothScroll

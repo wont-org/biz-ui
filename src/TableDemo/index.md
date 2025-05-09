@@ -1,7 +1,7 @@
 ---
 title: TableDemo
 path: component/TableDemo
-group: 数据展示
+group: 经典案例
 ---
 
 # TableDemo
