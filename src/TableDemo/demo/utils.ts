@@ -82,6 +82,33 @@ export function mergeCell<T>(
   };
 }
 
+export function onCell<T>(
+  data: T[],
+  record: T,
+  index: number,
+  keys: (keyof T)[],
+): {
+  rowSpan: number;
+} {
+  if (!data || index < 0 || !record) {
+    return {
+      rowSpan: 1,
+    };
+  }
+
+  // 如果当前行不是第 0 行，并且上一行与当前行在指定的所有字段上相等，则隐藏当前单元格
+  if (index > 0 && keys.every((key) => data[index - 1] && data[index - 1][key] === record[key])) {
+    return {
+      rowSpan: 0,
+    };
+  }
+  // 否则，计算从当前行开始连续相同的行数
+  const span = getRowSpan<T>(data, index, keys);
+  return {
+    rowSpan: span,
+  };
+}
+
 /**
  * 将数据按照指定的字段分组
  *
