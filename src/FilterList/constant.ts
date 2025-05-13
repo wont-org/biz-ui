@@ -91,7 +91,7 @@ export interface FilterFieldMapItem {
   componentProps?: Record<string, unknown>;
 }
 
-export type FilterFieldMapType = Record<FieldType, FilterFieldMapItem[]>;
+export type FilterFieldMapType = Partial<Record<FieldType, FilterFieldMapItem[]>>;
 
 export const FILTER_FIELD_MAP: FilterFieldMapType = {
   [FIELD_TYPES.string.value]: [
