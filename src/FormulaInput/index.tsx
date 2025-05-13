@@ -24,6 +24,7 @@ const FormulaInput = (props: FormulaInputProps) => {
     },
     onChange,
     inputNumberProps = {},
+    useValue = true,
   } = props;
   const { useName = true } = nameInputProps;
   const [showValidation, setShowValidation] = useState(false);
@@ -253,7 +254,81 @@ const FormulaInput = (props: FormulaInputProps) => {
   };
 
   // 使用validator的结果来确定验证状态
-  const _showValidation = showValidation && validator(value, props).validateStatus === 'error';
+  const _showValidation =
+    showValidation && validator(value, { ...props, useValue }).validateStatus === 'error';
+
+  const renderValue = (item: ValueItem, index: number) => {
+    if (useValue && item.valueType === FORMULA.text.valueType) {
+      return (
+        <Select
+          style={{
+            width: 140,
+          }}
+          placeholder="请选择"
+          allowClear
+          showSearch
+          {...restValueSelectProps}
+          loading={optionsLoading[index]}
+          options={valueOptions[index] || []}
+          value={item.value}
+          onChange={(_value, option) => {
+            if (!onChange) {
+              return;
+            }
+
+            const newFormula = [...formulaValue];
+            newFormula[index] = {
+              ...item,
+              ...omit(option, ['value', 'label']),
+              value: _value,
+            };
+            onChange({
+              formula: newFormula,
+              name: formulaName,
+              precision: formulaPrecision,
+            });
+            setShowValidation(true);
+          }}
+          onFocus={() => {
+            getValueOptions(index, item.type);
+          }}
+        />
+      );
+    }
+    if (item.valueType === FORMULA.number.valueType) {
+      return (
+        <InputNumber
+          precision={4}
+          min={0}
+          placeholder="请输入数字"
+          style={{
+            width: 140,
+          }}
+          {...inputNumberProps}
+          value={item.value}
+          onChange={(_value) => {
+            if (!onChange) {
+              return;
+            }
+
+            const newFormula = [...formulaValue];
+            newFormula[index] = {
+              ...item,
+              value: _value,
+            };
+            onChange({
+              formula: newFormula,
+              name: formulaName,
+              precision: formulaPrecision,
+            });
+            setShowValidation(true);
+          }}
+        />
+      );
+    }
+    return null;
+  };
+
   return (
     <StyledFormulaInput $validateStatus={_showValidation}>
       <Space className="space-reset">
@@ -322,75 +397,16 @@ const FormulaInput = (props: FormulaInputProps) => {
                     }}
                   />
                 </div>
-                <div>.</div>
-                <div className="tag">
-                  <div className="out">
-                    {item.valueType === FORMULA.text.valueType && (
-                      <Select
-                        style={{
-                          width: 140,
-                        }}
-                        placeholder="请选择"
-                        allowClear
-                        showSearch
-                        {...restValueSelectProps}
-                        loading={optionsLoading[index]}
-                        options={valueOptions[index] || []}
-                        value={item.value}
-                        onChange={(_value, option) => {
-                          if (!onChange) {
-                            return;
-                          }
-
-                          const newFormula = [...formulaValue];
-                          newFormula[index] = {
-                            ...item,
-                            ...omit(option, ['value', 'label']),
-                            value: _value,
-                          };
-                          onChange({
-                            formula: newFormula,
-                            name: formulaName,
-                            precision: formulaPrecision,
-                          });
-                          setShowValidation(true);
-                        }}
-                        onFocus={() => {
-                          getValueOptions(index, item.type);
-                        }}
-                      />
-                    )}
-                    {item.valueType === FORMULA.number.valueType && (
-                      <InputNumber
-                        precision={4}
-                        min={0}
-                        placeholder="请输入数字"
-                        style={{
-                          width: 140,
-                        }}
-                        {...inputNumberProps}
-                        value={item.value}
-                        onChange={(_value) => {
-                          if (!onChange) {
-                            return;
-                          }
-
-                          const newFormula = [...formulaValue];
-                          newFormula[index] = {
-                            ...item,
-                            value: _value,
-                          };
-                          onChange({
-                            formula: newFormula,
-                            name: formulaName,
-                            precision: formulaPrecision,
-                          });
-                          setShowValidation(true);
-                        }}
-                      />
-                    )}
-                  </div>
-                </div>
+                <>
+                  {useValue ||
+                    (item.valueType === FORMULA.number.valueType && <div className="tag">.</div>)}
+                  {((useValue && item.valueType === FORMULA.text.valueType) ||
+                    item.valueType === FORMULA.number.valueType) && (
+                    <div className="tag">
+                      <div className="out">{renderValue(item, index)}</div>
+                    </div>
+                  )}
+                </>
               </div>
             ) : (
               <div className="symbol">{item}</div>
