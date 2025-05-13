@@ -1,7 +1,7 @@
 import { FormulaInput } from '@wont/biz-ui';
 import { FormulaInputProps } from '@wont/biz-ui/FormulaInput/type';
 import { validator } from '@wont/biz-ui/FormulaInput/utils';
-import { Button, Card, Form, Space } from 'antd';
+import { Button, Card, Col, Form, Row, Space } from 'antd';
 import React from 'react';
 import { DECIMAL_PLACES, FORMULA } from '../constant';
 
@@ -56,6 +56,11 @@ export default () => {
         FormulaInput: {
           formula: [{ value: undefined, valueType: FORMULA.text.valueType }],
           name: 'd',
+          precision: 2,
+        },
+        FormulaInputNoValue: {
+          formula: [{ value: undefined, valueType: FORMULA.text.valueType }],
+          name: '不带值的公式',
           precision: 2,
         },
         // 示例数据
@@ -124,6 +129,45 @@ export default () => {
           }}
         />
       </Form.Item>
+
+      <Form.Item
+        label="不带值的公式"
+        name="FormulaInputNoValue"
+        rules={[
+          {
+            required: true,
+            validator: (rule, val) => {
+              const { validateStatus, message } = validator(val, {
+                nameInputProps,
+                useValue: false,
+              });
+              if (validateStatus === 'error') {
+                return Promise.reject(message);
+              }
+              return Promise.resolve();
+            },
+          },
+        ]}
+      >
+        <FormulaInput
+          useValue={false}
+          precisionSelectProps={{
+            options: Object.values(DECIMAL_PLACES),
+          }}
+          nameInputProps={nameInputProps}
+          typeSelectProps={{
+            options: [
+              {
+                value: 'clicks',
+                valueType: FORMULA.text.valueType,
+                label: '点击数(clicks)',
+              },
+              ...Object.values(FORMULA),
+            ],
+          }}
+        />
+      </Form.Item>
+
       <Form.Item label=" " colon={false}>
         <Space>
           <Button type="primary" htmlType="submit">
@@ -133,12 +177,26 @@ export default () => {
         </Space>
       </Form.Item>
       <Form.Item
-        shouldUpdate={(prevValues, curValues) => prevValues.FormulaInput !== curValues.FormulaInput}
+        shouldUpdate={(prevValues, curValues) =>
+          prevValues.FormulaInput !== curValues.FormulaInput ||
+          prevValues.FormulaInputNoValue !== curValues.FormulaInputNoValue
+        }
       >
         {({ getFieldValue }) => {
           return (
             <Card title="公式数据">
-              <pre>{JSON.stringify(getFieldValue('FormulaInput'), null, 2)}</pre>
+              <Row gutter={16}>
+                <Col span={12}>
+                  <Card type="inner" title="普通公式">
+                    <pre>{JSON.stringify(getFieldValue('FormulaInput'), null, 2)}</pre>
+                  </Card>
+                </Col>
+                <Col span={12}>
+                  <Card type="inner" title="不带值的公式">
+                    <pre>{JSON.stringify(getFieldValue('FormulaInputNoValue'), null, 2)}</pre>
+                  </Card>
+                </Col>
+              </Row>
             </Card>
           );
         }}

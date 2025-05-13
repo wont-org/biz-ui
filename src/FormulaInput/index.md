@@ -1,8 +1,8 @@
 ---
 title: FormulaInput
-path: component/Form
+path: component/FormulaInput
 group:
-  title: 表单组件
+  title: 数据录入
 ---
 
 # FormulaInput

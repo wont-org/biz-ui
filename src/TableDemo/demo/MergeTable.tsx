@@ -29,7 +29,7 @@ export default function MergedTable() {
   const mergeKeys: (keyof DataItem)[] = ['colA', 'colB', 'colC'];
 
   // 可排序的列配置
-  const sortableColumns: (keyof DataItem)[] = ['colA', 'colB', 'colC'];
+  const sortableColumns: (keyof DataItem)[] = ['colA', 'colB', 'colC', '2025-01-01', 'other'];
 
   // 根据分页变化更新当前页的数据
   useEffect(() => {
@@ -41,7 +41,7 @@ export default function MergedTable() {
     const startIndex = (pagination.current - 1) * pagination.pageSize;
     const endIndex = startIndex + pagination.pageSize;
     setCurrentPageData(data.slice(startIndex, endIndex));
-  }, [data, pagination.current, pagination.pageSize]);
+  }, [data, pagination, pagination.pageSize]);
 
   // 处理表格排序和分页
   const handleTableChange: TableProps<DataItem>['onChange'] = (
@@ -60,13 +60,14 @@ export default function MergedTable() {
       return;
     }
 
-    const { columnKey, order } = sorter as SorterResult;
+    const { column, order } = sorter as SorterResult;
+    const dataIndex = column?.dataIndex;
 
-    if (!columnKey || !sortableColumns.includes(columnKey as keyof DataItem)) {
+    if (!dataIndex || !sortableColumns.includes(dataIndex as keyof DataItem)) {
       return;
     }
 
-    const sortField = columnKey as keyof DataItem;
+    const sortField = dataIndex as keyof DataItem;
     const groups = groupData(initialData, mergeKeys);
 
     if (!order) {
@@ -91,12 +92,14 @@ export default function MergedTable() {
 
   return (
     <Table
+      style={{ width: 800 }}
       columns={columns}
       dataSource={data}
       pagination={pagination}
       bordered
       onChange={handleTableChange}
       rowKey="key"
+      scroll={{ x: '800px' }}
     />
   );
 }

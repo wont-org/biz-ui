@@ -1,5 +1,5 @@
 import { isInvalidValue } from '../utils/commom';
-import { OP_LIST } from './constant';
+import { FORMULA, OP_LIST } from './constant';
 import { FormulaInputProps } from './type';
 
 export const validator = (
@@ -9,7 +9,7 @@ export const validator = (
   validateStatus?: 'error' | 'success' | 'warning' | 'validating';
   message?: string;
 } => {
-  const { nameInputProps = {} } = options || {};
+  const { nameInputProps = {}, useValue = true } = options || {};
   const { useName = true, validator: nameValidator } = nameInputProps;
   if (useName && typeof nameValidator === 'function') {
     const { validateStatus, message: _message } = nameValidator(val?.name);
@@ -162,9 +162,15 @@ export const validator = (
 
   // 步骤3: 检查操作数为空值
   if (
-    val.formula?.some(
-      (e) => typeof e === 'object' && (isInvalidValue(e.value) || isInvalidValue(e.type)),
-    )
+    val.formula?.some((e) => {
+      if (!useValue && typeof e === 'object') {
+        if (e.valueType === FORMULA.number.valueType) {
+          return isInvalidValue(e.value) || isInvalidValue(e.type);
+        }
+        return isInvalidValue(e.type);
+      }
+      return typeof e === 'object' && (isInvalidValue(e.value) || isInvalidValue(e.type));
+    })
   ) {
     return {
       validateStatus: 'error',

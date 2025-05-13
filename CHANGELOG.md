@@ -1,3 +1,14 @@
+## [1.2.1-beta.2](https://github.com/wont-org/biz-ui/compare/v1.2.1-beta.1...v1.2.1-beta.2) (2025-05-13)
+
+### Bug Fixes
+
+- **TextAreaWithDefault:** 表单覆盖 0/200 样式问题 ([7e06c37](https://github.com/wont-org/biz-ui/commit/7e06c37c56cc832df81f3c4a7592afbb5eee2cf7))
+
+### Features
+
+- 颜色 公式 过滤列表组件新导出 props type ([dba8467](https://github.com/wont-org/biz-ui/commit/dba84671322a0beb845571ea6eec9fb078fc9a25))
+- **FormulaInput:** 新增 useValue ([cfc11b7](https://github.com/wont-org/biz-ui/commit/cfc11b70b510a5480f6328912d6575f2d7585be5))
+
 ## [1.2.1-beta.1](https://github.com/wont-org/biz-ui/compare/v1.2.0...v1.2.1-beta.1) (2025-04-29)
 
 ### Features

@@ -1,8 +1,8 @@
 ---
 title: ColorPicker
-path: component/Form
+path: component/ColorPicker
 group:
-  title: 表单组件
+  title: 数据录入
 ---
 
 # ColorPicker

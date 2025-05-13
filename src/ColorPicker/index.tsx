@@ -75,3 +75,4 @@ const ColorPicker: FC<ColorPickerProps> = ({
 };
 
 export default ColorPicker;
+export type { ColorPickerProps };
