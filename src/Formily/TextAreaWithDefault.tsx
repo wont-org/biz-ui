@@ -12,6 +12,9 @@ const TextAreaWithDefault: FC<TextAreaProps> = (props) => {
       placeholder="请输入"
       showCount
       allowClear
+      style={{
+        marginBottom: 8,
+      }}
       {...props}
     />
   );

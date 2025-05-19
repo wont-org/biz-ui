@@ -19,12 +19,12 @@ import {
 import { renderValueComponent } from './domUtils';
 import Relation, { RelationProps } from './Relation';
 import { StyledFilterItem } from './styled';
-import { ConditionType, ConditionValue, FilterProps } from './type';
+import { ConditionType, ConditionValue, FilterListProps } from './type';
 import { isValueValid, updateOperatorsByFilterMap } from './utils';
 
 moment.locale('zh-cn');
 
-export default function FilterList(props: FilterProps) {
+export default function FilterList(props: FilterListProps) {
   const {
     deleteIcon = <DeleteOutlined />,
     value = { relation: RELATION.and.value, filterList: [] },
@@ -32,8 +32,8 @@ export default function FilterList(props: FilterProps) {
     conditionSelectProps = {},
     operatorSelectProps = {},
     conditionNumberValueProps = {},
-    canAddCondition = true,
-    canRemoveCondition = true,
+    maxItem,
+    minItem,
     validateOnInit = true,
     filterFieldMap = FILTER_FIELD_MAP,
   } = props;
@@ -310,11 +310,14 @@ export default function FilterList(props: FilterProps) {
   );
   return (
     <ConfigProvider locale={zhCN}>
-      {canAddCondition && (
-        <Button type="link" icon={<PlusOutlined />} onClick={handleAddCondition}>
-          添加
-        </Button>
-      )}
+      <Button
+        disabled={typeof maxItem === 'number' && filterList.length >= maxItem}
+        type="link"
+        icon={<PlusOutlined />}
+        onClick={handleAddCondition}
+      >
+        添加
+      </Button>
       <Relation
         value={relation}
         onChange={handleRelationChange}
@@ -366,7 +369,7 @@ export default function FilterList(props: FilterProps) {
             </Form.Item>
             {/* 条件值组件 */}
             {renderValueField(condition, index)}
-            {canRemoveCondition && (
+            {typeof minItem === 'number' && filterList.length > minItem && (
               <Tooltip title="删除">
                 <Button
                   type="link"
@@ -382,3 +385,5 @@ export default function FilterList(props: FilterProps) {
     </ConfigProvider>
   );
 }
+
+export type { FilterListProps };

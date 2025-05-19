@@ -2,7 +2,7 @@
 title: Form
 path: component/Form
 group:
-  title: 表单组件
+  title: 数据录入
 ---
 
 # Form

@@ -29,4 +29,5 @@ export interface FormulaInputProps {
   inputNumberProps?: InputNumberProps;
   maxItem?: number;
   minItem?: number;
+  useValue?: boolean;
 }
