@@ -43,13 +43,13 @@ export interface FilterListProps {
    */
   conditionNumberValueProps?: InputNumberProps;
   /**
-   * 是否可以添加条件
+   * 允许添加条件的最大数量，达到后禁用添加按钮
    */
-  canAddCondition?: boolean;
+  maxItem?: number;
   /**
-   * 是否可以删除条件
+   * 允许删除条件的最小数量，达到后隐藏删除按钮
    */
-  canRemoveCondition?: boolean;
+  minItem?: number;
   /**
    * 初始化时是否校验
    */

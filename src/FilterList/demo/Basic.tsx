@@ -163,6 +163,8 @@ export default () => {
           ]}
         >
           <FilterList
+            minItem={1}
+            maxItem={3}
             deleteIcon={<MinusOutlined />}
             conditionSelectProps={{ options: OPTIONS }}
             conditionNumberValueProps={{
