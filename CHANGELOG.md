@@ -1,3 +1,13 @@
+## [1.2.1](https://github.com/wont-org/biz-ui/compare/v1.2.1-beta.2...v1.2.1) (2025-05-19)
+
+### Bug Fixes
+
+- **FilterList:** ts 类型 ([28cbdd4](https://github.com/wont-org/biz-ui/commit/28cbdd408bed876580484e4a136fe127673470dc))
+
+### Features
+
+- **FilterList:** 添加最大和最小条件数量限制 ([e5aa544](https://github.com/wont-org/biz-ui/commit/e5aa544bf1f2f205e5ccfc8e1b0483b114cad5a8))
+
 ## [1.2.1-beta.2](https://github.com/wont-org/biz-ui/compare/v1.2.1-beta.1...v1.2.1-beta.2) (2025-05-13)
 
 ### Bug Fixes

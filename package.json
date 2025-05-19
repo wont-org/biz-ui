@@ -1,6 +1,6 @@
 {
   "name": "@wont/biz-ui",
-  "version": "1.2.1-beta.2",
+  "version": "1.2.1",
   "description": "A react library developed with dumi",
   "homepage": "wont-org.github.io/biz-ui/",
   "bugs": {
