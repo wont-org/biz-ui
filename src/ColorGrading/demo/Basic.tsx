@@ -11,7 +11,7 @@ export default () => {
           {getColorGrading({
             scale: ['green', '#ffffff', 'red'],
             domain: [0, 0.5, 1],
-            steps: 5,
+            steps: 11,
           }).map((color) => (
             <div key={color} style={{ width: 100, height: 20, backgroundColor: color }} />
           ))}

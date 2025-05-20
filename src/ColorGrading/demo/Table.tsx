@@ -24,9 +24,9 @@ export default () => {
       greenWhite: number;
     }[]
   >([]);
-  const [count, setCount] = useState(5);
+  const [count, setCount] = useState(11);
   const [min, setMin] = useState(1);
-  const [max, setMax] = useState(5);
+  const [max, setMax] = useState(11);
 
   useEffect(() => {
     setDataSource(getRandomNumber(count, min, max));
@@ -36,32 +36,15 @@ export default () => {
       <Space>
         <div>
           <span style={{ marginRight: 8 }}>数量:</span>
-          <InputNumber
-            min={5}
-            max={100}
-            defaultValue={5}
-            value={count}
-            onChange={(value) => setCount(value!)}
-          />
+          <InputNumber min={5} max={100} value={count} onChange={(value) => setCount(value!)} />
         </div>
         <div>
           <span style={{ marginRight: 8 }}>最小值:</span>
-          <InputNumber
-            min={0}
-            max={max - 1}
-            defaultValue={1}
-            value={min}
-            onChange={(value) => setMin(value!)}
-          />
+          <InputNumber min={0} max={max - 1} value={min} onChange={(value) => setMin(value!)} />
         </div>
         <div>
           <span style={{ marginRight: 8 }}>最大值:</span>
-          <InputNumber
-            min={min + 1}
-            defaultValue={5}
-            value={max}
-            onChange={(value) => setMax(value!)}
-          />
+          <InputNumber min={min + 1} value={max} onChange={(value) => setMax(value!)} />
         </div>
         <div>
           <span style={{ marginRight: 8 }}>色阶步数: {count}</span>
