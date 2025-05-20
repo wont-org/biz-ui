@@ -8,6 +8,10 @@ group: 经典案例
 
 色阶
 
-## 合并单元格+组内排序
+## 基础用法
 
 <code src="./demo/Basic.tsx"></code>
+
+## 表格用法
+
+<code src="./demo/Table.tsx"></code>
