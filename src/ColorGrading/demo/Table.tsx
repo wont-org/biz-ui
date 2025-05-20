@@ -58,7 +58,6 @@ export default () => {
           <span style={{ marginRight: 8 }}>最大值:</span>
           <InputNumber
             min={min + 1}
-            max={1000}
             defaultValue={5}
             value={max}
             onChange={(value) => setMax(value!)}

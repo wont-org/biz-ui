@@ -17,7 +17,7 @@ const getColorByValue = ({
   colorType: 'greenWhiteRed' | 'greenWhite';
   steps: number;
 }) => {
-  // 将值标准化到0-1之间
+  // 将任意值，标准化到0-1之间
   const normalizedValue = (value - min) / (max - min);
 
   // 根据类型选择不同的色阶
@@ -33,8 +33,11 @@ const getColorByValue = ({
           domain: [0, 1],
           steps,
         });
-
-  // 根据标准化的值选择对应的颜色
+  /**
+   * normalizedValue * (steps - 1) 将[0, 1]映射到[0, steps - 1]
+   * Math.floor 确保整数索引
+   * Math.min 确保索引在有效范围内
+   */
   const colorIndex = Math.min(Math.floor(normalizedValue * (steps - 1)), steps - 1);
   return colors[colorIndex];
 };

@@ -6,7 +6,7 @@ group: 经典案例
 
 # ColorGrading
 
-色阶
+色阶、渐变
 
 ## 基础用法
 
