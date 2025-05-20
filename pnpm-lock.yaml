@@ -23,6 +23,9 @@ importers:
       ahooks:
         specifier: ^3.7.8
         version: 3.8.4(react@18.3.1)
+      chroma-js:
+        specifier: ^3.1.2
+        version: 3.1.2
       classnames:
         specifier: ^2.3.2
         version: 2.5.1
@@ -54,6 +57,9 @@ importers:
       '@commitlint/config-conventional':
         specifier: ^17.1.0
         version: 17.8.1
+      '@types/chroma-js':
+        specifier: ^3.1.1
+        version: 3.1.1
       '@types/lodash':
         specifier: ^4.14.202
         version: 4.17.16
@@ -1564,6 +1570,9 @@ packages:
   '@types/babel__traverse@7.20.7':
     resolution: {integrity: sha512-dkO5fhS7+/oos4ciWxyEyjWe48zmG6wbCheo/G2ZnHx4fs3EU6YC6UM8rk56gAjNJ9P3MTH2jo5jb92/K6wbng==}
 
+  '@types/chroma-js@3.1.1':
+    resolution: {integrity: sha512-SFCr4edNkZ1bGaLzGz7rgR1bRzVX4MmMxwsIa3/Bh6ose8v+hRpneoizHv0KChdjxaXyjRtaMq7sCuZSzPomQA==}
+
   '@types/debug@4.1.12':
     resolution: {integrity: sha512-vIChWdVG3LG1SMxEvI/AK+FWJthlrqlTu7fbrlywTkkaONwk/UAGaULXRlf8vkzFBLVm0zkMdCquhL5aOjhXPQ==}
 
@@ -2599,6 +2608,9 @@ packages:
   chownr@2.0.0:
     resolution: {integrity: sha512-bIomtDF5KGpdogkLd9VspvFzk9KfpyyGlS8YFVZl7TGPBHL5snIOnxeshwVgPteQ9b4Eydl+pVbIyE1DcvCWgQ==}
     engines: {node: '>=10'}
+
+  chroma-js@3.1.2:
+    resolution: {integrity: sha512-IJnETTalXbsLx1eKEgx19d5L6SRM7cH4vINw/99p/M11HCuXGRWL+6YmCm7FWFGIo6dtWuQoQi1dc5yQ7ESIHg==}
 
   chrome-trace-event@1.0.4:
     resolution: {integrity: sha512-rNjApaLzuwaOTjCiT8lSDdGN1APCiqkChLMJxJPWLunPAt5fy8xgU9/jNOchV84wfIxrA0lRQB7oCT8jrn/wrQ==}
@@ -8754,8 +8766,8 @@ snapshots:
       '@commitlint/types': 17.8.1
       '@types/node': 20.5.1
       chalk: 4.1.2
-      cosmiconfig: 8.3.6(typescript@5.8.3)
-      cosmiconfig-typescript-loader: 4.4.0(@types/node@20.5.1)(cosmiconfig@8.3.6(typescript@4.7.4))(ts-node@10.9.2(@swc/core@1.3.72(@swc/helpers@0.5.1))(@types/node@20.5.1)(typescript@5.8.3))(typescript@5.8.3)
+      cosmiconfig: 8.3.6(typescript@4.7.4)
+      cosmiconfig-typescript-loader: 4.4.0(@types/node@20.5.1)(cosmiconfig@8.3.6(typescript@5.8.3))(ts-node@10.9.2(@swc/core@1.3.72(@swc/helpers@0.5.1))(@types/node@20.5.1)(typescript@5.8.3))(typescript@5.8.3)
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       lodash.uniq: 4.5.0
@@ -9731,6 +9743,8 @@ snapshots:
   '@types/babel__traverse@7.20.7':
     dependencies:
       '@babel/types': 7.27.0
+
+  '@types/chroma-js@3.1.1': {}
 
   '@types/debug@4.1.12':
     dependencies:
@@ -11208,6 +11222,8 @@ snapshots:
 
   chownr@2.0.0: {}
 
+  chroma-js@3.1.2: {}
+
   chrome-trace-event@1.0.4: {}
 
   ci-info@1.6.0: {}
@@ -11535,10 +11551,10 @@ snapshots:
       object-assign: 4.1.1
       vary: 1.1.2
 
-  cosmiconfig-typescript-loader@4.4.0(@types/node@20.5.1)(cosmiconfig@8.3.6(typescript@4.7.4))(ts-node@10.9.2(@swc/core@1.3.72(@swc/helpers@0.5.1))(@types/node@20.5.1)(typescript@5.8.3))(typescript@5.8.3):
+  cosmiconfig-typescript-loader@4.4.0(@types/node@20.5.1)(cosmiconfig@8.3.6(typescript@5.8.3))(ts-node@10.9.2(@swc/core@1.3.72(@swc/helpers@0.5.1))(@types/node@20.5.1)(typescript@5.8.3))(typescript@5.8.3):
     dependencies:
       '@types/node': 20.5.1
-      cosmiconfig: 8.3.6(typescript@5.8.3)
+      cosmiconfig: 8.3.6(typescript@4.7.4)
       ts-node: 10.9.2(@swc/core@1.3.72(@swc/helpers@0.5.1))(@types/node@20.5.1)(typescript@4.7.4)
       typescript: 5.8.3
 
@@ -11550,14 +11566,14 @@ snapshots:
       path-type: 4.0.0
       yaml: 1.10.2
 
-  cosmiconfig@8.3.6(typescript@5.8.3):
+  cosmiconfig@8.3.6(typescript@4.7.4):
     dependencies:
       import-fresh: 3.3.1
       js-yaml: 4.1.0
       parse-json: 5.2.0
       path-type: 4.0.0
     optionalDependencies:
-      typescript: 5.8.3
+      typescript: 4.7.4
 
   cosmiconfig@9.0.0(typescript@4.7.4):
     dependencies:
