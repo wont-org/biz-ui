@@ -132,7 +132,7 @@ const FormulaInput = (props: FormulaInputProps) => {
   };
 
   const handleInput = (data: string) => {
-    if (!data || !onChange) {
+    if (!data || typeof onChange !== 'function') {
       return;
     }
     if (typeof cursorIndex !== 'number') {
@@ -144,22 +144,26 @@ const FormulaInput = (props: FormulaInputProps) => {
     }
 
     const itemLength = formulaValue.filter((i) => typeof i === 'object').length;
-    if (itemLength >= maxItem) {
+    if (itemLength >= maxItem && OP_LIST.includes(data)) {
       message.error(`最多输入${maxItem}个公式`);
       return;
     }
 
-    // 当光标不在最后时，在当前位置插入字符
+    // 当光标不在最后时，在当前位置插入
     if (cursorIndex !== formulaValue.length) {
       const newFormula = [...formulaValue];
-      newFormula.splice(cursorIndex, 0, data);
+      const insertArr: NonNullable<FormulaInputProps['value']>['formula'] = [data].filter(Boolean);
+      if (OP_LIST.includes(data)) {
+        insertArr.push({ value: undefined, valueType: FORMULA.text.valueType });
+      }
+      newFormula.splice(cursorIndex, 0, ...insertArr);
       onChange({
         formula: newFormula,
         name: formulaName,
         precision: formulaPrecision,
       });
       setShowValidation(true);
-      setCursorIndex(cursorIndex + 1);
+      setCursorIndex(cursorIndex + insertArr.length);
       return;
     }
 
@@ -173,15 +177,15 @@ const FormulaInput = (props: FormulaInputProps) => {
       });
       setShowValidation(true);
       setCursorIndex(cursorIndex + 1);
-    } else {
-      onChange({
-        formula: [...formulaValue, data, { value: undefined, valueType: FORMULA.text.valueType }],
-        name: formulaName,
-        precision: formulaPrecision,
-      });
-      setShowValidation(true);
-      setCursorIndex(cursorIndex + 2);
+      return;
     }
+    onChange({
+      formula: [...formulaValue, data, { value: undefined, valueType: FORMULA.text.valueType }],
+      name: formulaName,
+      precision: formulaPrecision,
+    });
+    setShowValidation(true);
+    setCursorIndex(cursorIndex + 2);
   };
 
   const setCursorPosition = (index: number) => {

@@ -1,3 +1,9 @@
+## [1.2.2](https://github.com/wont-org/biz-ui/compare/v1.2.1...v1.2.2) (2025-05-29)
+
+### Bug Fixes
+
+- **FormulaInput:** 公式末尾括号以及中间输入四则运算 ([ba2f2c7](https://github.com/wont-org/biz-ui/commit/ba2f2c74a3691cc12528bd1e83c2aff61fcd23fa))
+
 ## [1.2.1](https://github.com/wont-org/biz-ui/compare/v1.2.1-beta.2...v1.2.1) (2025-05-19)
 
 ### Bug Fixes
