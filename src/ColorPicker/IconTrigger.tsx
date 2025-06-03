@@ -27,9 +27,9 @@ export interface IconTriggerProps {
   label?: string;
   size?: number;
 }
-export const IconTrigger: React.FC<IconTriggerProps> = ({ color, label, size = 28, ...props }) => {
+const IconTrigger: React.FC<IconTriggerProps> = ({ color, label, size = 28 }) => {
   return (
-    <IconTriggerWrapper {...props}>
+    <IconTriggerWrapper>
       {label && <span>{label}</span>}
       <Tooltip title="更多颜色" placement="bottom">
         <div className="trigger-icon-wrap">
@@ -68,3 +68,5 @@ export const IconTrigger: React.FC<IconTriggerProps> = ({ color, label, size = 2
     </IconTriggerWrapper>
   );
 };
+
+export default IconTrigger;

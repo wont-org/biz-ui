@@ -1,5 +1,5 @@
 import ColorPicker from '@wont/biz-ui/ColorPicker';
-import { IconTrigger } from '@wont/biz-ui/ColorPicker/IconTrigger';
+import IconTrigger from '@wont/biz-ui/ColorPicker/IconTrigger';
 import { Card, Space, Typography } from 'antd';
 import React, { useState } from 'react';
 
