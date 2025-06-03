@@ -1,6 +1,7 @@
+import ColorPicker from '@wont/biz-ui/ColorPicker';
+import { IconTrigger } from '@wont/biz-ui/ColorPicker/IconTrigger';
 import { Card, Space, Typography } from 'antd';
 import React, { useState } from 'react';
-import ColorPanel from '../index';
 
 const { Title, Text } = Typography;
 
@@ -133,7 +134,27 @@ const ColorPickerDemo: React.FC = () => {
         <Space direction="vertical">
           <Title level={5}>默认预设颜色</Title>
           <Space>
-            <ColorPanel value={basicColor} onChange={setBasicColor} />
+            <ColorPicker value={basicColor} onChange={setBasicColor} />
+            <Text>当前颜色: {basicColor}</Text>
+            <div
+              style={{
+                width: 40,
+                height: 20,
+                background: basicColor,
+                display: 'inline-block',
+                border: '1px solid #d9d9d9',
+                borderRadius: 2,
+              }}
+            />
+          </Space>
+        </Space>
+      </Card>
+      <Card title="自定义触发器">
+        <Space direction="vertical">
+          <Space>
+            <ColorPicker value={basicColor} onChange={setBasicColor}>
+              <IconTrigger color={basicColor} label="正值" />
+            </ColorPicker>
             <Text>当前颜色: {basicColor}</Text>
             <div
               style={{
@@ -153,7 +174,7 @@ const ColorPickerDemo: React.FC = () => {
         <Space direction="vertical">
           <Title level={5}>可折叠的颜色分组</Title>
           <Space>
-            <ColorPanel
+            <ColorPicker
               rowWrapCount={9}
               value={customColor}
               onChange={setCustomColor}
@@ -178,7 +199,7 @@ const ColorPickerDemo: React.FC = () => {
         <Space direction="vertical">
           <Title level={5}>不可交互的颜色选择器</Title>
           <Space>
-            <ColorPanel
+            <ColorPicker
               rowWrapCount={9}
               value={customColor}
               onChange={() => {}}
@@ -195,7 +216,7 @@ const ColorPickerDemo: React.FC = () => {
           <Title level={5}>高度自适应的动画效果</Title>
           <Text>不同高度的组有不同的动画时长</Text>
           <Space>
-            <ColorPanel
+            <ColorPicker
               rowWrapCount={6}
               value={basicColor}
               onChange={setBasicColor}
