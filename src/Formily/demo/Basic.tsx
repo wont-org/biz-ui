@@ -9,7 +9,7 @@ import {
 } from '@wont/biz-ui';
 import { PREFIX } from '@wont/biz-ui/PrefixInput/constant';
 import { sleep } from '@wont/biz-ui/utils/commom';
-import { Button, Form } from 'antd';
+import { Button, Form, Space } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
 import { SelectProps } from 'antd/lib';
 import React, { useState } from 'react';
@@ -179,18 +179,20 @@ export default () => {
         <MultipleSelect options={getDefaultOptions()} />
       </Form.Item>
 
-      <Form.Item>
-        <Button type="primary" htmlType="submit" style={{ paddingRight: 20 }}>
-          Submit
-        </Button>
-        <Button
-          style={{ paddingRight: 20 }}
-          onClick={() => {
-            setOptions(getDefaultOptions());
-          }}
-        >
-          重置下拉框
-        </Button>
+      <Form.Item wrapperCol={{ offset: 4 }}>
+        <Space>
+          <Button type="primary" htmlType="submit" style={{ paddingRight: 20 }}>
+            Submit
+          </Button>
+          <Button
+            style={{ paddingRight: 20 }}
+            onClick={() => {
+              setOptions(getDefaultOptions());
+            }}
+          >
+            重置下拉框
+          </Button>
+        </Space>
       </Form.Item>
     </Form>
   );
