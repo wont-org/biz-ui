@@ -8,3 +8,5 @@ export type ValueOf<T> = T[keyof T];
 export type ValueOfWithType<T, R extends string | number = string> =
   | T[keyof T]
   | (R & Record<never, never>);
+
+export type KeyOf<T> = keyof T;

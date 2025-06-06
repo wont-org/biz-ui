@@ -8,6 +8,8 @@ import {
   TextAreaWithDefault,
 } from '@wont/biz-ui';
 import { PREFIX } from '@wont/biz-ui/PrefixInput/constant';
+import SelectTemplate from '@wont/biz-ui/SelectTemplate';
+import { BAR_TEMPLATE_OPTIONS } from '@wont/biz-ui/SelectTemplate/constant';
 import { sleep } from '@wont/biz-ui/utils/commom';
 import { Button, Form, Space } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
@@ -76,6 +78,7 @@ export default () => {
 
   return (
     <Form
+      size="large"
       labelCol={{ span: 4 }}
       wrapperCol={{ span: 20 }}
       initialValues={{
@@ -127,6 +130,9 @@ export default () => {
       </Form.Item>
       <Form.Item label="TextAreaWithDefault" name="TextAreaWithDefault">
         <TextAreaWithDefault />
+      </Form.Item>
+      <Form.Item label="SelectTemplate" name="SelectTemplate">
+        <SelectTemplate options={BAR_TEMPLATE_OPTIONS} />
       </Form.Item>
       <Form.Item
         label="EditableSelect"
