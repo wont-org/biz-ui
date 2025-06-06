@@ -84,26 +84,31 @@ export const PURE_COLOR = {
   blue: {
     value: [BAR_COLOR.blue],
     label: SVG_BLUE.pure,
-    extraLabel: '蓝-白',
+    extraLabel: '纯色-蓝色',
   },
   green: {
     value: [BAR_COLOR.green],
     label: SVG_GREEN.pure,
+    extraLabel: '纯色-绿色',
   },
   yellow: {
     value: [BAR_COLOR.yellow],
     label: SVG_YELLOW.pure,
+    extraLabel: '纯色-黄色',
   },
   orange: {
     value: [BAR_COLOR.orange],
     label: SVG_ORANGE.pure,
+    extraLabel: '纯色-橙色',
   },
   red: {
     value: [BAR_COLOR.red],
     label: SVG_RED.pure,
+    extraLabel: '纯色-红色',
   },
   skyblue: {
     value: [BAR_COLOR.skyblue],
     label: SVG_SKY_BLUE.pure,
+    extraLabel: '纯色-天蓝色',
   },
 };

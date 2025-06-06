@@ -1,11 +1,7 @@
 import SelectTemplate from '@wont/biz-ui/SelectTemplate';
 import { Form } from 'antd';
 import React from 'react';
-import {
-  BAR_TEMPLATE_OPTIONS,
-  GRADING_TEMPLATE_OPTIONS,
-  ICON_TEMPLATE_OPTIONS,
-} from '../constant/index';
+import { BAR_TEMPLATE_OPTIONS } from '../constant/index';
 
 const RichSelectDemo = () => {
   return (
@@ -17,7 +13,7 @@ const RichSelectDemo = () => {
           compareKeys={['value', 'isGrading']}
         />
       </Form.Item>
-      <Form.Item label="色阶" name="grading">
+      {/* <Form.Item label="色阶" name="grading">
         <SelectTemplate
           options={GRADING_TEMPLATE_OPTIONS}
           rowWrapCount={4}
@@ -27,7 +23,7 @@ const RichSelectDemo = () => {
       </Form.Item>
       <Form.Item label="图标集" name="icon">
         <SelectTemplate options={ICON_TEMPLATE_OPTIONS} rowWrapCount={2} compareKeys={['value']} />
-      </Form.Item>
+      </Form.Item> */}
     </Form>
   );
 };

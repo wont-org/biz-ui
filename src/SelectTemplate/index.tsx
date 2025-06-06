@@ -42,7 +42,7 @@ interface SelectTemplateProps {
   }[];
   /**
    * @description 大小
-   * @default large
+   * @default middle
    */
   size?: 'small' | 'middle' | 'large';
   /**
@@ -117,7 +117,7 @@ const SelectTemplate: React.FC<SelectTemplateProps> = ({
   value,
   onChange,
   rowWrapCount = 3,
-  size = 'large',
+  size = 'middle',
   showOptionLabel = true,
   showSelectedOptionLabel = true,
   placeholder = '请选择',
