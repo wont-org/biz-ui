@@ -1,13 +1,13 @@
 import { DownOutlined } from '@ant-design/icons';
 import { Tooltip } from 'antd';
-import React from 'react';
+import React, { FC, useState } from 'react';
 import { styled } from 'styled-components';
 
-const IconTriggerWrapper = styled.div`
+const IconTriggerWrapper = styled.div<{ $readOnly: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
+  cursor: ${({ $readOnly }) => ($readOnly ? 'not-allowed' : 'pointer')};
   .trigger-icon-wrap {
     display: flex;
     padding-right: 4px;
@@ -23,15 +23,40 @@ const IconTriggerWrapper = styled.div`
   }
 `;
 export interface IconTriggerProps {
-  color: string;
+  color?: string;
   label?: string;
   size?: number;
+  open?: boolean;
+  readOnly?: boolean;
+  onClick?: () => void;
 }
-const IconTrigger: React.FC<IconTriggerProps> = ({ color, label, size = 28 }) => {
+const IconTrigger: FC<IconTriggerProps> = ({
+  color,
+  label,
+  size = 28,
+  onClick,
+  open = false,
+  readOnly = false,
+}) => {
+  const [needOpen, setNeedOpen] = useState(false);
   return (
-    <IconTriggerWrapper>
+    <IconTriggerWrapper
+      $readOnly={readOnly}
+      onClick={() => {
+        if (readOnly) {
+          return;
+        }
+        onClick?.();
+      }}
+      onMouseEnter={() => {
+        setNeedOpen(true);
+      }}
+      onMouseLeave={() => {
+        setNeedOpen(false);
+      }}
+    >
       {label && <span>{label}</span>}
-      <Tooltip title="更多颜色" placement="bottom">
+      <Tooltip title={'更多颜色'} open={open && needOpen} placement="bottom">
         <div className="trigger-icon-wrap">
           <svg
             width={size}

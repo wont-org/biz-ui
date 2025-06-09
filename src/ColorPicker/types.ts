@@ -42,4 +42,9 @@ export interface ColorPickerProps {
   readOnly?: boolean;
   colorPickerClass?: string;
   colors?: SketchPickerProps['presetColors'];
+  trigger?: 'icon' | 'block' | ReactNode;
+  /**
+   * 弹出层打开状态变化回调
+   */
+  onOpenChange?: (open: boolean) => void;
 }

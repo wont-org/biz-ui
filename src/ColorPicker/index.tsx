@@ -1,8 +1,9 @@
 import { Popover } from 'antd';
-import React, { FC, useCallback, useState } from 'react';
+import React, { FC, isValidElement, useCallback, useState } from 'react';
 import ColorBlock from './ColorBlock';
 import ColorPanel from './ColorPanel';
 import { defaultPalette } from './constant';
+import IconTrigger from './IconTrigger';
 import { ColorPickerProps } from './types';
 
 // 将defaultPalette转换为ColorPreset需要的格式
@@ -22,8 +23,10 @@ const ColorPicker: FC<ColorPickerProps> = ({
   rowWrapCount = 11,
   presets = defaultColorGroups,
   readOnly = false,
+  trigger = 'block',
+  onOpenChange,
 }) => {
-  const [visible, setVisible] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const onColorChange = useCallback(
     (color: string) => {
@@ -31,7 +34,7 @@ const ColorPicker: FC<ColorPickerProps> = ({
         return;
       }
       onChange(color);
-      setVisible(false);
+      setOpen(false);
     },
     [onChange, readOnly],
   );
@@ -40,8 +43,28 @@ const ColorPicker: FC<ColorPickerProps> = ({
     if (readOnly) {
       return;
     }
-    setVisible(true);
+    setOpen(true);
   }, [readOnly]);
+
+  const renderTrigger = () => {
+    if (trigger === 'icon') {
+      return (
+        <IconTrigger color={value} onClick={handleClickTrigger} open={!open} readOnly={readOnly} />
+      );
+    }
+    if (isValidElement(children)) {
+      return <div onClick={handleClickTrigger}>{children}</div>;
+    }
+    return (
+      <ColorBlock
+        color={value}
+        size={itemSize}
+        rowWrapCount={rowWrapCount}
+        onClick={handleClickTrigger}
+        readOnly={readOnly}
+      />
+    );
+  };
 
   return (
     <Popover
@@ -49,8 +72,14 @@ const ColorPicker: FC<ColorPickerProps> = ({
       trigger="click"
       placement="bottomLeft"
       {...popoverProps}
-      open={readOnly ? false : visible}
-      onOpenChange={readOnly ? undefined : setVisible}
+      open={readOnly ? false : open}
+      onOpenChange={(_open) => {
+        if (readOnly) {
+          return;
+        }
+        setOpen(_open);
+        onOpenChange?.(_open);
+      }}
       content={
         <ColorPanel
           rowWrapCount={rowWrapCount}
@@ -61,15 +90,7 @@ const ColorPicker: FC<ColorPickerProps> = ({
         />
       }
     >
-      {children || (
-        <ColorBlock
-          color={value}
-          size={itemSize}
-          rowWrapCount={rowWrapCount}
-          onClick={handleClickTrigger}
-          readOnly={readOnly}
-        />
-      )}
+      {renderTrigger()}
     </Popover>
   );
 };

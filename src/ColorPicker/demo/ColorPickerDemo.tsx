@@ -8,7 +8,7 @@ const { Title, Text } = Typography;
 const ColorPickerDemo: React.FC = () => {
   const [basicColor, setBasicColor] = useState<string>('#1677ff');
   const [customColor, setCustomColor] = useState<string>('#f5222d');
-
+  const [open, setOpen] = useState<boolean>(true);
   // 自定义颜色分组
   const customColorGroups = [
     {
@@ -152,8 +152,14 @@ const ColorPickerDemo: React.FC = () => {
       <Card title="自定义触发器">
         <Space direction="vertical">
           <Space>
-            <ColorPicker value={basicColor} onChange={setBasicColor}>
-              <IconTrigger color={basicColor} label="正值" />
+            <ColorPicker
+              value={basicColor}
+              onChange={setBasicColor}
+              onOpenChange={(_open) => {
+                setOpen(!_open);
+              }}
+            >
+              <IconTrigger open={open} color={basicColor} label="正值" />
             </ColorPicker>
             <Text>当前颜色: {basicColor}</Text>
             <div
