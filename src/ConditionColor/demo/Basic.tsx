@@ -1,0 +1,94 @@
+import { ConditionColor, SelectTemplate } from '@wont/biz-ui';
+import { BAR_TEMPLATE_OPTIONS } from '@wont/biz-ui/SelectTemplate/constant/index';
+import { Button, Form, message, Space } from 'antd';
+import React from 'react';
+import { validator } from '..';
+
+interface ConditionItem {
+  valueType: string;
+  value: number;
+  color: string;
+}
+
+interface FormValues {
+  conditions: ConditionItem[];
+  bar?: any;
+}
+
+export default () => {
+  const [form] = Form.useForm<FormValues>();
+
+  const handleFinish = (values: FormValues) => {
+    console.log('Success:', values);
+    message.success('提交成功');
+  };
+
+  const handleFinishFailed = (errorInfo: any) => {
+    console.log('Failed:', errorInfo);
+    message.error('提交失败，请检查表单');
+  };
+
+  return (
+    <Form
+      form={form}
+      onFinish={handleFinish}
+      onFinishFailed={handleFinishFailed}
+      labelCol={{ span: 4 }}
+      initialValues={{
+        conditions: [
+          { valueType: undefined, value: undefined, color: '#6CBF63' },
+          { valueType: 'percent', value: 50, color: '#FFFFFF' },
+          { valueType: 'max', value: 100, color: '#ED7B77' },
+        ],
+      }}
+    >
+      <Form.Item label="数据条" name="bar">
+        <SelectTemplate
+          options={BAR_TEMPLATE_OPTIONS}
+          showOptionLabel={false}
+          compareKeys={['value', 'isGrading']}
+        />
+      </Form.Item>
+
+      <Form.Item
+        name="conditions"
+        rules={[
+          {
+            validator: async (_, value: ConditionItem[]) => {
+              const valid = validator(value);
+              if (!valid) {
+                return Promise.reject('');
+              }
+              return Promise.resolve();
+            },
+          },
+        ]}
+      >
+        <ConditionColor labelFormItemProps={{ labelCol: { span: 4 } }} />
+      </Form.Item>
+
+      <Form.Item wrapperCol={{ offset: 4 }}>
+        <Space>
+          <Button type="primary" htmlType="submit">
+            提交
+          </Button>
+          <Button htmlType="reset">重置</Button>
+          <Button
+            onClick={() => {
+              form
+                .validateFields()
+                .then((values: FormValues) => {
+                  console.log('验证通过:', values);
+                })
+                .catch((errorInfo: any) => {
+                  console.log('验证失败:', errorInfo);
+                });
+            }}
+          >
+            验证
+          </Button>
+        </Space>
+      </Form.Item>
+    </Form>
+  );
+};

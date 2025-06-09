@@ -33,7 +33,7 @@ const ColorPicker: FC<ColorPickerProps> = ({
       if (readOnly) {
         return;
       }
-      onChange(color);
+      onChange?.(color);
       setOpen(false);
     },
     [onChange, readOnly],

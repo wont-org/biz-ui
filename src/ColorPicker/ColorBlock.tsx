@@ -33,11 +33,11 @@ const ColorBlockWrapper = styled.div<{
 `;
 
 // 内部颜色显示区域
-const ColorInner = styled.div<{ color: string }>`
+const ColorInner = styled.div<{ $color?: string }>`
   width: 100%;
   height: 100%;
   border-radius: 2px;
-  background: ${(props) => props.color};
+  background: ${(props) => props.$color};
 `;
 
 // 选中指示器
@@ -92,7 +92,7 @@ const isColorDark = (color: string): boolean => {
 };
 
 export interface ColorBlockProps {
-  color: string;
+  color?: string;
   size?: number;
   rowWrapCount?: number;
   selected?: boolean;
@@ -111,11 +111,14 @@ const ColorBlock: React.FC<ColorBlockProps> = ({
   const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
+    if (!color) {
+      return;
+    }
     setIsDark(isColorDark(color));
   }, [color]);
 
   const handleClick = () => {
-    if (!readOnly && onClick) {
+    if (!readOnly && onClick && color) {
       onClick(color);
     }
   };
@@ -128,7 +131,7 @@ const ColorBlock: React.FC<ColorBlockProps> = ({
       className={`${selected ? 'selected' : ''}`}
       onClick={handleClick}
     >
-      <ColorInner color={color}>
+      <ColorInner $color={color}>
         {selected && (
           <SelectedIndicator $isDark={isDark}>
             <CheckOutlined className="color-picker-check-icon" />

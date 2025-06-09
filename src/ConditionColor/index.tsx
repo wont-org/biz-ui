@@ -1,0 +1,132 @@
+import { Form, FormItemProps, InputNumber, Select } from 'antd';
+import React from 'react';
+import ColorPicker from '../ColorPicker';
+import { ValueOfConstWithType } from '../utils/types';
+import { VALUE_TYPE } from './constant';
+import { StyledConditionColorItem } from './styled';
+
+interface ValueItem {
+  value: number;
+  color: string;
+  valueType: ValueOfConstWithType<typeof VALUE_TYPE, 'value'>;
+}
+
+export const validator = (value: ValueItem[], valueTypeMap = VALUE_TYPE) => {
+  if (!value || value.length === 0) {
+    return false;
+  }
+
+  for (const item of value) {
+    if (!item.valueType) {
+      return false;
+    }
+
+    if (!item.color) {
+      return false;
+    }
+
+    if (
+      !([valueTypeMap.min.value, valueTypeMap.max.value] as ValueItem['valueType'][]).includes(
+        item.valueType,
+      ) &&
+      (item.value === undefined || item.value === null)
+    ) {
+      return false;
+    }
+  }
+
+  return true;
+};
+export interface ConditionColorProps {
+  value?: ValueItem[];
+  onChange?: (value: ValueItem[]) => void;
+  labelFormItemProps?: FormItemProps;
+}
+
+export default (props: ConditionColorProps) => {
+  const {
+    // value, onChange,
+    labelFormItemProps,
+  } = props;
+  const isValueDisabled = (valueType: string) => {
+    return valueType === VALUE_TYPE.min.value || valueType === VALUE_TYPE.max.value;
+  };
+
+  const getItemLabel = (index: number, length: number) => {
+    return index === 0 ? '最小值' : index === length - 1 ? '最大值' : '中间值';
+  };
+
+  const getPlaceholder = (item: ValueItem) => {
+    if (isValueDisabled(item.valueType)) {
+      // 如果是最小值或最大值，返回对应的标签
+      return Object.values(VALUE_TYPE).find((type) => type.value === item.valueType)?.label || '';
+    }
+    return '请输入0-100的数值';
+  };
+
+  return (
+    <Form.List name="conditions">
+      {(fields) => {
+        return fields.map((field, index) => {
+          const valueTypeFieldName = [field.name, 'valueType'];
+          const valueFieldName = [field.name, 'value'];
+          const colorFieldName = [field.name, 'color'];
+
+          return (
+            <StyledConditionColorItem
+              {...labelFormItemProps}
+              key={field.key}
+              label={getItemLabel(index, fields.length)}
+            >
+              <div className="condition-color-item">
+                <Form.Item
+                  name={valueTypeFieldName}
+                  rules={[{ required: true, message: '请选择' }]}
+                >
+                  <Select allowClear placeholder="请选择" options={Object.values(VALUE_TYPE)} />
+                </Form.Item>
+
+                <Form.Item
+                  noStyle
+                  shouldUpdate={(prevValues, curValues) => {
+                    const prevValueType = prevValues?.conditions?.[index]?.valueType;
+                    const curValueType = curValues?.conditions?.[index]?.valueType;
+                    return prevValueType !== curValueType;
+                  }}
+                >
+                  {({ getFieldValue }) => {
+                    const item = getFieldValue(['conditions', index]);
+                    const required = !isValueDisabled(item.valueType);
+
+                    return (
+                      <Form.Item
+                        name={valueFieldName}
+                        dependencies={[['conditions', index, 'valueType']]}
+                        rules={[{ required, message: getPlaceholder(item) }]}
+                      >
+                        <InputNumber
+                          disabled={isValueDisabled(item.valueType)}
+                          min={0}
+                          max={100}
+                          style={{ width: '100%' }}
+                          placeholder={getPlaceholder(item)}
+                        />
+                      </Form.Item>
+                    );
+                  }}
+                </Form.Item>
+
+                <Form.Item
+                  name={colorFieldName}
+                  rules={[{ required: true, message: '请选择颜色' }]}
+                >
+                  <ColorPicker trigger="icon" />
+                </Form.Item>
+              </div>
+            </StyledConditionColorItem>
+          );
+        });
+      }}
+    </Form.List>
+  );
+};

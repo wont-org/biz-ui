@@ -11,11 +11,11 @@ export interface ColorPickerProps {
   /**
    * 颜色值
    */
-  value: string;
+  value?: string;
   /**
    * 颜色变化回调
    */
-  onChange: (color: string) => void;
+  onChange?: (color: string) => void;
   /**
    * 自定义弹出层内容
    */

@@ -1,4 +1,4 @@
-import SelectTemplate from '@wont/biz-ui/SelectTemplate';
+import { SelectTemplate } from '@wont/biz-ui';
 import { Form } from 'antd';
 import React from 'react';
 import { BAR_TEMPLATE_OPTIONS } from '../constant/index';
