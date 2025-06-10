@@ -153,7 +153,6 @@ const SelectTemplate: React.FC<SelectTemplateProps> = ({
   const handleSelectOption = (option: TemplateOption) => {
     setSelectedOption(option);
     setIsOpen(false);
-    console.log('option', option);
     onChange?.(option);
   };
 

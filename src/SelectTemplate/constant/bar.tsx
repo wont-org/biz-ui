@@ -54,9 +54,6 @@ export const GRADING_COLOR = {
   blue: {
     value: [BAR_COLOR.blue],
     label: SVG_BLUE.grading,
-    // label: [SVG_BLUE.grading],
-    // isGrading: true,
-    // isReverse: false,
     extraLabel: '蓝色',
   },
   green: {
