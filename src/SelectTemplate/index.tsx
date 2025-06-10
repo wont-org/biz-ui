@@ -1,64 +1,9 @@
 import { DownOutlined } from '@ant-design/icons';
 import { isEqual } from 'lodash';
-import React, { ReactNode, useEffect, useRef, useState } from 'react';
-import { StyledIconWrapper, StyledSelectTemplate } from './styled';
-
-// 修改TemplateOption接口以匹配constant.tsx中定义的选项结构
-interface TemplateOption {
-  value: readonly string[];
-  label: ReactNode | readonly ReactNode[];
-  isGrading?: boolean;
-  extraLabel?: ReactNode;
-}
-
-interface SelectTemplateProps {
-  /**
-   * @description 是否显示选项标签，extraLabel字段设置，比如绿-白-红
-   * @default true
-   */
-  showOptionLabel?: boolean;
-  /**
-   * @description 是否显示选中选项的标签，extraLabel字段设置，比如绿-白-红
-   * @default true
-   */
-  showSelectedOptionLabel?: boolean;
-  /**
-   * @description 超出几个换行
-   * @default 3
-   */
-  rowWrapCount?: number;
-  /**
-   * @description 占位符
-   * @default 请选择
-   */
-  placeholder?: string;
-  /**
-   * @description 下拉选项
-   * @default []
-   */
-  options?: readonly {
-    label: string;
-    options: readonly TemplateOption[];
-  }[];
-  /**
-   * @description 大小
-   * @default middle
-   */
-  size?: 'small' | 'middle' | 'large';
-  /**
-   * @description 选中值
-   */
-  value?: TemplateOption;
-  /**
-   * @description 选中值变更
-   */
-  onChange?: (option: TemplateOption) => void;
-  /**
-   * @description 比较key
-   * @default ['value']
-   */
-  compareKeys?: (keyof TemplateOption)[];
-}
+import React, { CSSProperties, FC, isValidElement, useEffect, useRef, useState } from 'react';
+import { getLinearGradientStyle } from '../DataBar/demo/utils';
+import { StyledBarItem, StyledBarWrapper, StyledIconWrapper, StyledSelectTemplate } from './styled';
+import { SelectTemplateProps, TemplateOption } from './types';
 
 const equalWith = ({
   a,
@@ -113,7 +58,7 @@ const renderOptionLabel = (option: TemplateOption) => {
   }
   return option.label;
 };
-const SelectTemplate: React.FC<SelectTemplateProps> = ({
+const SelectTemplate: FC<SelectTemplateProps> = ({
   value,
   onChange,
   rowWrapCount = 3,
@@ -123,6 +68,7 @@ const SelectTemplate: React.FC<SelectTemplateProps> = ({
   placeholder = '请选择',
   options = [],
   compareKeys = ['value'],
+  selectedTemplate,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<TemplateOption | null>(null);
@@ -174,14 +120,42 @@ const SelectTemplate: React.FC<SelectTemplateProps> = ({
     };
   }, [isOpen]);
 
+  const selectedRender = (_selectedOption: TemplateOption) => {
+    if (isValidElement(selectedTemplate)) {
+      return selectedTemplate;
+    }
+    if (Array.isArray(selectedTemplate) && selectedTemplate.length > 0) {
+      return (
+        <StyledBarWrapper>
+          {selectedTemplate.map((item, index) => {
+            const style: CSSProperties = _selectedOption.isGrading
+              ? getLinearGradientStyle({
+                  colors: [item, '#fff'],
+                  direction: index !== 0 ? 'to right' : 'to left',
+                })
+              : {
+                  background: item,
+                };
+            return (
+              <StyledBarItem $background={style.background} $border={style.border} key={index} />
+            );
+          })}
+        </StyledBarWrapper>
+      );
+    }
+    return (
+      <>
+        {renderOptionLabel(_selectedOption)}
+        {showSelectedOptionLabel && <span>{_selectedOption.extraLabel}</span>}
+      </>
+    );
+  };
+
   return (
     <StyledSelectTemplate ref={containerRef} $rowWrapCount={rowWrapCount} $size={getSize(size)}>
       <div className="template-selector-header" onClick={handleToggleDropdown}>
         {selectedOption ? (
-          <div className="selected-template">
-            {renderOptionLabel(selectedOption)}
-            {showSelectedOptionLabel && <span>{selectedOption.extraLabel}</span>}
-          </div>
+          <div className="selected-template">{selectedRender(selectedOption)}</div>
         ) : (
           <div className="placeholder">{placeholder}</div>
         )}

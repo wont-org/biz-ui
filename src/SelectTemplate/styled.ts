@@ -1,5 +1,24 @@
+import { CSSProperties } from 'react';
 import { css, styled } from 'styled-components';
 
+export const StyledBarWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  > div {
+    width: 50%;
+  }
+`;
+export const StyledBarItem = styled.div<{
+  $background?: CSSProperties['background'];
+  $border?: CSSProperties['border'];
+}>`
+  width: 50%;
+  height: 20px;
+  ${({ $background, $border }) => css`
+    background: ${$background};
+    border: ${$border};
+  `}
+`;
 export const StyledIconWrapper = styled.div`
   display: flex;
   gap: 8px;
@@ -31,6 +50,8 @@ export const StyledSelectTemplate = styled.div<{
       display: flex;
       align-items: center;
       gap: 8px;
+      width: 100%;
+      margin-right: 16px;
 
       img {
         /* width: calc(34px * 0.8);
