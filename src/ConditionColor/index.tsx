@@ -43,14 +43,15 @@ export const validator = (value: ValueItem[], options: ConditionColorProps = {})
     ) {
       return false;
     }
+    return true;
   }
 
   return true;
 };
 
-export default (props: ConditionColorProps) => {
+const ConditionColor = (props: ConditionColorProps) => {
   const {
-    // 由外部form控制，所以无需传入
+    // TODO 由外部form控制，所以无需传入
     // value, onChange,
     valueTypeMap = VALUE_TYPE,
     useColor = true,
@@ -67,7 +68,7 @@ export default (props: ConditionColorProps) => {
   const getPlaceholder = (item: ValueItem) => {
     if (isValueDisabled(item.valueType)) {
       // 如果是最小值或最大值，返回对应的标签
-      return Object.values(valueTypeMap).find((type) => type.value === item.valueType)?.label || '';
+      return undefined;
     }
     return '请输入0-100的数值';
   };
@@ -123,8 +124,8 @@ export default (props: ConditionColorProps) => {
                       >
                         <InputNumber
                           disabled={isValueDisabled(item.valueType)}
-                          min={0}
-                          max={100}
+                          // min={isValueDisabled(item.valueType) ? undefined : 0}
+                          // max={isValueDisabled(item.valueType) ? undefined : 100}
                           style={{ width: '100%' }}
                           placeholder={getPlaceholder(item)}
                         />
@@ -149,3 +150,4 @@ export default (props: ConditionColorProps) => {
     </Form.List>
   );
 };
+export default ConditionColor;
