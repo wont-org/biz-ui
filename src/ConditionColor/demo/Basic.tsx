@@ -1,5 +1,4 @@
-import { ConditionColor, SelectTemplate } from '@wont/biz-ui';
-import { BAR_TEMPLATE_OPTIONS } from '@wont/biz-ui/SelectTemplate/constant/index';
+import { ConditionColor } from '@wont/biz-ui';
 import { Button, Form, message, Space } from 'antd';
 import React from 'react';
 import { validator } from '..';
@@ -42,14 +41,6 @@ export default () => {
         ],
       }}
     >
-      <Form.Item label="数据条" name="bar">
-        <SelectTemplate
-          options={BAR_TEMPLATE_OPTIONS}
-          showOptionLabel={false}
-          compareKeys={['value', 'isGrading']}
-        />
-      </Form.Item>
-
       <Form.Item
         name="conditions"
         rules={[

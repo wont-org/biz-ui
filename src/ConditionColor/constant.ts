@@ -11,8 +11,8 @@ export const VALUE_TYPE = {
     label: '数字',
     value: 'number',
   },
-  percent: {
-    label: '百分点值',
-    value: 'percent',
-  },
+  // percent: {
+  //   label: '百分点值',
+  //   value: 'percent',
+  // },
 } as const;

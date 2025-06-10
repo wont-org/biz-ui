@@ -1,17 +1,27 @@
 import { Form, FormItemProps, InputNumber, Select } from 'antd';
+import { omit } from 'lodash';
 import React from 'react';
 import ColorPicker from '../ColorPicker';
+import { isInvalidValue } from '../utils/commom';
 import { ValueOfConstWithType } from '../utils/types';
 import { VALUE_TYPE } from './constant';
 import { StyledConditionColorItem } from './styled';
 
 interface ValueItem {
   value: number;
-  color: string;
+  color?: string;
   valueType: ValueOfConstWithType<typeof VALUE_TYPE, 'value'>;
 }
+export interface ConditionColorProps {
+  valueTypeMap?: typeof VALUE_TYPE;
+  useColor?: boolean;
+  value?: ValueItem[];
+  onChange?: (value: ValueItem[]) => void;
+  labelFormItemProps?: FormItemProps;
+}
 
-export const validator = (value: ValueItem[], valueTypeMap = VALUE_TYPE) => {
+export const validator = (value: ValueItem[], options: ConditionColorProps = {}) => {
+  const { valueTypeMap = VALUE_TYPE, useColor = true } = options;
   if (!value || value.length === 0) {
     return false;
   }
@@ -21,7 +31,7 @@ export const validator = (value: ValueItem[], valueTypeMap = VALUE_TYPE) => {
       return false;
     }
 
-    if (!item.color) {
+    if (useColor && !item.color) {
       return false;
     }
 
@@ -29,7 +39,7 @@ export const validator = (value: ValueItem[], valueTypeMap = VALUE_TYPE) => {
       !([valueTypeMap.min.value, valueTypeMap.max.value] as ValueItem['valueType'][]).includes(
         item.valueType,
       ) &&
-      (item.value === undefined || item.value === null)
+      isInvalidValue(item.value)
     ) {
       return false;
     }
@@ -37,19 +47,17 @@ export const validator = (value: ValueItem[], valueTypeMap = VALUE_TYPE) => {
 
   return true;
 };
-export interface ConditionColorProps {
-  value?: ValueItem[];
-  onChange?: (value: ValueItem[]) => void;
-  labelFormItemProps?: FormItemProps;
-}
 
 export default (props: ConditionColorProps) => {
   const {
+    // 由外部form控制，所以无需传入
     // value, onChange,
+    valueTypeMap = VALUE_TYPE,
+    useColor = true,
     labelFormItemProps,
   } = props;
   const isValueDisabled = (valueType: string) => {
-    return valueType === VALUE_TYPE.min.value || valueType === VALUE_TYPE.max.value;
+    return valueType === valueTypeMap.min.value || valueType === valueTypeMap.max.value;
   };
 
   const getItemLabel = (index: number, length: number) => {
@@ -59,7 +67,7 @@ export default (props: ConditionColorProps) => {
   const getPlaceholder = (item: ValueItem) => {
     if (isValueDisabled(item.valueType)) {
       // 如果是最小值或最大值，返回对应的标签
-      return Object.values(VALUE_TYPE).find((type) => type.value === item.valueType)?.label || '';
+      return Object.values(valueTypeMap).find((type) => type.value === item.valueType)?.label || '';
     }
     return '请输入0-100的数值';
   };
@@ -71,6 +79,15 @@ export default (props: ConditionColorProps) => {
           const valueTypeFieldName = [field.name, 'valueType'];
           const valueFieldName = [field.name, 'value'];
           const colorFieldName = [field.name, 'color'];
+          const getValueTypeOpt = (idx: number) => {
+            if (idx === 0) {
+              return Object.values(omit(valueTypeMap, [valueTypeMap.max.value]));
+            }
+            if (idx === fields.length - 1) {
+              return Object.values(omit(valueTypeMap, [valueTypeMap.min.value]));
+            }
+            return Object.values(valueTypeMap);
+          };
 
           return (
             <StyledConditionColorItem
@@ -83,7 +100,7 @@ export default (props: ConditionColorProps) => {
                   name={valueTypeFieldName}
                   rules={[{ required: true, message: '请选择' }]}
                 >
-                  <Select allowClear placeholder="请选择" options={Object.values(VALUE_TYPE)} />
+                  <Select allowClear placeholder="请选择" options={getValueTypeOpt(index)} />
                 </Form.Item>
 
                 <Form.Item
@@ -116,12 +133,14 @@ export default (props: ConditionColorProps) => {
                   }}
                 </Form.Item>
 
-                <Form.Item
-                  name={colorFieldName}
-                  rules={[{ required: true, message: '请选择颜色' }]}
-                >
-                  <ColorPicker trigger="icon" />
-                </Form.Item>
+                {useColor && (
+                  <Form.Item
+                    name={colorFieldName}
+                    rules={[{ required: true, message: '请选择颜色' }]}
+                  >
+                    <ColorPicker trigger="icon" />
+                  </Form.Item>
+                )}
               </div>
             </StyledConditionColorItem>
           );
