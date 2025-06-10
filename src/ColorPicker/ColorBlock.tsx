@@ -1,5 +1,5 @@
 import { CheckOutlined } from '@ant-design/icons';
-import { Tooltip } from 'antd';
+import { Tooltip, TooltipProps } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 
@@ -99,6 +99,7 @@ export interface ColorBlockProps {
   selected?: boolean;
   readOnly?: boolean;
   label?: string;
+  tooltipProps?: false | TooltipProps;
   onClick?: (color: string) => void;
 }
 
@@ -109,6 +110,7 @@ const ColorBlock: React.FC<ColorBlockProps> = ({
   selected = false,
   readOnly = false,
   label,
+  tooltipProps,
   onClick,
 }) => {
   const [isDark, setIsDark] = useState(false);
@@ -144,7 +146,15 @@ const ColorBlock: React.FC<ColorBlockProps> = ({
     </ColorBlockWrapper>
   );
 
-  return label ? <Tooltip title={label}>{colorBlock}</Tooltip> : colorBlock;
+  if (tooltipProps === false || !label) {
+    return colorBlock;
+  }
+
+  return (
+    <Tooltip title={label} {...tooltipProps}>
+      {colorBlock}
+    </Tooltip>
+  );
 };
 
 export default ColorBlock;

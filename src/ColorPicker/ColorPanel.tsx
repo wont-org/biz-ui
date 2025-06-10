@@ -3,7 +3,7 @@ import { Divider, Popover, Typography } from 'antd';
 import React, { useState } from 'react';
 import { styled } from 'styled-components';
 import ChromeColorPicker from './ChromeColorPicker';
-import ColorBlock from './ColorBlock';
+import ColorBlock, { ColorBlockProps } from './ColorBlock';
 import { ColorPickerProps } from './types';
 
 // 颜色预设容器
@@ -92,6 +92,7 @@ export interface ColorPresetProps {
   rowWrapCount?: number;
   itemSize?: number;
   readOnly?: boolean;
+  colorToolTip?: ColorBlockProps['tooltipProps'];
 }
 
 const ColorPanel: React.FC<ColorPresetProps> = ({
@@ -101,6 +102,7 @@ const ColorPanel: React.FC<ColorPresetProps> = ({
   itemSize = 28,
   rowWrapCount = 11,
   readOnly = false,
+  colorToolTip,
 }) => {
   const [moreStatus, setMoreStatus] = useState(false);
   const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>(
@@ -155,6 +157,7 @@ const ColorPanel: React.FC<ColorPresetProps> = ({
               size={itemSize}
               color={colorValue}
               label={colorLabel}
+              tooltipProps={colorToolTip}
               selected={value === colorValue}
               readOnly={readOnly}
               onClick={(selectedColor) => onChange?.(selectedColor)}

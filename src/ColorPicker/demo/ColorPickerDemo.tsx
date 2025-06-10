@@ -8,6 +8,8 @@ const { Title, Text } = Typography;
 const ColorPickerDemo: React.FC = () => {
   const [basicColor, setBasicColor] = useState<string>('#1677ff');
   const [customColor, setCustomColor] = useState<string>('#f5222d');
+  const [noTooltipColor, setNoTooltipColor] = useState<string>('#52c41a');
+  const [customTooltipColor, setCustomTooltipColor] = useState<string>('#722ed1');
   const [open, setOpen] = useState<boolean>(true);
   // 自定义颜色分组
   const customColorGroups = [
@@ -213,6 +215,62 @@ const ColorPickerDemo: React.FC = () => {
               readOnly={true}
             />
             <Text>只读模式下不响应点击</Text>
+          </Space>
+        </Space>
+      </Card>
+
+      <Card title="禁用颜色提示">
+        <Space direction="vertical">
+          <Title level={5}>不显示颜色名称提示</Title>
+          <Space>
+            <ColorPicker
+              rowWrapCount={9}
+              value={noTooltipColor}
+              onChange={setNoTooltipColor}
+              presets={customColorGroups}
+              colorToolTip={false}
+            />
+            <Text>当前颜色: {noTooltipColor}</Text>
+            <div
+              style={{
+                width: 40,
+                height: 20,
+                background: noTooltipColor,
+                display: 'inline-block',
+                border: '1px solid #d9d9d9',
+                borderRadius: 2,
+              }}
+            />
+          </Space>
+        </Space>
+      </Card>
+
+      <Card title="自定义Tooltip">
+        <Space direction="vertical">
+          <Title level={5}>自定义Tooltip样式和行为</Title>
+          <Space>
+            <ColorPicker
+              rowWrapCount={9}
+              value={customTooltipColor}
+              onChange={setCustomTooltipColor}
+              presets={customColorGroups}
+              colorToolTip={{
+                placement: 'right',
+                color: '#722ed1',
+                overlayInnerStyle: { color: 'white', fontWeight: 'bold' },
+              }}
+            />
+            <Text>当前颜色: {customTooltipColor}</Text>
+            <div
+              style={{
+                width: 40,
+                height: 20,
+                background: customTooltipColor,
+                display: 'inline-block',
+                border: '1px solid #d9d9d9',
+                borderRadius: 2,
+              }}
+            />
           </Space>
         </Space>
       </Card>

@@ -1,6 +1,7 @@
 import { PopoverProps } from 'antd';
 import { ReactNode } from 'react';
 import { SketchPickerProps } from 'react-color';
+import { ColorBlockProps } from './ColorBlock';
 
 export interface ColorItem {
   value: string;
@@ -52,4 +53,8 @@ export interface ColorPickerProps {
    * 弹出层打开状态变化回调
    */
   onOpenChange?: (open: boolean) => void;
+  /**
+   * 色块的tooltip配置，false表示不显示，或传入Tooltip组件的属性
+   */
+  colorToolTip?: ColorBlockProps['tooltipProps'];
 }

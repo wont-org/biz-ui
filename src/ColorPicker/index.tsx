@@ -25,6 +25,7 @@ const ColorPicker: FC<ColorPickerProps> = ({
   readOnly = false,
   trigger = 'block',
   onOpenChange,
+  colorToolTip,
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -67,6 +68,7 @@ const ColorPicker: FC<ColorPickerProps> = ({
         rowWrapCount={rowWrapCount}
         onClick={handleClickTrigger}
         readOnly={readOnly}
+        tooltipProps={colorToolTip}
       />
     );
   };
@@ -92,6 +94,7 @@ const ColorPicker: FC<ColorPickerProps> = ({
           presets={presets}
           value={value}
           onChange={onColorChange}
+          colorToolTip={colorToolTip}
         />
       }
     >
