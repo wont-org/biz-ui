@@ -1,5 +1,5 @@
 import { Popover } from 'antd';
-import React, { FC, isValidElement, useCallback, useState } from 'react';
+import React, { cloneElement, FC, isValidElement, useCallback, useState } from 'react';
 import ColorBlock from './ColorBlock';
 import ColorPanel from './ColorPanel';
 import { defaultPalette } from './constant';
@@ -53,7 +53,12 @@ const ColorPicker: FC<ColorPickerProps> = ({
       );
     }
     if (isValidElement(children)) {
-      return <div onClick={handleClickTrigger}>{children}</div>;
+      const _children = cloneElement(children, {
+        ...(children.props as any),
+        onClick: handleClickTrigger,
+        color: value,
+      });
+      return _children;
     }
     return (
       <ColorBlock

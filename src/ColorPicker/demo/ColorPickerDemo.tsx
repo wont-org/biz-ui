@@ -159,7 +159,7 @@ const ColorPickerDemo: React.FC = () => {
                 setOpen(!_open);
               }}
             >
-              <IconTrigger open={open} color={basicColor} label="正值" />
+              <IconTrigger open={open} label="正值" />
             </ColorPicker>
             <Text>当前颜色: {basicColor}</Text>
             <div
