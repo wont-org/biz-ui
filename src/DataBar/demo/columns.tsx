@@ -40,6 +40,11 @@ const getStyleByValue = ({
   const ratio = Math.min(Math.abs(value) / Math.max(Math.abs(max), Math.abs(min)), 1);
   // 计算width，确保不超过100%
   const width = ratio * 100 + '%';
+  const positivePureColor = positiveGradient[0];
+  const negativePureColor = negativeGradient[0];
+  if (value < min) {
+    return {};
+  }
   // 只有正数情况
   if (min > 0) {
     const { background, border } = getLinearGradientStyle({
@@ -49,7 +54,7 @@ const getStyleByValue = ({
     return {
       left: 0,
       width,
-      background: isGradient ? background : 'red',
+      background: isGradient ? background : positivePureColor,
       border: isGradient ? border : 'none',
     };
   }
@@ -62,7 +67,7 @@ const getStyleByValue = ({
     return {
       right: 0,
       width,
-      background: isGradient ? background : 'green',
+      background: isGradient ? background : negativePureColor,
       border: isGradient ? border : 'none',
     };
   }
@@ -79,7 +84,7 @@ const getStyleByValue = ({
     return {
       left: zeroPosition + '%',
       width: valueWidth + '%',
-      background: isGradient ? background : 'red',
+      background: isGradient ? background : positivePureColor,
       border: isGradient ? border : 'none',
     };
   }
@@ -96,7 +101,7 @@ const getStyleByValue = ({
     return {
       right: 100 - zeroPosition + '%',
       width: valueWidth + '%',
-      background: isGradient ? background : 'green',
+      background: isGradient ? background : negativePureColor,
       border: isGradient ? border : 'none',
     };
   }
@@ -121,12 +126,16 @@ const StyleNumber = styled.div`
   z-index: 2;
 `;
 export function getColumns({
-  // max,
-  // min,
+  max,
+  min,
+  positiveGradient = ['red', '#fff'],
+  negativeGradient = ['green', '#fff'],
   dataSource,
 }: {
-  max: number;
-  min: number;
+  positiveGradient?: string[];
+  negativeGradient?: string[];
+  max?: number;
+  min?: number;
   dataSource: DataSource[];
 }): ColumnsType<Record<string, any>> {
   return [
@@ -139,8 +148,15 @@ export function getColumns({
       title: '纯色数值',
       dataIndex: 'value',
       render(value) {
-        const { max, min } = calculateMaxValues(dataSource);
-        const style = getStyleByValue({ value, max, min, isGradient: false });
+        const curVal = calculateMaxValues(dataSource);
+        const style = getStyleByValue({
+          value,
+          max: max ?? curVal.max,
+          min: min ?? curVal.min,
+          isGradient: false,
+          positiveGradient,
+          negativeGradient,
+        });
         return (
           <StyleCell>
             <StyleBar style={style} />
@@ -153,8 +169,15 @@ export function getColumns({
       title: '渐变色数值',
       dataIndex: 'value',
       render(value) {
-        const { max, min } = calculateMaxValues(dataSource);
-        const style = getStyleByValue({ value, max, min, isGradient: true });
+        const curVal = calculateMaxValues(dataSource);
+        const style = getStyleByValue({
+          value,
+          max: max ?? curVal.max,
+          min: min ?? curVal.min,
+          isGradient: true,
+          positiveGradient,
+          negativeGradient,
+        });
         return (
           <StyleCell>
             <StyleBar style={style} />

@@ -14,12 +14,6 @@ group: 经典案例
 
 <code src="./demo/Basic.tsx"></code>
 
-## 表格用法
+## 配置表格
 
-<code src="./demo/Table.tsx"></code>
-
-## 相关资源
-
-- <a href="https://ant.design/components/table-cn/" target="_blank">Ant Design Table 组件</a>
-- <a href="https://ant.design/components/progress-cn/" target="_blank">Ant Design Progress 组件</a>
-- [数据可视化最佳实践](https://antv.vision/zh){:target="\_blank"}
+<code src="./demo/TableWithConfig.tsx"></code>
