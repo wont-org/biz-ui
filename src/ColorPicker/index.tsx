@@ -2,15 +2,15 @@ import { Popover } from 'antd';
 import React, { cloneElement, FC, isValidElement, useCallback, useState } from 'react';
 import ColorBlock from './ColorBlock';
 import ColorPanel from './ColorPanel';
-import { defaultPalette } from './constant';
+import { PRESET_COLORS } from './constant';
 import IconTrigger from './IconTrigger';
-import { ColorPickerProps } from './types';
+import { ColorGroup, ColorPickerProps } from './types';
 
-// 将defaultPalette转换为ColorPreset需要的格式
-const defaultColorGroups = [
+// 将PRESET_COLORS转换为ColorPreset需要的格式
+const defaultColorGroups: ColorGroup[] = [
   {
     // title: '预设颜色',
-    colors: defaultPalette,
+    colors: PRESET_COLORS,
   },
 ];
 

@@ -9,46 +9,46 @@ const Demo: React.FC = () => {
     {
       title: 'primary',
       colors: [
-        '#f0f8ff',
-        '#d6e9ff',
-        '#99c9ff',
-        '#66b0ff',
-        '#3399ff',
-        '#2196f3',
-        '#0c7cd5',
-        '#0059b2',
-        '#004ba0',
-        '#003c8f',
+        { value: '#f0f8ff', label: '淡蓝色' },
+        { value: '#d6e9ff', label: '天蓝色' },
+        { value: '#99c9ff', label: '浅蓝色' },
+        { value: '#66b0ff', label: '亮蓝色' },
+        { value: '#3399ff', label: '明蓝色' },
+        { value: '#2196f3', label: '蓝色' },
+        { value: '#0c7cd5', label: '深蓝色' },
+        { value: '#0059b2', label: '暗蓝色' },
+        { value: '#004ba0', label: '深暗蓝色' },
+        { value: '#003c8f', label: '藏蓝色' },
       ],
     },
     {
       title: 'red',
       colors: [
-        '#ffebee',
-        '#ffcdd2',
-        '#ef9a9a',
-        '#e57373',
-        '#ef5350',
-        '#f44336',
-        '#e53935',
-        '#c62828',
-        '#b71c1c',
-        '#891515',
+        { value: '#ffebee', label: '浅粉红色' },
+        { value: '#ffcdd2', label: '淡粉红色' },
+        { value: '#ef9a9a', label: '浅红色' },
+        { value: '#e57373', label: '亮红色' },
+        { value: '#ef5350', label: '鲜红色' },
+        { value: '#f44336', label: '红色' },
+        { value: '#e53935', label: '砖红色' },
+        { value: '#c62828', label: '深红色' },
+        { value: '#b71c1c', label: '暗红色' },
+        { value: '#891515', label: '酒红色' },
       ],
     },
     {
       title: 'green',
       colors: [
-        '#e8f5e9',
-        '#c8e6c9',
-        '#a5d6a7',
-        '#81c784',
-        '#66bb6a',
-        '#4caf50',
-        '#43a047',
-        '#2e7d32',
-        '#1b5e20',
-        '#0d3f10',
+        { value: '#e8f5e9', label: '淡绿色' },
+        { value: '#c8e6c9', label: '浅绿色' },
+        { value: '#a5d6a7', label: '清绿色' },
+        { value: '#81c784', label: '亮绿色' },
+        { value: '#66bb6a', label: '明绿色' },
+        { value: '#4caf50', label: '绿色' },
+        { value: '#43a047', label: '草绿色' },
+        { value: '#2e7d32', label: '深绿色' },
+        { value: '#1b5e20', label: '暗绿色' },
+        { value: '#0d3f10', label: '墨绿色' },
       ],
     },
   ];
@@ -59,18 +59,18 @@ const Demo: React.FC = () => {
       <div style={{ marginBottom: 16 }}>
         <h4>交互模式</h4>
         <div style={{ display: 'flex', marginBottom: 16 }}>
-          <ColorBlock color="#1677ff" selected={true} />
-          <ColorBlock color="#f5222d" />
-          <ColorBlock color="#52c41a" />
-          <ColorBlock color="#faad14" />
+          <ColorBlock color="#1677ff" label="蓝色" selected={true} />
+          <ColorBlock color="#f5222d" label="红色" />
+          <ColorBlock color="#52c41a" label="绿色" />
+          <ColorBlock color="#faad14" label="黄色" />
         </div>
 
         <h4>只读模式</h4>
         <div style={{ display: 'flex', marginBottom: 24 }}>
-          <ColorBlock color="#1677ff" selected={true} readOnly={true} />
-          <ColorBlock color="#f5222d" readOnly={true} />
-          <ColorBlock color="#52c41a" readOnly={true} />
-          <ColorBlock color="#faad14" readOnly={true} />
+          <ColorBlock color="#1677ff" label="蓝色" selected={true} readOnly={true} />
+          <ColorBlock color="#f5222d" label="红色" readOnly={true} />
+          <ColorBlock color="#52c41a" label="绿色" readOnly={true} />
+          <ColorBlock color="#faad14" label="黄色" readOnly={true} />
         </div>
       </div>
 
@@ -93,6 +93,7 @@ const Demo: React.FC = () => {
             value={selectedColor}
             onChange={() => {}}
             rowWrapCount={5}
+            readOnly={true}
           />
         </div>
       </div>

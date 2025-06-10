@@ -85,11 +85,6 @@ const IconWrapper = styled.span<{ $expanded: boolean }>`
   transform: rotate(${(props) => (props.$expanded ? 90 : 0)}deg);
 `;
 
-export interface ColorGroup {
-  title: string;
-  colors: string[];
-}
-
 export interface ColorPresetProps {
   presets: ColorPickerProps['presets'];
   value?: string;
@@ -149,17 +144,23 @@ const ColorPanel: React.FC<ColorPresetProps> = ({
         $height={contentHeight}
         $transitionDuration={transitionDuration}
       >
-        {group.colors.map((colorValue, index) => (
-          <ColorBlock
-            rowWrapCount={rowWrapCount}
-            key={`${group.title}-${colorValue}-${index}`}
-            size={itemSize}
-            color={colorValue}
-            selected={value === colorValue}
-            readOnly={readOnly}
-            onClick={(selectedColor) => onChange?.(selectedColor)}
-          />
-        ))}
+        {group.colors.map((colorItem, index) => {
+          const colorValue = typeof colorItem === 'string' ? colorItem : colorItem.value;
+          const colorLabel = typeof colorItem === 'string' ? undefined : colorItem.label;
+
+          return (
+            <ColorBlock
+              rowWrapCount={rowWrapCount}
+              key={`${group.title}-${colorValue}-${index}`}
+              size={itemSize}
+              color={colorValue}
+              label={colorLabel}
+              selected={value === colorValue}
+              readOnly={readOnly}
+              onClick={(selectedColor) => onChange?.(selectedColor)}
+            />
+          );
+        })}
       </GroupContent>
     );
   };

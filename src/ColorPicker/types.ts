@@ -2,9 +2,14 @@ import { PopoverProps } from 'antd';
 import { ReactNode } from 'react';
 import { SketchPickerProps } from 'react-color';
 
+export interface ColorItem {
+  value: string;
+  label?: string;
+}
+
 export interface ColorGroup {
   title?: string;
-  colors: string[];
+  colors: ColorItem[];
 }
 
 export interface ColorPickerProps {
