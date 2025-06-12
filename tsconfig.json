@@ -13,5 +13,5 @@
       "@wont/biz-ui/*": ["src/*", "*"]
     }
   },
-  "include": [".dumirc.ts", "src/**/*"]
+  "include": ["src/**/*", ".dumirc.ts", ".fatherrc.ts", "config/**/*"]
 }
