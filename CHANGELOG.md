@@ -1,3 +1,9 @@
+## [1.2.3](https://github.com/wont-org/biz-ui/compare/v1.2.2...v1.2.3) (2025-06-12)
+
+### Bug Fixes
+
+- **FormulaInput:** 运算符在条件内时，不新增条件；阻止以运算符开头和连续运算符输入 ([4464b9f](https://github.com/wont-org/biz-ui/commit/4464b9f74f5f702ad9fc4d9f7b97e0ba5f706c73))
+
 ## [1.2.2](https://github.com/wont-org/biz-ui/compare/v1.2.1...v1.2.2) (2025-05-29)
 
 ### Bug Fixes
