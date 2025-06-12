@@ -142,6 +142,19 @@ const FormulaInput = (props: FormulaInputProps) => {
       message.error(`只能输入${OP_LIST.map((op) => `"${op}"`).join('，')} 以及 英文括号`);
       return;
     }
+    if (cursorIndex === 0 && OP_LIST.includes(data)) {
+      message.error(`公式不能以运算符开头`);
+      return;
+    }
+    const prevItem = formulaValue[cursorIndex - 1];
+    const nextItem = formulaValue[cursorIndex];
+    if (
+      (typeof prevItem === 'string' && OP_LIST.includes(prevItem)) ||
+      (typeof nextItem === 'string' && OP_LIST.includes(nextItem))
+    ) {
+      message.error(`运算符不能连续`);
+      return;
+    }
 
     const itemLength = formulaValue.filter((i) => typeof i === 'object').length;
     if (itemLength >= maxItem && OP_LIST.includes(data)) {
@@ -149,11 +162,12 @@ const FormulaInput = (props: FormulaInputProps) => {
       return;
     }
 
+    const length = formulaValue.length;
     // 当光标不在最后时，在当前位置插入
-    if (cursorIndex !== formulaValue.length) {
+    if (cursorIndex !== length) {
       const newFormula = [...formulaValue];
       const insertArr: NonNullable<FormulaInputProps['value']>['formula'] = [data].filter(Boolean);
-      if (OP_LIST.includes(data)) {
+      if (OP_LIST.includes(data) && typeof prevItem !== 'object' && typeof nextItem !== 'object') {
         insertArr.push({ value: undefined, valueType: FORMULA.text.valueType });
       }
       newFormula.splice(cursorIndex, 0, ...insertArr);
