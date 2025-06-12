@@ -1,35 +1,19 @@
-export const fixedData = [
-  { index: 1, value: 0 },
-  { index: 2, value: 1 },
-  { index: 3, value: 2 },
-  { index: 4, value: 3 },
-  { index: 5, value: 4 },
-  { index: 6, value: 5 },
-  { index: 7, value: 6 },
-  { index: 8, value: 7 },
-  { index: 9, value: 8 },
-  { index: 10, value: 9 },
-  { index: 11, value: -20 },
-  { index: 12, value: -9 },
-  { index: 13, value: -8 },
-  { index: 14, value: -7 },
-  { index: 15, value: -6 },
-  { index: 16, value: -5 },
-  { index: 17, value: -4 },
-  { index: 18, value: -3 },
-  { index: 19, value: -2 },
-  { index: 20, value: -1 },
-];
-
-export const negativeData = [
-  { index: 1, value: -20 },
-  { index: 2, value: -18 },
-  { index: 3, value: -16 },
-  { index: 4, value: -14 },
-  { index: 5, value: -12 },
-  { index: 6, value: -10 },
-  { index: 7, value: -8 },
-  { index: 8, value: -6 },
-  { index: 9, value: -4 },
-  { index: 10, value: -2 },
-];
+export const getFixedData = ({ min = -20, max = 20 }: { min?: number; max?: number }) => {
+  const data = [];
+  for (let index = min; index <= max; index++) {
+    if (index === 0) {
+      continue;
+    }
+    data.push({
+      index: -index,
+      mixedValue: index,
+      positiveValue: index > 0 ? index : undefined,
+      negativeValue: index < 0 ? index : undefined,
+    });
+  }
+  return {
+    mixedData: data,
+    positiveData: data.filter((item) => item.positiveValue),
+    negativeData: data.filter((item) => item.negativeValue),
+  };
+};

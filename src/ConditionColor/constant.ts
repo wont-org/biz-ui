@@ -1,4 +1,8 @@
 export const VALUE_TYPE = {
+  auto: {
+    label: '自动',
+    value: 'auto',
+  },
   min: {
     label: '最低值',
     value: 'min',
@@ -12,7 +16,11 @@ export const VALUE_TYPE = {
     value: 'number',
   },
   // percent: {
-  //   label: '百分点值',
+  //   label: '百分比',
   //   value: 'percent',
+  // },
+  // percentPoint: {
+  //   label: '百分点值',
+  //   value: 'percentPoint',
   // },
 } as const;

@@ -1,21 +1,27 @@
 import ColorPicker from '@wont/biz-ui/ColorPicker';
 import IconTrigger from '@wont/biz-ui/ColorPicker/IconTrigger';
-import ConditionColor, { ConditionColorProps, validator } from '@wont/biz-ui/ConditionColor';
+import ConditionColor, { validator } from '@wont/biz-ui/ConditionColor';
 import SelectTemplate from '@wont/biz-ui/SelectTemplate';
 import { BAR_TEMPLATE_OPTIONS } from '@wont/biz-ui/SelectTemplate/constant/index';
-import { SelectTemplateProps } from '@wont/biz-ui/SelectTemplate/types';
-import { ValueOfConstWithType } from '@wont/biz-ui/utils/types';
 import { Button, Form, message, Radio, Space, Table } from 'antd';
 import React, { useState } from 'react';
 import { styled } from 'styled-components';
 import { getColumns } from './columns';
 import { FILL_TYPE_OPTIONS } from './constant';
-import { fixedData } from './mock';
-import { DataSource } from './type';
+import { getFixedData } from './mock';
+import { DataSource, FormValues } from './type';
 
-const getRandomData = (n: number, minValue: number, maxValue: number) => {
+const getRandomData = ({
+  n = 30,
+  min = -20,
+  max = 20,
+}: {
+  n?: number;
+  min?: number;
+  max?: number;
+}) => {
   return Array.from({ length: n }, (_, index) => {
-    const value = Math.floor(Math.random() * (maxValue - minValue + 1) + minValue);
+    const value = Math.floor(Math.random() * (max - min + 1) + min);
     return { index: index + 1, value };
   });
 };
@@ -27,30 +33,24 @@ const StyledTable = styled(Table)`
   }
 `;
 
-interface FormValues {
-  conditions: ConditionColorProps['value'];
-  bar: SelectTemplateProps['value'];
-  fillType: ValueOfConstWithType<typeof FILL_TYPE_OPTIONS, 'value'>;
-  negativeColor: string;
-  positiveColor: string;
-}
-
 export default () => {
-  const [dataSource, setDataSource] = useState<DataSource[]>(fixedData);
-
-  const bar = BAR_TEMPLATE_OPTIONS[1].options[1];
+  const dataBar = BAR_TEMPLATE_OPTIONS[1].options[1];
   const [open, setOpen] = useState(false);
-  const initialValues = {
+  const initialValues: FormValues = {
     negativeColor: '#F54A45',
-    positiveColor: bar.value[0],
-    bar,
+    positiveColor: dataBar.value[0],
+    dataBar,
     fillType: FILL_TYPE_OPTIONS.gradient.value,
     conditions: [
-      { valueType: 'min', value: -20 },
-      { valueType: 'max', value: 10 },
+      { valueType: 'number', value: -10 },
+      { valueType: 'number', value: 10 },
     ],
   };
   const [formValues, setFormValues] = useState<FormValues>(initialValues);
+  const [dataSource, setDataSource] = useState<DataSource[]>(
+    getFixedData({ min: formValues.conditions?.[0]?.value, max: formValues.conditions?.[1]?.value })
+      .mixedData,
+  );
 
   const [form] = Form.useForm<FormValues>();
 
@@ -73,6 +73,14 @@ export default () => {
         onFinishFailed={handleFinishFailed}
         labelCol={{ span: 4 }}
         initialValues={initialValues}
+        onReset={() => {
+          setDataSource(
+            getFixedData({
+              min: formValues.conditions?.[0]?.value,
+              max: formValues.conditions?.[1]?.value,
+            }).mixedData,
+          );
+        }}
       >
         <Form.Item
           noStyle
@@ -90,7 +98,7 @@ export default () => {
             const positiveColor = getFieldValue('positiveColor');
 
             return (
-              <Form.Item label="数据条" name="bar">
+              <Form.Item label="数据条" name="dataBar">
                 <SelectTemplate
                   options={BAR_TEMPLATE_OPTIONS}
                   showOptionLabel={false}
@@ -109,8 +117,8 @@ export default () => {
           <Radio.Group
             options={Object.values(FILL_TYPE_OPTIONS)}
             onChange={(e) => {
-              form.setFieldValue('bar', {
-                ...(form.getFieldValue('bar') || {}),
+              form.setFieldValue('dataBar', {
+                ...(form.getFieldValue('dataBar') || {}),
                 isGrading: e.target.value,
               });
             }}
@@ -133,8 +141,8 @@ export default () => {
                   setOpen(!_open);
                 }}
                 onChange={(color) => {
-                  form.setFieldValue('bar', {
-                    ...(form.getFieldValue('bar') || {}),
+                  form.setFieldValue('dataBar', {
+                    ...(form.getFieldValue('dataBar') || {}),
                     value: [color],
                   });
                 }}
@@ -175,15 +183,42 @@ export default () => {
               ghost
               onClick={() => {
                 setDataSource(
-                  getRandomData(
-                    30,
-                    formValues.conditions![0].value,
-                    formValues.conditions![1].value,
-                  ),
+                  getRandomData({
+                    n: 30,
+                    min: formValues.conditions?.[0]?.value,
+                    max: formValues.conditions?.[1]?.value,
+                  }),
                 );
+                form.submit();
               }}
             >
               表格随机
+            </Button>
+            <Button
+              type="dashed"
+              onClick={() => {
+                setDataSource(
+                  getFixedData({
+                    min: formValues.conditions?.[0]?.value,
+                    max: formValues.conditions?.[1]?.value,
+                  }).positiveData,
+                );
+              }}
+            >
+              正数
+            </Button>
+            <Button
+              danger
+              onClick={() => {
+                setDataSource(
+                  getFixedData({
+                    min: formValues.conditions?.[0]?.value,
+                    max: formValues.conditions?.[1]?.value,
+                  }).negativeData,
+                );
+              }}
+            >
+              负数
             </Button>
             <Button
               onClick={() => {
@@ -212,6 +247,7 @@ export default () => {
           pageSize: 100,
         }}
         columns={getColumns({
+          formValues,
           dataSource,
           min: formValues.conditions?.[0]?.value,
           max: formValues.conditions?.[1]?.value,

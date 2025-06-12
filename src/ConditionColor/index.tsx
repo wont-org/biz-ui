@@ -7,20 +7,20 @@ import { ValueOfConstWithType } from '../utils/types';
 import { VALUE_TYPE } from './constant';
 import { StyledConditionColorItem } from './styled';
 
-interface ValueItem {
-  value: number;
+export interface ConditionColorValueItem {
+  value?: number;
   color?: string;
   valueType: ValueOfConstWithType<typeof VALUE_TYPE, 'value'>;
 }
 export interface ConditionColorProps {
   valueTypeMap?: typeof VALUE_TYPE;
   useColor?: boolean;
-  value?: ValueItem[];
-  onChange?: (value: ValueItem[]) => void;
+  value?: ConditionColorValueItem[];
+  onChange?: (value: ConditionColorValueItem[]) => void;
   labelFormItemProps?: FormItemProps;
 }
 
-export const validator = (value: ValueItem[], options: ConditionColorProps = {}) => {
+export const validator = (value: ConditionColorValueItem[], options: ConditionColorProps = {}) => {
   const { valueTypeMap = VALUE_TYPE, useColor = true } = options;
   if (!value || value.length === 0) {
     return false;
@@ -36,9 +36,13 @@ export const validator = (value: ValueItem[], options: ConditionColorProps = {})
     }
 
     if (
-      !([valueTypeMap.min.value, valueTypeMap.max.value] as ValueItem['valueType'][]).includes(
-        item.valueType,
-      ) &&
+      !(
+        [
+          valueTypeMap.min.value,
+          valueTypeMap.max.value,
+          valueTypeMap.auto.value,
+        ] as ConditionColorValueItem['valueType'][]
+      ).includes(item.valueType) &&
       isInvalidValue(item.value)
     ) {
       return false;
@@ -51,26 +55,33 @@ export const validator = (value: ValueItem[], options: ConditionColorProps = {})
 
 const ConditionColor = (props: ConditionColorProps) => {
   const {
-    // TODO 由外部form控制，所以无需传入
+    // 由外部form控制，所以无需传入
     // value, onChange,
     valueTypeMap = VALUE_TYPE,
     useColor = true,
     labelFormItemProps,
   } = props;
-  const isValueDisabled = (valueType: string) => {
-    return valueType === valueTypeMap.min.value || valueType === valueTypeMap.max.value;
+  const isValueDisabled = (valueType: ConditionColorValueItem['valueType']) => {
+    return (
+      [
+        valueTypeMap.min.value,
+        valueTypeMap.max.value,
+        valueTypeMap.auto.value,
+      ] as ConditionColorValueItem['valueType'][]
+    ).includes(valueType);
   };
 
   const getItemLabel = (index: number, length: number) => {
     return index === 0 ? '最小值' : index === length - 1 ? '最大值' : '中间值';
   };
 
-  const getPlaceholder = (item: ValueItem) => {
+  const getPlaceholder = (item: ConditionColorValueItem) => {
     if (isValueDisabled(item.valueType)) {
       // 如果是最小值或最大值，返回对应的标签
       return undefined;
     }
-    return '请输入0-100的数值';
+    return '请输入数字';
+    // return '请输入0-100的数值';
   };
 
   return (
@@ -112,9 +123,11 @@ const ConditionColor = (props: ConditionColorProps) => {
                     return prevValueType !== curValueType;
                   }}
                 >
-                  {({ getFieldValue }) => {
+                  {({ getFieldValue, setFieldValue }) => {
                     const item = getFieldValue(['conditions', index]);
                     const required = !isValueDisabled(item.valueType);
+                    const conditionItemValue = required ? item.value : undefined;
+                    setFieldValue(['conditions', index, 'value'], conditionItemValue);
 
                     return (
                       <Form.Item
