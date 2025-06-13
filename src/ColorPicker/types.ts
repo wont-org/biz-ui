@@ -19,6 +19,10 @@ export interface ColorPickerProps {
    */
   value?: string;
   /**
+   * 颜色值的label
+   */
+  label?: string;
+  /**
    * 颜色变化回调
    */
   onChange?: (color: string) => void;

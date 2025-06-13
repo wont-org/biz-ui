@@ -17,6 +17,7 @@ const defaultColorGroups: ColorGroup[] = [
 const ColorPicker: FC<ColorPickerProps> = ({
   children,
   value,
+  label,
   itemSize = 28,
   popoverProps = {},
   onChange,
@@ -50,7 +51,13 @@ const ColorPicker: FC<ColorPickerProps> = ({
   const renderTrigger = () => {
     if (trigger === 'icon') {
       return (
-        <IconTrigger color={value} onClick={handleClickTrigger} open={!open} readOnly={readOnly} />
+        <IconTrigger
+          color={value}
+          label={label}
+          onClick={handleClickTrigger}
+          open={!open}
+          readOnly={readOnly}
+        />
       );
     }
     if (isValidElement(children)) {
