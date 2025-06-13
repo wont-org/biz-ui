@@ -1,3 +1,9 @@
+## [1.2.4](https://github.com/wont-org/biz-ui/compare/v1.2.3...v1.2.4) (2025-06-13)
+
+### Bug Fixes
+
+- **FormulaInput:** 括号不应提示运算符连续 ([7d0af56](https://github.com/wont-org/biz-ui/commit/7d0af566fadfa0f0d5f1e507d4eedc61c32c1dec))
+
 ## [1.2.3](https://github.com/wont-org/biz-ui/compare/v1.2.2...v1.2.3) (2025-06-12)
 
 ### Bug Fixes

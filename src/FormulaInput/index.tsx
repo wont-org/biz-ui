@@ -149,8 +149,9 @@ const FormulaInput = (props: FormulaInputProps) => {
     const prevItem = formulaValue[cursorIndex - 1];
     const nextItem = formulaValue[cursorIndex];
     if (
-      (typeof prevItem === 'string' && OP_LIST.includes(prevItem)) ||
-      (typeof nextItem === 'string' && OP_LIST.includes(nextItem))
+      OP_LIST.includes(data) &&
+      ((typeof prevItem === 'string' && OP_LIST.includes(prevItem)) ||
+        (typeof nextItem === 'string' && OP_LIST.includes(nextItem)))
     ) {
       message.error(`运算符不能连续`);
       return;
