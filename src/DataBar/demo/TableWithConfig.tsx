@@ -1,5 +1,4 @@
-import ColorPicker from '@wont/biz-ui/ColorPicker';
-import IconTrigger from '@wont/biz-ui/ColorPicker/IconTrigger';
+import { ColorPicker } from '@wont/biz-ui';
 import ConditionColor, { validator } from '@wont/biz-ui/ConditionColor';
 import SelectTemplate from '@wont/biz-ui/SelectTemplate';
 import { BAR_TEMPLATE_OPTIONS } from '@wont/biz-ui/SelectTemplate/constant/index';
@@ -36,7 +35,6 @@ const StyledTable = styled(Table)`
 const INIT_NEGATIVE_COLOR = '#F54A45';
 export default () => {
   const dataBar = BAR_TEMPLATE_OPTIONS[1].options[1];
-  const [open, setOpen] = useState(false);
   const initialValues: FormValues = {
     negativeColor: INIT_NEGATIVE_COLOR,
     positiveColor: dataBar.value[0],
@@ -129,28 +127,19 @@ export default () => {
         <Form.Item label="颜色配置">
           <div style={{ display: 'flex', gap: 16 }}>
             <Form.Item name="negativeColor">
-              <ColorPicker
-                onOpenChange={(_open) => {
-                  setOpen(!_open);
-                }}
-              >
-                <IconTrigger open={open} label="负值" />
-              </ColorPicker>
+              <ColorPicker label="负值" trigger="icon" />
             </Form.Item>
             <Form.Item name="positiveColor">
               <ColorPicker
-                onOpenChange={(_open) => {
-                  setOpen(!_open);
-                }}
+                label="正值"
+                trigger="icon"
                 onChange={(color) => {
                   form.setFieldValue('dataBar', {
                     ...(form.getFieldValue('dataBar') || {}),
                     value: [color],
                   });
                 }}
-              >
-                <IconTrigger open={open} label="正值" />
-              </ColorPicker>
+              />
             </Form.Item>
           </div>
         </Form.Item>
