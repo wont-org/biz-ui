@@ -1,6 +1,6 @@
 {
   "name": "@wont/biz-ui",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "A react library developed with dumi",
   "homepage": "wont-org.github.io/biz-ui/",
   "bugs": {
@@ -34,7 +34,7 @@
     "lint:css": "stylelint \"{src,test}/**/*.{css,less}\"",
     "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
     "prepare": "is-ci || husky install && dumi setup",
-    "prepublishOnly": "npm run bump &&father doctor && npm run build",
+    "prepublishOnly": "father doctor && npm run build",
     "start": "npm run dev"
   },
   "commitlint": {
