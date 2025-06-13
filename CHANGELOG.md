@@ -1,3 +1,26 @@
+# [1.3.0-beta.1](https://github.com/wont-org/biz-ui/compare/v1.2.4...v1.3.0-beta.1) (2025-06-13)
+
+### Bug Fixes
+
+- 自动 最低值 最高值, 清空 value ([8f5ed04](https://github.com/wont-org/biz-ui/commit/8f5ed04c255198ce00f59a6abee26f44a5ef1935))
+- **ConditionColor:** 校验和值大小显示 ([052855f](https://github.com/wont-org/biz-ui/commit/052855f5af348c58c7d32d214dace1f10072e387))
+
+### Features
+
+- **ColorPicker:** 内置颜色修改，增加 tooltip ([a87b956](https://github.com/wont-org/biz-ui/commit/a87b956f61eed1602a046391952d045fa11503de))
+- **ColorPicker:** 新增内置自定义触发器 ([8ac2768](https://github.com/wont-org/biz-ui/commit/8ac276885fe93f92929cc429d8833d12026a8fb1))
+- **ColorPicker:** 新增 colorToolTip ([69f261d](https://github.com/wont-org/biz-ui/commit/69f261d78d784b8c2982c34e1fc9983e955ee288))
+- **ColorPicker:** 自定义触发器 tooltip 优化 ([f643366](https://github.com/wont-org/biz-ui/commit/f643366ab5cdce8b53e5a898c848a33a4a7a4c12))
+- **ColorPicker:** icon trigger 导出方式 ([d087bd4](https://github.com/wont-org/biz-ui/commit/d087bd40df500c7ac3a28ded196cef1b3f40f64e))
+- **ColorPicker:** icon trigger 透传 onClick color ([72ae2bc](https://github.com/wont-org/biz-ui/commit/72ae2bce01d5ba95890aada6996226e01235e8bf))
+- **ColorPicker:** label ([3e62b4d](https://github.com/wont-org/biz-ui/commit/3e62b4d0a391e4d80d8c9516601db56dc6b06122))
+- **ConditionColor:** 新增条件样式 ([93ad153](https://github.com/wont-org/biz-ui/commit/93ad15322fa23a6f05b18e2cbc639b3047d7d579))
+- **ConditionColor:** useColor valueTypeMap ([f8a795b](https://github.com/wont-org/biz-ui/commit/f8a795b8f999ecdb932a6af1c9e1f0268793859c))
+- **SelectTemplate:** 新增选择模板组件 ([8a6017d](https://github.com/wont-org/biz-ui/commit/8a6017dc5e100580fe89e63c61c17d78781266ef))
+- **SelectTemplate:** 新增 selectedTemplate 渲染 ([3c7cf34](https://github.com/wont-org/biz-ui/commit/3c7cf34258c50a28b6c7131b80e37d1416bb7b49))
+- **SelectTemplate:** 自定义展示 ([366a691](https://github.com/wont-org/biz-ui/commit/366a6915f7475107925b670b055d44ac3262fb4e))
+- **SelectTemplate:** size 默认 middle ([cb3a24b](https://github.com/wont-org/biz-ui/commit/cb3a24b46db48b1a355067ada8a7b7a2a80c8770))
+
 ## [1.2.4](https://github.com/wont-org/biz-ui/compare/v1.2.3...v1.2.4) (2025-06-13)
 
 ### Bug Fixes
