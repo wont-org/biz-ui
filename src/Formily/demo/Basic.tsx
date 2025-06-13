@@ -4,12 +4,14 @@ import {
   InputWithDefault,
   MultipleSelect,
   PrefixInput,
+  SelectTemplate,
   SwitchPro,
   TextAreaWithDefault,
 } from '@wont/biz-ui';
 import { PREFIX } from '@wont/biz-ui/PrefixInput/constant';
+import { BAR_TEMPLATE_OPTIONS } from '@wont/biz-ui/SelectTemplate/constant';
 import { sleep } from '@wont/biz-ui/utils/commom';
-import { Button, Form } from 'antd';
+import { Button, Form, Space } from 'antd';
 import { DefaultOptionType } from 'antd/es/select';
 import { SelectProps } from 'antd/lib';
 import React, { useState } from 'react';
@@ -76,6 +78,7 @@ export default () => {
 
   return (
     <Form
+      size="middle"
       labelCol={{ span: 4 }}
       wrapperCol={{ span: 20 }}
       initialValues={{
@@ -128,6 +131,9 @@ export default () => {
       <Form.Item label="TextAreaWithDefault" name="TextAreaWithDefault">
         <TextAreaWithDefault />
       </Form.Item>
+      <Form.Item label="SelectTemplate" name="SelectTemplate">
+        <SelectTemplate options={BAR_TEMPLATE_OPTIONS} size="middle" />
+      </Form.Item>
       <Form.Item
         label="EditableSelect"
         name="EditableSelect"
@@ -179,18 +185,20 @@ export default () => {
         <MultipleSelect options={getDefaultOptions()} />
       </Form.Item>
 
-      <Form.Item>
-        <Button type="primary" htmlType="submit" style={{ paddingRight: 20 }}>
-          Submit
-        </Button>
-        <Button
-          style={{ paddingRight: 20 }}
-          onClick={() => {
-            setOptions(getDefaultOptions());
-          }}
-        >
-          重置下拉框
-        </Button>
+      <Form.Item wrapperCol={{ offset: 4 }}>
+        <Space>
+          <Button type="primary" htmlType="submit" style={{ paddingRight: 20 }}>
+            Submit
+          </Button>
+          <Button
+            style={{ paddingRight: 20 }}
+            onClick={() => {
+              setOptions(getDefaultOptions());
+            }}
+          >
+            重置下拉框
+          </Button>
+        </Space>
       </Form.Item>
     </Form>
   );

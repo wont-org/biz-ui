@@ -1,5 +1,6 @@
 import { defineConfig } from 'dumi';
 import path from 'path';
+import { antdImport, styledComponentsImport } from './config/build';
 
 export default defineConfig({
   outputPath: 'docs-dist',
@@ -23,24 +24,7 @@ Powered by liukun`,
     // 配置入口文件路径，API 解析将从这里开始
     entryFile: './src/index.tsx',
   },
-  extraBabelPlugins: [
-    [
-      'import',
-      {
-        libraryName: 'antd',
-        libraryDirectory: 'es',
-        style: true,
-      },
-      'antd',
-    ],
-    [
-      'babel-plugin-styled-components',
-      {
-        displayName: true,
-        fileName: true,
-      },
-    ],
-  ],
+  extraBabelPlugins: [antdImport, styledComponentsImport],
   lessLoader: {
     javascriptEnabled: true,
   },

@@ -7,6 +7,6 @@ group:
 
 # Form
 
-封装符合 Formily 使用规范的组件，确保有 value onChange
+封装符合 Form 使用规范的组件，确保有 value onChange
 
 <code src="./demo/Basic.tsx"></code>

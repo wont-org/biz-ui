@@ -1,4 +1,5 @@
 import { CheckOutlined } from '@ant-design/icons';
+import { Tooltip, TooltipProps } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 
@@ -33,11 +34,11 @@ const ColorBlockWrapper = styled.div<{
 `;
 
 // 内部颜色显示区域
-const ColorInner = styled.div<{ color: string }>`
+const ColorInner = styled.div<{ $color?: string }>`
   width: 100%;
   height: 100%;
   border-radius: 2px;
-  background: ${(props) => props.color};
+  background: ${(props) => props.$color};
 `;
 
 // 选中指示器
@@ -92,11 +93,13 @@ const isColorDark = (color: string): boolean => {
 };
 
 export interface ColorBlockProps {
-  color: string;
+  color?: string;
   size?: number;
   rowWrapCount?: number;
   selected?: boolean;
   readOnly?: boolean;
+  label?: string;
+  tooltipProps?: false | TooltipProps;
   onClick?: (color: string) => void;
 }
 
@@ -106,21 +109,26 @@ const ColorBlock: React.FC<ColorBlockProps> = ({
   size = 28,
   selected = false,
   readOnly = false,
+  label,
+  tooltipProps,
   onClick,
 }) => {
   const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
+    if (!color) {
+      return;
+    }
     setIsDark(isColorDark(color));
   }, [color]);
 
   const handleClick = () => {
-    if (!readOnly && onClick) {
+    if (!readOnly && onClick && color) {
       onClick(color);
     }
   };
 
-  return (
+  const colorBlock = (
     <ColorBlockWrapper
       $size={size}
       $rowWrapCount={rowWrapCount}
@@ -128,7 +136,7 @@ const ColorBlock: React.FC<ColorBlockProps> = ({
       className={`${selected ? 'selected' : ''}`}
       onClick={handleClick}
     >
-      <ColorInner color={color}>
+      <ColorInner $color={color}>
         {selected && (
           <SelectedIndicator $isDark={isDark}>
             <CheckOutlined className="color-picker-check-icon" />
@@ -136,6 +144,16 @@ const ColorBlock: React.FC<ColorBlockProps> = ({
         )}
       </ColorInner>
     </ColorBlockWrapper>
+  );
+
+  if (tooltipProps === false || !label) {
+    return colorBlock;
+  }
+
+  return (
+    <Tooltip title={label} {...tooltipProps}>
+      {colorBlock}
+    </Tooltip>
   );
 };
 

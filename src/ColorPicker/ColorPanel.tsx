@@ -3,7 +3,7 @@ import { Divider, Popover, Typography } from 'antd';
 import React, { useState } from 'react';
 import { styled } from 'styled-components';
 import ChromeColorPicker from './ChromeColorPicker';
-import ColorBlock from './ColorBlock';
+import ColorBlock, { ColorBlockProps } from './ColorBlock';
 import { ColorPickerProps } from './types';
 
 // 颜色预设容器
@@ -85,11 +85,6 @@ const IconWrapper = styled.span<{ $expanded: boolean }>`
   transform: rotate(${(props) => (props.$expanded ? 90 : 0)}deg);
 `;
 
-export interface ColorGroup {
-  title: string;
-  colors: string[];
-}
-
 export interface ColorPresetProps {
   presets: ColorPickerProps['presets'];
   value?: string;
@@ -97,6 +92,7 @@ export interface ColorPresetProps {
   rowWrapCount?: number;
   itemSize?: number;
   readOnly?: boolean;
+  colorToolTip?: ColorBlockProps['tooltipProps'];
 }
 
 const ColorPanel: React.FC<ColorPresetProps> = ({
@@ -106,6 +102,7 @@ const ColorPanel: React.FC<ColorPresetProps> = ({
   itemSize = 28,
   rowWrapCount = 11,
   readOnly = false,
+  colorToolTip,
 }) => {
   const [moreStatus, setMoreStatus] = useState(false);
   const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>(
@@ -149,17 +146,24 @@ const ColorPanel: React.FC<ColorPresetProps> = ({
         $height={contentHeight}
         $transitionDuration={transitionDuration}
       >
-        {group.colors.map((colorValue, index) => (
-          <ColorBlock
-            rowWrapCount={rowWrapCount}
-            key={`${group.title}-${colorValue}-${index}`}
-            size={itemSize}
-            color={colorValue}
-            selected={value === colorValue}
-            readOnly={readOnly}
-            onClick={(selectedColor) => onChange?.(selectedColor)}
-          />
-        ))}
+        {group.colors.map((colorItem, index) => {
+          const colorValue = typeof colorItem === 'string' ? colorItem : colorItem.value;
+          const colorLabel = typeof colorItem === 'string' ? undefined : colorItem.label;
+
+          return (
+            <ColorBlock
+              rowWrapCount={rowWrapCount}
+              key={`${group.title}-${colorValue}-${index}`}
+              size={itemSize}
+              color={colorValue}
+              label={colorLabel}
+              tooltipProps={colorToolTip}
+              selected={value === colorValue}
+              readOnly={readOnly}
+              onClick={(selectedColor) => onChange?.(selectedColor)}
+            />
+          );
+        })}
       </GroupContent>
     );
   };
