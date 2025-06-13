@@ -26,8 +26,8 @@ jobs:
       # - name: coverage
       #   run: npm run coverage
 
-      - name: build
-        run: npm run build
+      - name: prepublishOnly
+        run: npm run prepublishOnly
 
       - name: build:docs
         run: npm run build:docs

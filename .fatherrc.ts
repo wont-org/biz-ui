@@ -1,5 +1,5 @@
 import { defineConfig } from 'father';
-import { styledComponentsImport, svgImport } from './config/build';
+import { styledComponentsImport } from './config/build';
 
 export default defineConfig({
   // more father config: https://github.com/umijs/father/blob/master/docs/config.md
@@ -11,7 +11,7 @@ export default defineConfig({
       // antdImport,
       styledComponentsImport,
       [require.resolve('./scripts/replaceLib'), {}],
-      svgImport,
+      // svgImport,
     ],
     platform: 'browser', // 默认构建为 Browser 环境的产物
     // transformer: 'babel', // 默认使用 babel 以提供更好的兼容性
@@ -22,7 +22,7 @@ export default defineConfig({
       // antdImport,
       styledComponentsImport,
       [require.resolve('./scripts/replaceEs'), {}],
-      svgImport,
+      // svgImport,
     ],
     input: 'src', // 默认编译目录
     output: 'lib',

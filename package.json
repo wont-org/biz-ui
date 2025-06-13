@@ -23,7 +23,7 @@
     "lib"
   ],
   "scripts": {
-    "build": "father doctor && father build",
+    "build": "father build",
     "build:docs": "dumi build",
     "build:watch": "father dev",
     "bump": "bumpp package.json -c -p -t --all -x \"npm run changelog\"",
@@ -34,7 +34,7 @@
     "lint:css": "stylelint \"{src,test}/**/*.{css,less}\"",
     "lint:es": "eslint \"{src,test}/**/*.{js,jsx,ts,tsx}\"",
     "prepare": "is-ci || husky install && dumi setup",
-    "prepublishOnly": "npm run bump && npm run build",
+    "prepublishOnly": "father doctor && npm run build",
     "start": "npm run dev"
   },
   "commitlint": {
@@ -86,7 +86,6 @@
     "@umijs/lint": "^4.0.0",
     "antd": "^4.23.0",
     "babel-plugin-import": "^1.13.8",
-    "babel-plugin-inline-react-svg": "^2.0.2",
     "babel-plugin-styled-components": "^2.1.4",
     "bumpp": "^9.4.0",
     "conventional-changelog-cli": "^4.1.0",
@@ -95,7 +94,7 @@
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-react-hooks": "^5.1.0",
-    "father": "4.1.0",
+    "father": "4.1.9",
     "husky": "^8.0.1",
     "is-ci": "^3.0.1",
     "lint-staged": "^13.0.3",
