@@ -22,7 +22,7 @@ const getRandomData = ({
 }) => {
   return Array.from({ length: n }, (_, index) => {
     const value = Math.floor(Math.random() * (max - min + 1) + min);
-    return { index: index + 1, value };
+    return { index: index + 1, mixedValue: value, positiveValue: value, negativeValue: value };
   });
 };
 
@@ -33,11 +33,12 @@ const StyledTable = styled(Table)`
   }
 `;
 
+const INIT_NEGATIVE_COLOR = '#F54A45';
 export default () => {
   const dataBar = BAR_TEMPLATE_OPTIONS[1].options[1];
   const [open, setOpen] = useState(false);
   const initialValues: FormValues = {
-    negativeColor: '#F54A45',
+    negativeColor: INIT_NEGATIVE_COLOR,
     positiveColor: dataBar.value[0],
     dataBar,
     fillType: FILL_TYPE_OPTIONS.gradient.value,
@@ -106,6 +107,7 @@ export default () => {
                   compareKeys={['value', 'isGrading']}
                   onChange={(option) => {
                     form.setFieldValue('positiveColor', option.value[0]);
+                    form.setFieldValue('negativeColor', INIT_NEGATIVE_COLOR);
                     form.setFieldValue('fillType', option.isGrading);
                   }}
                 />

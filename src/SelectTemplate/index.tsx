@@ -1,8 +1,15 @@
-import { DownOutlined } from '@ant-design/icons';
+import { CheckOutlined, DownOutlined } from '@ant-design/icons';
+import { Typography } from 'antd';
 import { isEqual } from 'lodash';
 import React, { CSSProperties, FC, isValidElement, useEffect, useRef, useState } from 'react';
 import { getLinearGradientStyle } from '../DataBar/demo/utils';
-import { StyledBarItem, StyledBarWrapper, StyledIconWrapper, StyledSelectTemplate } from './styled';
+import {
+  StyledBarItem,
+  StyledBarWrapper,
+  StyledCustomOption,
+  StyledIconWrapper,
+  StyledSelectTemplate,
+} from './styled';
 import { SelectTemplateProps, TemplateOption } from './types';
 
 const equalWith = ({
@@ -72,6 +79,7 @@ const SelectTemplate: FC<SelectTemplateProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<TemplateOption | null>(null);
+  const [useCustomOption, setUseCustomOption] = useState<boolean>(false);
 
   // 获取所有选项的平铺数组，便于搜索
   const allOptions = options.flatMap((category) => category.options as unknown as TemplateOption[]);
@@ -89,6 +97,7 @@ const SelectTemplate: FC<SelectTemplateProps> = ({
       if (option) {
         setSelectedOption(option);
       }
+      setUseCustomOption(!Boolean(option));
     }
   }, [value, allOptions, compareKeys]);
 
@@ -128,7 +137,7 @@ const SelectTemplate: FC<SelectTemplateProps> = ({
       return (
         <StyledBarWrapper>
           {selectedTemplate.map((item, index) => {
-            const style: CSSProperties = _selectedOption.isGrading
+            const style: CSSProperties = value?.isGrading
               ? getLinearGradientStyle({
                   colors: [item, '#fff'],
                   direction: index !== 0 ? 'to right' : 'to left',
@@ -150,7 +159,19 @@ const SelectTemplate: FC<SelectTemplateProps> = ({
       </>
     );
   };
-
+  const renderCustomOption = () => {
+    if (!useCustomOption) {
+      return null;
+    }
+    return (
+      <StyledCustomOption>
+        <Typography.Link>自定义</Typography.Link>
+        <Typography.Link>
+          <CheckOutlined />
+        </Typography.Link>
+      </StyledCustomOption>
+    );
+  };
   return (
     <StyledSelectTemplate ref={containerRef} $rowWrapCount={rowWrapCount} $size={getSize(size)}>
       <div className="template-selector-header" onClick={handleToggleDropdown}>
@@ -196,6 +217,7 @@ const SelectTemplate: FC<SelectTemplateProps> = ({
               </div>
             </div>
           ))}
+          {renderCustomOption()}
         </div>
       )}
     </StyledSelectTemplate>

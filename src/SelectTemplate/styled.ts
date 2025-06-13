@@ -1,6 +1,15 @@
 import { CSSProperties } from 'react';
 import { css, styled } from 'styled-components';
 
+export const StyledCustomOption = styled.div`
+  padding: 6px 12px;
+  margin: 4px;
+  background-color: rgba(109, 152, 253, 5%);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
 export const StyledBarWrapper = styled.div`
   display: flex;
   width: 100%;
@@ -96,7 +105,7 @@ export const StyledSelectTemplate = styled.div<{
     border-radius: 4px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 15%);
     z-index: 100;
-    max-height: 320px;
+    max-height: 420px;
     overflow-y: auto;
     transition: transform 0.3s;
 
@@ -134,7 +143,6 @@ export const StyledSelectTemplate = styled.div<{
           }
 
           &.selected {
-            /* border: 1px solid #6d98fd; */
             background-color: rgba(109, 152, 253, 5%);
           }
 
