@@ -1,3 +1,9 @@
+# [1.3.0-beta.2](https://github.com/wont-org/biz-ui/compare/v1.3.0-beta.1...v1.3.0-beta.2) (2025-06-16)
+
+### Bug Fixes
+
+- **SelectTemplate:** 自定义模板回显 ([30059d4](https://github.com/wont-org/biz-ui/commit/30059d4a97a3015a306a84ab28d458b38b461e3c))
+
 # [1.3.0-beta.1](https://github.com/wont-org/biz-ui/compare/v1.2.4...v1.3.0-beta.1) (2025-06-13)
 
 ### Bug Fixes
