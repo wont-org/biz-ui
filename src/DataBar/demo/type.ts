@@ -12,7 +12,7 @@ export interface DataSource {
 
 export interface FormValues {
   conditions: ConditionColorProps['value'];
-  dataBar: SelectTemplateProps['value'];
+  styleTemplate: SelectTemplateProps['value'];
   fillType: ValueOfConstWithType<typeof FILL_TYPE_OPTIONS, 'value'>;
   negativeColor: string;
   positiveColor: string;

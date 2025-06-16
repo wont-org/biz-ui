@@ -1,3 +1,4 @@
+import { SettingOutlined } from '@ant-design/icons';
 import { ColorPicker } from '@wont/biz-ui';
 import ConditionColor, { validator } from '@wont/biz-ui/ConditionColor';
 import SelectTemplate from '@wont/biz-ui/SelectTemplate';
@@ -33,12 +34,34 @@ const StyledTable = styled(Table)`
 `;
 
 const INIT_NEGATIVE_COLOR = '#F54A45';
+const STYLE_TEMPLATE_NAME = 'styleTemplate';
+const customValue = {
+  negativeColor: '#F54A45',
+  positiveColor: '#7F3BF5',
+  styleTemplate: {
+    value: ['#7F3BF5'],
+    label: '/static/media/pure-green.eac34e12e65c6b71ce15fc1a3ebe3555.svg',
+    extraLabel: '纯色-绿色',
+    isGrading: true,
+  },
+  fillType: true,
+  conditions: [
+    {
+      valueType: 'number',
+      value: -10,
+    },
+    {
+      valueType: 'number',
+      value: 10,
+    },
+  ],
+};
 export default () => {
-  const dataBar = BAR_TEMPLATE_OPTIONS[1].options[1];
+  const styleTemplate = BAR_TEMPLATE_OPTIONS[1].options[1];
   const initialValues: FormValues = {
     negativeColor: INIT_NEGATIVE_COLOR,
-    positiveColor: dataBar.value[0],
-    dataBar,
+    positiveColor: styleTemplate.value[0],
+    styleTemplate,
     fillType: FILL_TYPE_OPTIONS.gradient.value,
     conditions: [
       { valueType: 'number', value: -10 },
@@ -97,7 +120,7 @@ export default () => {
             const positiveColor = getFieldValue('positiveColor');
 
             return (
-              <Form.Item label="数据条" name="dataBar">
+              <Form.Item label="数据条" name={STYLE_TEMPLATE_NAME}>
                 <SelectTemplate
                   options={BAR_TEMPLATE_OPTIONS}
                   showOptionLabel={false}
@@ -117,8 +140,8 @@ export default () => {
           <Radio.Group
             options={Object.values(FILL_TYPE_OPTIONS)}
             onChange={(e) => {
-              form.setFieldValue('dataBar', {
-                ...(form.getFieldValue('dataBar') || {}),
+              form.setFieldValue(STYLE_TEMPLATE_NAME, {
+                ...(form.getFieldValue(STYLE_TEMPLATE_NAME) || {}),
                 isGrading: e.target.value,
               });
             }}
@@ -134,8 +157,8 @@ export default () => {
                 label="正值"
                 trigger="icon"
                 onChange={(color) => {
-                  form.setFieldValue('dataBar', {
-                    ...(form.getFieldValue('dataBar') || {}),
+                  form.setFieldValue(STYLE_TEMPLATE_NAME, {
+                    ...(form.getFieldValue(STYLE_TEMPLATE_NAME) || {}),
                     value: [color],
                   });
                 }}
@@ -197,6 +220,16 @@ export default () => {
               }}
             >
               正数
+            </Button>
+            <Button
+              type="primary"
+              ghost
+              icon={<SettingOutlined />}
+              onClick={() => {
+                form.setFieldsValue(customValue);
+              }}
+            >
+              设置自定义模板
             </Button>
             <Button
               danger

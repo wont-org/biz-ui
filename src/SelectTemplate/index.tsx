@@ -65,18 +65,19 @@ const renderOptionLabel = (option: TemplateOption) => {
   }
   return option.label;
 };
-const SelectTemplate: FC<SelectTemplateProps> = ({
-  value,
-  onChange,
-  rowWrapCount = 3,
-  size = 'middle',
-  showOptionLabel = true,
-  showSelectedOptionLabel = true,
-  placeholder = '请选择',
-  options = [],
-  compareKeys = ['value'],
-  selectedTemplate,
-}) => {
+const SelectTemplate: FC<SelectTemplateProps> = (props) => {
+  const {
+    value,
+    onChange,
+    rowWrapCount = 3,
+    size = 'middle',
+    showOptionLabel = true,
+    showSelectedOptionLabel = true,
+    placeholder = '请选择',
+    options = [],
+    compareKeys = ['value'],
+    selectedTemplate,
+  } = props;
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<TemplateOption | null>(null);
   const [useCustomOption, setUseCustomOption] = useState<boolean>(false);
@@ -94,10 +95,14 @@ const SelectTemplate: FC<SelectTemplateProps> = ({
           compareKeys,
         }),
       );
+      // console.log('option :>> ', option, props);
+      const isCustom = !Boolean(option);
       if (option) {
         setSelectedOption(option);
+      } else if (isCustom) {
+        setSelectedOption(value);
       }
-      setUseCustomOption(!Boolean(option));
+      setUseCustomOption(isCustom);
     }
   }, [value, allOptions, compareKeys]);
 
