@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 
 export interface TemplateOption {
-  value: readonly string[];
+  value?: readonly string[];
   label?: ReactNode | readonly ReactNode[];
   isGrading?: boolean;
   extraLabel?: ReactNode;

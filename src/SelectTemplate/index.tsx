@@ -190,6 +190,9 @@ const SelectTemplate: FC<SelectTemplateProps> = (props) => {
   if (readOnly && value) {
     return selectedRender(value);
   }
+  if (readOnly && selectedTemplate) {
+    return selectedTemplateRender(selectedTemplate);
+  }
 
   return (
     <StyledSelectTemplate ref={containerRef} $rowWrapCount={rowWrapCount} $size={getSize(size)}>

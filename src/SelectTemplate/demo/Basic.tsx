@@ -17,11 +17,22 @@ const RichSelectDemo = () => {
         },
       }}
     >
-      <Form.Item label="只读必须有value或selectedTemplate" name="readonly">
+      <Form.Item label="只读value" name="readonly">
         <SelectTemplate
           options={BAR_TEMPLATE_OPTIONS}
           showOptionLabel={false}
           compareKeys={['value', 'isGrading']}
+          readOnly
+        />
+      </Form.Item>
+      <Form.Item label="只读selectedTemplate">
+        <SelectTemplate
+          options={BAR_TEMPLATE_OPTIONS}
+          value={{ isGrading: true }}
+          selectedTemplate={[
+            BAR_TEMPLATE_OPTIONS[1].options[0].value[0],
+            BAR_TEMPLATE_OPTIONS[1].options[1].value[0],
+          ]}
           readOnly
         />
       </Form.Item>
