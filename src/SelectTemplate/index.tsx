@@ -1,6 +1,6 @@
 import { CheckOutlined, DownOutlined } from '@ant-design/icons';
 import { Typography } from 'antd';
-import { isEqual } from 'lodash';
+import { isEqual, pick } from 'lodash';
 import React, { CSSProperties, FC, isValidElement, useEffect, useRef, useState } from 'react';
 import { getLinearGradientStyle } from '../DataBar/demo/utils';
 import {
@@ -77,6 +77,7 @@ const SelectTemplate: FC<SelectTemplateProps> = (props) => {
     options = [],
     compareKeys = ['value'],
     selectedTemplate,
+    readOnly,
   } = props;
   const [isOpen, setIsOpen] = useState(false);
   const [selectedOption, setSelectedOption] = useState<TemplateOption | null>(null);
@@ -88,7 +89,7 @@ const SelectTemplate: FC<SelectTemplateProps> = (props) => {
   // 根据外部传入的value更新当前选中项
   useEffect(() => {
     if (value) {
-      const option = allOptions.find((opt) =>
+      const presetOption = allOptions.find((opt) =>
         equalWith({
           a: opt,
           b: value,
@@ -96,9 +97,9 @@ const SelectTemplate: FC<SelectTemplateProps> = (props) => {
         }),
       );
       // console.log('option :>> ', option, props);
-      const isCustom = !Boolean(option);
-      if (option) {
-        setSelectedOption(option);
+      const isCustom = !Boolean(presetOption);
+      if (presetOption) {
+        setSelectedOption(presetOption);
       } else if (isCustom) {
         setSelectedOption(value);
       }
@@ -113,7 +114,7 @@ const SelectTemplate: FC<SelectTemplateProps> = (props) => {
   const handleSelectOption = (option: TemplateOption) => {
     setSelectedOption(option);
     setIsOpen(false);
-    onChange?.(option);
+    onChange?.(pick(option, compareKeys));
   };
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -134,14 +135,14 @@ const SelectTemplate: FC<SelectTemplateProps> = (props) => {
     };
   }, [isOpen]);
 
-  const selectedRender = (_selectedOption: TemplateOption) => {
-    if (isValidElement(selectedTemplate)) {
-      return selectedTemplate;
+  const selectedTemplateRender = (_selectedTemplate: SelectTemplateProps['selectedTemplate']) => {
+    if (isValidElement(_selectedTemplate)) {
+      return _selectedTemplate;
     }
-    if (Array.isArray(selectedTemplate) && selectedTemplate.length > 0) {
+    if (Array.isArray(_selectedTemplate) && _selectedTemplate.length > 0) {
       return (
         <StyledBarWrapper>
-          {selectedTemplate.map((item, index) => {
+          {_selectedTemplate.map((item, index) => {
             const style: CSSProperties = value?.isGrading
               ? getLinearGradientStyle({
                   colors: [item, '#fff'],
@@ -156,6 +157,15 @@ const SelectTemplate: FC<SelectTemplateProps> = (props) => {
           })}
         </StyledBarWrapper>
       );
+    }
+    return null;
+  };
+  const selectedRender = (_selectedOption: TemplateOption) => {
+    if (Array.isArray(selectedTemplate)) {
+      return selectedTemplateRender(selectedTemplate);
+    }
+    if (!_selectedOption.label) {
+      return selectedTemplateRender(_selectedOption.value);
     }
     return (
       <>
@@ -177,6 +187,10 @@ const SelectTemplate: FC<SelectTemplateProps> = (props) => {
       </StyledCustomOption>
     );
   };
+  if (readOnly && value) {
+    return selectedRender(value);
+  }
+
   return (
     <StyledSelectTemplate ref={containerRef} $rowWrapCount={rowWrapCount} $size={getSize(size)}>
       <div className="template-selector-header" onClick={handleToggleDropdown}>

@@ -2,16 +2,21 @@ import { ReactNode } from 'react';
 
 export interface TemplateOption {
   value: readonly string[];
-  label: ReactNode | readonly ReactNode[];
+  label?: ReactNode | readonly ReactNode[];
   isGrading?: boolean;
   extraLabel?: ReactNode;
 }
 
 export interface SelectTemplateProps {
   /**
-   * @description 选中值的渲染
+   * @description 是否只读
+   * @default undefined
    */
-  selectedTemplate?: string[] | ((option: TemplateOption) => ReactNode);
+  readOnly?: boolean;
+  /**
+   * @description 选中值的渲染，模板color[]或自定义渲染
+   */
+  selectedTemplate?: readonly string[] | ((option: TemplateOption) => ReactNode);
   /**
    * @description 是否显示选项标签，extraLabel字段设置，比如绿-白-红
    * @default true

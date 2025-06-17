@@ -40,7 +40,6 @@ const customValue = {
   positiveColor: '#7F3BF5',
   styleTemplate: {
     value: ['#7F3BF5'],
-    label: '/static/media/pure-green.eac34e12e65c6b71ce15fc1a3ebe3555.svg',
     extraLabel: '纯色-绿色',
     isGrading: true,
   },
