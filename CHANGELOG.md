@@ -1,3 +1,9 @@
+# [1.3.0-beta.3](https://github.com/wont-org/biz-ui/compare/v1.3.0-beta.2...v1.3.0-beta.3) (2025-06-17)
+
+### Features
+
+- **SelectTemplate:** 新增 readOnly, 并且 onChange 根据 compareKeys ([a712ada](https://github.com/wont-org/biz-ui/commit/a712ada6691118cdf5fea2af0c660a1dabc29eda))
+
 # [1.3.0-beta.2](https://github.com/wont-org/biz-ui/compare/v1.3.0-beta.1...v1.3.0-beta.2) (2025-06-16)
 
 ### Bug Fixes
