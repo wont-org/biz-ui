@@ -126,7 +126,7 @@ export default () => {
                   selectedTemplate={[negativeColor, positiveColor]}
                   compareKeys={['value', 'isGrading']}
                   onChange={(option) => {
-                    form.setFieldValue('positiveColor', option.value[0]);
+                    form.setFieldValue('positiveColor', option.value?.[0]);
                     form.setFieldValue('negativeColor', INIT_NEGATIVE_COLOR);
                     form.setFieldValue('fillType', option.isGrading);
                   }}
