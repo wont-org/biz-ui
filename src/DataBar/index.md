@@ -16,4 +16,4 @@ group: 经典案例
 
 ## 配置表格
 
-<code src="./demo/TableWithConfig.tsx"></code>
+<code src="./demo/index.tsx"></code>
