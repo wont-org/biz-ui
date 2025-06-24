@@ -18,6 +18,7 @@ export interface ConditionColorProps {
   value?: ConditionColorValueItem[];
   onChange?: (value: ConditionColorValueItem[]) => void;
   labelFormItemProps?: FormItemProps;
+  valuePropName?: string;
 }
 
 export const validator = (value: ConditionColorValueItem[], options: ConditionColorProps = {}) => {
@@ -60,6 +61,7 @@ const ConditionColor = (props: ConditionColorProps) => {
     valueTypeMap = VALUE_TYPE,
     useColor = true,
     labelFormItemProps,
+    valuePropName = 'conditions',
   } = props;
   const isValueDisabled = (valueType: ConditionColorValueItem['valueType']) => {
     return (
@@ -85,7 +87,7 @@ const ConditionColor = (props: ConditionColorProps) => {
   };
 
   return (
-    <Form.List name="conditions">
+    <Form.List name={valuePropName}>
       {(fields) => {
         return fields.map((field, index) => {
           const valueTypeFieldName = [field.name, 'valueType'];
@@ -118,21 +120,21 @@ const ConditionColor = (props: ConditionColorProps) => {
                 <Form.Item
                   noStyle
                   shouldUpdate={(prevValues, curValues) => {
-                    const prevValueType = prevValues?.conditions?.[index]?.valueType;
-                    const curValueType = curValues?.conditions?.[index]?.valueType;
+                    const prevValueType = prevValues?.[valuePropName]?.[index]?.valueType;
+                    const curValueType = curValues?.[valuePropName]?.[index]?.valueType;
                     return prevValueType !== curValueType;
                   }}
                 >
                   {({ getFieldValue, setFieldValue }) => {
-                    const item = getFieldValue(['conditions', index]);
+                    const item = getFieldValue([valuePropName, index]);
                     const required = !isValueDisabled(item.valueType);
                     const conditionItemValue = required ? item.value : undefined;
-                    setFieldValue(['conditions', index, 'value'], conditionItemValue);
+                    setFieldValue([valuePropName, index, 'value'], conditionItemValue);
 
                     return (
                       <Form.Item
                         name={valueFieldName}
-                        dependencies={[['conditions', index, 'valueType']]}
+                        dependencies={[[valuePropName, index, 'valueType']]}
                         rules={[{ required, message: getPlaceholder(item) }]}
                       >
                         <InputNumber
