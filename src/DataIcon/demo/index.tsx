@@ -13,8 +13,8 @@ import { DataSource, FormValues } from './type';
 
 const getRandomData = ({
   n = 30,
-  min = -20,
-  max = 20,
+  min = 1,
+  max = 100,
 }: {
   n?: number;
   min?: number;
@@ -48,6 +48,8 @@ const customValue: FormValues = {
   }),
   reverseIcon: false,
 };
+const MIN = 1;
+const MAX = 100;
 export default () => {
   const styleTemplate = ICON_TEMPLATE_OPTIONS[1].options[1];
   const initialValues: FormValues = {
@@ -64,10 +66,9 @@ export default () => {
   };
   const [formValues, setFormValues] = useState<FormValues>(initialValues);
   const [dataSource, setDataSource] = useState<DataSource[]>(
-    getFixedData({
-      min: formValues[CONDITIONS_NAME]?.[0]?.value,
-      max: formValues[CONDITIONS_NAME]?.[1]?.value,
-    }).mixedData,
+    getRandomData({
+      n: 30,
+    }),
   );
 
   const [form] = Form.useForm<FormValues>();
@@ -93,10 +94,9 @@ export default () => {
         initialValues={initialValues}
         onReset={() => {
           setDataSource(
-            getFixedData({
-              min: formValues[CONDITIONS_NAME]?.[0]?.value,
-              max: formValues[CONDITIONS_NAME]?.[1]?.value,
-            }).mixedData,
+            getRandomData({
+              n: 30,
+            }),
           );
         }}
       >
@@ -158,8 +158,6 @@ export default () => {
                 setDataSource(
                   getRandomData({
                     n: 30,
-                    min: formValues[CONDITIONS_NAME]?.[0]?.value,
-                    max: formValues[CONDITIONS_NAME]?.[1]?.value,
                   }),
                 );
                 form.submit();
@@ -172,8 +170,8 @@ export default () => {
               onClick={() => {
                 setDataSource(
                   getFixedData({
-                    min: formValues[CONDITIONS_NAME]?.[0]?.value,
-                    max: formValues[CONDITIONS_NAME]?.[1]?.value,
+                    min: MIN,
+                    max: MAX,
                   }).positiveData,
                 );
               }}
@@ -231,9 +229,8 @@ export default () => {
         }}
         columns={getColumns({
           formValues,
-          dataSource,
-          min: formValues[CONDITIONS_NAME]?.[0]?.value,
-          max: formValues[CONDITIONS_NAME]?.[1]?.value,
+          min: MIN,
+          max: MAX,
         })}
         dataSource={dataSource}
       />

@@ -1,240 +1,162 @@
-import { ConditionColorValueItem } from '@wont/biz-ui/ConditionColor';
+import { OPERATOR, VALUE_TYPE } from '@wont/biz-ui/ConditionIcon/constant';
 import type { ColumnsType } from 'antd/es/table';
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import { styled } from 'styled-components';
-import { FILL_TYPE_OPTIONS } from './constant';
-import { DataSource, FormValues } from './type';
-import { getLinearGradientStyle } from './utils';
+import { FormValues } from './type';
 
-// 计算数据中的最大正值和最小负值
-const calculateMaxValues = (data: DataSource[], key: keyof DataSource = 'mixedValue') => {
-  let max = 0;
-  let min = 0;
-
-  data.forEach((item) => {
-    if (item[key] > 0 && item[key] > max) {
-      max = item[key];
-    } else if (item[key] < 0 && item[key] < min) {
-      min = item[key];
-    }
-  });
-
-  return { max, min };
-};
-const getStyleByValue = ({
-  value,
-  max,
+export const percentToValue = ({
+  percent,
   min,
-  isGradient = false,
-  // 正数渐变色
-  positiveGradient = ['red', '#fff'],
-  // 负数渐变色
-  negativeGradient = ['green', '#fff'],
-  minValueType,
-}: // maxValueType,
-{
-  value: number;
-  max: number;
+  max,
+}: {
+  percent: number;
   min: number;
-  isGradient?: boolean;
-  positiveGradient?: string[];
-  negativeGradient?: string[];
-  minValueType?: ConditionColorValueItem['valueType'];
-  maxValueType?: ConditionColorValueItem['valueType'];
-}): CSSProperties => {
-  if (typeof value !== 'number' || isNaN(value)) {
-    return {};
-  }
-  if (value < min || value > max) {
-    return {};
-  }
-  const absValue = Math.abs(value);
-  const absMin = Math.abs(min);
-  const absMax = Math.abs(max);
-  const diffMin = minValueType === 'auto' ? 0 : Math.min(absMin, absMax);
-  const _max = Math.max(absMax, absMin);
-  // 计算当前数值占比，确保不超过100%，都是正数或负数情况有效
-  const ratio = Math.min((absValue - diffMin) / (_max - diffMin), 1);
-  const width = ratio * 100 + '%';
-  const positivePureColor = positiveGradient[0];
-  const negativePureColor = negativeGradient[0];
-  // 只有正数情况
-  if (min > 0) {
-    const { background, border } = getLinearGradientStyle({
-      colors: positiveGradient,
-      direction: 'to right',
+  max: number;
+}) => {
+  return min + (percent / 100) * (max - min);
+};
+export const percentagePointToValue = ({
+  percentagePoint,
+  min,
+  max,
+}: {
+  percentagePoint: number;
+  min: number;
+  max: number;
+}) => {
+  return min + (percentagePoint / 100) * (max - min);
+};
+const getIconByValue = ({
+  value,
+  formValues,
+  min,
+  max,
+}: {
+  value: number;
+  formValues: FormValues;
+  min: number;
+  max: number;
+}) => {
+  const { conditions = [] } = formValues;
+
+  // 过滤有效条件并计算阈值
+  const validConditions = conditions
+    .filter((condition) => {
+      const { value: conditionConfigValue } = condition;
+      return (
+        conditionConfigValue !== undefined &&
+        conditionConfigValue !== null &&
+        typeof conditionConfigValue === 'number'
+      );
+    })
+    .map((condition) => {
+      const { valueType, value: conditionConfigValue } = condition;
+      let thresholdValue = 0;
+
+      // 根据值类型计算阈值
+      if (valueType === VALUE_TYPE.percent.value) {
+        thresholdValue = percentToValue({
+          percent: conditionConfigValue as number,
+          min,
+          max,
+        });
+      } else if (valueType === VALUE_TYPE.percentPoint.value) {
+        thresholdValue = percentagePointToValue({
+          percentagePoint: conditionConfigValue as number,
+          min,
+          max,
+        });
+      } else if (valueType === VALUE_TYPE.number.value) {
+        thresholdValue = conditionConfigValue as number;
+      }
+
+      return {
+        ...condition,
+        thresholdValue,
+      };
     });
-    return {
-      left: 0,
-      width,
-      background: isGradient ? background : positivePureColor,
-      border: isGradient && ratio > 0 ? border : 'none',
-    };
+
+  // 按阈值从高到低排序
+  validConditions.sort((a, b) => b.thresholdValue - a.thresholdValue);
+
+  // 找到第一个满足条件的图标
+  for (const condition of validConditions) {
+    const { operator, thresholdValue } = condition;
+
+    let isConditionMet = false;
+    if (operator === OPERATOR.greaterThan.value) {
+      isConditionMet = value > thresholdValue;
+    } else if (operator === OPERATOR.greaterThanOrEqual.value) {
+      isConditionMet = value >= thresholdValue;
+    }
+
+    if (isConditionMet) {
+      return condition.icon;
+    }
   }
-  // 只有负数情况
-  if (max < 0) {
-    const { background, border } = getLinearGradientStyle({
-      colors: negativeGradient,
-      direction: 'to left',
-    });
-    return {
-      right: 0,
-      width,
-      background: isGradient ? background : negativePureColor,
-      border: isGradient && ratio > 0 ? border : 'none',
-    };
+
+  // 如果没有匹配到任何条件，返回最后一个（阈值最低的）图标
+  // 这样实现了完整的条件覆盖：当值小于所有阈值时显示最后一个图标
+  if (validConditions.length > 0) {
+    const lastCondition = validConditions[validConditions.length - 1];
+    return lastCondition.icon;
   }
-  // 正负混合情况
-  // 计算0点在整个范围中的位置百分比
-  const zeroPosition = (absMin / (absMin + absMax)) * 100;
-  if (value > 0) {
-    const { background, border } = getLinearGradientStyle({
-      colors: positiveGradient,
-      direction: 'to right',
-    });
-    // 正值宽度百分比 = 值在正值范围的占比 * 正值范围在总范围的占比 * 100%
-    const valueWidth = (value / max) * (max / (absMin + absMax)) * 100;
-    return {
-      left: zeroPosition + '%',
-      width: valueWidth + '%',
-      background: isGradient ? background : positivePureColor,
-      border: isGradient ? border : 'none',
-    };
-  }
-  if (value < 0) {
-    const { background, border } = getLinearGradientStyle({
-      colors: negativeGradient,
-      direction: 'to left',
-    });
-    // 负值宽度百分比 = 值在负值范围的占比 * 负值范围在总范围的占比 * 100%
-    const valueWidth = (absValue / absMin) * (absMin / (absMin + absMax)) * 100;
-    return {
-      right: 100 - zeroPosition + '%',
-      width: valueWidth + '%',
-      background: isGradient ? background : negativePureColor,
-      border: isGradient ? border : 'none',
-    };
-  }
-  return {};
+
+  return null;
 };
 const StyleCell = styled.div`
-  width: 100%;
-  height: 100%;
-  position: relative;
-  padding: 6px;
   display: flex;
-  align-items: center;
-`;
-const StyleBar = styled.div`
-  width: 100%;
-  height: 100%;
-  position: absolute;
-`;
-const StyleNumber = styled.div`
-  width: 100%;
-  text-align: right;
-  z-index: 2;
+  justify-content: space-between;
+  .left {
+    justify-self: flex-start;
+  }
+  .right {
+    justify-self: flex-end;
+  }
 `;
 export function getColumns({
   max,
   min,
-  positiveGradient = ['red', '#fff'],
-  negativeGradient = ['green', '#fff'],
-  dataSource,
   formValues,
 }: {
   formValues: FormValues;
-  positiveGradient?: string[];
-  negativeGradient?: string[];
-  max?: number;
-  min?: number;
-  dataSource: DataSource[];
+  max: number;
+  min: number;
 }): ColumnsType<Record<string, any>> {
-  const styleByValueParams: Partial<Parameters<typeof getStyleByValue>[0]> = {
-    positiveGradient,
-    negativeGradient,
-    minValueType: formValues.conditions?.[0]?.valueType,
-    maxValueType: formValues.conditions?.[1]?.valueType,
-  };
   return [
     {
-      title: '-10~10写死',
-      dataIndex: 'index',
-      width: 100,
-      render(value) {
-        // const curVal = calculateMaxValues(dataSource, 'index');
-        const style = getStyleByValue({
-          ...styleByValueParams,
-          value,
-          min: -10,
-          max: 10,
-          isGradient: formValues.fillType === FILL_TYPE_OPTIONS.gradient.value,
-        });
-        return (
-          <StyleCell>
-            <StyleBar style={style} />
-            <StyleNumber>{value}</StyleNumber>
-          </StyleCell>
-        );
-      },
-    },
-    {
-      title: '正负混合-根据配置',
+      title: '随机1-100',
       dataIndex: 'mixedValue',
+      width: 160,
       render(value) {
-        const curVal = calculateMaxValues(dataSource, 'mixedValue');
-        const style = getStyleByValue({
-          ...styleByValueParams,
+        const icon = getIconByValue({
           value,
-          max: max ?? curVal.max,
-          min: min ?? curVal.min,
-          isGradient: formValues.fillType === FILL_TYPE_OPTIONS.gradient.value,
+          formValues,
+          min,
+          max,
         });
         return (
           <StyleCell>
-            <StyleBar style={style} />
-            <StyleNumber>{value}</StyleNumber>
-          </StyleCell>
-        );
-      },
-    },
-
-    {
-      title: '-1~-10-写死-纯色',
-      dataIndex: 'negativeValue',
-      render(value) {
-        // const curVal = calculateMaxValues(dataSource, 'negativeValue');
-        const style = getStyleByValue({
-          ...styleByValueParams,
-          value,
-          max: -1,
-          min: -10,
-          isGradient: false,
-        });
-        return (
-          <StyleCell>
-            <StyleBar style={style} />
-            <StyleNumber>{value}</StyleNumber>
+            <div className="left">{icon}</div>
+            <div className="right">{value}</div>
           </StyleCell>
         );
       },
     },
     {
-      title: `${min}~${max}正数渐变（根据配置）`,
-      dataIndex: 'positiveValue',
+      title: '序号',
+      dataIndex: 'index',
       render(value) {
-        const curVal = calculateMaxValues(dataSource, 'positiveValue');
-        const style = getStyleByValue({
-          ...styleByValueParams,
+        const icon = getIconByValue({
           value,
-          max: max ?? curVal.max,
-          min: min ?? curVal.min,
-          isGradient: true,
+          formValues,
+          min,
+          max,
         });
         return (
           <StyleCell>
-            <StyleBar style={style} />
-            <StyleNumber>{value}</StyleNumber>
+            <div className="left">{icon}</div>
+            <div className="right">{value}</div>
           </StyleCell>
         );
       },

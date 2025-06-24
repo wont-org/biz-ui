@@ -1,4 +1,4 @@
-import { ConditionColorProps } from '@wont/biz-ui/ConditionColor';
+import { ConditionIconProps } from '@wont/biz-ui/ConditionIcon';
 import { SelectTemplateProps } from '@wont/biz-ui/SelectTemplate/types';
 
 export interface DataSource {
@@ -9,7 +9,7 @@ export interface DataSource {
 }
 
 export interface FormValues {
-  conditions: ConditionColorProps['value'];
+  conditions: ConditionIconProps['value'];
   styleTemplate: SelectTemplateProps['value'];
   reverseIcon: boolean;
 }

@@ -1,4 +1,4 @@
-<!-- ---
+---
 title: DataIcon
 path: component/DataIcon
 group: 经典案例
@@ -12,4 +12,4 @@ group: 经典案例
 
 ## 配置表格
 
-<code src="./demo/index.tsx"></code> -->
+<!-- <code src="./demo/index.tsx"></code> -->
