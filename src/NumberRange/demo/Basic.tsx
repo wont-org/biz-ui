@@ -1,16 +1,10 @@
 import { NumberRange } from '@wont/biz-ui';
+import { ValueOfConst } from '@wont/biz-ui/utils/types';
 import { Button, Form, Select, Space } from 'antd';
 import React from 'react';
 import { NumberRangeProps, validate } from '..';
 import { StyleInputNumber } from '../style';
 import { RANGE_TYPE } from './constant';
-
-export type ValueOf<T> = T[keyof T];
-export type ValueOfConst<T, K extends keyof T[keyof T]> = T[keyof T][K];
-// interface DemoValues {
-//   rangeUnit: ValueOfConst<typeof RANGE_TYPE, 'value'>;
-//   rangeNum: number;
-// }
 
 export default () => {
   const MAX = 7966.319861650467;

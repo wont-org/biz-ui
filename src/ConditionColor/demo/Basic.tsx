@@ -11,7 +11,6 @@ interface ConditionItem {
 
 interface FormValues {
   conditions: ConditionItem[];
-  bar?: any;
 }
 
 export default () => {
