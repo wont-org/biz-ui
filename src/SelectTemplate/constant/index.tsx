@@ -1,5 +1,6 @@
 import React from 'react';
 import { IconTemplate } from '../IconTemplate';
+import { SelectTemplateProps } from '../types';
 import { GRADING_COLOR, PURE_COLOR } from './bar';
 import { GRADING2_COLOR, GRADING3_COLOR } from './grading';
 
@@ -30,7 +31,7 @@ export const GRADING_TEMPLATE_OPTIONS = [
   },
 ] as const;
 
-export const ICON_TEMPLATE_OPTIONS = [
+export const ICON_TEMPLATE_OPTIONS: NonNullable<SelectTemplateProps['options']> = [
   {
     label: '方向',
     options: [

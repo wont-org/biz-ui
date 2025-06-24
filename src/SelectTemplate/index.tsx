@@ -1,7 +1,15 @@
 import { CheckOutlined, DownOutlined } from '@ant-design/icons';
 import { Typography } from 'antd';
 import { isEqual, pick } from 'lodash';
-import React, { CSSProperties, FC, isValidElement, useEffect, useRef, useState } from 'react';
+import React, {
+  CSSProperties,
+  FC,
+  isValidElement,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { getLinearGradientStyle } from '../DataBar/demo/utils';
 import {
   StyledBarItem,
@@ -11,6 +19,7 @@ import {
   StyledSelectTemplate,
 } from './styled';
 import { SelectTemplateProps, TemplateOption } from './types';
+import { findIconByValue, reverseIconTemplateOptions } from './utils';
 
 const equalWith = ({
   a,
@@ -83,28 +92,33 @@ const SelectTemplate: FC<SelectTemplateProps> = (props) => {
   const [selectedOption, setSelectedOption] = useState<TemplateOption | null>(null);
   const [useCustomOption, setUseCustomOption] = useState<boolean>(false);
 
+  const memoizedOptions = useMemo(() => {
+    return value?.isReverse ? reverseIconTemplateOptions(options) : options;
+  }, [options, value]);
   // 获取所有选项的平铺数组，便于搜索
-  const allOptions = options.flatMap((category) => category.options as unknown as TemplateOption[]);
+  const allOptions = useMemo(() => {
+    return memoizedOptions.flatMap((category) => category.options as unknown as TemplateOption[]);
+  }, [memoizedOptions]);
 
   // 根据外部传入的value更新当前选中项
   useEffect(() => {
-    if (value) {
-      const presetOption = allOptions.find((opt) =>
-        equalWith({
-          a: opt,
-          b: value,
-          compareKeys,
-        }),
-      );
-      // console.log('option :>> ', option, props);
-      const isCustom = !Boolean(presetOption);
-      if (presetOption) {
-        setSelectedOption(presetOption);
-      } else if (isCustom) {
-        setSelectedOption(value);
-      }
-      setUseCustomOption(isCustom);
+    if (!value) {
+      return;
     }
+    const presetOption = allOptions.find((opt) =>
+      equalWith({
+        a: opt,
+        b: value,
+        compareKeys,
+      }),
+    );
+    const isCustom = !Boolean(presetOption);
+    if (presetOption) {
+      setSelectedOption(presetOption);
+    } else if (isCustom) {
+      setSelectedOption(value);
+    }
+    setUseCustomOption(isCustom);
   }, [value, allOptions, compareKeys]);
 
   const handleToggleDropdown = () => {
@@ -114,7 +128,11 @@ const SelectTemplate: FC<SelectTemplateProps> = (props) => {
   const handleSelectOption = (option: TemplateOption) => {
     setSelectedOption(option);
     setIsOpen(false);
-    onChange?.(pick(option, compareKeys));
+    const changedVal = pick(option, compareKeys);
+    onChange?.({
+      ...changedVal,
+      isReverse: value?.isReverse,
+    });
   };
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -161,12 +179,24 @@ const SelectTemplate: FC<SelectTemplateProps> = (props) => {
     return null;
   };
   const selectedRender = (_selectedOption: TemplateOption) => {
+    // 自定义渲染
     if (Array.isArray(selectedTemplate)) {
       return selectedTemplateRender(selectedTemplate);
     }
+    // 内置渲染，不需要label
     if (!_selectedOption.label) {
+      if (
+        Object.prototype.hasOwnProperty.call(_selectedOption, 'isReverse') &&
+        Array.isArray(_selectedOption.value)
+      ) {
+        const iconList = _selectedOption.value.map((item) =>
+          findIconByValue(item, memoizedOptions),
+        );
+        return <StyledIconWrapper>{iconList}</StyledIconWrapper>;
+      }
       return selectedTemplateRender(_selectedOption.value);
     }
+    // render select options
     return (
       <>
         {renderOptionLabel(_selectedOption)}
@@ -209,7 +239,7 @@ const SelectTemplate: FC<SelectTemplateProps> = (props) => {
 
       {isOpen && (
         <div className="template-dropdown">
-          {options.map((category, categoryIndex) => (
+          {memoizedOptions.map((category, categoryIndex) => (
             <div key={categoryIndex} className="template-category">
               <div className="category-label">{category.label}</div>
               <div className="options-grid">

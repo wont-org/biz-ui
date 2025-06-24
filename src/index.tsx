@@ -8,6 +8,7 @@ export { default as CaptchaInput } from './CaptchaInput';
 export { default as ColorPicker } from './ColorPicker';
 // export { default as ParagraphSkeleton } from './Skeleton/ParagraphSkeleton';
 export { default as ConditionColor } from './ConditionColor';
+export { default as ConditionIcon } from './ConditionIcon';
 export { default as EditableSelect } from './EditableSelect';
 export { default as Ellipsis } from './Ellipsis';
 export { default as FilterList } from './FilterList';

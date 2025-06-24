@@ -1,10 +1,14 @@
 import { ReactNode } from 'react';
+import { RequiredKeys } from '../utils/types';
 
 export interface TemplateOption {
   value?: readonly string[];
   label?: ReactNode | readonly ReactNode[];
+  // 渐变必传
   isGrading?: boolean;
   extraLabel?: ReactNode;
+  // 图标集必传
+  isReverse?: boolean;
 }
 
 export interface SelectTemplateProps {
@@ -43,7 +47,7 @@ export interface SelectTemplateProps {
    */
   options?: readonly {
     label: string;
-    options: readonly TemplateOption[];
+    options: readonly RequiredKeys<TemplateOption, 'value' | 'label'>[];
   }[];
   /**
    * @description 大小

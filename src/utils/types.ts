@@ -10,3 +10,4 @@ export type ValueOfWithType<T, R extends string | number = string> =
   | (R & Record<never, never>);
 
 export type KeyOf<T> = keyof T;
+export type RequiredKeys<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
