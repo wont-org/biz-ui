@@ -1,6 +1,6 @@
 import { ConditionIcon } from '@wont/biz-ui';
 import { ICON_TEMPLATE_OPTIONS } from '@wont/biz-ui/SelectTemplate/constant';
-import { getInitialConditions } from '@wont/biz-ui/SelectTemplate/utils';
+import { getInitialIconConditions } from '@wont/biz-ui/SelectTemplate/utils';
 import { Button, Form, message, Space } from 'antd';
 import React from 'react';
 import { OPERATOR, VALUE_TYPE } from '../constant';
@@ -35,7 +35,7 @@ export default () => {
       onFinishFailed={handleFinishFailed}
       labelCol={{ span: 4 }}
       initialValues={{
-        conditions: getInitialConditions({
+        conditions: getInitialIconConditions({
           styleTemplate: ICON_TEMPLATE_OPTIONS[3].options[3].value,
           valueTypeMap: VALUE_TYPE,
           operatorMap: OPERATOR,

@@ -15,12 +15,16 @@ export const VALUE_TYPE = {
     label: '数字',
     value: 'number',
   },
-  // percent: {
-  //   label: '百分比',
-  //   value: 'percent',
-  // },
-  // percentPoint: {
-  //   label: '百分点值',
-  //   value: 'percentPoint',
-  // },
+  none: {
+    label: '无',
+    value: 'none',
+  },
+  percent: {
+    label: '百分比',
+    value: 'percent',
+  },
+  percentPoint: {
+    label: '百分点值',
+    value: 'percentPoint',
+  },
 } as const;

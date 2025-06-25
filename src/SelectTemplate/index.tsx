@@ -194,6 +194,9 @@ const SelectTemplate: FC<SelectTemplateProps> = (props) => {
         );
         return <StyledIconWrapper>{iconList}</StyledIconWrapper>;
       }
+      if (useCustomOption) {
+        return <span>自定义</span>;
+      }
       return selectedTemplateRender(_selectedOption.value);
     }
     // render select options

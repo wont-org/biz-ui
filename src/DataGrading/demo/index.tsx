@@ -1,20 +1,22 @@
 import { SettingOutlined } from '@ant-design/icons';
-import { SelectTemplate } from '@wont/biz-ui';
-import ConditionIcon from '@wont/biz-ui/ConditionIcon';
-import { OPERATOR, VALUE_TYPE } from '@wont/biz-ui/ConditionIcon/constant';
-import { ICON_TEMPLATE_OPTIONS } from '@wont/biz-ui/SelectTemplate/constant/index';
-import { getInitialIconConditions } from '@wont/biz-ui/SelectTemplate/utils';
-import { Button, Checkbox, Form, message, Space, Table } from 'antd';
+import ConditionColor, { validator } from '@wont/biz-ui/ConditionColor';
+import { VALUE_TYPE } from '@wont/biz-ui/ConditionColor/constant';
+import SelectTemplate from '@wont/biz-ui/SelectTemplate';
+import { GRADING_TEMPLATE_OPTIONS } from '@wont/biz-ui/SelectTemplate/constant/index';
+import { getInitialGradingConditions } from '@wont/biz-ui/SelectTemplate/utils';
+import { Button, Form, message, Space, Table } from 'antd';
 import React, { useState } from 'react';
 import { styled } from 'styled-components';
 import { getColumns } from './columns';
 import { getFixedData } from './mock';
 import { DataSource, FormValues } from './type';
 
+const MIN = 1;
+const MAX = 100;
 const getRandomData = ({
-  n = 30,
-  min = 1,
-  max = 100,
+  n = 10,
+  min = MIN,
+  max = MAX,
 }: {
   n?: number;
   min?: number;
@@ -27,48 +29,42 @@ const getRandomData = ({
 };
 
 const StyledTable = styled(Table)`
-  .ant-table-cell {
-    padding: 4px;
-    /* border: none; */
+  .ant-table-tbody {
+    .ant-table-cell {
+      padding: 0px;
+      /* border: none; */
+    }
   }
 `;
 
 const STYLE_TEMPLATE_NAME = 'styleTemplate';
 const CONDITIONS_NAME = 'conditions';
-
 const customValue: FormValues = {
   styleTemplate: {
-    value: ICON_TEMPLATE_OPTIONS[3].options[3].value,
-    isReverse: true,
+    value: GRADING_TEMPLATE_OPTIONS[1].options[3].value,
   },
-  [CONDITIONS_NAME]: getInitialIconConditions({
-    styleTemplate: ICON_TEMPLATE_OPTIONS[3].options[3].value,
+  [CONDITIONS_NAME]: getInitialGradingConditions({
+    styleTemplate: GRADING_TEMPLATE_OPTIONS[1].options[3].value,
     valueTypeMap: VALUE_TYPE,
-    operatorMap: OPERATOR,
   }),
-  reverseIcon: false,
 };
-const MIN = 1;
-const MAX = 100;
 export default () => {
-  const styleTemplate = ICON_TEMPLATE_OPTIONS[1].options[1];
+  const styleTemplate = GRADING_TEMPLATE_OPTIONS[1].options[1].value;
   const initialValues: FormValues = {
     styleTemplate: {
-      value: styleTemplate.value,
-      isReverse: false,
+      value: styleTemplate,
     },
-    [CONDITIONS_NAME]: getInitialIconConditions({
-      styleTemplate: styleTemplate.value,
+    [CONDITIONS_NAME]: getInitialGradingConditions({
+      styleTemplate,
       valueTypeMap: VALUE_TYPE,
-      operatorMap: OPERATOR,
     }),
-    reverseIcon: false,
   };
   const [formValues, setFormValues] = useState<FormValues>(initialValues);
   const [dataSource, setDataSource] = useState<DataSource[]>(
-    getRandomData({
-      n: 30,
-    }),
+    getFixedData({
+      min: -10,
+      max: 20,
+    }).mixedData,
   );
 
   const [form] = Form.useForm<FormValues>();
@@ -92,56 +88,72 @@ export default () => {
         onFinishFailed={handleFinishFailed}
         labelCol={{ span: 4 }}
         initialValues={initialValues}
+        onValuesChange={(changedValues: FormValues, allValues: FormValues) => {
+          console.log('changedValues', changedValues, allValues);
+          if (changedValues.conditions) {
+            const conditionsColor = (allValues.conditions || []).reduce<string[]>((acc, cur) => {
+              if (cur.valueType === VALUE_TYPE.none.value) {
+                return acc;
+              }
+              if (cur.color) {
+                acc.push(cur.color);
+              }
+              return acc;
+            }, []);
+            // console.log('conditionsColor :>> ', conditionsColor);
+            form.setFieldValue(STYLE_TEMPLATE_NAME, {
+              value: conditionsColor,
+            });
+          }
+        }}
         onReset={() => {
           setDataSource(
-            getRandomData({
-              n: 30,
-            }),
+            getFixedData({
+              min: -10,
+              max: 20,
+            }).mixedData,
           );
         }}
       >
-        <Form.Item label="图标集" name={STYLE_TEMPLATE_NAME}>
-          <SelectTemplate
-            options={ICON_TEMPLATE_OPTIONS}
-            showOptionLabel={false}
-            compareKeys={['value']}
-            onChange={(option) => {
-              form.setFieldValue(
-                CONDITIONS_NAME,
-                getInitialIconConditions({
-                  styleTemplate: option.value,
-                  valueTypeMap: VALUE_TYPE,
-                  operatorMap: OPERATOR,
-                }),
-              );
-            }}
-          />
+        <Form.Item noStyle dependencies={[CONDITIONS_NAME]}>
+          {() => {
+            return (
+              <Form.Item label="色阶" name={STYLE_TEMPLATE_NAME}>
+                <SelectTemplate
+                  options={GRADING_TEMPLATE_OPTIONS}
+                  showOptionLabel={false}
+                  onChange={(option) => {
+                    const conditions = getInitialGradingConditions({
+                      styleTemplate: option.value,
+                      valueTypeMap: VALUE_TYPE,
+                    });
+                    form.setFieldValue(CONDITIONS_NAME, conditions);
+                  }}
+                />
+              </Form.Item>
+            );
+          }}
         </Form.Item>
-        <Form.Item label="反转图标" name="reverseIcon" valuePropName="checked">
-          <Checkbox
-            onChange={(e) => {
-              const styleTemplateValue = form.getFieldValue(STYLE_TEMPLATE_NAME).value || [];
-              const reverseIcon = e.target.checked;
-              const reverseStyleTemplateValue = [...styleTemplateValue].reverse();
-              form.setFieldValue(STYLE_TEMPLATE_NAME, {
-                value: reverseStyleTemplateValue,
-                isReverse: reverseIcon,
-              });
-              form.setFieldValue(
-                CONDITIONS_NAME,
-                getInitialIconConditions({
-                  styleTemplate: reverseStyleTemplateValue,
-                  valueTypeMap: VALUE_TYPE,
-                  operatorMap: OPERATOR,
-                }),
-              );
-            }}
-          />
-        </Form.Item>
-        <Form.Item name={CONDITIONS_NAME} dependencies={[STYLE_TEMPLATE_NAME]}>
-          <ConditionIcon
-            valuePropName={CONDITIONS_NAME}
+
+        <Form.Item
+          name={CONDITIONS_NAME}
+          rules={[
+            {
+              validator: async (_, value: FormValues[typeof CONDITIONS_NAME] = []) => {
+                const valid = validator(value, {
+                  useColor: false,
+                });
+                if (!valid) {
+                  return Promise.reject('');
+                }
+                return Promise.resolve();
+              },
+            },
+          ]}
+        >
+          <ConditionColor
             labelFormItemProps={{ labelCol: { span: 4 } }}
+            conditionType="dataGrading"
           />
         </Form.Item>
 
@@ -170,8 +182,8 @@ export default () => {
               onClick={() => {
                 setDataSource(
                   getFixedData({
-                    min: MIN,
-                    max: MAX,
+                    min: formValues.conditions?.[0]?.value,
+                    max: formValues.conditions?.[1]?.value,
                   }).positiveData,
                 );
               }}
@@ -193,8 +205,8 @@ export default () => {
               onClick={() => {
                 setDataSource(
                   getFixedData({
-                    min: formValues[CONDITIONS_NAME]?.[0]?.value,
-                    max: formValues[CONDITIONS_NAME]?.[1]?.value,
+                    min: formValues.conditions?.[0]?.value,
+                    max: formValues.conditions?.[1]?.value,
                   }).negativeData,
                 );
               }}
@@ -229,8 +241,10 @@ export default () => {
         }}
         columns={getColumns({
           formValues,
+          dataSource,
           min: MIN,
           max: MAX,
+          valueTypeMap: VALUE_TYPE,
         })}
         dataSource={dataSource}
       />
