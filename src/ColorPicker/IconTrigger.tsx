@@ -56,7 +56,11 @@ const IconTrigger: FC<IconTriggerProps> = ({
       }}
     >
       {label && <span>{label}</span>}
-      <Tooltip title={'更多颜色'} open={open && needOpen} placement="bottom">
+      <Tooltip
+        title={!readOnly ? '更多颜色' : undefined}
+        open={!readOnly && open && needOpen}
+        placement="bottom"
+      >
         <div className="trigger-icon-wrap">
           <svg
             width={size}

@@ -47,7 +47,6 @@ const ColorPicker: FC<ColorPickerProps> = ({
     }
     setOpen(true);
   }, [readOnly]);
-
   const renderTrigger = () => {
     if (trigger === 'icon') {
       return (

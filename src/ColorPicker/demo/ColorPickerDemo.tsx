@@ -1,6 +1,6 @@
 import ColorPicker from '@wont/biz-ui/ColorPicker';
 import IconTrigger from '@wont/biz-ui/ColorPicker/IconTrigger';
-import { Card, Space, Typography } from 'antd';
+import { Card, Row, Space, Typography } from 'antd';
 import React, { useState } from 'react';
 
 const { Title, Text } = Typography;
@@ -152,7 +152,7 @@ const ColorPickerDemo: React.FC = () => {
         </Space>
       </Card>
       <Card title="自定义触发器">
-        <Space direction="vertical">
+        <Row>
           <Space>
             <ColorPicker
               value={basicColor}
@@ -175,7 +175,13 @@ const ColorPickerDemo: React.FC = () => {
               }}
             />
           </Space>
-        </Space>
+        </Row>
+        <Row>
+          <Space>
+            <ColorPicker label="不传value" trigger="icon" />
+            <Text>当前颜色: {'undefined'}</Text>
+          </Space>
+        </Row>
       </Card>
 
       <Card title="自定义颜色分组">
