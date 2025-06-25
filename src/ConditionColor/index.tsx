@@ -99,7 +99,22 @@ const ConditionColor = (props: ConditionColorProps) => {
   };
 
   return (
-    <Form.List name={valuePropName}>
+    <Form.List
+      name={valuePropName}
+      rules={[
+        {
+          validator: async (_, _value: ConditionColorValueItem[]) => {
+            const valid = validator(_value, {
+              useColor,
+            });
+            if (!valid) {
+              return Promise.reject('');
+            }
+            return Promise.resolve();
+          },
+        },
+      ]}
+    >
       {(fields) => {
         return fields.map((field, index) => {
           const valueTypeFieldName = [field.name, 'valueType'];

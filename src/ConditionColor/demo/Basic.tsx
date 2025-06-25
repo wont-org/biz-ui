@@ -1,7 +1,6 @@
 import { ConditionColor } from '@wont/biz-ui';
 import { Button, Form, message, Space } from 'antd';
 import React from 'react';
-import { validator } from '..';
 
 interface ConditionItem {
   valueType: string;
@@ -34,26 +33,13 @@ export default () => {
       labelCol={{ span: 4 }}
       initialValues={{
         conditions: [
-          { valueType: undefined, value: undefined, color: '#6CBF63' },
-          { valueType: 'percent', value: 50, color: '#FFFFFF' },
-          { valueType: 'max', value: 100, color: '#ED7B77' },
+          { valueType: 'auto', value: undefined, color: '#6CBF63' },
+          // { valueType: 'percent', value: 50, color: '#FFFFFF' },
+          { valueType: 'number', value: 100, color: '#ED7B77' },
         ],
       }}
     >
-      <Form.Item
-        name="conditions"
-        rules={[
-          {
-            validator: async (_, value: ConditionItem[]) => {
-              const valid = validator(value);
-              if (!valid) {
-                return Promise.reject('');
-              }
-              return Promise.resolve();
-            },
-          },
-        ]}
-      >
+      <Form.Item name="conditions">
         <ConditionColor labelFormItemProps={{ labelCol: { span: 4 } }} />
       </Form.Item>
 

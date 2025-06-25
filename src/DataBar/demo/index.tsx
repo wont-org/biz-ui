@@ -168,6 +168,7 @@ export default () => {
 
         <Form.Item
           name="conditions"
+          // 可选，内部有校验
           rules={[
             {
               validator: async (_, value: FormValues['conditions'] = []) => {
