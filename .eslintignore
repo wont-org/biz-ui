@@ -5,3 +5,4 @@ lib
 coverage
 docs-dist/*
 node_modules
+src/_assets/iconfont.js

@@ -1,5 +1,6 @@
 export const EMPTY_PLACEHOLDER = {
   table: '-',
+  blank: '\u0020',
 };
 export const OPERATE_TYPE = {
   add: {

@@ -1,21 +1,31 @@
 import { PopoverProps } from 'antd';
 import { ReactNode } from 'react';
 import { SketchPickerProps } from 'react-color';
+import { ColorBlockProps } from './ColorBlock';
+
+export interface ColorItem {
+  value: string;
+  label?: string;
+}
 
 export interface ColorGroup {
   title?: string;
-  colors: string[];
+  colors: ColorItem[];
 }
 
 export interface ColorPickerProps {
   /**
    * 颜色值
    */
-  value: string;
+  value?: string;
+  /**
+   * 颜色值的label
+   */
+  label?: string;
   /**
    * 颜色变化回调
    */
-  onChange: (color: string) => void;
+  onChange?: (color: string) => void;
   /**
    * 自定义弹出层内容
    */
@@ -42,4 +52,13 @@ export interface ColorPickerProps {
   readOnly?: boolean;
   colorPickerClass?: string;
   colors?: SketchPickerProps['presetColors'];
+  trigger?: 'icon' | 'block' | ReactNode;
+  /**
+   * 弹出层打开状态变化回调
+   */
+  onOpenChange?: (open: boolean) => void;
+  /**
+   * 色块的tooltip配置，false表示不显示，或传入Tooltip组件的属性
+   */
+  colorToolTip?: ColorBlockProps['tooltipProps'];
 }
