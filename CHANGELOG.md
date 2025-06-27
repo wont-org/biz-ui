@@ -1,3 +1,17 @@
+# [1.3.0-beta.4](https://github.com/wont-org/biz-ui/compare/v1.3.0-beta.3...v1.3.0-beta.4) (2025-06-27)
+
+### Bug Fixes
+
+- **ColorPicker:** readOnly tooltip ([0cef8a7](https://github.com/wont-org/biz-ui/commit/0cef8a7883278fcf435ffe9bb29e6e1ac4d824b8))
+
+### Features
+
+- **ConditionColor:** 内置校验 ([fab86d8](https://github.com/wont-org/biz-ui/commit/fab86d80eb6d3d9b2a3474c4818f83876abed03c))
+- **ConditionColor:** add conditionType ([3b16b29](https://github.com/wont-org/biz-ui/commit/3b16b299f8b05fd0e2e687d1c0986c91feaf4eb8))
+- **ConditionColor:** add valuePropName ([e84f1b1](https://github.com/wont-org/biz-ui/commit/e84f1b1984597086b410ddeca9396d4aef6bec0b))
+- **ConditionIcon:** 图表条件 ([12017ae](https://github.com/wont-org/biz-ui/commit/12017aee2659d6c39248368bbe93998d58af80e5))
+- **SelectTemplate:** 新增 readOnly selectedTemplate 组合 ([716a91c](https://github.com/wont-org/biz-ui/commit/716a91c06867dd15b3e4aa17256f018ad081f8c2))
+
 # [1.3.0-beta.3](https://github.com/wont-org/biz-ui/compare/v1.3.0-beta.2...v1.3.0-beta.3) (2025-06-17)
 
 ### Features
