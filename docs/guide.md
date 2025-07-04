@@ -2,6 +2,12 @@
 
 ## 安装
 
+### pnpm
+
+```bash
+pnpm add antd
+```
+
 ### npm
 
 ```bash
@@ -12,10 +18,4 @@ npm install antd --save
 
 ```bash
 yarn add antd
-```
-
-### pnpm
-
-```bash
-pnpm add antd
 ```
