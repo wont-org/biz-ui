@@ -7,7 +7,7 @@ import { DataSource, FormValues } from './type';
 import { getLinearGradientStyle } from './utils';
 
 // 计算数据中的最大正值和最小负值
-const calculateMaxValues = (data: DataSource[], key: keyof DataSource = 'mixedValue') => {
+const calculateValues = (data: DataSource[], key: keyof DataSource = 'mixedValue') => {
   let max = 0;
   let min = 0;
 
@@ -162,7 +162,7 @@ export function getColumns({
       dataIndex: 'index',
       width: 100,
       render(value) {
-        // const curVal = calculateMaxValues(dataSource, 'index');
+        // const curVal = calculateValues(dataSource, 'index');
         const style = getStyleByValue({
           ...styleByValueParams,
           value,
@@ -182,7 +182,7 @@ export function getColumns({
       title: '正负混合-根据配置',
       dataIndex: 'mixedValue',
       render(value) {
-        const curVal = calculateMaxValues(dataSource, 'mixedValue');
+        const curVal = calculateValues(dataSource, 'mixedValue');
         const style = getStyleByValue({
           ...styleByValueParams,
           value,
@@ -203,7 +203,7 @@ export function getColumns({
       title: '-1~-10-写死-纯色',
       dataIndex: 'negativeValue',
       render(value) {
-        // const curVal = calculateMaxValues(dataSource, 'negativeValue');
+        // const curVal = calculateValues(dataSource, 'negativeValue');
         const style = getStyleByValue({
           ...styleByValueParams,
           value,
@@ -223,7 +223,7 @@ export function getColumns({
       title: `${min}~${max}正数渐变（根据配置）`,
       dataIndex: 'positiveValue',
       render(value) {
-        const curVal = calculateMaxValues(dataSource, 'positiveValue');
+        const curVal = calculateValues(dataSource, 'positiveValue');
         const style = getStyleByValue({
           ...styleByValueParams,
           value,

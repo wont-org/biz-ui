@@ -6,7 +6,7 @@ import { DataSource, FormValues } from './type';
 import { getColorByValue } from './utils';
 
 // 计算数据中的最大正值和最小负值
-const calculateMaxValues = (data: DataSource[], key: keyof DataSource = 'mixedValue') => {
+const calculateValues = (data: DataSource[], key: keyof DataSource = 'mixedValue') => {
   let max = 0;
   let min = 0;
 
@@ -44,7 +44,7 @@ export function getColumns({
       title: '下标连续渐变',
       dataIndex: 'index',
       render(value) {
-        const curVal = calculateMaxValues(dataSource, 'index');
+        const curVal = calculateValues(dataSource, 'index');
         const color = getColorByValue({
           value,
           min: curVal.min,
@@ -60,7 +60,7 @@ export function getColumns({
       title: '随机渐变',
       dataIndex: 'mixedValue',
       render(value) {
-        const curVal = calculateMaxValues(dataSource, 'mixedValue');
+        const curVal = calculateValues(dataSource, 'mixedValue');
         const color = getColorByValue({
           value,
           min: curVal.min,
