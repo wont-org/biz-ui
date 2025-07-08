@@ -2,6 +2,7 @@ import './index.less';
 
 export { default as AntdResizableTable } from './AntdResizableTable';
 export { default as AutoLoadingButton } from './AutoLoadingButton';
+export { default as BizUIProvider, useAntd, useLocale, useTranslation } from './BizProvider';
 export { default as BlankLink } from './BlankLink';
 export { default as BlockHeader } from './BlockHeader';
 export { default as CaptchaInput } from './CaptchaInput';
