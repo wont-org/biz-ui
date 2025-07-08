@@ -121,6 +121,7 @@ export const StyledSelectTemplate = styled.div<{
         color: rgba(0, 0, 0, 0.75);
         margin-bottom: 8px;
         margin-left: 4px;
+        font-weight: 500;
       }
 
       .options-grid {

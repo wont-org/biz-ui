@@ -10,6 +10,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { useLocale } from '../BizProvider';
 import { getLinearGradientStyle } from '../DataBar/demo/utils';
 import {
   StyledBarItem,
@@ -75,6 +76,7 @@ const renderOptionLabel = (option: TemplateOption) => {
   return option.label;
 };
 const SelectTemplate: FC<SelectTemplateProps> = (props) => {
+  const { t } = useLocale();
   const {
     value,
     onChange,
@@ -82,7 +84,7 @@ const SelectTemplate: FC<SelectTemplateProps> = (props) => {
     size = 'middle',
     showOptionLabel = true,
     showSelectedOptionLabel = true,
-    placeholder = '请选择',
+    placeholder,
     options = [],
     compareKeys = ['value'],
     selectedTemplate,
@@ -195,7 +197,7 @@ const SelectTemplate: FC<SelectTemplateProps> = (props) => {
         return <StyledIconWrapper>{iconList}</StyledIconWrapper>;
       }
       if (useCustomOption) {
-        return <span>自定义</span>;
+        return <span>{t('selectTemplate.ui.custom')}</span>;
       }
       return selectedTemplateRender(_selectedOption.value);
     }
@@ -213,13 +215,17 @@ const SelectTemplate: FC<SelectTemplateProps> = (props) => {
     }
     return (
       <StyledCustomOption>
-        <Typography.Link>自定义</Typography.Link>
+        <Typography.Link>{t('selectTemplate.ui.custom')}</Typography.Link>
         <Typography.Link>
           <CheckOutlined />
         </Typography.Link>
       </StyledCustomOption>
     );
   };
+
+  // 使用国际化文本作为默认 placeholder
+  const finalPlaceholder = placeholder || t('selectTemplate.ui.placeholder');
+
   if (readOnly && value) {
     return selectedRender(value);
   }
@@ -233,7 +239,7 @@ const SelectTemplate: FC<SelectTemplateProps> = (props) => {
         {selectedOption ? (
           <div className="selected-template">{selectedRender(selectedOption)}</div>
         ) : (
-          <div className="placeholder">{placeholder}</div>
+          <div className="placeholder">{finalPlaceholder}</div>
         )}
         <span className={`dropdown-arrow ${isOpen ? 'open' : ''}`}>
           <DownOutlined />
@@ -244,7 +250,7 @@ const SelectTemplate: FC<SelectTemplateProps> = (props) => {
         <div className="template-dropdown">
           {memoizedOptions.map((category, categoryIndex) => (
             <div key={categoryIndex} className="template-category">
-              <div className="category-label">{category.label}</div>
+              <div className="category-label">{t(`selectTemplate.ui.${category.label}`)}</div>
               <div className="options-grid">
                 {(category.options as unknown as TemplateOption[]).map((option, optionIndex) => {
                   const optionExtraLabel = 'extraLabel' in option ? option.extraLabel : undefined;

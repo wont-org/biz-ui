@@ -6,14 +6,14 @@ import { GRADING2_COLOR, GRADING3_COLOR } from './grading';
 
 export const BAR_TEMPLATE_OPTIONS = [
   {
-    label: '纯色填充',
+    label: 'pureFill',
     options: Object.values(PURE_COLOR).map((item) => ({
       ...item,
       isGrading: false,
     })),
   },
   {
-    label: '渐变填充',
+    label: 'gradingFill',
     options: Object.values(GRADING_COLOR).map((item) => ({
       ...item,
       isGrading: true,

@@ -3,7 +3,7 @@ import { Button, Form, Space } from 'antd';
 import React from 'react';
 import { BAR_TEMPLATE_OPTIONS } from '../constant/index';
 
-const RichSelectDemo = () => {
+const SelectTemplateBasicDemo = () => {
   return (
     <Form
       labelCol={{ span: 6 }}
@@ -66,4 +66,4 @@ const RichSelectDemo = () => {
   );
 };
 
-export default RichSelectDemo;
+export default SelectTemplateBasicDemo;

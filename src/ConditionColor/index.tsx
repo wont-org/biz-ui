@@ -1,5 +1,6 @@
 import { Form, FormItemProps, InputNumber, Select } from 'antd';
 import React from 'react';
+import { useLocale } from '../BizProvider';
 import ColorPicker from '../ColorPicker';
 import { isInvalidValue } from '../utils/commom';
 import { ValueOfConstWithType } from '../utils/types';
@@ -72,6 +73,7 @@ export const validator = (value: ConditionColorValueItem[], options: ConditionCo
 };
 
 const ConditionColor = (props: ConditionColorProps) => {
+  const { t } = useLocale();
   const {
     // 由外部form控制，所以无需传入
     value,
@@ -84,7 +86,11 @@ const ConditionColor = (props: ConditionColorProps) => {
   } = props;
 
   const getItemLabel = (index: number, length: number) => {
-    return index === 0 ? '最小值' : index === length - 1 ? '最大值' : '中间值';
+    return index === 0
+      ? t('conditionColor.ui.minValue')
+      : index === length - 1
+      ? t('conditionColor.ui.maxValue')
+      : t('conditionColor.ui.middleValue');
   };
 
   const getPlaceholder = (item: ConditionColorValueItem) => {
@@ -93,9 +99,9 @@ const ConditionColor = (props: ConditionColorProps) => {
       return undefined;
     }
     if (isPercent(item.valueType, valueTypeMap)) {
-      return '请输入0-100';
+      return t('conditionColor.ui.inputPercent');
     }
-    return '请输入数字';
+    return t('conditionColor.ui.inputNumber');
   };
 
   return (
@@ -172,10 +178,10 @@ const ConditionColor = (props: ConditionColorProps) => {
                     return (
                       <Form.Item
                         name={valueTypeFieldName}
-                        rules={[{ required: true, message: '请选择' }]}
+                        rules={[{ required: true, message: t('conditionColor.ui.selectRequired') }]}
                       >
                         <Select
-                          placeholder="请选择"
+                          placeholder={t('conditionColor.ui.selectRequired')}
                           options={getValueTypeOpt(index)}
                           onChange={(val) => {
                             const required = !isValueDisabled(val, valueTypeMap);
@@ -220,7 +226,9 @@ const ConditionColor = (props: ConditionColorProps) => {
                 {useColor && (
                   <Form.Item
                     name={colorFieldName}
-                    rules={[{ required: true, message: '请选择颜色' }]}
+                    rules={[
+                      { required: true, message: t('conditionColor.ui.selectColorRequired') },
+                    ]}
                   >
                     <ColorPicker trigger="icon" readOnly={valueType === valueTypeMap.none.value} />
                   </Form.Item>

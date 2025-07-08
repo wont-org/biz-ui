@@ -1,11 +1,11 @@
 import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, ConfigProvider, Form, Select, Tooltip } from 'antd';
+import { Button, Form, Select, Tooltip } from 'antd';
 import { FormItemProps } from 'antd/es/form';
-import zhCN from 'antd/lib/locale/zh_CN';
 import { DefaultOptionType } from 'antd/lib/select';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useAntd, useTranslation } from '../BizProvider';
 import { INPUT_NUMBER_PROPS } from '../constant/antd';
 import {
   COMPONENT,
@@ -22,8 +22,6 @@ import { StyledFilterItem } from './styled';
 import { ConditionType, ConditionValue, FilterListProps } from './type';
 import { isValueValid, updateOperatorsByFilterMap } from './utils';
 
-moment.locale('zh-cn');
-
 export default function FilterList(props: FilterListProps) {
   const {
     deleteIcon = <DeleteOutlined />,
@@ -37,6 +35,15 @@ export default function FilterList(props: FilterListProps) {
     validateOnInit = true,
     filterFieldMap = FILTER_FIELD_MAP,
   } = props;
+
+  const { momentLocale } = useAntd();
+  const { t } = useTranslation();
+  const defaultInputPlaceholder = t('common.form.input');
+  const defaultValidateRequired = t('common.form.required');
+
+  useEffect(() => {
+    moment.locale(momentLocale);
+  }, [momentLocale]);
 
   const { options: conditionOptions = [], ...restConditionSelectProps } = conditionSelectProps;
   const { ...restOperatorSelectProps } = operatorSelectProps;
@@ -269,7 +276,7 @@ export default function FilterList(props: FilterListProps) {
 
       // 针对数值输入框添加额外属性
       if (operatorConfig.component === COMPONENT.inputNumber.value) {
-        componentProps.placeholder = '请输入';
+        componentProps.placeholder = defaultInputPlaceholder;
         componentProps.className = 'value-field';
         Object.assign(componentProps, INPUT_NUMBER_PROPS, restConditionNumberValueProps);
       } else if (operatorConfig.component === COMPONENT.inputNumberRange.value) {
@@ -281,8 +288,7 @@ export default function FilterList(props: FilterListProps) {
       }
       const formItemProps: FormItemProps = {
         validateStatus: needValidation ? 'error' : '',
-        help: needValidation ? '请补全必填项' : '',
-        // noStyle: true,
+        help: needValidation ? defaultValidateRequired : '',
         style: { marginBottom: 6 },
       };
 
@@ -294,7 +300,11 @@ export default function FilterList(props: FilterListProps) {
           }}
         >
           <Form.Item {...formItemProps}>
-            {renderValueComponent(operatorConfig.component, componentProps)}
+            {renderValueComponent({
+              component: operatorConfig.component,
+              props: componentProps,
+              t,
+            })}
           </Form.Item>
         </div>
       );
@@ -303,20 +313,25 @@ export default function FilterList(props: FilterListProps) {
       newOperators,
       showValidation,
       filterFieldMap,
+      defaultValidateRequired,
+      t,
       handleValueChange,
+      defaultInputPlaceholder,
       restConditionNumberValueProps,
       conditionNumberValueProps,
     ],
   );
+  const selectPlaceholder = t('common.form.select');
+
   return (
-    <ConfigProvider locale={zhCN}>
+    <>
       <Button
         disabled={typeof maxItem === 'number' && filterList.length >= maxItem}
         type="link"
         icon={<PlusOutlined />}
         onClick={handleAddCondition}
       >
-        添加
+        {t('common.operation.add')}
       </Button>
       <Relation
         value={relation}
@@ -327,13 +342,13 @@ export default function FilterList(props: FilterListProps) {
           <StyledFilterItem key={index}>
             <Form.Item
               validateStatus={showValidation && !condition.field ? 'error' : ''}
-              help={showValidation && !condition.field ? '请选择' : ''}
+              help={showValidation && !condition.field ? selectPlaceholder : ''}
               className="form-item-reset"
               style={{ marginBottom: 0 }}
             >
               {/* 条件选择框 */}
               <Select
-                placeholder="请选择"
+                placeholder={selectPlaceholder}
                 showSearch
                 {...restConditionSelectProps}
                 allowClear={false}
@@ -345,13 +360,14 @@ export default function FilterList(props: FilterListProps) {
             </Form.Item>
             <Form.Item
               validateStatus={showValidation && !condition.operator ? 'error' : ''}
-              help={showValidation && !condition.operator ? '请选择' : ''}
+              help={showValidation && !condition.operator ? selectPlaceholder : ''}
               className="form-item-reset"
             >
               {/* 操作符选择框 */}
               <Select
-                placeholder="请选择"
+                placeholder={selectPlaceholder}
                 showSearch
+                dropdownMatchSelectWidth={false}
                 {...restOperatorSelectProps}
                 allowClear={false}
                 className="operator-field"
@@ -360,7 +376,8 @@ export default function FilterList(props: FilterListProps) {
                 options={
                   condition.fieldType
                     ? getOperatorsByFieldType(condition.fieldType).map((item) => ({
-                        label: item.label,
+                        // Note: 国际化操作符 待进一步验证
+                        label: t(`filterList.operators.${item.value}`),
                         value: item.value,
                       }))
                     : []
@@ -370,7 +387,7 @@ export default function FilterList(props: FilterListProps) {
             {/* 条件值组件 */}
             {renderValueField(condition, index)}
             {typeof minItem === 'number' && filterList.length > minItem && (
-              <Tooltip title="删除">
+              <Tooltip title={t('common.operation.delete')}>
                 <Button
                   type="link"
                   danger
@@ -382,7 +399,7 @@ export default function FilterList(props: FilterListProps) {
           </StyledFilterItem>
         ))}
       </Relation>
-    </ConfigProvider>
+    </>
   );
 }
 

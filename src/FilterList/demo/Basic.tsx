@@ -88,6 +88,7 @@ export default () => {
   const [form] = Form.useForm();
   const [filterValue, setFilterValue] = useState<any>(getInitialFilterValue());
   const [validateOnInit, setValidateOnInit] = useState(true);
+  const [showData, setShowData] = useState(false);
 
   const onFinish = (values: any) => {
     console.log('提交的表单值:', values);
@@ -187,7 +188,16 @@ export default () => {
         </Form.Item>
       </Form>
 
-      <Card title="当前筛选条件" style={{ marginTop: 16 }}>
+      <Card
+        title="当前筛选条件"
+        style={{ marginTop: 16 }}
+        bodyStyle={{ display: showData ? 'block' : 'none' }}
+        extra={
+          <Button type="link" onClick={() => setShowData(!showData)}>
+            显示数据
+          </Button>
+        }
+      >
         <div>
           <strong>关系类型：</strong> {filterValue.relation === RELATION.and.value ? '且' : '或'}
         </div>

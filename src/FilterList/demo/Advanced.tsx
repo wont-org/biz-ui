@@ -47,7 +47,7 @@ const CUSTOM_FILTER_FIELD_MAP: FilterFieldMapType = {
       ...OPERATORS.equal,
       component: COMPONENT.input.value,
       componentProps: {
-        placeholder: 'input',
+        // placeholder: 'input',
         maxLength: 50,
       },
     },
@@ -55,14 +55,14 @@ const CUSTOM_FILTER_FIELD_MAP: FilterFieldMapType = {
       ...OPERATORS.contains,
       component: COMPONENT.textarea.value,
       componentProps: {
-        placeholder: 'textarea',
+        // placeholder: 'textarea',
       },
     },
     {
       ...OPERATORS.startsWith,
       component: COMPONENT.select.value,
       componentProps: {
-        placeholder: 'select',
+        // placeholder: 'select',
         options: [
           {
             value: '#',
@@ -79,7 +79,7 @@ const CUSTOM_FILTER_FIELD_MAP: FilterFieldMapType = {
       ...OPERATORS.in,
       component: COMPONENT.multipleSelect.value,
       componentProps: {
-        placeholder: 'multipleSelect',
+        // placeholder: 'multipleSelect',
         options: [
           {
             value: '#',
@@ -99,7 +99,7 @@ const CUSTOM_FILTER_FIELD_MAP: FilterFieldMapType = {
       component: COMPONENT.inputNumber.value,
       componentProps: {
         precision: 2,
-        placeholder: '请输入价格',
+        // placeholder: '请输入价格',
       },
     },
     {
@@ -114,7 +114,7 @@ const CUSTOM_FILTER_FIELD_MAP: FilterFieldMapType = {
       ...OPERATORS.range,
       component: COMPONENT.inputNumberRange.value,
       componentProps: {
-        placeholder: ['最小值', '最大值'],
+        // placeholder: ['最小值', '最大值'],
       },
     },
   ],
@@ -123,7 +123,7 @@ const CUSTOM_FILTER_FIELD_MAP: FilterFieldMapType = {
       ...OPERATORS.equal,
       component: COMPONENT.datePicker.value,
       componentProps: {
-        placeholder: '选择日期',
+        // placeholder: '选择日期',
       },
     },
     {
@@ -297,6 +297,7 @@ export default () => {
               min: 0,
               max: 1000000,
             }}
+            minItem={1}
             filterFieldMap={CUSTOM_FILTER_FIELD_MAP}
             validateOnInit={true}
           />
