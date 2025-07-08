@@ -62,14 +62,6 @@ export const filterList = {
       enUS: 'No Value',
       zhCN: '无值',
     },
-    isEmpty: {
-      enUS: 'Is Empty',
-      zhCN: '为空',
-    },
-    isNotEmpty: {
-      enUS: 'Is Not Empty',
-      zhCN: '不为空',
-    },
     isTrue: {
       enUS: 'Is True',
       zhCN: '为真',
@@ -85,14 +77,6 @@ export const filterList = {
     notIn: {
       enUS: 'Not In List',
       zhCN: '不在列表中',
-    },
-    between: {
-      enUS: 'Between',
-      zhCN: '在范围内',
-    },
-    notBetween: {
-      enUS: 'Not Between',
-      zhCN: '不在范围内',
     },
     regexLike: {
       enUS: 'Regex Match',
