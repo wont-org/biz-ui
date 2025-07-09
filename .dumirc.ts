@@ -34,4 +34,15 @@ Powered by liukun`,
   alias: {
     '@wont/biz-ui': path.join(__dirname, 'src'),
   },
+  //   headScripts: [
+  //     `<!-- Google tag (gtag.js) -->
+  // <script async src="https://www.googletagmanager.com/gtag/js?id=G-3PNCWTT1R1"></script>
+  // <script>
+  //   window.dataLayer = window.dataLayer || [];
+  //   function gtag(){dataLayer.push(arguments);}
+  //   gtag('js', new Date());
+
+  //   gtag('config', 'G-3PNCWTT1R1');
+  // </script>`,
+  //   ],
 });
