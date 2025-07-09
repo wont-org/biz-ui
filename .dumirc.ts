@@ -28,6 +28,9 @@ Powered by liukun`,
   lessLoader: {
     javascriptEnabled: true,
   },
+  analytics: {
+    ga_v2: 'G-3PNCWTT1R1',
+  },
   alias: {
     '@wont/biz-ui': path.join(__dirname, 'src'),
   },
