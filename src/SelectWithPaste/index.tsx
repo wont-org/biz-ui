@@ -19,6 +19,10 @@ const tokenSeparators = [
   ',\n\r',
   ',\r\n',
 ];
+
+const getPastedText = (params: { value?: string[]; pastedText?: string }) => {
+  return `${params.value?.join(',')}${params.pastedText}`;
+};
 const getValidValue = (value: string[]) => {
   const result = value.reduce<string[]>((acc, cur) => {
     if (cur && !/^\s*$/.test(cur) && !acc.includes(cur)) {
@@ -56,18 +60,14 @@ const SelectWithPaste = (props: SelectWithPasteProps) => {
     setPastedText(_selectedValue.join(','));
   };
 
-  const getPastedText = (params: { value?: string[]; pastedText?: string }) => {
-    return `${params.value?.join(',')}${params.pastedText}`;
-  };
-
   useEventListener(
     'paste',
     (event: ClipboardEvent) => {
       const text = event.clipboardData?.getData('text') || '';
-      setPastedText(getPastedText({ value, pastedText: text }));
+      setPastedText(getPastedText({ value: [pastedText], pastedText: text }));
     },
     {
-      target: usePaste ? document : null,
+      enable: usePaste,
     },
   );
 
