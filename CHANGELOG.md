@@ -1,3 +1,17 @@
+## [1.3.1-beta.1](https://github.com/wont-org/biz-ui/compare/v1.3.0-beta.4...v1.3.1-beta.1) (2025-08-07)
+
+### Bug Fixes
+
+- **SelectWithPaste:** 多次复制问题 ([be48d2e](https://github.com/wont-org/biz-ui/commit/be48d2ee9df8a9e370ec4faedc8692ec94b09783))
+
+### Features
+
+- **SelectWithPaste:** 可粘贴修改选择框 ([ab15fec](https://github.com/wont-org/biz-ui/commit/ab15fec1b38e392f4730a6b7dfc27ae52acb547f))
+
+### Reverts
+
+- Revert "chore: ga" ([e094c71](https://github.com/wont-org/biz-ui/commit/e094c714636af0a60937dbf4dd47269019fa877c))
+
 # [1.3.0-beta.4](https://github.com/wont-org/biz-ui/compare/v1.3.0-beta.3...v1.3.0-beta.4) (2025-06-27)
 
 ### Bug Fixes
