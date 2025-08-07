@@ -25,6 +25,7 @@ export { default as Operate } from './Operate';
 export { default as PrefixInput } from './PrefixInput';
 export { default as PuzzleCaptcha } from './PuzzleCaptcha';
 export { default as SelectTemplate } from './SelectTemplate';
+export { default as SelectWithPaste } from './SelectWithPaste';
 export { default as CardSkeleton } from './Skeleton/CardSkeleton';
 export { default as DescriptionsWithSkeleton } from './Skeleton/DescriptionsWithSkeleton';
 export { default as ImgInfoSkeleton } from './Skeleton/ImgInfoSkeleton';

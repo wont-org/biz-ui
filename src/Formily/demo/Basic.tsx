@@ -5,6 +5,7 @@ import {
   MultipleSelect,
   PrefixInput,
   SelectTemplate,
+  SelectWithPaste,
   SwitchPro,
   TextAreaWithDefault,
 } from '@wont/biz-ui';
@@ -183,6 +184,21 @@ export default () => {
         ]}
       >
         <MultipleSelect options={getDefaultOptions()} />
+      </Form.Item>
+      <Form.Item
+        label="SelectWithPaste"
+        name="SelectWithPaste"
+        rules={[
+          {
+            required: true,
+          },
+        ]}
+      >
+        <SelectWithPaste
+          selectProps={{
+            options: getDefaultOptions(),
+          }}
+        />
       </Form.Item>
 
       <Form.Item wrapperCol={{ offset: 4 }}>
