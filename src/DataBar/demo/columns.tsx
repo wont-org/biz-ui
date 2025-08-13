@@ -142,6 +142,7 @@ export function getColumns({
   negativeGradient = ['green', '#fff'],
   dataSource,
   formValues,
+  t,
 }: {
   formValues: FormValues;
   positiveGradient?: string[];
@@ -149,6 +150,7 @@ export function getColumns({
   max?: number;
   min?: number;
   dataSource: DataSource[];
+  t: (key: string, params?: Record<string, any>) => string;
 }): ColumnsType<Record<string, any>> {
   const styleByValueParams: Partial<Parameters<typeof getStyleByValue>[0]> = {
     positiveGradient,
@@ -158,7 +160,7 @@ export function getColumns({
   };
   return [
     {
-      title: '-10~10写死',
+      title: t('dataBar.table.fixedRange'),
       dataIndex: 'index',
       width: 100,
       render(value) {
@@ -179,7 +181,7 @@ export function getColumns({
       },
     },
     {
-      title: '正负混合-根据配置',
+      title: t('dataBar.table.mixedByConfig'),
       dataIndex: 'mixedValue',
       render(value) {
         const curVal = calculateValues(dataSource, 'mixedValue');
@@ -200,7 +202,7 @@ export function getColumns({
     },
 
     {
-      title: '-1~-10-写死-纯色',
+      title: t('dataBar.table.fixedNegativePure'),
       dataIndex: 'negativeValue',
       render(value) {
         // const curVal = calculateValues(dataSource, 'negativeValue');
@@ -220,7 +222,7 @@ export function getColumns({
       },
     },
     {
-      title: `${min}~${max}正数渐变（根据配置）`,
+      title: `${min}~${max}${t('dataBar.table.positiveGradientByConfig')}`,
       dataIndex: 'positiveValue',
       render(value) {
         const curVal = calculateValues(dataSource, 'positiveValue');

@@ -32,16 +32,18 @@ export function getColumns({
   dataSource,
   formValues,
   valueTypeMap,
+  t,
 }: {
   formValues: FormValues;
   max?: number;
   min?: number;
   dataSource: DataSource[];
   valueTypeMap: typeof VALUE_TYPE;
+  t: (key: string, params?: Record<string, any>) => string;
 }): ColumnsType<Record<string, any>> {
   return [
     {
-      title: '下标连续渐变',
+      title: t('dataGrading.table.indexGradient'),
       dataIndex: 'index',
       render(value) {
         const curVal = calculateValues(dataSource, 'index');
@@ -57,7 +59,7 @@ export function getColumns({
       },
     },
     {
-      title: '随机渐变',
+      title: t('dataGrading.table.randomGradient'),
       dataIndex: 'mixedValue',
       render(value) {
         const curVal = calculateValues(dataSource, 'mixedValue');

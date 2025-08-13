@@ -1,4 +1,5 @@
 import { SettingOutlined } from '@ant-design/icons';
+import { useTranslation } from '@wont/biz-ui/BizProvider';
 import ConditionColor, { validator } from '@wont/biz-ui/ConditionColor';
 import { VALUE_TYPE } from '@wont/biz-ui/ConditionColor/constant';
 import SelectTemplate from '@wont/biz-ui/SelectTemplate';
@@ -49,13 +50,15 @@ const customValue: FormValues = {
   }),
 };
 export default () => {
-  const styleTemplate = GRADING_TEMPLATE_OPTIONS[1].options[1].value;
+  const { t } = useTranslation();
+
+  const styleTemplate = GRADING_TEMPLATE_OPTIONS[1].options[1];
   const initialValues: FormValues = {
     styleTemplate: {
-      value: styleTemplate,
+      value: styleTemplate.value,
     },
     [CONDITIONS_NAME]: getInitialGradingConditions({
-      styleTemplate,
+      styleTemplate: styleTemplate.value,
       valueTypeMap: VALUE_TYPE,
     }),
   };
@@ -72,12 +75,12 @@ export default () => {
   const handleFinish = (values: FormValues) => {
     console.log('Success:', values);
     setFormValues(values);
-    message.success('提交成功');
+    message.success(t('dataGrading.message.submitSuccess'));
   };
 
   const handleFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
-    message.error('提交失败，请检查表单');
+    message.error(t('dataGrading.message.submitFailed'));
   };
 
   return (
@@ -118,7 +121,7 @@ export default () => {
         <Form.Item noStyle dependencies={[CONDITIONS_NAME]}>
           {() => {
             return (
-              <Form.Item label="色阶" name={STYLE_TEMPLATE_NAME}>
+              <Form.Item label={t('dataGrading.form.colorScale')} name={STYLE_TEMPLATE_NAME}>
                 <SelectTemplate
                   options={GRADING_TEMPLATE_OPTIONS}
                   showOptionLabel={false}
@@ -139,9 +142,9 @@ export default () => {
           name={CONDITIONS_NAME}
           rules={[
             {
-              validator: async (_, value: FormValues[typeof CONDITIONS_NAME] = []) => {
+              validator: async (_, value: FormValues['conditions'] = []) => {
                 const valid = validator(value, {
-                  useColor: false,
+                  useColor: true,
                 });
                 if (!valid) {
                   return Promise.reject('');
@@ -151,18 +154,15 @@ export default () => {
             },
           ]}
         >
-          <ConditionColor
-            labelFormItemProps={{ labelCol: { span: 4 } }}
-            conditionType="dataGrading"
-          />
+          <ConditionColor useColor={true} labelFormItemProps={{ labelCol: { span: 4 } }} />
         </Form.Item>
 
         <Form.Item wrapperCol={{ offset: 4 }}>
-          <Space>
+          <Space wrap>
             <Button type="primary" htmlType="submit">
-              提交
+              {t('dataGrading.button.submit')}
             </Button>
-            <Button htmlType="reset">重置</Button>
+            <Button htmlType="reset">{t('dataGrading.button.reset')}</Button>
             <Button
               type="primary"
               ghost
@@ -175,20 +175,20 @@ export default () => {
                 form.submit();
               }}
             >
-              表格随机
+              {t('dataGrading.button.randomTable')}
             </Button>
             <Button
               type="dashed"
               onClick={() => {
                 setDataSource(
                   getFixedData({
-                    min: formValues.conditions?.[0]?.value,
-                    max: formValues.conditions?.[1]?.value,
+                    min: -10,
+                    max: 20,
                   }).positiveData,
                 );
               }}
             >
-              正数
+              {t('dataGrading.button.positiveNumbers')}
             </Button>
             <Button
               type="primary"
@@ -198,34 +198,34 @@ export default () => {
                 form.setFieldsValue(customValue);
               }}
             >
-              设置自定义模板
+              {t('dataGrading.button.setCustomTemplate')}
             </Button>
             <Button
               danger
               onClick={() => {
                 setDataSource(
                   getFixedData({
-                    min: formValues.conditions?.[0]?.value,
-                    max: formValues.conditions?.[1]?.value,
+                    min: -10,
+                    max: 20,
                   }).negativeData,
                 );
               }}
             >
-              负数
+              {t('dataGrading.button.negativeNumbers')}
             </Button>
             <Button
               onClick={() => {
                 form
                   .validateFields()
                   .then((values: FormValues) => {
-                    console.log('验证通过:', values);
+                    console.log(t('dataGrading.message.validationPassed'), values);
                   })
                   .catch((errorInfo: any) => {
-                    console.log('验证失败:', errorInfo);
+                    console.log(t('dataGrading.message.validationFailed'), errorInfo);
                   });
               }}
             >
-              验证
+              {t('dataGrading.button.validate')}
             </Button>
           </Space>
         </Form.Item>
@@ -242,9 +242,8 @@ export default () => {
         columns={getColumns({
           formValues,
           dataSource,
-          min: MIN,
-          max: MAX,
           valueTypeMap: VALUE_TYPE,
+          t,
         })}
         dataSource={dataSource}
       />

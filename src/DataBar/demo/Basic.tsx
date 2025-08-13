@@ -1,13 +1,15 @@
+import { useTranslation } from '@wont/biz-ui/BizProvider';
 import { Col, Row } from 'antd';
 import React from 'react';
 import { getLinearGradientStyle } from './utils';
 
 export default () => {
+  const { t } = useTranslation();
   return (
     <div>
       <Row gutter={16}>
         <Col>
-          <h3>绿白</h3>
+          <h3>{t('dataBar.demo.greenWhite')}</h3>
           <div
             style={{
               ...getLinearGradientStyle({ colors: ['green', '#fff'] }),
@@ -17,7 +19,7 @@ export default () => {
           />
         </Col>
         <Col>
-          <h3>二色渐变 红白</h3>
+          <h3>{t('dataBar.demo.twoColorGradientRedWhite')}</h3>
           <div
             style={{
               ...getLinearGradientStyle({ colors: ['red', '#fff'] }),

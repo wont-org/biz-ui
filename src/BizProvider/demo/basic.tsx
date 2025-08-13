@@ -11,6 +11,7 @@ import {
 } from 'antd';
 import React, { useState } from 'react';
 import DataBarConfigTableDemo from '../../DataBar/demo';
+import DataGradingConfigTableDemo from '../../DataGrading/demo';
 import { getAntdLocale } from '../hooks';
 
 const { Title, Text } = Typography;
@@ -79,6 +80,8 @@ function I18nDemo({
       <Divider />
       <h1>DataBar</h1>
       <DataBarConfigTableDemo />
+      <h1>DataGrading</h1>
+      <DataGradingConfigTableDemo />
     </Card>
   );
 }
