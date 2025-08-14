@@ -21,7 +21,7 @@ const tokenSeparators = [
 ];
 
 const getPastedText = (params: { value?: string[]; pastedText?: string }) => {
-  return `${params.value?.join(',')}${params.pastedText}`;
+  return `${params.value?.join(',') || ''}${params.pastedText || ''}`;
 };
 const getValidValue = (value: string[]) => {
   const result = value.reduce<string[]>((acc, cur) => {
@@ -96,7 +96,14 @@ const SelectWithPaste = (props: SelectWithPasteProps) => {
           }}
         />
       )}
-      <Modal title="批量录入" open={open} onOk={handleOk} onCancel={() => setOpen(false)}>
+      <Modal
+        title="批量录入"
+        okText="确定"
+        cancelText="取消"
+        open={open}
+        onOk={handleOk}
+        onCancel={() => setOpen(false)}
+      >
         <Input.TextArea
           placeholder="支持直接输入或粘贴excel文本，值之间请以半角逗号or回车符分隔"
           autoSize={{ minRows: 10, maxRows: 10 }}
