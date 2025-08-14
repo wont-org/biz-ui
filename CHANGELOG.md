@@ -1,3 +1,9 @@
+## [1.3.1](https://github.com/wont-org/biz-ui/compare/v1.3.1-beta.1...v1.3.1) (2025-08-14)
+
+### Bug Fixes
+
+- **SelectWithPaste:** 弹窗 undefined 问题 ([963b9c2](https://github.com/wont-org/biz-ui/commit/963b9c2483ea56a928ca859778167f9cae48daf1))
+
 ## [1.3.1-beta.1](https://github.com/wont-org/biz-ui/compare/v1.3.0-beta.4...v1.3.1-beta.1) (2025-08-07)
 
 ### Bug Fixes
