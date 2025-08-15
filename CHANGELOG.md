@@ -1,3 +1,9 @@
+## [1.3.2](https://github.com/wont-org/biz-ui/compare/v1.3.1...v1.3.2) (2025-08-15)
+
+### Bug Fixes
+
+- **SelectWithPaste:** 弹窗复制问题 ([4a7fea5](https://github.com/wont-org/biz-ui/commit/4a7fea59afd159499b2a7959f8460819b9816a3f))
+
 ## [1.3.1](https://github.com/wont-org/biz-ui/compare/v1.3.1-beta.1...v1.3.1) (2025-08-14)
 
 ### Bug Fixes
