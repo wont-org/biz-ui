@@ -1,5 +1,4 @@
 import { EditOutlined } from '@ant-design/icons';
-import { useEventListener } from 'ahooks';
 import { Button, Input, Modal, Select, SelectProps } from 'antd';
 import React, { useState } from 'react';
 import { StyledSelectWithPaste } from './styled';
@@ -60,17 +59,6 @@ const SelectWithPaste = (props: SelectWithPasteProps) => {
     setPastedText(_selectedValue.join(','));
   };
 
-  useEventListener(
-    'paste',
-    (event: ClipboardEvent) => {
-      const text = event.clipboardData?.getData('text') || '';
-      setPastedText(getPastedText({ value: [pastedText], pastedText: text }));
-    },
-    {
-      enable: usePaste,
-    },
-  );
-
   return (
     <StyledSelectWithPaste>
       <Select
@@ -108,7 +96,9 @@ const SelectWithPaste = (props: SelectWithPasteProps) => {
           placeholder="支持直接输入或粘贴excel文本，值之间请以半角逗号or回车符分隔"
           autoSize={{ minRows: 10, maxRows: 10 }}
           value={pastedText}
-          onChange={(e) => setPastedText(e.target.value)}
+          onChange={(e) => {
+            setPastedText(e.target.value);
+          }}
         />
       </Modal>
     </StyledSelectWithPaste>
