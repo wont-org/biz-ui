@@ -6,7 +6,7 @@ const { Title, Text } = Typography;
 
 export default () => {
   const [value1, setValue1] = useState<string[]>(['opt1', 'opt2']);
-  const [value2, setValue2] = useState<string[]>([]);
+  const [value2, setValue2] = useState<string[]>();
   const [value3, setValue3] = useState<string[]>([]);
 
   return (
@@ -55,7 +55,7 @@ export default () => {
             }}
           />
           <div style={{ marginTop: 8 }}>
-            <Text>邮箱列表: {value2.join(', ')}</Text>
+            <Text>邮箱列表: {value2?.join(', ')}</Text>
           </div>
         </div>
       </div>
