@@ -160,7 +160,7 @@ export function getColumns({
   };
   return [
     {
-      title: t('dataBar.table.fixedRange'),
+      title: t('demo.table.fixedRange'),
       dataIndex: 'index',
       width: 100,
       render(value) {
@@ -181,7 +181,7 @@ export function getColumns({
       },
     },
     {
-      title: t('dataBar.table.mixedByConfig'),
+      title: t('demo.table.mixedByConfig'),
       dataIndex: 'mixedValue',
       render(value) {
         const curVal = calculateValues(dataSource, 'mixedValue');
@@ -202,7 +202,7 @@ export function getColumns({
     },
 
     {
-      title: t('dataBar.table.fixedNegativePure'),
+      title: t('demo.table.fixedNegativePure'),
       dataIndex: 'negativeValue',
       render(value) {
         // const curVal = calculateValues(dataSource, 'negativeValue');
@@ -222,7 +222,7 @@ export function getColumns({
       },
     },
     {
-      title: `${min}~${max}${t('dataBar.table.positiveGradientByConfig')}`,
+      title: `${min}~${max}${t('demo.table.positiveGradientByConfig')}`,
       dataIndex: 'positiveValue',
       render(value) {
         const curVal = calculateValues(dataSource, 'positiveValue');

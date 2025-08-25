@@ -1,14 +1,26 @@
 import { SettingOutlined } from '@ant-design/icons';
-import { ColorPicker } from '@wont/biz-ui';
-import { useTranslation } from '@wont/biz-ui/BizProvider';
+import { BizUIProvider, ColorPicker } from '@wont/biz-ui';
+import type { Language } from '@wont/biz-ui/BizProvider';
+import { getAntdLocale } from '@wont/biz-ui/BizProvider/hooks';
+import { useTranslation } from '@wont/biz-ui/BizProvider/index';
 import ConditionColor, { validator } from '@wont/biz-ui/ConditionColor';
 import SelectTemplate from '@wont/biz-ui/SelectTemplate';
 import { BAR_TEMPLATE_OPTIONS } from '@wont/biz-ui/SelectTemplate/constant/index';
-import { Button, Form, message, Radio, Space, Table } from 'antd';
+import {
+  Button,
+  ConfigProvider as AntdConfigProvider,
+  Form,
+  message,
+  Radio,
+  Space,
+  Table,
+} from 'antd';
+import { useLocale } from 'dumi';
 import React, { useState } from 'react';
 import { styled } from 'styled-components';
 import { getColumns } from './columns';
 import { FILL_TYPE_OPTIONS, useFillTypeOptions } from './constant';
+import { indexDemoLang } from './locales/indexDemoLang';
 import { getFixedData } from './mock';
 import { DataSource, FormValues } from './type';
 
@@ -37,7 +49,7 @@ const StyledTable = styled(Table)`
 const INIT_NEGATIVE_COLOR = '#F54A45';
 const STYLE_TEMPLATE_NAME = 'styleTemplate';
 
-export default () => {
+const IndexDemoInner = () => {
   const { t } = useTranslation();
   const fillTypeOptions = useFillTypeOptions();
 
@@ -46,7 +58,7 @@ export default () => {
     positiveColor: '#7F3BF5',
     styleTemplate: {
       value: ['#7F3BF5'],
-      extraLabel: t('dataBar.template.solidGreen'),
+      extraLabel: t('demo.template.solidGreen'),
       isGrading: true,
     },
     fillType: true,
@@ -84,12 +96,12 @@ export default () => {
   const handleFinish = (values: FormValues) => {
     console.log('Success:', values);
     setFormValues(values);
-    message.success(t('dataBar.message.submitSuccess'));
+    message.success(t('demo.message.submitSuccess'));
   };
 
   const handleFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
-    message.error(t('dataBar.message.submitFailed'));
+    message.error(t('demo.message.submitFailed'));
   };
 
   return (
@@ -125,7 +137,7 @@ export default () => {
             const positiveColor = getFieldValue('positiveColor');
 
             return (
-              <Form.Item label={t('dataBar.form.dataBar')} name={STYLE_TEMPLATE_NAME}>
+              <Form.Item label={t('demo.form.dataBar')} name={STYLE_TEMPLATE_NAME}>
                 <SelectTemplate
                   options={BAR_TEMPLATE_OPTIONS}
                   showOptionLabel={false}
@@ -141,7 +153,7 @@ export default () => {
             );
           }}
         </Form.Item>
-        <Form.Item label={t('dataBar.form.fillMethod')} name="fillType">
+        <Form.Item label={t('demo.form.fillMethod')} name="fillType">
           <Radio.Group
             options={Object.values(fillTypeOptions)}
             onChange={(e) => {
@@ -152,14 +164,14 @@ export default () => {
             }}
           />
         </Form.Item>
-        <Form.Item label={t('dataBar.form.colorConfig')}>
+        <Form.Item label={t('demo.form.colorConfig')}>
           <div style={{ display: 'flex', gap: 16 }}>
             <Form.Item name="negativeColor">
-              <ColorPicker label={t('dataBar.form.negativeValue')} trigger="icon" />
+              <ColorPicker label={t('demo.form.negativeValue')} trigger="icon" />
             </Form.Item>
             <Form.Item name="positiveColor">
               <ColorPicker
-                label={t('dataBar.form.positiveValue')}
+                label={t('demo.form.positiveValue')}
                 trigger="icon"
                 onChange={(color) => {
                   form.setFieldValue(STYLE_TEMPLATE_NAME, {
@@ -195,9 +207,9 @@ export default () => {
         <Form.Item wrapperCol={{ offset: 4 }}>
           <Space wrap>
             <Button type="primary" htmlType="submit">
-              {t('dataBar.button.submit')}
+              {t('demo.button.submit')}
             </Button>
-            <Button htmlType="reset">{t('dataBar.button.reset')}</Button>
+            <Button htmlType="reset">{t('demo.button.reset')}</Button>
             <Button
               type="primary"
               ghost
@@ -212,7 +224,7 @@ export default () => {
                 form.submit();
               }}
             >
-              {t('dataBar.button.randomTable')}
+              {t('demo.button.randomTable')}
             </Button>
             <Button
               type="dashed"
@@ -225,7 +237,7 @@ export default () => {
                 );
               }}
             >
-              {t('dataBar.button.positiveNumbers')}
+              {t('demo.button.positiveNumbers')}
             </Button>
             <Button
               type="primary"
@@ -235,7 +247,7 @@ export default () => {
                 form.setFieldsValue(customValue);
               }}
             >
-              {t('dataBar.button.setCustomTemplate')}
+              {t('demo.button.setCustomTemplate')}
             </Button>
             <Button
               danger
@@ -248,21 +260,21 @@ export default () => {
                 );
               }}
             >
-              {t('dataBar.button.negativeNumbers')}
+              {t('demo.button.negativeNumbers')}
             </Button>
             <Button
               onClick={() => {
                 form
                   .validateFields()
                   .then((values: FormValues) => {
-                    console.log(t('dataBar.message.validationPassed'), values);
+                    console.log(t('demo.message.validationPassed'), values);
                   })
                   .catch((errorInfo: any) => {
-                    console.log(t('dataBar.message.validationFailed'), errorInfo);
+                    console.log(t('demo.message.validationFailed'), errorInfo);
                   });
               }}
             >
-              {t('dataBar.button.validate')}
+              {t('demo.button.validate')}
             </Button>
           </Space>
         </Form.Item>
@@ -288,5 +300,17 @@ export default () => {
         dataSource={dataSource}
       />
     </div>
+  );
+};
+
+export default () => {
+  const { id: locale } = useLocale();
+
+  return (
+    <BizUIProvider locale={locale as Language} localeData={indexDemoLang}>
+      <AntdConfigProvider locale={getAntdLocale(locale as Language)}>
+        <IndexDemoInner />
+      </AntdConfigProvider>
+    </BizUIProvider>
   );
 };

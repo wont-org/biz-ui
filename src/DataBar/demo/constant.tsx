@@ -4,8 +4,8 @@ export const useFillTypeOptions = () => {
   const { t } = useTranslation();
 
   return {
-    pure: { label: t('dataBar.fillType.pure'), value: false },
-    gradient: { label: t('dataBar.fillType.gradient'), value: true },
+    pure: { label: t('demo.fillType.pure'), value: false },
+    gradient: { label: t('demo.fillType.gradient'), value: true },
   };
 };
 
