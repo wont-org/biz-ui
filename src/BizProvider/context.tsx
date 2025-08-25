@@ -12,7 +12,7 @@ export const LocaleContext = createContext<LocaleContextType | undefined>(undefi
 export function useLocale(): LocaleContextType {
   const context = useContext(LocaleContext);
   if (!context) {
-    const locale = 'zh';
+    const locale = 'zh-CN';
     const messages = getLocaleData(LOCALE_DATA, locale);
     return {
       locale,

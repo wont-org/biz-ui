@@ -10,7 +10,7 @@ function isEmptyObject(obj: unknown) {
  * @returns 转换后的语言数据
  */
 export function getLocaleData(data: Record<string, any>, language: Language): LocaleData {
-  const langKey = language === 'zh' ? 'zhCN' : 'enUS';
+  const langKey = language === 'zh-CN' ? 'zhCN' : 'enUS';
 
   function transform(obj: Record<string, any>): any {
     if (typeof obj !== 'object' || obj === null || isEmptyObject(obj)) {
@@ -46,7 +46,7 @@ export function getLangData<T extends Record<string, MultiLangText>>(
   data: T,
   language: Language,
 ): { [K in keyof T]: string } {
-  const langKey = language === 'zh' ? 'zhCN' : 'enUS';
+  const langKey = language === 'zh-CN' ? 'zhCN' : 'enUS';
   const result = {} as { [K in keyof T]: string };
 
   for (const key in data) {

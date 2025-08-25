@@ -184,7 +184,7 @@ const Component = () => {
     import { demoLangData } from './locales/demoNameLang';
 
     const DemoComponent = () => {
-      const [locale, setLocale] = useState<Language>('zh');
+      const [locale, setLocale] = useState<Language>('zh-CN');
       return (
         <BizUIProvider locale={locale} localeData={demoLangData}>
           {/* demo 内容 */}
@@ -208,7 +208,7 @@ const Component = () => {
 
 ```typescript
 export default () => {
-  const [locale, setLocale] = useState<Language>('zh');
+  const [locale, setLocale] = useState<Language>('zh-CN');
 
   return (
     <BizUIProvider locale={locale}>

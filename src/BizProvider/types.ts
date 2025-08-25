@@ -1,4 +1,4 @@
-export type Language = 'zh' | 'en';
+export type Language = 'zh-CN' | 'en-US';
 
 export interface MultiLangText {
   enUS: string;

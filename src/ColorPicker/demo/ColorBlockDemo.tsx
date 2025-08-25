@@ -5,6 +5,7 @@ import { useTranslation } from '@wont/biz-ui/BizProvider/index';
 import ColorBlock from '@wont/biz-ui/ColorPicker/ColorBlock';
 import ColorPanel from '@wont/biz-ui/ColorPicker/ColorPanel';
 import { Button, ConfigProvider as AntdConfigProvider, Space, Typography } from 'antd';
+import { useLocale } from 'dumi';
 import React, { useState } from 'react';
 import { colorBlockDemoLang } from './locales/colorBlockDemoLang';
 
@@ -18,21 +19,23 @@ function LanguageSwitcher({
   locale: Language;
   setLocale: (locale: Language) => void;
 }) {
+  const l = useLocale();
+  console.log('l :>> ', l);
   return (
     <div style={{ marginBottom: 16, textAlign: 'right' }}>
       <Space>
         <Text>Language / 语言:</Text>
         <Button
-          type={locale === 'zh' ? 'primary' : 'default'}
+          type={locale === 'zh-CN' ? 'primary' : 'default'}
           size="small"
-          onClick={() => setLocale('zh')}
+          onClick={() => setLocale('zh-CN')}
         >
           中文
         </Button>
         <Button
-          type={locale === 'en' ? 'primary' : 'default'}
+          type={locale === 'en-US' ? 'primary' : 'default'}
           size="small"
-          onClick={() => setLocale('en')}
+          onClick={() => setLocale('en-US')}
         >
           English
         </Button>
@@ -148,7 +151,7 @@ const ColorBlockDemoInner: React.FC = () => {
 };
 
 const ColorBlockDemo: React.FC = () => {
-  const [locale, setLocale] = useState<Language>('zh');
+  const [locale, setLocale] = useState<Language>('zh-CN');
 
   return (
     <BizUIProvider locale={locale} localeData={colorBlockDemoLang}>

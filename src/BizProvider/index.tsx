@@ -6,7 +6,7 @@ import { setMomentLocale } from './hooks';
 import type { Language, LocaleContextType, ProviderProps } from './types';
 import { getLocaleData, translate } from './utils';
 
-const defaultLocale: Language = 'zh';
+const defaultLocale: Language = 'zh-CN';
 
 const Provider: FC<ProviderProps> = ({
   children,

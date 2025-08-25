@@ -23,16 +23,16 @@ function LanguageSwitcher({
       <Space>
         <Text>Language / 语言:</Text>
         <Button
-          type={locale === 'zh' ? 'primary' : 'default'}
+          type={locale === 'zh-CN' ? 'primary' : 'default'}
           size="small"
-          onClick={() => setLocale('zh')}
+          onClick={() => setLocale('zh-CN')}
         >
           中文
         </Button>
         <Button
-          type={locale === 'en' ? 'primary' : 'default'}
+          type={locale === 'en-US' ? 'primary' : 'default'}
           size="small"
-          onClick={() => setLocale('en')}
+          onClick={() => setLocale('en-US')}
         >
           English
         </Button>
@@ -290,7 +290,7 @@ const ColorPickerDemoInner: React.FC = () => {
 };
 
 const ColorPickerDemo: React.FC = () => {
-  const [locale, setLocale] = useState<Language>('zh');
+  const [locale, setLocale] = useState<Language>('zh-CN');
 
   return (
     <BizUIProvider locale={locale} localeData={colorPickerDemoLang}>

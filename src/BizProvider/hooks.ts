@@ -13,7 +13,7 @@ type AntdLocale = typeof antdZh;
  * @returns Antd 语言配置对象
  */
 export function getAntdLocale(language: Language): AntdLocale {
-  return language === 'zh' ? antdZh : antdEn;
+  return language === 'zh-CN' ? antdZh : antdEn;
 }
 
 /**
@@ -21,7 +21,7 @@ export function getAntdLocale(language: Language): AntdLocale {
  * @param language 语言类型
  */
 export function setMomentLocale(language: Language): void {
-  moment.locale(language === 'zh' ? 'zh-cn' : 'en');
+  moment.locale(language === 'zh-CN' ? 'zh-cn' : 'en');
 }
 
 /**
@@ -43,6 +43,6 @@ export function useAntd() {
   return {
     locale,
     antdLocale: getAntdLocale(locale),
-    momentLocale: locale === 'zh' ? 'zh-cn' : 'en',
+    momentLocale: locale === 'zh-CN' ? 'zh-cn' : 'en',
   };
 }

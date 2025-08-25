@@ -29,10 +29,16 @@ function LanguageSwitcher({
     <div style={{ marginBottom: 24 }}>
       <Title level={4}>语言切换 / Language Switching</Title>
       <Space>
-        <Button type={locale === 'zh' ? 'primary' : 'default'} onClick={() => setLocale('zh')}>
+        <Button
+          type={locale === 'zh-CN' ? 'primary' : 'default'}
+          onClick={() => setLocale('zh-CN')}
+        >
           中文
         </Button>
-        <Button type={locale === 'en' ? 'primary' : 'default'} onClick={() => setLocale('en')}>
+        <Button
+          type={locale === 'en-US' ? 'primary' : 'default'}
+          onClick={() => setLocale('en-US')}
+        >
           English
         </Button>
       </Space>
@@ -201,7 +207,7 @@ function I18nDemo({
 }
 
 export default () => {
-  const [locale, setLocale] = useState<Language>('zh');
+  const [locale, setLocale] = useState<Language>('zh-CN');
   return (
     <BizUIProvider locale={locale}>
       <AntdConfigProvider locale={getAntdLocale(locale)}>
