@@ -165,7 +165,9 @@ const Component = () => {
 - **Demo 国际化要求**：
 
   - 所有硬编码中文文本使用 `t()` 函数翻译
-  - Demo 组件用 `BizUIProvider` 包装，提供语言切换功能
+  - **Demo 组件不需要语言切换组件**，跟随 dumi 的多语言配置
+  - **使用 dumi 的 useLocale 获取当前语言**：`import { useLocale } from 'dumi'`
+  - dumi 语言配置：`zh-CN` / `en-US`（与 BizUIProvider 的 Language 类型一致）
   - 颜色标签、按钮文字、说明文字等都要国际化
   - 保持 demo 功能和交互逻辑不变
   - **Demo 翻译文件命名规范**：`[component]/demo/locales/[demoFileName]Lang.ts`
@@ -173,28 +175,28 @@ const Component = () => {
   - **导入路径标准化**：国际化相关的导入必须使用 `@wont/biz-ui` 别名：
 
     ```typescript
-    // ✅ 正确：使用别名导入
+    // ✅ 正确：使用 dumi 的多语言支持
+    import { useLocale } from 'dumi';
     import { BizUIProvider } from '@wont/biz-ui';
     import { useTranslation } from '@wont/biz-ui/BizProvider/index';
     import { getAntdLocale } from '@wont/biz-ui/BizProvider/hooks';
-    import type { Language } from '@wont/biz-ui/BizProvider';
     import ComponentName from '@wont/biz-ui/ComponentName';
 
     // ✅ Demo 翻译文件使用示例
     import { demoLangData } from './locales/demoNameLang';
 
     const DemoComponent = () => {
-      const [locale, setLocale] = useState<Language>('zh-CN');
+      const { id: locale } = useLocale(); // dumi 提供的语言获取
       return (
         <BizUIProvider locale={locale} localeData={demoLangData}>
-          {/* demo 内容 */}
+          {/* demo 内容，不需要语言切换组件 */}
         </BizUIProvider>
       );
     };
 
-    // ❌ 错误：使用相对路径导入
-    import { useTranslation } from '../../BizProvider';
-    import ComponentName from '../ComponentName';
+    // ❌ 错误：在 demo 中使用自定义语言切换
+    const [locale, setLocale] = useState<Language>('zh-CN');
+    <LanguageSwitcher locale={locale} setLocale={setLocale} />;
     ```
 
 - **翻译内容包括**：
@@ -207,30 +209,21 @@ const Component = () => {
 #### demo 组织结构：
 
 ```typescript
+import { useLocale } from 'dumi';
+import { BizUIProvider } from '@wont/biz-ui';
+import { getAntdLocale } from '@wont/biz-ui/BizProvider/hooks';
+import ComponentName from '@wont/biz-ui/ComponentName';
+import { demoLangData } from './locales/demoNameLang';
+
 export default () => {
-  const [locale, setLocale] = useState<Language>('zh-CN');
+  const { id: locale } = useLocale(); // 使用 dumi 的语言获取
 
   return (
-    <BizUIProvider locale={locale}>
-      <AntdConfigProvider locale={getAntdLocale(locale)}>
-        <Card>
-          {/* 语言切换器 */}
-          <LanguageSwitcher />
-
-          {/* 按字母顺序或功能分类展示组件 */}
-          <ComponentSection title="表单组件 / Form Components">
-            <ColorPickerDemo />
-            <FilterListDemo />
-            {/* ... */}
-          </ComponentSection>
-
-          <ComponentSection title="数据展示 / Data Display">
-            <DataBarDemo />
-            <DataGradingDemo />
-            {/* ... */}
-          </ComponentSection>
-        </Card>
-      </AntdConfigProvider>
+    <BizUIProvider locale={locale} localeData={demoLangData}>
+      <ConfigProvider locale={getAntdLocale(locale)}>
+        {/* 直接展示组件演示，不需要语言切换器 */}
+        <ComponentDemo />
+      </ConfigProvider>
     </BizUIProvider>
   );
 };

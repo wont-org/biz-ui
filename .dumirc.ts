@@ -8,8 +8,8 @@ export default defineConfig({
   publicPath: '/biz-ui/',
   // 支持多语言
   locales: [
-    { id: 'zh-CN', name: '中文', suffix: '' },
-    { id: 'en-US', name: 'English', suffix: '-en' },
+    { id: 'zh-CN', name: '中文' },
+    { id: 'en-US', name: 'English' },
   ],
   themeConfig: {
     name: 'biz-ui',

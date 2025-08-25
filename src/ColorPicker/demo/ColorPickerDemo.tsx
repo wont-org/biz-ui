@@ -4,42 +4,12 @@ import { getAntdLocale } from '@wont/biz-ui/BizProvider/hooks';
 import { useTranslation } from '@wont/biz-ui/BizProvider/index';
 import ColorPicker from '@wont/biz-ui/ColorPicker';
 import IconTrigger from '@wont/biz-ui/ColorPicker/IconTrigger';
-import { Button, Card, ConfigProvider as AntdConfigProvider, Row, Space, Typography } from 'antd';
+import { Card, ConfigProvider as AntdConfigProvider, Row, Space, Typography } from 'antd';
+import { useLocale } from 'dumi';
 import React, { useState } from 'react';
 import { colorPickerDemoLang } from './locales/colorPickerDemoLang';
 
 const { Title, Text } = Typography;
-
-// 语言切换器组件
-function LanguageSwitcher({
-  locale,
-  setLocale,
-}: {
-  locale: Language;
-  setLocale: (locale: Language) => void;
-}) {
-  return (
-    <div style={{ marginBottom: 16, textAlign: 'right' }}>
-      <Space>
-        <Text>Language / 语言:</Text>
-        <Button
-          type={locale === 'zh-CN' ? 'primary' : 'default'}
-          size="small"
-          onClick={() => setLocale('zh-CN')}
-        >
-          中文
-        </Button>
-        <Button
-          type={locale === 'en-US' ? 'primary' : 'default'}
-          size="small"
-          onClick={() => setLocale('en-US')}
-        >
-          English
-        </Button>
-      </Space>
-    </div>
-  );
-}
 
 const ColorPickerDemoInner: React.FC = () => {
   const { t } = useTranslation();
@@ -290,15 +260,12 @@ const ColorPickerDemoInner: React.FC = () => {
 };
 
 const ColorPickerDemo: React.FC = () => {
-  const [locale, setLocale] = useState<Language>('zh-CN');
+  const { id: locale } = useLocale();
 
   return (
-    <BizUIProvider locale={locale} localeData={colorPickerDemoLang}>
-      <AntdConfigProvider locale={getAntdLocale(locale)}>
-        <div>
-          <LanguageSwitcher locale={locale} setLocale={setLocale} />
-          <ColorPickerDemoInner />
-        </div>
+    <BizUIProvider locale={locale as Language} localeData={colorPickerDemoLang}>
+      <AntdConfigProvider locale={getAntdLocale(locale as Language)}>
+        <ColorPickerDemoInner />
       </AntdConfigProvider>
     </BizUIProvider>
   );

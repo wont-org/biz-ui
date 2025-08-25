@@ -4,45 +4,10 @@ import { getAntdLocale } from '@wont/biz-ui/BizProvider/hooks';
 import { useTranslation } from '@wont/biz-ui/BizProvider/index';
 import ColorBlock from '@wont/biz-ui/ColorPicker/ColorBlock';
 import ColorPanel from '@wont/biz-ui/ColorPicker/ColorPanel';
-import { Button, ConfigProvider as AntdConfigProvider, Space, Typography } from 'antd';
+import { ConfigProvider as AntdConfigProvider } from 'antd';
 import { useLocale } from 'dumi';
 import React, { useState } from 'react';
 import { colorBlockDemoLang } from './locales/colorBlockDemoLang';
-
-const { Text } = Typography;
-
-// 语言切换器组件
-function LanguageSwitcher({
-  locale,
-  setLocale,
-}: {
-  locale: Language;
-  setLocale: (locale: Language) => void;
-}) {
-  const l = useLocale();
-  console.log('l :>> ', l);
-  return (
-    <div style={{ marginBottom: 16, textAlign: 'right' }}>
-      <Space>
-        <Text>Language / 语言:</Text>
-        <Button
-          type={locale === 'zh-CN' ? 'primary' : 'default'}
-          size="small"
-          onClick={() => setLocale('zh-CN')}
-        >
-          中文
-        </Button>
-        <Button
-          type={locale === 'en-US' ? 'primary' : 'default'}
-          size="small"
-          onClick={() => setLocale('en-US')}
-        >
-          English
-        </Button>
-      </Space>
-    </div>
-  );
-}
 
 const ColorBlockDemoInner: React.FC = () => {
   const { t } = useTranslation();
@@ -151,15 +116,12 @@ const ColorBlockDemoInner: React.FC = () => {
 };
 
 const ColorBlockDemo: React.FC = () => {
-  const [locale, setLocale] = useState<Language>('zh-CN');
+  const { id: locale } = useLocale();
 
   return (
-    <BizUIProvider locale={locale} localeData={colorBlockDemoLang}>
-      <AntdConfigProvider locale={getAntdLocale(locale)}>
-        <div>
-          <LanguageSwitcher locale={locale} setLocale={setLocale} />
-          <ColorBlockDemoInner />
-        </div>
+    <BizUIProvider locale={locale as Language} localeData={colorBlockDemoLang}>
+      <AntdConfigProvider locale={getAntdLocale(locale as Language)}>
+        <ColorBlockDemoInner />
       </AntdConfigProvider>
     </BizUIProvider>
   );
