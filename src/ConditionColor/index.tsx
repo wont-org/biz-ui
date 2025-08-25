@@ -1,6 +1,6 @@
 import { Form, FormItemProps, InputNumber, Select } from 'antd';
 import React from 'react';
-import { useLocale } from '../BizProvider';
+import { useTranslation } from '../BizProvider';
 import ColorPicker from '../ColorPicker';
 import { isInvalidValue } from '../utils/commom';
 import { ValueOfConstWithType } from '../utils/types';
@@ -73,7 +73,7 @@ export const validator = (value: ConditionColorValueItem[], options: ConditionCo
 };
 
 const ConditionColor = (props: ConditionColorProps) => {
-  const { t } = useLocale();
+  const { t } = useTranslation();
   const {
     // 由外部form控制，所以无需传入
     value,
@@ -182,7 +182,10 @@ const ConditionColor = (props: ConditionColorProps) => {
                       >
                         <Select
                           placeholder={t('conditionColor.ui.selectRequired')}
-                          options={getValueTypeOpt(index)}
+                          options={getValueTypeOpt(index).map((option) => ({
+                            ...option,
+                            label: t(option.labelKey),
+                          }))}
                           onChange={(val) => {
                             const required = !isValueDisabled(val, valueTypeMap);
                             const _value = getFieldValue([valuePropName, index, 'value']);
