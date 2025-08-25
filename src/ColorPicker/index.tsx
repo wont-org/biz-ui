@@ -1,18 +1,11 @@
 import { Popover } from 'antd';
-import React, { cloneElement, FC, isValidElement, useCallback, useState } from 'react';
+import React, { cloneElement, FC, isValidElement, useCallback, useMemo, useState } from 'react';
+import { useTranslation } from '../BizProvider';
 import ColorBlock from './ColorBlock';
 import ColorPanel from './ColorPanel';
 import { PRESET_COLORS } from './constant';
 import IconTrigger from './IconTrigger';
 import { ColorGroup, ColorPickerProps } from './types';
-
-// 将PRESET_COLORS转换为ColorPreset需要的格式
-const defaultColorGroups: ColorGroup[] = [
-  {
-    // title: '预设颜色',
-    colors: PRESET_COLORS,
-  },
-];
 
 const ColorPicker: FC<ColorPickerProps> = ({
   children,
@@ -22,13 +15,27 @@ const ColorPicker: FC<ColorPickerProps> = ({
   popoverProps = {},
   onChange,
   rowWrapCount = 11,
-  presets = defaultColorGroups,
+  presets,
   readOnly = false,
   trigger = 'block',
   onOpenChange,
   colorToolTip,
 }) => {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
+
+  // 创建默认的颜色组，使用国际化标题
+  const defaultColorGroups: ColorGroup[] = useMemo(
+    () => [
+      {
+        title: t('colorPicker.presetGroup.title'),
+        colors: PRESET_COLORS,
+      },
+    ],
+    [t],
+  );
+
+  const finalPresets = presets || defaultColorGroups;
 
   const onColorChange = useCallback(
     (color: string) => {
@@ -97,7 +104,7 @@ const ColorPicker: FC<ColorPickerProps> = ({
         <ColorPanel
           rowWrapCount={rowWrapCount}
           itemSize={itemSize}
-          presets={presets}
+          presets={finalPresets}
           value={value}
           onChange={onColorChange}
           colorToolTip={colorToolTip}

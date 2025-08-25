@@ -1,3 +1,4 @@
+import { colorPicker } from './colorPicker';
 import { form } from './common/form';
 import { operation } from './common/operation';
 import { conditionColor } from './conditionColor';
@@ -11,6 +12,7 @@ export const LOCALE_DATA = {
     operation,
     form,
   },
+  colorPicker,
   conditionColor,
   dataBar,
   dataGrading,

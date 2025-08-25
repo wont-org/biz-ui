@@ -1,0 +1,237 @@
+# i18n 国际化开发规则
+
+## 整体架构说明
+
+- 使用 BizProvider 作为国际化主容器，支持中文(zh)和英文(en)两种语言
+- 翻译文本采用 MultiLangText 格式：`{ enUS: string, zhCN: string }`
+- 通过 useTranslation hook 获取 t 函数进行翻译
+- 支持参数化翻译，如：`t('common.operation.total', { total: 100 })`
+
+## 组件国际化规则
+
+### 1. 国际化文件组织
+
+- **组件级翻译文件**：`src/locales/componentName.ts`
+- **公共翻译文件**：`src/locales/common/[category].ts`
+- **总入口文件**：`src/locales/index.ts`
+
+### 2. 组件国际化实施步骤
+
+#### 步骤 1：检查公共翻译
+
+在创建组件翻译前，必须检查`src/locales/common/`目录：
+
+- 如果需要的翻译已存在，直接使用公共翻译
+- 如果是通用术语（如操作按钮、表单字段），应添加到对应的公共文件：
+  - `operation.ts`：操作类翻译（确定、取消、删除、编辑等）
+  - `form.ts`：表单类翻译（请输入、请选择、必填等）
+  - 其他类别根据需要创建新文件
+
+#### 步骤 2：创建组件翻译文件
+
+文件路径：`src/locales/componentName.ts`
+
+```typescript
+export const componentName = {
+  title: {
+    enUS: 'Component Title',
+    zhCN: '组件标题',
+  },
+  description: {
+    enUS: 'Component description',
+    zhCN: '组件描述',
+  },
+  // ... 其他翻译项
+};
+```
+
+#### 步骤 3：注册翻译文件
+
+在`src/locales/index.ts`中导入并注册：
+
+```typescript
+import { componentName } from './componentName';
+
+export const LOCALE_DATA = {
+  common: {
+    operation,
+    form,
+  },
+  componentName, // 添加新组件
+  // ... 其他组件
+};
+```
+
+### 3. 组件中使用国际化
+
+#### 在 React 组件中使用翻译：
+
+```typescript
+import { useTranslation } from '@wont/biz-ui/BizProvider';
+
+const Component = () => {
+  const { t } = useTranslation();
+
+  return (
+    <div>
+      <h1>{t('componentName.title')}</h1>
+      <p>{t('common.operation.confirm')}</p>
+      <span>{t('common.operation.total', { total: 100 })}</span>
+    </div>
+  );
+};
+```
+
+#### 在常量定义中使用翻译：
+
+**标准处理方案（labelKey 方式）**：
+
+```typescript
+// ✅ 推荐：使用 labelKey 指向翻译键
+export const CONFIG_OPTIONS = [
+  {
+    value: 'option1',
+    labelKey: 'componentName.options.option1',
+  },
+  {
+    value: 'option2',
+    labelKey: 'componentName.options.option2',
+  },
+];
+
+// ✅ 在组件中使用
+const Component = () => {
+  const { t } = useTranslation();
+
+  const localizedOptions = CONFIG_OPTIONS.map((option) => ({
+    ...option,
+    label: option.labelKey ? t(option.labelKey) : option.label,
+  }));
+
+  return <Select options={localizedOptions} />;
+};
+```
+
+**其他可选方案**：
+
+- 静态多语言对象：`{ label: { enUS: 'Text', zhCN: '文本' } }`
+- 移动到组件内部处理
+
+**遇到新的未覆盖情况时再咨询开发者**。
+
+**注意**：不可在常量定义中直接调用翻译方法或 Hook。
+
+### 4. 代码修改限制
+
+#### 核心原则：
+
+- **禁止修改业务逻辑**：只能添加翻译调用，不能改变组件的功能逻辑
+- **只能添加翻译**：将硬编码文本替换为翻译调用
+- **保持组件 API 不变**：不能修改 props 接口和导出方式
+
+#### 常量翻译处理：
+
+**标准做法**：使用 labelKey 方式处理常量中的翻译文本。遇到新的未覆盖情况时再咨询开发者。
+
+### 5. Demo 文件规范
+
+#### demo/basic.tsx 文件要求：
+
+- **按组件分类**：根据 src 目录结构组织 demo 展示
+- **精简代码**：移除冗余代码，只保留核心演示功能
+- **统一布局**：使用 Card + Divider 进行区块划分
+- **语言切换**：提供中英文切换功能
+- **国际化演示**：每个组件都要展示国际化效果
+
+#### demo 组织结构：
+
+```typescript
+export default () => {
+  const [locale, setLocale] = useState<Language>('zh');
+
+  return (
+    <BizUIProvider locale={locale}>
+      <AntdConfigProvider locale={getAntdLocale(locale)}>
+        <Card>
+          {/* 语言切换器 */}
+          <LanguageSwitcher />
+
+          {/* 按字母顺序或功能分类展示组件 */}
+          <ComponentSection title="表单组件 / Form Components">
+            <ColorPickerDemo />
+            <FilterListDemo />
+            {/* ... */}
+          </ComponentSection>
+
+          <ComponentSection title="数据展示 / Data Display">
+            <DataBarDemo />
+            <DataGradingDemo />
+            {/* ... */}
+          </ComponentSection>
+        </Card>
+      </AntdConfigProvider>
+    </BizUIProvider>
+  );
+};
+```
+
+## 开发检查清单
+
+### 国际化实施前：
+
+- [ ] 检查 common 目录下是否有可复用的翻译
+- [ ] 确认组件中所有硬编码文本
+- [ ] 识别常量定义中的文本内容（使用 labelKey 方式处理）
+- [ ] 设计翻译 key 的命名规范
+
+### 国际化实施中：
+
+- [ ] 创建或更新组件翻译文件
+- [ ] 在 index.ts 中注册翻译文件
+- [ ] 替换组件中的硬编码文本为 t()调用
+- [ ] 处理常量中的文本（使用 labelKey 方式）
+- [ ] 测试中英文切换效果
+
+### 国际化实施后：
+
+- [ ] 确认没有修改业务逻辑
+- [ ] 确认常量处理使用了 labelKey 方式
+- [ ] 确认翻译 key 命名规范
+- [ ] 在 demo 文件中添加组件演示
+- [ ] 测试完整的国际化流程
+
+## 常见翻译 key 命名规范
+
+### 组件级翻译：
+
+- `title` - 组件标题
+- `description` - 组件描述
+- `placeholder` - 占位符文本
+- `tooltip` - 提示文本
+- `error` - 错误信息
+- `success` - 成功信息
+- `warning` - 警告信息
+
+### 公共翻译：
+
+- `common.operation.*` - 操作类（确定、取消、删除等）
+- `common.form.*` - 表单类（请输入、请选择等）
+- `common.status.*` - 状态类（加载中、成功、失败等）
+- `common.time.*` - 时间类（开始时间、结束时间等）
+
+### 常量翻译：
+
+- `colors.*` - 颜色相关
+- `sizes.*` - 尺寸相关
+- `types.*` - 类型相关
+- `options.*` - 选项相关
+
+## 注意事项
+
+1. **优先使用公共翻译**：避免重复定义相同含义的翻译
+2. **保持 key 语义清晰**：使用有意义的 key 名称，便于维护
+3. **支持参数化**：对于包含变量的文本，使用`{variableName}`格式
+4. **常量处理标准化**：常量翻译使用 labelKey 方式，遇到新的未覆盖情况时再咨询开发者
+5. **测试完整性**：确保所有文本都能正确切换语言
+6. **保持一致性**：同类功能使用相同的翻译 key 模式
+7. **避免运行时错误**：不在模块顶层或常量定义中调用翻译方法或 Hook

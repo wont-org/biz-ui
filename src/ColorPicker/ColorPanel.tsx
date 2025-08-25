@@ -2,6 +2,7 @@ import { RightOutlined } from '@ant-design/icons';
 import { Divider, Popover, Typography } from 'antd';
 import React, { useState } from 'react';
 import { styled } from 'styled-components';
+import { useTranslation } from '../BizProvider';
 import ChromeColorPicker from './ChromeColorPicker';
 import ColorBlock, { ColorBlockProps } from './ColorBlock';
 import { ColorPickerProps } from './types';
@@ -104,6 +105,7 @@ const ColorPanel: React.FC<ColorPresetProps> = ({
   readOnly = false,
   colorToolTip,
 }) => {
+  const { t } = useTranslation();
   const [moreStatus, setMoreStatus] = useState(false);
   const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>(
     presets.reduce((acc, group) => {
@@ -147,8 +149,8 @@ const ColorPanel: React.FC<ColorPresetProps> = ({
         $transitionDuration={transitionDuration}
       >
         {group.colors.map((colorItem, index) => {
-          const colorValue = typeof colorItem === 'string' ? colorItem : colorItem.value;
-          const colorLabel = typeof colorItem === 'string' ? undefined : colorItem.label;
+          const colorValue = colorItem.value;
+          const colorLabel = colorItem.labelKey ? t(colorItem.labelKey) : colorItem.label;
 
           return (
             <ColorBlock
@@ -201,7 +203,7 @@ const ColorPanel: React.FC<ColorPresetProps> = ({
         <StylePaletteWrapper $readOnly={readOnly} onClick={handleMoreClick}>
           <div className="left-palette-wrapper">
             <StylePalette />
-            <Typography.Text>更多颜色</Typography.Text>
+            <Typography.Text>{t('colorPicker.ui.moreColors')}</Typography.Text>
           </div>
           <RightOutlined />
         </StylePaletteWrapper>

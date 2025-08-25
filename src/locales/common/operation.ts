@@ -1,6 +1,6 @@
 export const operation = {
   confirm: {
-    enUS: 'Confirm',
+    enUS: 'Ok',
     zhCN: '确定',
   },
   cancel: {
