@@ -78,7 +78,7 @@ Antd 相关配置的 hook，将 antd 依赖从核心逻辑中分离。
 {
   operation: {
     confirm: {
-      enUS: 'Confirm',
+      enUS: 'Ok',
       zhCN: '确定',
     },
     cancel: {

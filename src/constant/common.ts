@@ -4,19 +4,19 @@ export const EMPTY_PLACEHOLDER = {
 };
 export const OPERATE_TYPE = {
   add: {
-    label: '新增',
+    labelKey: 'common.operation.add',
     value: 'add' as const,
   },
   edit: {
-    label: '编辑',
+    labelKey: 'common.operation.edit',
     value: 'edit' as const,
   },
   remove: {
-    label: '删除',
+    labelKey: 'common.operation.delete',
     value: 'remove' as const,
   },
   view: {
-    label: '查看',
+    labelKey: 'common.operation.view',
     value: 'view' as const,
   },
 };

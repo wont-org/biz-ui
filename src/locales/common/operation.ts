@@ -23,6 +23,10 @@ export const operation = {
     enUS: 'Add',
     zhCN: '添加',
   },
+  update: {
+    enUS: 'Update',
+    zhCN: '更新',
+  },
   search: {
     enUS: 'Search',
     zhCN: '搜索',
