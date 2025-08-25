@@ -1,5 +1,6 @@
 import { Form, FormItemProps, InputNumber, Select } from 'antd';
 import React, { ReactNode } from 'react';
+import { useTranslation } from '../BizProvider';
 import { EMPTY_PLACEHOLDER } from '../constant/common';
 import { isInvalidValue } from '../utils/commom';
 import { ValueOfConstWithType } from '../utils/types';
@@ -21,6 +22,7 @@ export interface ConditionIconProps {
 }
 
 const ConditionIcon = (props: ConditionIconProps) => {
+  const { t } = useTranslation();
   const {
     // 由外部form控制，所以无需传入
     value,
@@ -40,9 +42,9 @@ const ConditionIcon = (props: ConditionIconProps) => {
 
   const getPlaceholder = (item: ConditionIconValueItem) => {
     if (hasLimit(item.valueType)) {
-      return '请输入0-100的数值';
+      return t('conditionIcon.ui.inputPercent');
     }
-    return '请输入数字';
+    return t('conditionIcon.ui.inputNumber');
   };
 
   return (
@@ -63,12 +65,18 @@ const ConditionIcon = (props: ConditionIconProps) => {
                 <>
                   <Form.Item className="operator">
                     {index !== 0 && (
-                      <StyleOperatorText>{`当值 ${opLabel} ${
+                      <StyleOperatorText>{`${t('conditionIcon.ui.whenValue')} ${opLabel} ${
                         value?.[index - 1]?.value ?? ''
-                      } 且`}</StyleOperatorText>
+                      } ${t('conditionIcon.ui.and')}`}</StyleOperatorText>
                     )}
                     <Form.Item name={operatorFieldName}>
-                      <Select placeholder="请选择" options={Object.values(OPERATOR)} />
+                      <Select
+                        placeholder={t('conditionIcon.ui.selectRequired')}
+                        options={Object.values(OPERATOR).map((option) => ({
+                          ...option,
+                          label: t(option.labelKey),
+                        }))}
+                      />
                     </Form.Item>
                   </Form.Item>
                   <Form.Item noStyle dependencies={[valueTypeFieldName, operatorFieldName]}>
@@ -89,7 +97,7 @@ const ConditionIcon = (props: ConditionIconProps) => {
                               {
                                 validator: (_, inputValue) => {
                                   if (isInvalidValue(inputValue)) {
-                                    return Promise.reject('请输入数字');
+                                    return Promise.reject(t('conditionIcon.ui.inputNumber'));
                                   }
                                   if (
                                     (
@@ -100,7 +108,7 @@ const ConditionIcon = (props: ConditionIconProps) => {
                                     ).includes(item.valueType)
                                   ) {
                                     if (inputValue < 0 || inputValue > 100) {
-                                      return Promise.reject('请输入0-100的数值');
+                                      return Promise.reject(t('conditionIcon.ui.inputPercent'));
                                     }
                                   }
 
@@ -140,14 +148,14 @@ const ConditionIcon = (props: ConditionIconProps) => {
                                         item.operator === OPERATOR.greaterThanOrEqual.value &&
                                         prevItem.value <= inputValue
                                       ) {
-                                        return Promise.reject('数值区域有重叠，请重新设置');
+                                        return Promise.reject(t('conditionIcon.ui.overlapError'));
                                       }
                                       if (
                                         valid &&
                                         item.operator === OPERATOR.greaterThan.value &&
                                         prevItem.value < inputValue
                                       ) {
-                                        return Promise.reject('数值区域有重叠，请重新设置');
+                                        return Promise.reject(t('conditionIcon.ui.overlapError'));
                                       }
                                     }
                                   }
@@ -173,14 +181,14 @@ const ConditionIcon = (props: ConditionIconProps) => {
                                         item.operator === OPERATOR.greaterThanOrEqual.value &&
                                         nextItem.value >= inputValue
                                       ) {
-                                        return Promise.reject('数值区域有重叠，请重新设置');
+                                        return Promise.reject(t('conditionIcon.ui.overlapError'));
                                       }
                                       if (
                                         valid &&
                                         item.operator === OPERATOR.greaterThan.value &&
                                         nextItem.value > inputValue
                                       ) {
-                                        return Promise.reject('数值区域有重叠，请重新设置');
+                                        return Promise.reject(t('conditionIcon.ui.overlapError'));
                                       }
                                     }
                                   }
@@ -215,15 +223,22 @@ const ConditionIcon = (props: ConditionIconProps) => {
                         // style={{
                         //   width: 100,
                         // }}
-                        placeholder="请选择"
-                        options={Object.values(valueTypeMap)}
+                        placeholder={t('conditionIcon.ui.selectRequired')}
+                        options={Object.values(valueTypeMap).map((option) => ({
+                          ...option,
+                          label: t(option.labelKey),
+                        }))}
                       />
                     </Form.Item>
                   </div>
                 </>
               );
             }
-            return <StyleOperatorText>{`当值 < ${value?.[index]?.value ?? ''}`}</StyleOperatorText>;
+            return (
+              <StyleOperatorText>{`${t('conditionIcon.ui.whenValue')} < ${
+                value?.[index]?.value ?? ''
+              }`}</StyleOperatorText>
+            );
           };
 
           return (
@@ -231,7 +246,7 @@ const ConditionIcon = (props: ConditionIconProps) => {
               {index === 0 && (
                 <StyledConditionItem
                   {...labelFormItemProps}
-                  label={<StyleTextSecondary>显示</StyleTextSecondary>}
+                  label={<StyleTextSecondary>{t('conditionIcon.ui.show')}</StyleTextSecondary>}
                   colon={false}
                 >
                   <div className="condition-color-item-wrap">
@@ -241,7 +256,9 @@ const ConditionIcon = (props: ConditionIconProps) => {
                       colon={false}
                       labelAlign="right"
                     >
-                      <StyleTextSecondary $align="right">规则</StyleTextSecondary>
+                      <StyleTextSecondary $align="right">
+                        {t('conditionIcon.ui.rule')}
+                      </StyleTextSecondary>
                     </Form.Item>
                     <Form.Item
                       className="value"
@@ -249,7 +266,9 @@ const ConditionIcon = (props: ConditionIconProps) => {
                       colon={false}
                       labelAlign="right"
                     >
-                      <StyleTextSecondary $align="right">值</StyleTextSecondary>
+                      <StyleTextSecondary $align="right">
+                        {t('conditionIcon.ui.value')}
+                      </StyleTextSecondary>
                     </Form.Item>
                     <Form.Item
                       className="valueType"
@@ -257,7 +276,9 @@ const ConditionIcon = (props: ConditionIconProps) => {
                       colon={false}
                       labelAlign="right"
                     >
-                      <StyleTextSecondary $align="right">类型</StyleTextSecondary>
+                      <StyleTextSecondary $align="right">
+                        {t('conditionIcon.ui.type')}
+                      </StyleTextSecondary>
                     </Form.Item>
                   </div>
                 </StyledConditionItem>
