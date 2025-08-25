@@ -143,6 +143,67 @@ const Component = () => {
 - **语言切换**：提供中英文切换功能
 - **国际化演示**：每个组件都要展示国际化效果
 
+#### 组件文档国际化要求：
+
+- **创建英文文档**：如果存在 `index.md` 中文文档，必须创建对应的 `index.en-US.md` 英文文档
+- **Demo 文件国际化**：demo 文件中的所有硬编码文本都必须国际化处理
+- **Demo 翻译文件隔离**：demo 专用的翻译文件必须独立存放，不能写入组件源码的翻译文件中
+- **文档结构对照**：
+  ```
+  ComponentName/
+  ├── index.md                    # 中文文档
+  ├── index.en-US.md              # 英文文档
+  └── demo/                       # 演示代码（已国际化）
+      ├── BasicDemo.tsx           # 使用BizUIProvider包装，支持语言切换
+      ├── AnotherDemo.tsx
+      ├── locales/                # demo专用翻译文件目录
+      │   ├── basicDemoLang.ts    # 基础demo翻译文件
+      │   ├── anotherDemoLang.ts  # 另一个demo的翻译文件
+      │   └── ...
+      └── ...
+  ```
+- **Demo 国际化要求**：
+
+  - 所有硬编码中文文本使用 `t()` 函数翻译
+  - Demo 组件用 `BizUIProvider` 包装，提供语言切换功能
+  - 颜色标签、按钮文字、说明文字等都要国际化
+  - 保持 demo 功能和交互逻辑不变
+  - **Demo 翻译文件命名规范**：`[component]/demo/locales/[demoFileName]Lang.ts`
+  - **Demo 翻译文件使用**：通过 BizUIProvider 的 localeData 属性传入，不污染组件源码翻译
+  - **导入路径标准化**：国际化相关的导入必须使用 `@wont/biz-ui` 别名：
+
+    ```typescript
+    // ✅ 正确：使用别名导入
+    import { BizUIProvider } from '@wont/biz-ui';
+    import { useTranslation } from '@wont/biz-ui/BizProvider/index';
+    import { getAntdLocale } from '@wont/biz-ui/BizProvider/hooks';
+    import type { Language } from '@wont/biz-ui/BizProvider';
+    import ComponentName from '@wont/biz-ui/ComponentName';
+
+    // ✅ Demo 翻译文件使用示例
+    import { demoLangData } from './locales/demoNameLang';
+
+    const DemoComponent = () => {
+      const [locale, setLocale] = useState<Language>('zh');
+      return (
+        <BizUIProvider locale={locale} localeData={demoLangData}>
+          {/* demo 内容 */}
+        </BizUIProvider>
+      );
+    };
+
+    // ❌ 错误：使用相对路径导入
+    import { useTranslation } from '../../BizProvider';
+    import ComponentName from '../ComponentName';
+    ```
+
+- **翻译内容包括**：
+  - 组件标题和描述
+  - 功能说明文字
+  - 示例说明
+  - Demo 中的所有中文文本
+  - API 文档中的描述文字
+
 #### demo 组织结构：
 
 ```typescript
@@ -198,6 +259,8 @@ export default () => {
 - [ ] 确认常量处理使用了 labelKey 方式
 - [ ] 确认翻译 key 命名规范
 - [ ] 在 demo 文件中添加组件演示
+- [ ] 创建英文文档 index.en-US.md
+- [ ] Demo 文件国际化处理
 - [ ] 测试完整的国际化流程
 
 ## 常见翻译 key 命名规范
