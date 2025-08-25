@@ -1,7 +1,7 @@
 ---
 title: ConditionColor
 path: component/ConditionColor
-group: Data Entry
+group: Data Collect
 ---
 
 # ConditionColor
