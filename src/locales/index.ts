@@ -2,6 +2,8 @@ import { colorPicker } from './colorPicker';
 import { form } from './common/form';
 import { message } from './common/message';
 import { operation } from './common/operation';
+import { status } from './common/status';
+import { ui } from './common/ui';
 import { conditionColor } from './conditionColor';
 import { conditionIcon } from './conditionIcon';
 import { dataBar, dataGrading, dataIcon } from './dataBar';
@@ -15,6 +17,8 @@ export const LOCALE_DATA = {
     operation,
     form,
     message,
+    status,
+    ui,
   },
   colorPicker,
   conditionColor,

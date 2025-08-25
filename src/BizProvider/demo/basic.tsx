@@ -66,11 +66,11 @@ function CommonTranslationDemo() {
         <div>
           <Text strong>状态文本 / Status Text: </Text>
           <div>
-            <Text>{t('common.operation.loading')}</Text>
+            <Text>{t('common.status.loading')}</Text>
             <br />
-            <Text>{t('common.operation.total', { total: 100 })}</Text>
+            <Text>{t('common.status.total', { total: 100 })}</Text>
             <br />
-            <Text>{t('common.operation.selected', { count: 5 })}</Text>
+            <Text>{t('common.status.selected', { count: 5 })}</Text>
           </div>
         </div>
       </Space>
