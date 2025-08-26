@@ -11,6 +11,7 @@ import { editableSelect } from './editableSelect';
 import { filterList } from './filterList';
 import { formulaInput } from './formulaInput';
 import { multipleSelect } from './multipleSelect';
+import { numberRange } from './numberRange';
 import { selectTemplate } from './selectTemplate';
 
 export const LOCALE_DATA = {
@@ -31,6 +32,7 @@ export const LOCALE_DATA = {
   filterList,
   formulaInput,
   multipleSelect,
+  numberRange,
   selectTemplate,
 };
 
