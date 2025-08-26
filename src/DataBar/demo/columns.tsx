@@ -45,7 +45,7 @@ const getStyleByValue = ({
   if (typeof value !== 'number' || isNaN(value)) {
     return {};
   }
-  if (value < min) {
+  if (min > max) {
     return {};
   }
   const absValue = Math.abs(value);
@@ -60,6 +60,9 @@ const getStyleByValue = ({
   const negativePureColor = negativeGradient[0];
   // 只有正数情况
   if (min > 0) {
+    if (value < min) {
+      return {};
+    }
     const { background, border } = getLinearGradientStyle({
       colors: positiveGradient,
       direction: 'to right',
@@ -73,6 +76,9 @@ const getStyleByValue = ({
   }
   // 只有负数情况
   if (max < 0) {
+    if (value > max) {
+      return {};
+    }
     const { background, border } = getLinearGradientStyle({
       colors: negativeGradient,
       direction: 'to left',
@@ -107,7 +113,7 @@ const getStyleByValue = ({
       direction: 'to left',
     });
     // 负值宽度百分比 = 值在负值范围的占比 * 负值范围在总范围的占比 * 100%
-    const valueWidth = (absValue / absMin) * (absMin / (absMin + absMax)) * 100;
+    const valueWidth = (Math.min(absValue, absMax) / absMin) * (absMin / (absMin + absMax)) * 100;
     return {
       right: 100 - zeroPosition + '%',
       width: valueWidth + '%',
