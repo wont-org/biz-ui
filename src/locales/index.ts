@@ -10,6 +10,7 @@ import { dataBar, dataGrading, dataIcon } from './dataBar';
 import { editableSelect } from './editableSelect';
 import { filterList } from './filterList';
 import { formulaInput } from './formulaInput';
+import { multipleSelect } from './multipleSelect';
 import { selectTemplate } from './selectTemplate';
 
 export const LOCALE_DATA = {
@@ -29,6 +30,7 @@ export const LOCALE_DATA = {
   dataIcon,
   filterList,
   formulaInput,
+  multipleSelect,
   selectTemplate,
 };
 
