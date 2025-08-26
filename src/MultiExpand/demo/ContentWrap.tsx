@@ -1,11 +1,16 @@
-import { MultiExpand } from '@wont/biz-ui';
+import { BizUIProvider, MultiExpand, useTranslation } from '@wont/biz-ui';
 import { Space } from 'antd';
+import { useLocale } from 'dumi';
 import React from 'react';
 import { MODE } from '../constant';
-import { columns, icon } from './constant';
+import { getColumnsWithTranslation, icon } from './constant';
 import './index.less';
+import { demoLang } from './locales/demoLang';
 
-export default () => {
+const ContentWrapDemoInner = () => {
+  const { t } = useTranslation();
+  const columns = getColumnsWithTranslation(t);
+
   return (
     <Space size={'large'}>
       <MultiExpand.ContentWrap
@@ -27,5 +32,14 @@ export default () => {
         }}
       />
     </Space>
+  );
+};
+
+export default () => {
+  const { id: locale } = useLocale();
+  return (
+    <BizUIProvider locale={locale as any} localeData={demoLang}>
+      <ContentWrapDemoInner />
+    </BizUIProvider>
   );
 };
