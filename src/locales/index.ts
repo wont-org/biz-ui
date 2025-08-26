@@ -12,6 +12,7 @@ import { filterList } from './filterList';
 import { formulaInput } from './formulaInput';
 import { multipleSelect } from './multipleSelect';
 import { numberRange } from './numberRange';
+import { operate } from './operate';
 import { selectTemplate } from './selectTemplate';
 
 export const LOCALE_DATA = {
@@ -33,6 +34,7 @@ export const LOCALE_DATA = {
   formulaInput,
   multipleSelect,
   numberRange,
+  operate,
   selectTemplate,
 };
 
