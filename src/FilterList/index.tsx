@@ -376,8 +376,7 @@ export default function FilterList(props: FilterListProps) {
                 options={
                   condition.fieldType
                     ? getOperatorsByFieldType(condition.fieldType).map((item) => ({
-                        // Note: 国际化操作符 待进一步验证
-                        label: t(`filterList.operators.${item.value}`),
+                        label: t(item.labelKey),
                         value: item.value,
                       }))
                     : []

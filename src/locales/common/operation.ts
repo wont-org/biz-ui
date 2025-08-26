@@ -103,4 +103,8 @@ export const operation = {
     enUS: 'Retry',
     zhCN: '重试',
   },
+  validate: {
+    enUS: 'Validate',
+    zhCN: '校验',
+  },
 };

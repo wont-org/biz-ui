@@ -27,7 +27,7 @@ export default function Relation({
         key={item.value}
         onClick={() => !disabled && onChange(item.value)}
       >
-        {t(`filterList.relation.${item.value}`)}
+        {t(item.labelKey)}
       </div>
     ));
   };
