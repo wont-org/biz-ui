@@ -29,6 +29,7 @@ const Provider: FC<ProviderProps> = ({
   // 生成当前语言的消息数据
   const messages = useMemo(() => {
     const result = getLocaleData(merge(LOCALE_DATA, propLocaleData), currentLocale);
+    console.log('result', result);
     return result;
   }, [currentLocale, propLocaleData]);
 

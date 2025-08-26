@@ -1,6 +1,7 @@
 import { Input, InputNumber, message, Select, SelectProps, Space } from 'antd';
 import { omit } from 'lodash';
 import React, { useEffect, useRef, useState } from 'react';
+import { useTranslation } from '../BizProvider';
 import { BRACKETS, DECIMAL_PLACES, FORMULA, OP_LIST } from './constant';
 import { StyledFormulaInput } from './styled';
 import { FormulaInputProps, ValueItem } from './type';
@@ -12,6 +13,7 @@ const defaultValue = {
   precision: 0,
 };
 const FormulaInput = (props: FormulaInputProps) => {
+  const { t } = useTranslation();
   const {
     maxItem = 5,
     minItem = 1,
@@ -20,7 +22,10 @@ const FormulaInput = (props: FormulaInputProps) => {
     valueSelectProps = {},
     typeSelectProps = {},
     precisionSelectProps = {
-      options: Object.values(DECIMAL_PLACES),
+      options: Object.values(DECIMAL_PLACES).map((item) => ({
+        ...item,
+        label: t(item.labelKey),
+      })),
     },
     onChange,
     inputNumberProps = {},
@@ -120,7 +125,13 @@ const FormulaInput = (props: FormulaInputProps) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // 仅在组件挂载时执行一次
 
-  const { options: typeOptions = Object.values(FORMULA), ...restTypeSelectProps } = typeSelectProps;
+  const {
+    options: typeOptions = Object.values(FORMULA).map((item) => ({
+      ...item,
+      label: t(item.labelKey),
+    })),
+    ...restTypeSelectProps
+  } = typeSelectProps;
   const restValueSelectProps =
     typeof valueSelectProps === 'function' ? {} : omit(valueSelectProps, ['options']);
 
@@ -139,11 +150,15 @@ const FormulaInput = (props: FormulaInputProps) => {
       return;
     }
     if (!allowInputs.includes(data)) {
-      message.error(`只能输入${OP_LIST.map((op) => `"${op}"`).join('，')} 以及 英文括号`);
+      message.error(
+        t('formulaInput.validation.invalidCharacters', {
+          operators: OP_LIST.map((op) => `"${op}"`).join('，'),
+        }),
+      );
       return;
     }
     if (cursorIndex === 0 && OP_LIST.includes(data)) {
-      message.error(`公式不能以运算符开头`);
+      message.error(t('formulaInput.validation.cannotStartWithOperator'));
       return;
     }
     const prevItem = formulaValue[cursorIndex - 1];
@@ -153,13 +168,13 @@ const FormulaInput = (props: FormulaInputProps) => {
       ((typeof prevItem === 'string' && OP_LIST.includes(prevItem)) ||
         (typeof nextItem === 'string' && OP_LIST.includes(nextItem)))
     ) {
-      message.error(`运算符不能连续`);
+      message.error(t('formulaInput.validation.consecutiveOperators'));
       return;
     }
 
     const itemLength = formulaValue.filter((i) => typeof i === 'object').length;
     if (itemLength >= maxItem && OP_LIST.includes(data)) {
-      message.error(`最多输入${maxItem}个公式`);
+      message.error(t('formulaInput.validation.maxItemsExceeded', { maxItem }));
       return;
     }
 
@@ -235,7 +250,7 @@ const FormulaInput = (props: FormulaInputProps) => {
         formulaValue.filter((e) => typeof e === 'object').length <= minItem &&
         typeof formulaValue[cursorIndex - 1] === 'object'
       ) {
-        message.error(`至少保留${minItem}个公式`);
+        message.error(t('formulaInput.validation.minItemsRequired', { minItem }));
         return;
       }
       const newFormula = [...formulaValue];
@@ -274,7 +289,7 @@ const FormulaInput = (props: FormulaInputProps) => {
 
   // 使用validator的结果来确定验证状态
   const _showValidation =
-    showValidation && validator(value, { ...props, useValue }).validateStatus === 'error';
+    showValidation && validator(value, { ...props, useValue, t }).validateStatus === 'error';
 
   const renderValue = (item: ValueItem, index: number) => {
     if (useValue && item.valueType === FORMULA.text.valueType) {
@@ -283,7 +298,7 @@ const FormulaInput = (props: FormulaInputProps) => {
           style={{
             width: 140,
           }}
-          placeholder="请选择"
+          placeholder={t('formulaInput.ui.selectPlaceholder')}
           allowClear
           showSearch
           {...restValueSelectProps}
@@ -319,7 +334,7 @@ const FormulaInput = (props: FormulaInputProps) => {
         <InputNumber
           precision={4}
           min={0}
-          placeholder="请输入数字"
+          placeholder={t('formulaInput.ui.inputNumberPlaceholder')}
           style={{
             width: 140,
           }}
@@ -353,7 +368,7 @@ const FormulaInput = (props: FormulaInputProps) => {
       <Space className="space-reset">
         {useName && (
           <Input
-            placeholder="请输入"
+            placeholder={t('formulaInput.ui.inputPlaceholder')}
             allowClear
             showCount={typeof nameInputProps.maxLength === 'number' ? true : false}
             {...omit(nameInputProps, ['validator', 'useName'])}
@@ -363,7 +378,7 @@ const FormulaInput = (props: FormulaInputProps) => {
         )}
         <Select
           style={{ width: 110 }}
-          placeholder="请选择"
+          placeholder={t('formulaInput.ui.selectPlaceholder')}
           {...precisionSelectProps}
           value={formulaPrecision}
           onChange={(_value) => updatePrecision(_value as number)}
@@ -383,7 +398,7 @@ const FormulaInput = (props: FormulaInputProps) => {
               <div className="tagGroup">
                 <div className="tag type">
                   <Select
-                    placeholder="类型"
+                    placeholder={t('formulaInput.ui.typePlaceholder')}
                     style={{
                       width: 140,
                     }}

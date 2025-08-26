@@ -1,45 +1,48 @@
-import { FormulaInput } from '@wont/biz-ui';
+import { BizUIProvider, FormulaInput, useTranslation } from '@wont/biz-ui';
 import { FormulaInputProps } from '@wont/biz-ui/FormulaInput/type';
 import { validator } from '@wont/biz-ui/FormulaInput/utils';
 import { Button, Card, Col, Form, Row, Space } from 'antd';
+import { useLocale } from 'dumi';
 import React from 'react';
 import { DECIMAL_PLACES, FORMULA } from '../constant';
+import { basicDemoLang } from './locales/basicDemoLang';
 
-const OPTIONS = [
+const getOptionsWithTranslation = (t: any) => [
   {
     value: 'apple',
-    label: '苹果',
+    label: t('demo.options.apple'),
   },
   {
     value: 'bannan',
-    label: '香蕉',
+    label: t('demo.options.banana'),
   },
   {
     value: 'orange',
-    label: '橙子',
+    label: t('demo.options.orange'),
   },
 ];
-export const NAME_MESSAGE = '请以中英文开头，可包含中英文、数字、英文下划线。';
 export const NAME_REG = /^[\u4E00-\u9FFFA-Za-z][\u4E00-\u9FFFA-Za-z0-9_]*$/;
-export const nameInputProps: FormulaInputProps['nameInputProps'] = {
+
+const getNameInputPropsWithTranslation = (t: any): FormulaInputProps['nameInputProps'] => ({
   validator: (val?: string) => {
     if (!val) {
       return {
         validateStatus: 'error',
-        message: '名称不能为空',
+        message: t('demo.nameValidation.required'),
       };
     }
     if (!NAME_REG.test(val)) {
       return {
         validateStatus: 'error',
-        message: NAME_MESSAGE,
+        message: t('demo.nameValidation.message'),
       };
     }
     return {};
   },
-};
+});
 
-export default () => {
+const BasicDemoInner = () => {
+  const { t } = useTranslation();
   const onFinish = (values: any) => {
     console.log('Success:', values);
   };
@@ -60,7 +63,7 @@ export default () => {
         },
         FormulaInputNoValue: {
           formula: [{ value: undefined, valueType: FORMULA.text.valueType }],
-          name: '不带值的公式',
+          name: t('demo.fields.formulaWithoutValue'),
           precision: 2,
         },
         // 示例数据
@@ -97,7 +100,10 @@ export default () => {
               //   console.log('val.formula.length :>> ', val.formula.length);
               //   return Promise.resolve();
               // }
-              const { validateStatus, message } = validator(val, { nameInputProps });
+              const { validateStatus, message } = validator(val, {
+                nameInputProps: getNameInputPropsWithTranslation(t),
+                t,
+              });
               console.log('validateStatus, message :>> ', validateStatus, message);
               if (validateStatus === 'error') {
                 return Promise.reject(message);
@@ -110,11 +116,14 @@ export default () => {
         <FormulaInput
           // minItem={1}
           precisionSelectProps={{
-            options: Object.values(DECIMAL_PLACES),
+            options: Object.values(DECIMAL_PLACES).map((item) => ({
+              ...item,
+              label: t(item.labelKey),
+            })),
           }}
-          nameInputProps={nameInputProps}
+          nameInputProps={getNameInputPropsWithTranslation(t)}
           valueSelectProps={{
-            options: OPTIONS,
+            options: getOptionsWithTranslation(t),
           }}
           typeSelectProps={{
             options: [
@@ -122,24 +131,28 @@ export default () => {
                 value: 'clicks',
                 // valueType: keyof typeof FORMULA text|number
                 valueType: FORMULA.text.valueType,
-                label: '点击数(clicks)',
+                label: t('demo.options.clicks'),
               },
-              ...Object.values(FORMULA),
+              ...Object.values(FORMULA).map((item) => ({
+                ...item,
+                label: t(item.labelKey),
+              })),
             ],
           }}
         />
       </Form.Item>
 
       <Form.Item
-        label="不带值的公式"
+        label={t('demo.fields.formulaWithoutValue')}
         name="FormulaInputNoValue"
         rules={[
           {
             required: true,
             validator: (rule, val) => {
               const { validateStatus, message } = validator(val, {
-                nameInputProps,
+                nameInputProps: getNameInputPropsWithTranslation(t),
                 useValue: false,
+                t,
               });
               if (validateStatus === 'error') {
                 return Promise.reject(message);
@@ -152,17 +165,23 @@ export default () => {
         <FormulaInput
           useValue={false}
           precisionSelectProps={{
-            options: Object.values(DECIMAL_PLACES),
+            options: Object.values(DECIMAL_PLACES).map((item) => ({
+              ...item,
+              label: t(item.labelKey),
+            })),
           }}
-          nameInputProps={nameInputProps}
+          nameInputProps={getNameInputPropsWithTranslation(t)}
           typeSelectProps={{
             options: [
               {
                 value: 'clicks',
                 valueType: FORMULA.text.valueType,
-                label: '点击数(clicks)',
+                label: t('demo.options.clicks'),
               },
-              ...Object.values(FORMULA),
+              ...Object.values(FORMULA).map((item) => ({
+                ...item,
+                label: t(item.labelKey),
+              })),
             ],
           }}
         />
@@ -171,9 +190,9 @@ export default () => {
       <Form.Item label=" " colon={false}>
         <Space>
           <Button type="primary" htmlType="submit">
-            提交
+            {t('demo.buttons.submit')}
           </Button>
-          <Button htmlType="reset">重置</Button>
+          <Button htmlType="reset">{t('demo.buttons.reset')}</Button>
         </Space>
       </Form.Item>
       <Form.Item
@@ -184,15 +203,15 @@ export default () => {
       >
         {({ getFieldValue }) => {
           return (
-            <Card title="公式数据">
+            <Card title={t('demo.cards.formulaData')}>
               <Row gutter={16}>
                 <Col span={12}>
-                  <Card type="inner" title="普通公式">
+                  <Card type="inner" title={t('demo.cards.normalFormula')}>
                     <pre>{JSON.stringify(getFieldValue('FormulaInput'), null, 2)}</pre>
                   </Card>
                 </Col>
                 <Col span={12}>
-                  <Card type="inner" title="不带值的公式">
+                  <Card type="inner" title={t('demo.cards.formulaWithoutValue')}>
                     <pre>{JSON.stringify(getFieldValue('FormulaInputNoValue'), null, 2)}</pre>
                   </Card>
                 </Col>
@@ -202,5 +221,14 @@ export default () => {
         }}
       </Form.Item>
     </Form>
+  );
+};
+
+export default () => {
+  const { id: locale } = useLocale();
+  return (
+    <BizUIProvider locale={locale as any} localeData={basicDemoLang}>
+      <BasicDemoInner />
+    </BizUIProvider>
   );
 };

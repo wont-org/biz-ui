@@ -1,35 +1,43 @@
-import { FormulaInput } from '@wont/biz-ui';
+import { BizUIProvider, FormulaInput, useTranslation } from '@wont/biz-ui';
 import { validator } from '@wont/biz-ui/FormulaInput/utils';
 import { Button, Card, Form, Space } from 'antd';
+import { useLocale } from 'dumi';
 import React, { useState } from 'react';
 import { FORMULA } from '../constant';
+import { advancedDemoLang } from './locales/advancedDemoLang';
 
 // 模拟不同类型的值对应不同的选项
-const getValueOptions = (type?: string | number | null) => {
+const getValueOptions = (type?: string | number | null, t?: any) => {
   if (type === 'clicks') {
     return {
       options: [
-        { value: 'pageViews', label: '页面浏览量' },
-        { value: 'uniqueVisitors', label: '独立访客数' },
-        { value: 'clickCount', label: '点击次数' },
+        { value: 'pageViews', label: t ? t('demo.options.pageViews') : 'Page Views' },
+        {
+          value: 'uniqueVisitors',
+          label: t ? t('demo.options.uniqueVisitors') : 'Unique Visitors',
+        },
+        { value: 'clickCount', label: t ? t('demo.options.clickCount') : 'Click Count' },
       ],
     };
   }
   if (type === 'conversions') {
     return {
       options: [
-        { value: 'purchases', label: '购买次数' },
-        { value: 'signups', label: '注册数' },
-        { value: 'downloads', label: '下载数' },
+        { value: 'purchases', label: t ? t('demo.options.purchases') : 'Purchases' },
+        { value: 'signups', label: t ? t('demo.options.signups') : 'Signups' },
+        { value: 'downloads', label: t ? t('demo.options.downloads') : 'Downloads' },
       ],
     };
   }
   if (type === 'time') {
     return {
       options: [
-        { value: 'avgTime', label: '平均停留时间' },
-        { value: 'bounceRate', label: '跳出率' },
-        { value: 'sessionDuration', label: '会话时长' },
+        { value: 'avgTime', label: t ? t('demo.options.avgTime') : 'Average Time' },
+        { value: 'bounceRate', label: t ? t('demo.options.bounceRate') : 'Bounce Rate' },
+        {
+          value: 'sessionDuration',
+          label: t ? t('demo.options.sessionDuration') : 'Session Duration',
+        },
       ],
     };
   }
@@ -41,16 +49,17 @@ const getValueOptions = (type?: string | number | null) => {
 };
 
 // 模拟异步获取选项
-const getAsyncValueOptions = async (type?: string | number | null) => {
+const getAsyncValueOptions = async (type?: string | number | null, t?: any) => {
   // 模拟网络请求延迟
   return new Promise<ReturnType<typeof getValueOptions>>((resolve) => {
     setTimeout(() => {
-      resolve(getValueOptions(type));
+      resolve(getValueOptions(type, t));
     }, 1000);
   });
 };
 
-export default () => {
+const AdvancedDemoInner = () => {
+  const { t } = useTranslation();
   const [useAsync, setUseAsync] = useState(true);
   const [form] = Form.useForm();
 
@@ -66,10 +75,10 @@ export default () => {
     <>
       <Space style={{ marginBottom: 16 }}>
         <Button type={useAsync ? 'primary' : 'default'} onClick={() => setUseAsync(true)}>
-          使用异步加载选项
+          {t('demo.descriptions.asyncOptions')}
         </Button>
         <Button type={!useAsync ? 'primary' : 'default'} onClick={() => setUseAsync(false)}>
-          使用同步加载选项
+          {t('demo.descriptions.syncOptions')}
         </Button>
       </Space>
 
@@ -98,20 +107,20 @@ export default () => {
                 type: 'number',
               },
             ],
-            name: '示例公式名称',
+            name: t('demo.fields.exampleFormulaName'),
             precision: 2,
           },
         }}
         onFinish={onFinish}
       >
         <Form.Item
-          label="动态选项公式"
+          label={t('demo.fields.dynamicFormula')}
           name="FormulaInput"
           rules={[
             {
               required: true,
               validator: (rule, val) => {
-                const { validateStatus, message } = validator(val);
+                const { validateStatus, message } = validator(val, { t });
                 if (validateStatus === 'error') {
                   return Promise.reject(message);
                 }
@@ -127,25 +136,32 @@ export default () => {
               maxLength: 50,
               showCount: true,
             }}
-            valueSelectProps={useAsync ? getAsyncValueOptions : getValueOptions}
+            valueSelectProps={
+              useAsync
+                ? (type: any) => getAsyncValueOptions(type, t)
+                : (type: any) => getValueOptions(type, t)
+            }
             typeSelectProps={{
               options: [
                 {
                   value: 'clicks',
                   valueType: FORMULA.text.valueType,
-                  label: '点击指标',
+                  label: t('demo.metrics.clickMetrics'),
                 },
                 {
                   value: 'conversions',
                   valueType: FORMULA.text.valueType,
-                  label: '转化指标',
+                  label: t('demo.metrics.conversionMetrics'),
                 },
                 {
                   value: 'time',
                   valueType: FORMULA.text.valueType,
-                  label: '时间指标',
+                  label: t('demo.metrics.timeMetrics'),
                 },
-                ...Object.values(FORMULA),
+                ...Object.values(FORMULA).map((item) => ({
+                  ...item,
+                  label: t(item.labelKey),
+                })),
               ],
             }}
           />
@@ -153,9 +169,9 @@ export default () => {
         <Form.Item label=" " colon={false}>
           <Space>
             <Button type="primary" htmlType="submit">
-              提交
+              {t('demo.buttons.submit')}
             </Button>
-            <Button onClick={resetForm}>重置</Button>
+            <Button onClick={resetForm}>{t('demo.buttons.reset')}</Button>
           </Space>
         </Form.Item>
         <Form.Item
@@ -165,7 +181,7 @@ export default () => {
         >
           {({ getFieldValue }) => {
             return (
-              <Card title="公式数据">
+              <Card title={t('demo.cards.formulaData')}>
                 <pre>{JSON.stringify(getFieldValue('FormulaInput'), null, 2)}</pre>
               </Card>
             );
@@ -173,5 +189,14 @@ export default () => {
         </Form.Item>
       </Form>
     </>
+  );
+};
+
+export default () => {
+  const { id: locale } = useLocale();
+  return (
+    <BizUIProvider locale={locale as any} localeData={advancedDemoLang}>
+      <AdvancedDemoInner />
+    </BizUIProvider>
   );
 };
