@@ -45,7 +45,7 @@ const getStyleByValue = ({
   if (typeof value !== 'number' || isNaN(value)) {
     return {};
   }
-  if (value < min || value > max) {
+  if (value < min) {
     return {};
   }
   const absValue = Math.abs(value);
@@ -93,7 +93,7 @@ const getStyleByValue = ({
       direction: 'to right',
     });
     // 正值宽度百分比 = 值在正值范围的占比 * 正值范围在总范围的占比 * 100%
-    const valueWidth = (value / max) * (max / (absMin + absMax)) * 100;
+    const valueWidth = (Math.min(value, max) / max) * (max / (absMin + absMax)) * 100;
     return {
       left: zeroPosition + '%',
       width: valueWidth + '%',
