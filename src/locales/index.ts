@@ -14,6 +14,7 @@ import { multipleSelect } from './multipleSelect';
 import { numberRange } from './numberRange';
 import { operate } from './operate';
 import { prefixInput } from './prefixInput';
+import { puzzleCaptcha } from './puzzleCaptcha';
 import { selectTemplate } from './selectTemplate';
 
 export const LOCALE_DATA = {
@@ -37,6 +38,7 @@ export const LOCALE_DATA = {
   numberRange,
   operate,
   prefixInput,
+  puzzleCaptcha,
   selectTemplate,
 };
 
