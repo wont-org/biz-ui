@@ -21,8 +21,8 @@ export default defineConfig({
         { title: 'GitHub', link: 'https://github.com/wont-org/biz-ui' },
       ],
       'en-US': [
-        { title: 'Guide', link: '/guide' },
-        { title: 'Components', link: '/components' },
+        { title: 'Guide', link: '/en-US/guide' },
+        { title: 'Components', link: '/en-US/components' },
         { title: 'Changelog', link: '/changelog' },
         { title: 'GitHub', link: 'https://github.com/wont-org/biz-ui' },
       ],

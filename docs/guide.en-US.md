@@ -1,6 +1,6 @@
-# 快速上手
+# Getting Started
 
-## 安装
+## Installation
 
 ### pnpm
 
