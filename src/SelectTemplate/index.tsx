@@ -10,7 +10,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { useLocale } from '../BizProvider';
+import { useTranslation } from '../BizProvider';
 import { getLinearGradientStyle } from '../DataBar/demo/utils';
 import {
   StyledBarItem,
@@ -76,7 +76,7 @@ const renderOptionLabel = (option: TemplateOption) => {
   return option.label;
 };
 const SelectTemplate: FC<SelectTemplateProps> = (props) => {
-  const { t } = useLocale();
+  const { t } = useTranslation();
   const {
     value,
     onChange,
@@ -205,7 +205,13 @@ const SelectTemplate: FC<SelectTemplateProps> = (props) => {
     return (
       <>
         {renderOptionLabel(_selectedOption)}
-        {showSelectedOptionLabel && <span>{_selectedOption.extraLabel}</span>}
+        {showSelectedOptionLabel && (
+          <span>
+            {'extraLabelKey' in _selectedOption
+              ? t(_selectedOption.extraLabelKey as string)
+              : _selectedOption.extraLabel}
+          </span>
+        )}
       </>
     );
   };
@@ -253,7 +259,12 @@ const SelectTemplate: FC<SelectTemplateProps> = (props) => {
               <div className="category-label">{t(`selectTemplate.ui.${category.label}`)}</div>
               <div className="options-grid">
                 {(category.options as unknown as TemplateOption[]).map((option, optionIndex) => {
-                  const optionExtraLabel = 'extraLabel' in option ? option.extraLabel : undefined;
+                  const optionExtraLabel =
+                    'extraLabelKey' in option
+                      ? t(option.extraLabelKey as string)
+                      : 'extraLabel' in option
+                      ? option.extraLabel
+                      : undefined;
                   return (
                     <div
                       key={optionIndex}

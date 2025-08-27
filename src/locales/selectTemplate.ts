@@ -16,6 +16,30 @@ export const selectTemplate = {
       enUS: 'Grading Fill',
       zhCN: '渐变填充',
     },
+    twoStageGrading: {
+      enUS: 'Two-stage Grading',
+      zhCN: '二阶渐变',
+    },
+    threeStageGrading: {
+      enUS: 'Three-stage Grading',
+      zhCN: '三阶渐变',
+    },
+    direction: {
+      enUS: 'Direction',
+      zhCN: '方向',
+    },
+    shape: {
+      enUS: 'Shape',
+      zhCN: '形状',
+    },
+    sign: {
+      enUS: 'Sign',
+      zhCN: '标记',
+    },
+    grade: {
+      enUS: 'Grade',
+      zhCN: '等级',
+    },
   },
   colors: {
     blue: {

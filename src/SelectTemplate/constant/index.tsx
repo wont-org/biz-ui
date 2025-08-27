@@ -22,18 +22,18 @@ export const BAR_TEMPLATE_OPTIONS = [
 ] as const;
 export const GRADING_TEMPLATE_OPTIONS = [
   {
-    label: '二阶渐变',
+    label: 'twoStageGrading',
     options: Object.values(GRADING2_COLOR),
   },
   {
-    label: '三阶渐变',
+    label: 'threeStageGrading',
     options: Object.values(GRADING3_COLOR),
   },
 ] as const;
 
 export const ICON_TEMPLATE_OPTIONS: NonNullable<SelectTemplateProps['options']> = [
   {
-    label: '方向',
+    label: 'direction',
     options: [
       {
         value: ['topGreen', 'rightYellow', 'bottomRed'],
@@ -83,7 +83,7 @@ export const ICON_TEMPLATE_OPTIONS: NonNullable<SelectTemplateProps['options']> 
     ],
   },
   {
-    label: '形状',
+    label: 'shape',
     options: [
       {
         value: ['circleSolidGreen', 'circleSolidYellow', 'circleSolidRed'],
@@ -129,7 +129,7 @@ export const ICON_TEMPLATE_OPTIONS: NonNullable<SelectTemplateProps['options']> 
     ],
   },
   {
-    label: '标记',
+    label: 'sign',
     options: [
       {
         value: ['yesGreen', 'noRed'],
@@ -164,7 +164,7 @@ export const ICON_TEMPLATE_OPTIONS: NonNullable<SelectTemplateProps['options']> 
     ],
   },
   {
-    label: '等级',
+    label: 'grade',
     options: [
       {
         value: ['star0Gray', 'star50Yellow', 'star100Yellow'],
