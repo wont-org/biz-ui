@@ -16,6 +16,7 @@ import { operate } from './operate';
 import { prefixInput } from './prefixInput';
 import { puzzleCaptcha } from './puzzleCaptcha';
 import { selectTemplate } from './selectTemplate';
+import { selectWithPaste } from './selectWithPaste';
 
 export const LOCALE_DATA = {
   common: {
@@ -40,6 +41,7 @@ export const LOCALE_DATA = {
   prefixInput,
   puzzleCaptcha,
   selectTemplate,
+  selectWithPaste,
 };
 
 export type LocaleDataType = typeof LOCALE_DATA;
