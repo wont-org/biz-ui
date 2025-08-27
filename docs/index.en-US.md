@@ -4,7 +4,7 @@ hero:
   description: React business component library based on ant-design and pro-components
   actions:
     - text: Components
-      link: /components
+      link: /en-US/components
     - text: GitHub
       link: https://github.com/wont-org/biz-ui
 # features:
