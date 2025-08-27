@@ -33,3 +33,4 @@ export { default as ImgInfoSkeleton } from './Skeleton/ImgInfoSkeleton';
 export { default as PaginationSkeleton } from './Skeleton/PaginationSkeleton';
 export { default as TableSkeleton } from './Skeleton/TableSkeleton';
 export { default as smoothScroll } from './smoothScroll';
+export { default as usePreloadImg } from './usePreloadImg';
