@@ -1,3 +1,9 @@
+# [1.4.0-beta.2](https://github.com/wont-org/biz-ui/compare/v1.4.0-beta.1...v1.4.0-beta.2) (2025-09-03)
+
+### Bug Fixes
+
+- getLinearGradientStyle 从组件内导入, 源码不可从 demo 导入 ([9f991c6](https://github.com/wont-org/biz-ui/commit/9f991c62f4af1375dec23cbc557c573a211b0efb))
+
 # [1.4.0-beta.1](https://github.com/wont-org/biz-ui/compare/v1.3.2...v1.4.0-beta.1) (2025-08-27)
 
 ### Features
