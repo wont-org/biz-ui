@@ -2,11 +2,11 @@ import { BizUIProvider } from '@wont/biz-ui';
 import type { Language } from '@wont/biz-ui/BizProvider';
 import { getAntdLocale } from '@wont/biz-ui/BizProvider/hooks';
 import { useTranslation } from '@wont/biz-ui/BizProvider/index';
+import { getLinearGradientStyle } from '@wont/biz-ui/SelectTemplate/utils';
 import { Col, ConfigProvider as AntdConfigProvider, Row } from 'antd';
 import { useLocale } from 'dumi';
 import React from 'react';
 import { basicDemoLang } from './locales/basicDemoLang';
-import { getLinearGradientStyle } from './utils';
 
 const BasicDemoInner = () => {
   const { t } = useTranslation();

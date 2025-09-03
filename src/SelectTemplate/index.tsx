@@ -11,7 +11,6 @@ import React, {
   useState,
 } from 'react';
 import { useTranslation } from '../BizProvider';
-import { getLinearGradientStyle } from '../DataBar/demo/utils';
 import {
   StyledBarItem,
   StyledBarWrapper,
@@ -20,7 +19,7 @@ import {
   StyledSelectTemplate,
 } from './styled';
 import { SelectTemplateProps, TemplateOption } from './types';
-import { findIconByValue, reverseIconTemplateOptions } from './utils';
+import { findIconByValue, getLinearGradientStyle, reverseIconTemplateOptions } from './utils';
 
 const equalWith = ({
   a,
