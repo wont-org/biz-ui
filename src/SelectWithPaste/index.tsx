@@ -1,6 +1,7 @@
 import { EditOutlined } from '@ant-design/icons';
 import { Button, Input, Modal, Select, SelectProps } from 'antd';
 import React, { useState } from 'react';
+import { useTranslation } from '../BizProvider';
 import { StyledSelectWithPaste } from './styled';
 
 const tokenSeparators = [
@@ -40,6 +41,7 @@ export interface SelectWithPasteProps {
 }
 
 const SelectWithPaste = (props: SelectWithPasteProps) => {
+  const { t } = useTranslation();
   const { value, onChange, selectProps = {}, usePaste = true } = props;
 
   const [pastedText, setPastedText] = useState('');
@@ -64,7 +66,7 @@ const SelectWithPaste = (props: SelectWithPasteProps) => {
       <Select
         allowClear
         style={{ width: 300 }}
-        placeholder="请输入或选择，批量录入用英文逗号或回车分割"
+        placeholder={t('selectWithPaste.ui.placeholder')}
         showSearch
         filterOption={false}
         {...selectProps}
@@ -85,15 +87,15 @@ const SelectWithPaste = (props: SelectWithPasteProps) => {
         />
       )}
       <Modal
-        title="批量录入"
-        okText="确定"
-        cancelText="取消"
+        title={t('selectWithPaste.ui.modalTitle')}
+        okText={t('selectWithPaste.ui.modalOk')}
+        cancelText={t('selectWithPaste.ui.modalCancel')}
         open={open}
         onOk={handleOk}
         onCancel={() => setOpen(false)}
       >
         <Input.TextArea
-          placeholder="支持直接输入或粘贴excel文本，值之间请以半角逗号or回车符分隔"
+          placeholder={t('selectWithPaste.ui.modalPlaceholder')}
           autoSize={{ minRows: 10, maxRows: 10 }}
           value={pastedText}
           onChange={(e) => {

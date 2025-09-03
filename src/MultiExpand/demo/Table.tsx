@@ -1,9 +1,15 @@
-import { AntdResizableTable } from '@wont/biz-ui';
+import { AntdResizableTable, BizUIProvider, useTranslation } from '@wont/biz-ui';
+import { useLocale } from 'dumi';
 import React from 'react';
-import { columns, dataSource } from './constant';
+import { getColumnsWithTranslation, getDataSourceWithTranslation } from './constant';
 import './index.less';
+import { demoLang } from './locales/demoLang';
 
-export default () => {
+const TableDemoInner = () => {
+  const { t } = useTranslation();
+  const columns = getColumnsWithTranslation(t);
+  const dataSource = getDataSourceWithTranslation(t);
+
   return (
     <AntdResizableTable
       // columnsState={{
@@ -19,5 +25,14 @@ export default () => {
       columns={columns}
       dataSource={dataSource}
     />
+  );
+};
+
+export default () => {
+  const { id: locale } = useLocale();
+  return (
+    <BizUIProvider locale={locale as any} localeData={demoLang}>
+      <TableDemoInner />
+    </BizUIProvider>
   );
 };

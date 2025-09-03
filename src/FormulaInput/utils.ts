@@ -4,12 +4,12 @@ import { FormulaInputProps } from './type';
 
 export const validator = (
   val: FormulaInputProps['value'],
-  options?: FormulaInputProps,
+  options?: FormulaInputProps & { t?: (key: string, params?: any) => string },
 ): {
   validateStatus?: 'error' | 'success' | 'warning' | 'validating';
   message?: string;
 } => {
-  const { nameInputProps = {}, useValue = true } = options || {};
+  const { nameInputProps = {}, useValue = true, t } = options || {};
   const { useName = true, validator: nameValidator } = nameInputProps;
   if (useName && typeof nameValidator === 'function') {
     const { validateStatus, message: _message } = nameValidator(val?.name);
@@ -23,13 +23,13 @@ export const validator = (
   if (useName && !val?.name) {
     return {
       validateStatus: 'error',
-      message: '名称不能为空',
+      message: t ? t('formulaInput.validation.nameRequired') : 'Name cannot be empty',
     };
   }
   if (!val?.formula || val?.formula.length === 0) {
     return {
       validateStatus: 'error',
-      message: '公式不能为空',
+      message: t ? t('formulaInput.validation.formulaRequired') : 'Formula cannot be empty',
     };
   }
 
@@ -40,7 +40,9 @@ export const validator = (
   if (typeof first === 'string' && OP_LIST.includes(first)) {
     return {
       validateStatus: 'error',
-      message: '公式不能以运算符开头',
+      message: t
+        ? t('formulaInput.validation.cannotStartWithOperator')
+        : 'Formula cannot start with an operator',
     };
   }
 
@@ -49,7 +51,9 @@ export const validator = (
   if (typeof last === 'string' && OP_LIST.includes(last)) {
     return {
       validateStatus: 'error',
-      message: '公式末尾不能为运算符',
+      message: t
+        ? t('formulaInput.validation.cannotEndWithOperator')
+        : 'Formula cannot end with an operator',
     };
   }
 
@@ -63,7 +67,9 @@ export const validator = (
         if (bracketStack.length === 0 || bracketStack.pop() !== '(') {
           return {
             validateStatus: 'error',
-            message: '括号必须成对出现且正确嵌套',
+            message: t
+              ? t('formulaInput.validation.bracketMismatch')
+              : 'Brackets must be paired and properly nested',
           };
         }
       }
@@ -73,7 +79,9 @@ export const validator = (
   if (bracketStack.length > 0) {
     return {
       validateStatus: 'error',
-      message: '括号必须成对出现且正确嵌套',
+      message: t
+        ? t('formulaInput.validation.bracketMismatch')
+        : 'Brackets must be paired and properly nested',
     };
   }
 
@@ -90,21 +98,27 @@ export const validator = (
       if (!hasOperandOrCloseBracket) {
         return {
           validateStatus: 'error',
-          message: '运算符前必须是操作数或右括号',
+          message: t
+            ? t('formulaInput.validation.operatorPosition')
+            : 'Operators must be between operands or brackets',
         };
       }
 
       if (!next || (typeof next === 'string' && OP_LIST.includes(next))) {
         return {
           validateStatus: 'error',
-          message: '运算符不能连续',
+          message: t
+            ? t('formulaInput.validation.consecutiveOperators')
+            : 'Operators cannot be consecutive',
         };
       }
 
       if (next === ')') {
         return {
           validateStatus: 'error',
-          message: '运算符后不能直接跟右括号',
+          message: t
+            ? t('formulaInput.validation.operatorBeforeRightBracket')
+            : 'Operators cannot be directly followed by right bracket',
         };
       }
 
@@ -115,14 +129,18 @@ export const validator = (
       if (next === ')') {
         return {
           validateStatus: 'error',
-          message: '括号内必须包含合法子表达式',
+          message: t
+            ? t('formulaInput.validation.bracketContent')
+            : 'Brackets must contain valid sub-expressions',
         };
       }
 
       if (next && typeof next === 'string' && OP_LIST.includes(next)) {
         return {
           validateStatus: 'error',
-          message: '左括号后不能直接跟运算符',
+          message: t
+            ? t('formulaInput.validation.operatorAfterLeftBracket')
+            : 'Left bracket cannot be directly followed by an operator',
         };
       }
 
@@ -133,7 +151,9 @@ export const validator = (
       if (!hasOperandOrCloseBracket) {
         return {
           validateStatus: 'error',
-          message: '右括号前必须是操作数或右括号',
+          message: t
+            ? t('formulaInput.validation.bracketBeforeOperand')
+            : 'Right bracket must be preceded by operand or right bracket',
         };
       }
 
@@ -144,7 +164,9 @@ export const validator = (
       // 检查连续的操作数之间是否缺少运算符
       return {
         validateStatus: 'error',
-        message: '操作数之间必须有运算符',
+        message: t
+          ? t('formulaInput.validation.missingOperator')
+          : 'Operators must be between operands',
       };
     } else {
       hasOperandOrCloseBracket = true;
@@ -156,7 +178,9 @@ export const validator = (
   if (!hasOperandOrBracket) {
     return {
       validateStatus: 'error',
-      message: '公式必须包含至少一个操作数',
+      message: t
+        ? t('formulaInput.validation.emptyExpression')
+        : 'Formula must contain at least one operand',
     };
   }
 
@@ -174,7 +198,7 @@ export const validator = (
   ) {
     return {
       validateStatus: 'error',
-      message: '公式每项不能为空',
+      message: t ? t('formulaInput.validation.emptyOperand') : 'Each formula item cannot be empty',
     };
   }
 

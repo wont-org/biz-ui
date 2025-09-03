@@ -1,5 +1,6 @@
 import { Input, InputProps, Select } from 'antd';
 import React, { FC } from 'react';
+import { useTranslation } from '../BizProvider';
 import { ValueOfConst } from '../utils/types';
 import { PREFIX } from './constant';
 
@@ -13,8 +14,14 @@ export interface PrefixInputProps extends Omit<InputProps, 'value' | 'onChange'>
   onChange?: (val: PrefixInputProps['value']) => void;
 }
 const PrefixInput: FC<PrefixInputProps> = (props) => {
+  const { t } = useTranslation();
   const { value, onChange } = props;
-  const options = Object.values(PREFIX);
+
+  // 生成国际化的选项数据
+  const options = Object.values(PREFIX).map((item) => ({
+    ...item,
+    label: t(item.labelKey),
+  }));
 
   const renderBefore = () => {
     return (
@@ -36,7 +43,7 @@ const PrefixInput: FC<PrefixInputProps> = (props) => {
   };
   return (
     <Input
-      placeholder="请输入"
+      placeholder={t('prefixInput.ui.placeholder')}
       allowClear
       {...props}
       addonBefore={renderBefore()}

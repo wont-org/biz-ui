@@ -2,6 +2,7 @@ import { Button } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { ChromePicker, ColorResult } from 'react-color';
 import { styled } from 'styled-components';
+import { useTranslation } from '../BizProvider';
 import { SPACE_TIMES } from './constant';
 
 const toChangeValue = (data: ColorResult) => {
@@ -35,6 +36,7 @@ interface ChromeColorPickerProps {
 }
 
 function ChromeColorPicker({ value, onChange }: ChromeColorPickerProps) {
+  const { t } = useTranslation();
   const [tempColor, setTempColor] = useState<string>(value);
   useEffect(() => {
     setTempColor(value);
@@ -55,7 +57,7 @@ function ChromeColorPicker({ value, onChange }: ChromeColorPickerProps) {
             onChange();
           }}
         >
-          取消
+          {t('common.operation.cancel')}
         </Button>
         <Button
           type="primary"
@@ -63,7 +65,7 @@ function ChromeColorPicker({ value, onChange }: ChromeColorPickerProps) {
             onChange(tempColor);
           }}
         >
-          确定
+          {t('common.operation.confirm')}
         </Button>
       </BtnWrap>
     </ChromeColorWrap>

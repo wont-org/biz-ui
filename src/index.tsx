@@ -2,6 +2,7 @@ import './index.less';
 
 export { default as AntdResizableTable } from './AntdResizableTable';
 export { default as AutoLoadingButton } from './AutoLoadingButton';
+export { default as BizUIProvider, useAntd, useLocale, useTranslation } from './BizProvider';
 export { default as BlankLink } from './BlankLink';
 export { default as BlockHeader } from './BlockHeader';
 export { default as CaptchaInput } from './CaptchaInput';
@@ -32,3 +33,4 @@ export { default as ImgInfoSkeleton } from './Skeleton/ImgInfoSkeleton';
 export { default as PaginationSkeleton } from './Skeleton/PaginationSkeleton';
 export { default as TableSkeleton } from './Skeleton/TableSkeleton';
 export { default as smoothScroll } from './smoothScroll';
+export { default as usePreloadImg } from './usePreloadImg';

@@ -15,9 +15,8 @@ export const StyledRelation = styled.div<{
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 30px;
-    height: 30px;
-    padding: 4px;
+    width: 34px;
+    height: 28px;
     cursor: pointer;
     border: 1px solid #0251ff;
     border-radius: 4px;

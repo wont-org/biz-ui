@@ -1,61 +1,55 @@
+import { BizUIProvider } from '@wont/biz-ui';
+import type { Language } from '@wont/biz-ui/BizProvider';
+import { getAntdLocale } from '@wont/biz-ui/BizProvider/hooks';
+import { useTranslation } from '@wont/biz-ui/BizProvider/index';
 import ColorPicker from '@wont/biz-ui/ColorPicker';
 import IconTrigger from '@wont/biz-ui/ColorPicker/IconTrigger';
-import { Card, Row, Space, Typography } from 'antd';
+import { Card, ConfigProvider as AntdConfigProvider, Row, Space, Typography } from 'antd';
+import { useLocale } from 'dumi';
 import React, { useState } from 'react';
+import { colorPickerDemoLang } from './locales/colorPickerDemoLang';
 
 const { Title, Text } = Typography;
 
-const ColorPickerDemo: React.FC = () => {
+const ColorPickerDemoInner: React.FC = () => {
+  const { t } = useTranslation();
   const [basicColor, setBasicColor] = useState<string>('#1677ff');
   const [customColor, setCustomColor] = useState<string>('#f5222d');
   const [noTooltipColor, setNoTooltipColor] = useState<string>('#52c41a');
   const [customTooltipColor, setCustomTooltipColor] = useState<string>('#722ed1');
   const [open, setOpen] = useState<boolean>(true);
+
   // 自定义颜色分组
   const customColorGroups = [
     {
-      title: 'primary',
+      title: 'Primary Colors',
       colors: [
-        { value: '#f0f8ff', label: '淡蓝色' },
-        { value: '#d6e9ff', label: '天蓝色' },
-        { value: '#99c9ff', label: '浅蓝色' },
-        { value: '#66b0ff', label: '亮蓝色' },
-        { value: '#3399ff', label: '明蓝色' },
-        { value: '#2196f3', label: '蓝色' },
-        { value: '#0c7cd5', label: '深蓝色' },
-        { value: '#0059b2', label: '暗蓝色' },
-        { value: '#004ba0', label: '深暗蓝色' },
-        { value: '#003c8f', label: '藏蓝色' },
+        { value: '#f0f8ff', labelKey: 'demo.colorLabels.lightBlue' },
+        { value: '#d6e9ff', labelKey: 'demo.colorLabels.skyBlue' },
+        { value: '#99c9ff', labelKey: 'colorPicker.colors.lightBlue2' },
+        { value: '#66b0ff', labelKey: 'demo.colorLabels.brightBlue' },
+        { value: '#2196f3', labelKey: 'demo.colorLabels.blue' },
+        { value: '#0c7cd5', labelKey: 'demo.colorLabels.darkBlue' },
       ],
     },
     {
-      title: 'red',
+      title: 'Red Series',
       colors: [
-        { value: '#ffebee', label: '浅粉红色' },
-        { value: '#ffcdd2', label: '淡粉红色' },
-        { value: '#ef9a9a', label: '浅红色' },
-        { value: '#e57373', label: '亮红色' },
-        { value: '#ef5350', label: '鲜红色' },
-        { value: '#f44336', label: '红色' },
-        { value: '#e53935', label: '砖红色' },
-        { value: '#c62828', label: '深红色' },
-        { value: '#b71c1c', label: '暗红色' },
-        { value: '#891515', label: '酒红色' },
+        { value: '#ffebee', labelKey: 'colorPicker.colors.lightRed1' },
+        { value: '#ef9a9a', labelKey: 'colorPicker.colors.lightRed2' },
+        { value: '#f44336', labelKey: 'demo.colorLabels.red' },
+        { value: '#c62828', labelKey: 'colorPicker.colors.mediumRed' },
+        { value: '#b71c1c', labelKey: 'colorPicker.colors.darkRed1' },
       ],
     },
     {
-      title: 'green',
+      title: 'Green Series',
       colors: [
-        { value: '#e8f5e9', label: '淡绿色' },
-        { value: '#c8e6c9', label: '浅绿色' },
-        { value: '#a5d6a7', label: '清绿色' },
-        { value: '#81c784', label: '亮绿色' },
-        { value: '#66bb6a', label: '明绿色' },
-        { value: '#4caf50', label: '绿色' },
-        { value: '#43a047', label: '草绿色' },
-        { value: '#2e7d32', label: '深绿色' },
-        { value: '#1b5e20', label: '暗绿色' },
-        { value: '#0d3f10', label: '墨绿色' },
+        { value: '#e8f5e9', labelKey: 'colorPicker.colors.lightGreen1' },
+        { value: '#a5d6a7', labelKey: 'colorPicker.colors.lightGreen2' },
+        { value: '#4caf50', labelKey: 'demo.colorLabels.green' },
+        { value: '#2e7d32', labelKey: 'colorPicker.colors.mediumGreen' },
+        { value: '#1b5e20', labelKey: 'colorPicker.colors.darkGreen1' },
       ],
     },
   ];
@@ -63,81 +57,38 @@ const ColorPickerDemo: React.FC = () => {
   // 更多颜色分组，用于测试高度动画
   const moreColorGroups = [
     {
-      title: 'basic',
+      title: 'Basic Colors',
       colors: [
-        { value: '#000000', label: '黑色' },
-        { value: '#262626', label: '深灰色' },
-        { value: '#434343', label: '暗灰色' },
-        { value: '#595959', label: '灰色' },
-        { value: '#8c8c8c', label: '中灰色' },
-        { value: '#bfbfbf', label: '浅灰色' },
-        { value: '#d9d9d9', label: '淡灰色' },
-        { value: '#f0f0f0', label: '近白色' },
-        { value: '#ffffff', label: '白色' },
+        { value: '#000000', labelKey: 'colorPicker.colors.darkGray2' },
+        { value: '#595959', labelKey: 'colorPicker.colors.mediumGray' },
+        { value: '#bfbfbf', labelKey: 'colorPicker.colors.lightGray2' },
+        { value: '#ffffff', labelKey: 'colorPicker.colors.white' },
       ],
     },
     {
-      title: 'rainbow',
+      title: 'Rainbow Colors',
       colors: [
-        { value: '#ff0000', label: '红色' },
-        { value: '#ff4d00', label: '橙红色' },
-        { value: '#ff9900', label: '橙色' },
-        { value: '#ffcc00', label: '金黄色' },
-        { value: '#ffff00', label: '黄色' },
-        { value: '#99cc00', label: '黄绿色' },
-        { value: '#339900', label: '绿色' },
-        { value: '#33cc99', label: '青绿色' },
-        { value: '#0099ff', label: '青色' },
-        { value: '#0033ff', label: '蓝色' },
-        { value: '#4d00ff', label: '靛蓝色' },
-        { value: '#9900ff', label: '紫色' },
-      ],
-    },
-    {
-      title: 'large group',
-      colors: [
-        { value: '#ffb3ba', label: '浅粉红' },
-        { value: '#ffdfba', label: '浅杏色' },
-        { value: '#ffffba', label: '浅黄色' },
-        { value: '#baffc9', label: '浅薄荷绿' },
-        { value: '#bae1ff', label: '浅天蓝色' },
-        { value: '#d8a4ff', label: '浅紫色' },
-        { value: '#ff677d', label: '粉红色' },
-        { value: '#ffb54d', label: '杏色' },
-        { value: '#fff970', label: '黄色' },
-        { value: '#7dff9f', label: '薄荷绿' },
-        { value: '#70d1ff', label: '天蓝色' },
-        { value: '#bc83ff', label: '紫色' },
-        { value: '#ff2e4a', label: '深粉色' },
-        { value: '#ff8c1a', label: '橙色' },
-        { value: '#ffea00', label: '金黄色' },
-        { value: '#00e64d', label: '绿色' },
-        { value: '#00a2ff', label: '蓝色' },
-        { value: '#7931ff', label: '深紫色' },
-        { value: '#cc0022', label: '深红色' },
-        { value: '#cc6600', label: '深橙色' },
-        { value: '#cccc00', label: '深黄色' },
-        { value: '#008c26', label: '深绿色' },
-        { value: '#006ecc', label: '深蓝色' },
-        { value: '#4d06bf', label: '深靛蓝色' },
-        { value: '#800020', label: '暗红色' },
-        { value: '#804000', label: '暗橙色' },
-        { value: '#808000', label: '暗黄色' },
-        { value: '#004d13', label: '暗绿色' },
-        { value: '#003f73', label: '暗蓝色' },
-        { value: '#320680', label: '暗紫色' },
+        { value: '#ff0000', labelKey: 'demo.colorLabels.red' },
+        { value: '#ff9900', labelKey: 'colorPicker.colors.orange' },
+        { value: '#ffff00', labelKey: 'demo.colorLabels.yellow' },
+        { value: '#339900', labelKey: 'demo.colorLabels.green' },
+        { value: '#0099ff', labelKey: 'colorPicker.colors.cyan' },
+        { value: '#0033ff', labelKey: 'demo.colorLabels.blue' },
+        { value: '#9900ff', labelKey: 'colorPicker.colors.purple' },
       ],
     },
   ];
 
   return (
     <Space direction="vertical" size="large" style={{ width: '100%' }}>
-      <Card title="基本用法">
+      <Card title={t('demo.basicUsage')}>
         <Space direction="vertical">
-          <Title level={5}>默认预设颜色</Title>
+          <Title level={5}>{t('demo.defaultPresetColors')}</Title>
           <Space>
             <ColorPicker value={basicColor} onChange={setBasicColor} />
-            <Text>当前颜色: {basicColor}</Text>
+            <Text>
+              {t('demo.currentColor')}: {basicColor}
+            </Text>
             <div
               style={{
                 width: 40,
@@ -151,7 +102,8 @@ const ColorPickerDemo: React.FC = () => {
           </Space>
         </Space>
       </Card>
-      <Card title="自定义触发器">
+
+      <Card title={t('demo.customTrigger')}>
         <Row>
           <Space>
             <ColorPicker
@@ -161,9 +113,11 @@ const ColorPickerDemo: React.FC = () => {
                 setOpen(!_open);
               }}
             >
-              <IconTrigger open={open} label="正值" />
+              <IconTrigger open={open} label="Color" />
             </ColorPicker>
-            <Text>当前颜色: {basicColor}</Text>
+            <Text>
+              {t('demo.currentColor')}: {basicColor}
+            </Text>
             <div
               style={{
                 width: 40,
@@ -176,17 +130,17 @@ const ColorPickerDemo: React.FC = () => {
             />
           </Space>
         </Row>
-        <Row>
+        <Row style={{ marginTop: 16 }}>
           <Space>
-            <ColorPicker label="不传value" trigger="icon" />
-            <Text>当前颜色: {'undefined'}</Text>
+            <ColorPicker label={t('demo.noValue')} trigger="icon" />
+            <Text>{t('demo.currentColor')}: undefined</Text>
           </Space>
         </Row>
       </Card>
 
-      <Card title="自定义颜色分组">
+      <Card title={t('demo.customColorGroups')}>
         <Space direction="vertical">
-          <Title level={5}>可折叠的颜色分组</Title>
+          <Title level={5}>{t('demo.collapsibleGroups')}</Title>
           <Space>
             <ColorPicker
               rowWrapCount={9}
@@ -194,7 +148,9 @@ const ColorPickerDemo: React.FC = () => {
               onChange={setCustomColor}
               presets={customColorGroups}
             />
-            <Text>当前颜色: {customColor}</Text>
+            <Text>
+              {t('demo.currentColor')}: {customColor}
+            </Text>
             <div
               style={{
                 width: 40,
@@ -209,9 +165,9 @@ const ColorPickerDemo: React.FC = () => {
         </Space>
       </Card>
 
-      <Card title="只读模式">
+      <Card title={t('demo.readOnlyMode')}>
         <Space direction="vertical">
-          <Title level={5}>不可交互的颜色选择器</Title>
+          <Title level={5}>{t('demo.readOnlyDescription')}</Title>
           <Space>
             <ColorPicker
               rowWrapCount={9}
@@ -220,14 +176,14 @@ const ColorPickerDemo: React.FC = () => {
               presets={customColorGroups}
               readOnly={true}
             />
-            <Text>只读模式下不响应点击</Text>
+            <Text>{t('demo.readOnlyNote')}</Text>
           </Space>
         </Space>
       </Card>
 
-      <Card title="禁用颜色提示">
+      <Card title={t('demo.disableTooltip')}>
         <Space direction="vertical">
-          <Title level={5}>不显示颜色名称提示</Title>
+          <Title level={5}>{t('demo.disableTooltipDescription')}</Title>
           <Space>
             <ColorPicker
               rowWrapCount={9}
@@ -236,7 +192,9 @@ const ColorPickerDemo: React.FC = () => {
               presets={customColorGroups}
               colorToolTip={false}
             />
-            <Text>当前颜色: {noTooltipColor}</Text>
+            <Text>
+              {t('demo.currentColor')}: {noTooltipColor}
+            </Text>
             <div
               style={{
                 width: 40,
@@ -251,9 +209,9 @@ const ColorPickerDemo: React.FC = () => {
         </Space>
       </Card>
 
-      <Card title="自定义Tooltip">
+      <Card title={t('demo.customTooltip')}>
         <Space direction="vertical">
-          <Title level={5}>自定义Tooltip样式和行为</Title>
+          <Title level={5}>{t('demo.customTooltipDescription')}</Title>
           <Space>
             <ColorPicker
               rowWrapCount={9}
@@ -266,7 +224,9 @@ const ColorPickerDemo: React.FC = () => {
                 overlayInnerStyle: { color: 'white', fontWeight: 'bold' },
               }}
             />
-            <Text>当前颜色: {customTooltipColor}</Text>
+            <Text>
+              {t('demo.currentColor')}: {customTooltipColor}
+            </Text>
             <div
               style={{
                 width: 40,
@@ -281,10 +241,10 @@ const ColorPickerDemo: React.FC = () => {
         </Space>
       </Card>
 
-      <Card title="动画效果展示">
+      <Card title={t('demo.animationDemo')}>
         <Space direction="vertical">
-          <Title level={5}>高度自适应的动画效果</Title>
-          <Text>不同高度的组有不同的动画时长</Text>
+          <Title level={5}>{t('demo.heightAdaptive')}</Title>
+          <Text>{t('demo.animationNote')}</Text>
           <Space>
             <ColorPicker
               rowWrapCount={6}
@@ -296,6 +256,18 @@ const ColorPickerDemo: React.FC = () => {
         </Space>
       </Card>
     </Space>
+  );
+};
+
+const ColorPickerDemo: React.FC = () => {
+  const { id: locale } = useLocale();
+
+  return (
+    <BizUIProvider locale={locale as Language} localeData={colorPickerDemoLang}>
+      <AntdConfigProvider locale={getAntdLocale(locale as Language)}>
+        <ColorPickerDemoInner />
+      </AntdConfigProvider>
+    </BizUIProvider>
   );
 };
 

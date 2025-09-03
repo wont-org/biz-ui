@@ -6,6 +6,7 @@ import { ColorBlockProps } from './ColorBlock';
 export interface ColorItem {
   value: string;
   label?: string;
+  labelKey?: string;
 }
 
 export interface ColorGroup {

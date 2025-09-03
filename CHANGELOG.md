@@ -1,3 +1,28 @@
+# [1.4.0-beta.1](https://github.com/wont-org/biz-ui/compare/v1.3.2...v1.4.0-beta.1) (2025-08-27)
+
+### Features
+
+- 国际化组件适配 ([201e799](https://github.com/wont-org/biz-ui/commit/201e799afc5f816563c18b5eb49166de564ab4b8))
+- **BizProvider:** 新增国际化配置 ([61039b6](https://github.com/wont-org/biz-ui/commit/61039b6f0641ff068d4187c084dbe4a82bcdb469))
+- **ColorPicker:** 国际化 ([7f78f60](https://github.com/wont-org/biz-ui/commit/7f78f606c0475d47c964203c9a0e0085aaf30f0e))
+- **ConditionColor:** 实现国际化，更新常量和示例文档 ([7203dd1](https://github.com/wont-org/biz-ui/commit/7203dd1a0d9b0d107f11a2c75918a916a4e811de))
+- **ConditionIcon:** 实现国际化，更新常量、组件及示例文档，添加多语言支持 ([291cdad](https://github.com/wont-org/biz-ui/commit/291cdad6bd5adccf68631a0f4ebefa8f89531ecb))
+- **DataBar:** 支持国际化 ([b9e246f](https://github.com/wont-org/biz-ui/commit/b9e246fe5845ea70b565b423cfa0e8980e65f0ba))
+- **EditableSelect:** 添加可编辑下拉选择器组件，支持本地和服务端操作模式，更新国际化支持及示例文档 ([45fd7ad](https://github.com/wont-org/biz-ui/commit/45fd7ade260209a4079cadfd4ff72fced0f584e5))
+- **i18n:** 更新筛选列表组件的国际化支持，调整常量和示例文档，添加多语言翻译 ([d3e4042](https://github.com/wont-org/biz-ui/commit/d3e404209eeccb454f1602c51ff04ffeaf4c4689))
+- **i18n:** 添加状态和界面类翻译，更新操作类翻译，调整国际化示例 ([2798a28](https://github.com/wont-org/biz-ui/commit/2798a28691c6e9ccc4a1f42219a71aff6a08270b))
+- **i18n:** 增强公式输入组件的国际化支持，更新常量和验证消息，调整示例文档 ([5d8b446](https://github.com/wont-org/biz-ui/commit/5d8b446da76f1c47bf8c413262110250c7046ed9))
+- **InputNumberRange:** 更新表单组件的国际化支持，调整常量和示例文档，增强多语言功能 ([0e80bdf](https://github.com/wont-org/biz-ui/commit/0e80bdf1b3699c3098475d7691c95a669b927b34))
+- **locales:** lang zh en change to zh-CN en-US ([e8deccd](https://github.com/wont-org/biz-ui/commit/e8deccd3521e3a821be6f0ec309dd9c8fd2fc871))
+- **MultiExpand:** 添加多语言支持，更新示例文档和常量，增强组件的国际化功能 ([f51c762](https://github.com/wont-org/biz-ui/commit/f51c762a6f29339b77465483f922f190f98027e7))
+- **MultipleSelect:** 添加多选选择器组件，支持多语言功能，更新示例文档和常量，增强国际化支持 ([98e4acc](https://github.com/wont-org/biz-ui/commit/98e4acc669d8ff2cbc1bcff59bc000bd2fb69144))
+- **NumberRange:** 添加 NumberRange 组件，增强国际化支持，更新示例文档和常量，提供多语言翻译功能 ([e9ea8c9](https://github.com/wont-org/biz-ui/commit/e9ea8c99b69a669dc2cdb09c845c16bd82ce32e4))
+- **Operate:** 添加 Operate 组件，增强国际化支持，更新示例文档和常量，提供多语言翻译功能 ([8123429](https://github.com/wont-org/biz-ui/commit/8123429e0a8c87a86682584486f16a204b1f4b21))
+- **PrefixInput:** 添加 PrefixInput 组件，增强国际化支持，更新常量和示例文档，提供多语言翻译功能 ([f245f99](https://github.com/wont-org/biz-ui/commit/f245f999a56a338700731f3fc7e74a9e855cfa58))
+- **PuzzleCaptcha:** 添加 PuzzleCaptcha 组件，支持前后端验证，增强国际化支持，更新示例文档和常量 ([ca8ae6d](https://github.com/wont-org/biz-ui/commit/ca8ae6d0444c825bfa570d3265b77498a318e621))
+- **SelectTemplate:** 添加 SelectTemplate 组件，增强国际化支持，更新示例文档和常量，提供多语言翻译功能 ([26d9bb5](https://github.com/wont-org/biz-ui/commit/26d9bb5d40196e3e50dfa19d6eff1f1ce86aa6b5))
+- **SelectWithPaste:** 增强国际化支持，更新示例文档和常量，提供多语言翻译功能 ([c66a761](https://github.com/wont-org/biz-ui/commit/c66a76186d033b67dc166e5cb1159e95e0db9030))
+
 ## [1.3.2](https://github.com/wont-org/biz-ui/compare/v1.3.1...v1.3.2) (2025-08-15)
 
 ### Bug Fixes

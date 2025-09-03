@@ -7,7 +7,7 @@ import { DataSource, FormValues } from './type';
 import { getLinearGradientStyle } from './utils';
 
 // 计算数据中的最大正值和最小负值
-const calculateMaxValues = (data: DataSource[], key: keyof DataSource = 'mixedValue') => {
+const calculateValues = (data: DataSource[], key: keyof DataSource = 'mixedValue') => {
   let max = 0;
   let min = 0;
 
@@ -142,6 +142,7 @@ export function getColumns({
   negativeGradient = ['green', '#fff'],
   dataSource,
   formValues,
+  t,
 }: {
   formValues: FormValues;
   positiveGradient?: string[];
@@ -149,6 +150,7 @@ export function getColumns({
   max?: number;
   min?: number;
   dataSource: DataSource[];
+  t: (key: string, params?: Record<string, any>) => string;
 }): ColumnsType<Record<string, any>> {
   const styleByValueParams: Partial<Parameters<typeof getStyleByValue>[0]> = {
     positiveGradient,
@@ -158,11 +160,11 @@ export function getColumns({
   };
   return [
     {
-      title: '-10~10写死',
+      title: t('demo.table.fixedRange'),
       dataIndex: 'index',
       width: 100,
       render(value) {
-        // const curVal = calculateMaxValues(dataSource, 'index');
+        // const curVal = calculateValues(dataSource, 'index');
         const style = getStyleByValue({
           ...styleByValueParams,
           value,
@@ -179,10 +181,10 @@ export function getColumns({
       },
     },
     {
-      title: '正负混合-根据配置',
+      title: t('demo.table.mixedByConfig'),
       dataIndex: 'mixedValue',
       render(value) {
-        const curVal = calculateMaxValues(dataSource, 'mixedValue');
+        const curVal = calculateValues(dataSource, 'mixedValue');
         const style = getStyleByValue({
           ...styleByValueParams,
           value,
@@ -200,10 +202,10 @@ export function getColumns({
     },
 
     {
-      title: '-1~-10-写死-纯色',
+      title: t('demo.table.fixedNegativePure'),
       dataIndex: 'negativeValue',
       render(value) {
-        // const curVal = calculateMaxValues(dataSource, 'negativeValue');
+        // const curVal = calculateValues(dataSource, 'negativeValue');
         const style = getStyleByValue({
           ...styleByValueParams,
           value,
@@ -220,10 +222,10 @@ export function getColumns({
       },
     },
     {
-      title: `${min}~${max}正数渐变（根据配置）`,
+      title: `${min}~${max}${t('demo.table.positiveGradientByConfig')}`,
       dataIndex: 'positiveValue',
       render(value) {
-        const curVal = calculateMaxValues(dataSource, 'positiveValue');
+        const curVal = calculateValues(dataSource, 'positiveValue');
         const style = getStyleByValue({
           ...styleByValueParams,
           value,

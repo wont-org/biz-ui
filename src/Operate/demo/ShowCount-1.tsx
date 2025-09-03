@@ -1,6 +1,8 @@
+import { BizUIProvider, Operate, useTranslation } from '@wont/biz-ui';
 import { message, Modal } from 'antd';
-import { Operate } from '@wont/biz-ui';
+import { useLocale } from 'dumi';
 import React from 'react';
+import { demoLang } from './locales/demoLang';
 
 const sleep = (timeout: number) => {
   return new Promise((res) => {
@@ -13,48 +15,50 @@ const sleep = (timeout: number) => {
 interface BasicProps {
   record: Record<string, any>;
 }
-export default (props: BasicProps) => {
+
+const ShowCountDemoInner = (props: BasicProps) => {
+  const { t } = useTranslation();
   const asyncClick = async () => {
     await sleep(2000);
   };
   const syncClick = () => {
     console.log('syncClick');
-    message.success('这是一个同步操作');
+    message.success(t('demo.messages.syncOperation'));
   };
   const data = [
     {
-      title: '同步按钮',
+      title: t('demo.buttons.sync'),
       onClick: syncClick,
     },
     {
-      title: '删除',
+      title: t('demo.buttons.delete'),
       type: 'link' as const,
       danger: true,
       onClick: () => {
         const name = props.record?.name ? `【${props.record.name}】` : '';
         Modal.confirm({
-          title: `确定删除${name}？`,
-          okText: '确定',
-          cancelText: '取消',
+          title: t('demo.modal.deleteConfirm', { name }),
+          okText: t('demo.modal.ok'),
+          cancelText: t('demo.modal.cancel'),
           onOk: async () => {
             await asyncClick();
-            message.success('操作成功');
+            message.success(t('demo.messages.operationSuccess'));
           },
         });
       },
     },
     {
-      title: '下个隐藏',
+      title: t('demo.buttons.nextHide'),
       onClick: console,
     },
     {
-      title: '更多操作1',
+      title: t('demo.buttons.moreAction1'),
       onClick: () => {
         console.log('more action 1');
       },
     },
     {
-      title: '更多操作2',
+      title: t('demo.buttons.moreAction2'),
       type: 'link' as const,
       danger: true,
       onClick: () => {
@@ -63,4 +67,13 @@ export default (props: BasicProps) => {
     },
   ];
   return <Operate data={data} showCount={-1} />;
+};
+
+export default (props: BasicProps) => {
+  const { id: locale } = useLocale();
+  return (
+    <BizUIProvider locale={locale as any} localeData={demoLang}>
+      <ShowCountDemoInner {...props} />
+    </BizUIProvider>
+  );
 };

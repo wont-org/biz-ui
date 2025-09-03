@@ -1,9 +1,14 @@
-import { ConditionIcon } from '@wont/biz-ui';
+import { BizUIProvider, ConditionIcon } from '@wont/biz-ui';
+import type { Language } from '@wont/biz-ui/BizProvider';
+import { getAntdLocale } from '@wont/biz-ui/BizProvider/hooks';
+import { useTranslation } from '@wont/biz-ui/BizProvider/index';
 import { ICON_TEMPLATE_OPTIONS } from '@wont/biz-ui/SelectTemplate/constant';
 import { getInitialIconConditions } from '@wont/biz-ui/SelectTemplate/utils';
-import { Button, Form, message, Space } from 'antd';
+import { Button, ConfigProvider as AntdConfigProvider, Form, message, Space } from 'antd';
+import { useLocale } from 'dumi';
 import React from 'react';
 import { OPERATOR, VALUE_TYPE } from '../constant';
+import { basicDemoLang } from './locales/basicDemoLang';
 
 interface ConditionItem {
   valueType: string;
@@ -15,17 +20,18 @@ interface FormValues {
   icon?: any;
 }
 
-export default () => {
+const BasicDemoInner = () => {
+  const { t } = useTranslation();
   const [form] = Form.useForm<FormValues>();
 
   const handleFinish = (values: FormValues) => {
     console.log('Success:', values);
-    message.success('提交成功');
+    message.success(t('demo.submitSuccess'));
   };
 
   const handleFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
-    message.error('提交失败，请检查表单');
+    message.error(t('demo.submitFailed'));
   };
 
   return (
@@ -49,25 +55,37 @@ export default () => {
       <Form.Item wrapperCol={{ offset: 4 }}>
         <Space>
           <Button type="primary" htmlType="submit">
-            提交
+            {t('demo.buttons.submit')}
           </Button>
-          <Button htmlType="reset">重置</Button>
+          <Button htmlType="reset">{t('demo.buttons.reset')}</Button>
           <Button
             onClick={() => {
               form
                 .validateFields()
                 .then((values: FormValues) => {
-                  console.log('验证通过:', values);
+                  console.log(t('demo.validationPassed'), values);
                 })
                 .catch((errorInfo: any) => {
-                  console.log('验证失败:', errorInfo);
+                  console.log(t('demo.validationFailed'), errorInfo);
                 });
             }}
           >
-            验证
+            {t('demo.buttons.validate')}
           </Button>
         </Space>
       </Form.Item>
     </Form>
+  );
+};
+
+export default () => {
+  const { id: locale } = useLocale();
+
+  return (
+    <BizUIProvider locale={locale as Language} localeData={basicDemoLang}>
+      <AntdConfigProvider locale={getAntdLocale(locale as Language)}>
+        <BasicDemoInner />
+      </AntdConfigProvider>
+    </BizUIProvider>
   );
 };

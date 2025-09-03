@@ -1,10 +1,15 @@
-import { MultiExpand } from '@wont/biz-ui';
+import { BizUIProvider, MultiExpand, useTranslation } from '@wont/biz-ui';
 import { Descriptions } from 'antd';
+import { useLocale } from 'dumi';
 import React from 'react';
-import { columns, icon } from './constant';
+import { getColumnsWithTranslation, icon } from './constant';
 import './index.less';
+import { demoLang } from './locales/demoLang';
 
-export default () => {
+const DescriptionBorderedDemoInner = () => {
+  const { t } = useTranslation();
+  const columns = getColumnsWithTranslation(t);
+
   return (
     <>
       <Descriptions
@@ -29,5 +34,14 @@ export default () => {
         ]}
       />
     </>
+  );
+};
+
+export default () => {
+  const { id: locale } = useLocale();
+  return (
+    <BizUIProvider locale={locale as any} localeData={demoLang}>
+      <DescriptionBorderedDemoInner />
+    </BizUIProvider>
   );
 };

@@ -6,14 +6,27 @@ export default defineConfig({
   outputPath: 'docs-dist',
   base: '/biz-ui/',
   publicPath: '/biz-ui/',
+  // 支持多语言
+  locales: [
+    { id: 'zh-CN', name: '中文' },
+    { id: 'en-US', name: 'English' },
+  ],
   themeConfig: {
     name: 'biz-ui',
-    nav: [
-      { title: '指南', link: '/guide' },
-      { title: '组件列表', link: '/components' },
-      { title: '更新日志', link: '/changelog' },
-      { title: 'GitHub', link: 'https://github.com/wont-org/biz-ui' },
-    ],
+    nav: {
+      'zh-CN': [
+        { title: '指南', link: '/guide' },
+        { title: '组件列表', link: '/components' },
+        { title: '更新日志', link: '/changelog' },
+        { title: 'GitHub', link: 'https://github.com/wont-org/biz-ui' },
+      ],
+      'en-US': [
+        { title: 'Guide', link: '/en-US/guide' },
+        { title: 'Components', link: '/en-US/components' },
+        { title: 'Changelog', link: '/changelog' },
+        { title: 'GitHub', link: 'https://github.com/wont-org/biz-ui' },
+      ],
+    },
     footer: `Open-source MIT Licensed | Copyright © 2024-present
 <br />
 Powered by liukun`,
@@ -24,22 +37,14 @@ Powered by liukun`,
     // 配置入口文件路径，API 解析将从这里开始
     entryFile: './src/index.tsx',
   },
-  extraBabelPlugins: [antdImport, styledComponentsImport],
+  extraBabelPlugins: [antdImport, styledComponentsImport] as any,
   lessLoader: {
     javascriptEnabled: true,
   },
   alias: {
     '@wont/biz-ui': path.join(__dirname, 'src'),
   },
-  //   headScripts: [
-  //     `<!-- Google tag (gtag.js) -->
-  // <script async src="https://www.googletagmanager.com/gtag/js?id=G-3PNCWTT1R1"></script>
-  // <script>
-  //   window.dataLayer = window.dataLayer || [];
-  //   function gtag(){dataLayer.push(arguments);}
-  //   gtag('js', new Date());
-
-  //   gtag('config', 'G-3PNCWTT1R1');
-  // </script>`,
-  //   ],
+  sitemap: {
+    hostname: 'https://wont-org.github.io/biz-ui',
+  },
 });

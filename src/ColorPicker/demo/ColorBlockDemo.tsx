@@ -1,83 +1,82 @@
+import { BizUIProvider } from '@wont/biz-ui';
+import type { Language } from '@wont/biz-ui/BizProvider';
+import { getAntdLocale } from '@wont/biz-ui/BizProvider/hooks';
+import { useTranslation } from '@wont/biz-ui/BizProvider/index';
+import ColorBlock from '@wont/biz-ui/ColorPicker/ColorBlock';
+import ColorPanel from '@wont/biz-ui/ColorPicker/ColorPanel';
+import { ConfigProvider as AntdConfigProvider } from 'antd';
+import { useLocale } from 'dumi';
 import React, { useState } from 'react';
-import ColorBlock from '../ColorBlock';
-import ColorPanel from '../ColorPanel';
+import { colorBlockDemoLang } from './locales/colorBlockDemoLang';
 
-const Demo: React.FC = () => {
+const ColorBlockDemoInner: React.FC = () => {
+  const { t } = useTranslation();
   const [selectedColor, setSelectedColor] = useState<string>('rgba(25, 118, 210, 1)');
 
   const presets = [
     {
-      title: 'primary',
+      title: 'Primary Colors',
       colors: [
-        { value: '#f0f8ff', label: '淡蓝色' },
-        { value: '#d6e9ff', label: '天蓝色' },
-        { value: '#99c9ff', label: '浅蓝色' },
-        { value: '#66b0ff', label: '亮蓝色' },
-        { value: '#3399ff', label: '明蓝色' },
-        { value: '#2196f3', label: '蓝色' },
-        { value: '#0c7cd5', label: '深蓝色' },
-        { value: '#0059b2', label: '暗蓝色' },
-        { value: '#004ba0', label: '深暗蓝色' },
-        { value: '#003c8f', label: '藏蓝色' },
+        { value: '#f0f8ff', labelKey: 'demo.colorLabels.lightBlue' },
+        { value: '#d6e9ff', labelKey: 'demo.colorLabels.skyBlue' },
+        { value: '#99c9ff', labelKey: 'colorPicker.colors.lightBlue2' },
+        { value: '#66b0ff', labelKey: 'demo.colorLabels.brightBlue' },
+        { value: '#2196f3', labelKey: 'demo.colorLabels.blue' },
+        { value: '#0c7cd5', labelKey: 'demo.colorLabels.darkBlue' },
       ],
     },
     {
-      title: 'red',
+      title: 'Red Series',
       colors: [
-        { value: '#ffebee', label: '浅粉红色' },
-        { value: '#ffcdd2', label: '淡粉红色' },
-        { value: '#ef9a9a', label: '浅红色' },
-        { value: '#e57373', label: '亮红色' },
-        { value: '#ef5350', label: '鲜红色' },
-        { value: '#f44336', label: '红色' },
-        { value: '#e53935', label: '砖红色' },
-        { value: '#c62828', label: '深红色' },
-        { value: '#b71c1c', label: '暗红色' },
-        { value: '#891515', label: '酒红色' },
+        { value: '#ffebee', labelKey: 'colorPicker.colors.lightRed1' },
+        { value: '#ef9a9a', labelKey: 'colorPicker.colors.lightRed2' },
+        { value: '#f44336', labelKey: 'demo.colorLabels.red' },
+        { value: '#c62828', labelKey: 'colorPicker.colors.mediumRed' },
+        { value: '#b71c1c', labelKey: 'colorPicker.colors.darkRed1' },
       ],
     },
     {
-      title: 'green',
+      title: 'Green Series',
       colors: [
-        { value: '#e8f5e9', label: '淡绿色' },
-        { value: '#c8e6c9', label: '浅绿色' },
-        { value: '#a5d6a7', label: '清绿色' },
-        { value: '#81c784', label: '亮绿色' },
-        { value: '#66bb6a', label: '明绿色' },
-        { value: '#4caf50', label: '绿色' },
-        { value: '#43a047', label: '草绿色' },
-        { value: '#2e7d32', label: '深绿色' },
-        { value: '#1b5e20', label: '暗绿色' },
-        { value: '#0d3f10', label: '墨绿色' },
+        { value: '#e8f5e9', labelKey: 'colorPicker.colors.lightGreen1' },
+        { value: '#a5d6a7', labelKey: 'colorPicker.colors.lightGreen2' },
+        { value: '#4caf50', labelKey: 'demo.colorLabels.green' },
+        { value: '#2e7d32', labelKey: 'colorPicker.colors.mediumGreen' },
+        { value: '#1b5e20', labelKey: 'colorPicker.colors.darkGreen1' },
       ],
     },
   ];
 
   return (
     <div style={{ padding: 24, maxWidth: 420 }}>
-      <h3>ColorBlock 组件</h3>
+      <h3>{t('demo.colorBlockComponent')}</h3>
       <div style={{ marginBottom: 16 }}>
-        <h4>交互模式</h4>
+        <h4>{t('demo.interactiveMode')}</h4>
         <div style={{ display: 'flex', marginBottom: 16 }}>
-          <ColorBlock color="#1677ff" label="蓝色" selected={true} />
-          <ColorBlock color="#f5222d" label="红色" />
-          <ColorBlock color="#52c41a" label="绿色" />
-          <ColorBlock color="#faad14" label="黄色" />
+          <ColorBlock color="#1677ff" label={t('demo.colorLabels.blue')} selected={true} />
+          <ColorBlock color="#f5222d" label={t('demo.colorLabels.red')} />
+          <ColorBlock color="#52c41a" label={t('demo.colorLabels.green')} />
+          <ColorBlock color="#faad14" label={t('demo.colorLabels.yellow')} />
         </div>
 
-        <h4>只读模式</h4>
+        <h4>{t('demo.readOnlyMode')}</h4>
         <div style={{ display: 'flex', marginBottom: 24 }}>
-          <ColorBlock color="#1677ff" label="蓝色" selected={true} readOnly={true} />
-          <ColorBlock color="#f5222d" label="红色" readOnly={true} />
-          <ColorBlock color="#52c41a" label="绿色" readOnly={true} />
-          <ColorBlock color="#faad14" label="黄色" readOnly={true} />
+          <ColorBlock
+            color="#1677ff"
+            label={t('demo.colorLabels.blue')}
+            selected={true}
+            readOnly={true}
+          />
+          <ColorBlock color="#f5222d" label={t('demo.colorLabels.red')} readOnly={true} />
+          <ColorBlock color="#52c41a" label={t('demo.colorLabels.green')} readOnly={true} />
+          <ColorBlock color="#faad14" label={t('demo.colorLabels.yellow')} readOnly={true} />
         </div>
       </div>
 
-      <h3>ColorPanel 组件</h3>
+      <h3>{t('demo.colorPanelComponent')}</h3>
       <div style={{ display: 'flex', gap: '24px' }}>
         <div>
-          <h4>交互模式</h4>
+          <h4>{t('demo.interactiveMode')}</h4>
           <ColorPanel
             presets={presets}
             value={selectedColor}
@@ -87,7 +86,7 @@ const Demo: React.FC = () => {
         </div>
 
         <div>
-          <h4>只读模式（不会响应点击）</h4>
+          <h4>{t('demo.readOnlyNote2')}</h4>
           <ColorPanel
             presets={presets}
             value={selectedColor}
@@ -99,7 +98,7 @@ const Demo: React.FC = () => {
       </div>
 
       <div style={{ marginTop: 16 }}>
-        当前选中颜色：
+        {t('demo.selectedColor')}：
         <div
           style={{
             marginTop: 8,
@@ -116,4 +115,16 @@ const Demo: React.FC = () => {
   );
 };
 
-export default Demo;
+const ColorBlockDemo: React.FC = () => {
+  const { id: locale } = useLocale();
+
+  return (
+    <BizUIProvider locale={locale as Language} localeData={colorBlockDemoLang}>
+      <AntdConfigProvider locale={getAntdLocale(locale as Language)}>
+        <ColorBlockDemoInner />
+      </AntdConfigProvider>
+    </BizUIProvider>
+  );
+};
+
+export default ColorBlockDemo;

@@ -1,4 +1,4 @@
-import { FilterList } from '@wont/biz-ui';
+import { BizUIProvider, FilterList, useTranslation } from '@wont/biz-ui';
 import {
   COMPONENT,
   FIELD_TYPES,
@@ -8,7 +8,9 @@ import {
 } from '@wont/biz-ui/FilterList/constant';
 import { validator } from '@wont/biz-ui/FilterList/utils';
 import { Button, Card, Form, Space, Typography } from 'antd';
+import { useLocale } from 'dumi';
 import React, { useState } from 'react';
+import { advancedDemoLang } from './locales/advancedDemoLang';
 
 const { Title, Paragraph } = Typography;
 
@@ -47,22 +49,18 @@ const CUSTOM_FILTER_FIELD_MAP: FilterFieldMapType = {
       ...OPERATORS.equal,
       component: COMPONENT.input.value,
       componentProps: {
-        placeholder: 'input',
         maxLength: 50,
       },
     },
     {
       ...OPERATORS.contains,
       component: COMPONENT.textarea.value,
-      componentProps: {
-        placeholder: 'textarea',
-      },
+      componentProps: {},
     },
     {
       ...OPERATORS.startsWith,
       component: COMPONENT.select.value,
       componentProps: {
-        placeholder: 'select',
         options: [
           {
             value: '#',
@@ -79,7 +77,6 @@ const CUSTOM_FILTER_FIELD_MAP: FilterFieldMapType = {
       ...OPERATORS.in,
       component: COMPONENT.multipleSelect.value,
       componentProps: {
-        placeholder: 'multipleSelect',
         options: [
           {
             value: '#',
@@ -99,7 +96,6 @@ const CUSTOM_FILTER_FIELD_MAP: FilterFieldMapType = {
       component: COMPONENT.inputNumber.value,
       componentProps: {
         precision: 2,
-        placeholder: '请输入价格',
       },
     },
     {
@@ -113,18 +109,14 @@ const CUSTOM_FILTER_FIELD_MAP: FilterFieldMapType = {
     {
       ...OPERATORS.range,
       component: COMPONENT.inputNumberRange.value,
-      componentProps: {
-        placeholder: ['最小值', '最大值'],
-      },
+      componentProps: {},
     },
   ],
   [FIELD_TYPES.date.value]: [
     {
       ...OPERATORS.equal,
       component: COMPONENT.datePicker.value,
-      componentProps: {
-        placeholder: '选择日期',
-      },
+      componentProps: {},
     },
     {
       ...OPERATORS.before,
@@ -223,12 +215,13 @@ const getInitialFilterValue = () => {
     ],
   };
 };
-export default () => {
+const AdvancedDemoInner = () => {
+  const { t } = useTranslation();
   const [form] = Form.useForm();
   const [filterValue, setFilterValue] = useState<any>(getInitialFilterValue());
 
   const onFinish = (values: any) => {
-    console.log('提交的表单值:', values);
+    console.log(t('demo.messages.submitSuccess'), values);
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -247,10 +240,10 @@ export default () => {
   const handleValidate = () => {
     form.validateFields().then(
       (values) => {
-        console.log('校验通过:', values);
+        console.log(t('demo.messages.validateSuccess'), values);
       },
       (errorInfo) => {
-        console.log('校验失败:', errorInfo);
+        console.log(t('demo.messages.validateFailed'), errorInfo);
       },
     );
   };
@@ -258,11 +251,8 @@ export default () => {
   return (
     <div>
       <Typography>
-        <Title level={4}>高级筛选条件示例</Title>
-        <Paragraph>
-          本示例展示了如何使用自定义组件和属性进行更复杂的筛选条件配置。您可以通过 filterFieldMap
-          参数来自定义每种字段类型可用的操作符和对应的值组件。
-        </Paragraph>
+        <Title level={4}>{t('demo.pageTitle')}</Title>
+        <Paragraph>{t('demo.description')}</Paragraph>
       </Typography>
 
       <Form
@@ -276,7 +266,7 @@ export default () => {
         onValuesChange={onValuesChange}
       >
         <Form.Item
-          label="筛选条件"
+          label={t('demo.label')}
           name="filterConditions"
           rules={[
             {
@@ -286,7 +276,7 @@ export default () => {
                 if (isValid) {
                   return Promise.resolve();
                 }
-                return Promise.reject(new Error('请补全筛选条件'));
+                return Promise.reject(new Error(t('demo.messages.incompleteConditions')));
               },
             },
           ]}
@@ -297,6 +287,7 @@ export default () => {
               min: 0,
               max: 1000000,
             }}
+            minItem={1}
             filterFieldMap={CUSTOM_FILTER_FIELD_MAP}
             validateOnInit={true}
           />
@@ -304,22 +295,35 @@ export default () => {
         <Form.Item label=" " colon={false}>
           <Space>
             <Button type="primary" htmlType="submit">
-              提交
+              {t('common.operation.submit')}
             </Button>
-            <Button onClick={handleValidate}>校验</Button>
+            <Button onClick={handleValidate}>{t('common.form.validate')}</Button>
             <Button htmlType="button" onClick={handleReset}>
-              重置
+              {t('common.operation.reset')}
             </Button>
           </Space>
         </Form.Item>
       </Form>
 
-      <Card title="当前筛选条件" style={{ marginTop: 16 }}>
+      <Card title={t('demo.title')} style={{ marginTop: 16 }}>
         <div>
-          <strong>关系类型：</strong> {filterValue.relation === RELATION.and.value ? '且' : '或'}
+          <strong>{t('filterList.relation.label')}：</strong>{' '}
+          {filterValue.relation === RELATION.and.value
+            ? t('filterList.relation.and')
+            : t('filterList.relation.or')}
         </div>
         <pre>{JSON.stringify(filterValue, null, 2)}</pre>
       </Card>
     </div>
+  );
+};
+
+export default () => {
+  const { id: locale } = useLocale();
+
+  return (
+    <BizUIProvider locale={locale as any} localeData={advancedDemoLang}>
+      <AdvancedDemoInner />
+    </BizUIProvider>
   );
 };

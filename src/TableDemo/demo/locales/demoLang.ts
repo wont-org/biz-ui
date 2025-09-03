@@ -1,0 +1,26 @@
+export const tableDemoLang = {
+  ui: {
+    total: { enUS: 'Total {total} items', zhCN: '共 {total} 条' },
+    columnA: { enUS: 'Column A', zhCN: '列 A' },
+    columnB: { enUS: 'Column B', zhCN: '列 B' },
+    columnC: { enUS: 'Column C', zhCN: '列 C' },
+    indicator: { enUS: 'Indicator', zhCN: '指标' },
+  },
+  data: {
+    indicator1: { enUS: 'Indicator 1', zhCN: '指标1' },
+    indicator2: { enUS: 'Indicator 2', zhCN: '指标2' },
+    indicator3: { enUS: 'Indicator 3', zhCN: '指标3' },
+    indicator4: { enUS: 'Indicator 4', zhCN: '指标4' },
+    indicator5: { enUS: 'Indicator 5', zhCN: '指标5' },
+    indicator6: { enUS: 'Indicator 6', zhCN: '指标6' },
+    indicator7: { enUS: 'Indicator 7', zhCN: '指标7' },
+    indicator8: { enUS: 'Indicator 8', zhCN: '指标8' },
+    indicator9: { enUS: 'Indicator 9', zhCN: '指标9' },
+    indicator10: { enUS: 'Indicator 10', zhCN: '指标10' },
+    indicator11: { enUS: 'Indicator 11', zhCN: '指标11' },
+    indicator12: { enUS: 'Indicator 12', zhCN: '指标12' },
+    indicator13: { enUS: 'Indicator 13', zhCN: '指标13' },
+    indicator14: { enUS: 'Indicator 14', zhCN: '指标14' },
+    indicator15: { enUS: 'Indicator 15', zhCN: '指标15' },
+  },
+};

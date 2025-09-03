@@ -1,6 +1,7 @@
 import { InputNumber, InputNumberProps } from 'antd';
 import React, { CSSProperties } from 'react';
 import { styled } from 'styled-components';
+import { useLocale } from '../BizProvider';
 import { INPUT_NUMBER_PROPS } from '../constant/antd';
 
 const RangeContainer = styled.div`
@@ -23,12 +24,20 @@ const InputNumberRange: React.FC<InputNumberRangeProps> = ({
   value = [undefined, undefined],
   onChange,
   style = {},
-  placeholder = ['最小值', '最大值'],
+  placeholder,
   inputNumberProps = INPUT_NUMBER_PROPS,
   disabled = false,
 }) => {
+  const { t } = useLocale();
   const { min, max, ...restInputNumberProps } = inputNumberProps;
   const [start, end] = value;
+
+  // 使用国际化文本作为默认 placeholder
+  const defaultPlaceholder: [string, string] = [
+    t('common.form.minValue'),
+    t('common.form.maxValue'),
+  ];
+  const finalPlaceholder = placeholder || defaultPlaceholder;
 
   const handleStartChange = (newStart: ValueType | null) => {
     if (newStart === null) {
@@ -49,7 +58,7 @@ const InputNumberRange: React.FC<InputNumberRangeProps> = ({
   return (
     <RangeContainer style={style}>
       <InputNumber
-        placeholder={placeholder[0] || '请输入'}
+        placeholder={finalPlaceholder[0] || t('common.form.input')}
         {...INPUT_NUMBER_PROPS}
         {...restInputNumberProps}
         style={{
@@ -61,9 +70,9 @@ const InputNumberRange: React.FC<InputNumberRangeProps> = ({
         onChange={handleStartChange}
         disabled={disabled}
       />
-      <span style={{ margin: '0 8px' }}>至</span>
+      <span style={{ margin: '0 8px' }}>{' ~ '}</span>
       <InputNumber
-        placeholder={placeholder[1] || '请输入'}
+        placeholder={finalPlaceholder[1] || t('common.form.input')}
         {...INPUT_NUMBER_PROPS}
         {...restInputNumberProps}
         style={{

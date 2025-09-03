@@ -1,0 +1,174 @@
+# Demo 规则
+
+组件演示和文档编写的标准化规则。
+
+## 组件文档要求
+
+### 1. 文档结构
+
+每个组件必须包含以下文档结构：
+
+```
+src/[ComponentName]/
+├── index.tsx                 # 组件源码
+├── index.md                  # 中文文档
+├── index.en-US.md           # 英文文档
+├── demo/                    # 演示目录
+│   ├── Basic.tsx           # 基础用法演示
+│   ├── Advanced.tsx        # 高级用法演示（可选）
+│   └── locales/            # demo专用翻译文件
+│       ├── basicDemoLang.ts
+│       └── advancedDemoLang.ts
+└── other files...
+```
+
+### 2. 文档内容要求
+
+#### 2.1 基本文档结构
+
+```markdown
+---
+title: ComponentName
+path: component/ComponentName
+group: [分组名称]
+---
+
+# ComponentName
+
+[组件简短描述]
+
+> [重要说明或注意事项（可选）]
+
+## 基础用法
+
+<code src="./demo/Basic.tsx"></code>
+
+## 高级用法（可选）
+
+<code src="./demo/Advanced.tsx"></code>
+
+## API
+
+[API 文档]
+```
+
+#### 2.2 演示覆盖要求
+
+演示内容必须：
+
+- **全面覆盖**：展示组件的核心功能和主要用法
+- **不重复冗余**：避免多个演示展示相同功能
+- **层次分明**：从基础用法到高级用法循序渐进
+- **实用性强**：演示真实使用场景，不做无意义的示范
+
+#### 2.3 演示分类标准
+
+- **Basic.tsx**：基础用法，展示组件最基本和最常用的功能
+- **Advanced.tsx**：高级用法，展示复杂配置、特殊场景、组合使用等
+- **[Feature].tsx**：特定功能演示，按功能点命名（如 Server.tsx、Validation.tsx）
+
+### 3. 演示代码要求
+
+#### 3.1 代码质量
+
+- 使用 TypeScript
+- 遵循项目代码规范
+- 包含必要的注释说明
+- 演示代码简洁明了
+
+#### 3.2 国际化要求
+
+- 所有演示必须支持国际化
+- 使用 `import { useLocale } from 'dumi'` 获取语言
+- 演示专用翻译文件放在 `demo/locales/` 目录下
+- 通过 `BizUIProvider` 的 `localeData` 传入翻译数据
+
+#### 3.3 组件包装
+
+```typescript
+import { useLocale } from 'dumi';
+import { BizUIProvider, [ComponentName] } from '@wont/biz-ui';
+import type { Language } from '@wont/biz-ui/BizProvider';
+import { getAntdLocale } from '@wont/biz-ui/BizProvider/hooks';
+import { useTranslation } from '@wont/biz-ui/BizProvider/index';
+import { ConfigProvider as AntdConfigProvider } from 'antd';
+import React from 'react';
+import { [demoName]DemoLang } from './locales/[demoName]DemoLang';
+
+const [DemoName]DemoInner = () => {
+  const { t } = useTranslation();
+  // 演示内容
+};
+
+export default () => {
+  const { id: locale } = useLocale();
+
+  return (
+    <BizUIProvider locale={locale as Language} localeData={[demoName]DemoLang}>
+      <AntdConfigProvider locale={getAntdLocale(locale as Language)}>
+        <[DemoName]DemoInner />
+      </AntdConfigProvider>
+    </BizUIProvider>
+  );
+};
+```
+
+### 4. API 文档要求
+
+#### 4.1 Props 表格
+
+使用标准的 API 表格格式：
+
+| 参数  | 说明     | 类型   | 默认值         |
+| ----- | -------- | ------ | -------------- |
+| prop1 | 属性说明 | `Type` | `defaultValue` |
+
+#### 4.2 接口定义
+
+列出重要的 TypeScript 接口定义
+
+#### 4.3 方法说明
+
+列出组件暴露的方法和事件回调
+
+### 5. 演示内容指导
+
+#### 5.1 基础演示应包含
+
+- 最简单的使用方式
+- 常用属性配置
+- 基本交互演示
+
+#### 5.2 高级演示应包含
+
+- 复杂配置项
+- 与其他组件组合使用
+- 特殊场景处理
+- 自定义扩展
+
+#### 5.3 避免的演示内容
+
+- 重复展示相同功能
+- 过于复杂而失去演示意义的配置
+- 纯技术炫技而缺乏实用性的场景
+- 与组件核心功能无关的外围功能
+
+### 6. 文档编写最佳实践
+
+#### 6.1 描述要求
+
+- 用词准确，表达清晰
+- 突出组件的核心价值和使用场景
+- 重要注意事项要明确标出
+
+#### 6.2 演示顺序
+
+- 按使用频率从高到低排列
+- 按复杂度从简到繁排列
+- 按功能类别分组排列
+
+#### 6.3 代码示例
+
+- 提供完整可运行的代码
+- 关键代码添加注释
+- 演示数据要有代表性

@@ -1,30 +1,30 @@
 export const VALUE_TYPE = {
   auto: {
-    label: '自动',
+    labelKey: 'conditionColor.valueType.auto',
     value: 'auto',
   },
   min: {
-    label: '最低值',
+    labelKey: 'conditionColor.valueType.min',
     value: 'min',
   },
   max: {
-    label: '最高值',
+    labelKey: 'conditionColor.valueType.max',
     value: 'max',
   },
   number: {
-    label: '数字',
+    labelKey: 'conditionColor.valueType.number',
     value: 'number',
   },
   none: {
-    label: '无',
+    labelKey: 'conditionColor.valueType.none',
     value: 'none',
   },
   percent: {
-    label: '百分比',
+    labelKey: 'conditionColor.valueType.percent',
     value: 'percent',
   },
   percentPoint: {
-    label: '百分点值',
+    labelKey: 'conditionColor.valueType.percentPoint',
     value: 'percentPoint',
   },
 } as const;

@@ -2,6 +2,7 @@ import { DownOutlined } from '@ant-design/icons';
 import { Tooltip } from 'antd';
 import React, { FC, useState } from 'react';
 import { styled } from 'styled-components';
+import { useTranslation } from '../BizProvider';
 
 const IconTriggerWrapper = styled.div<{ $readOnly: boolean }>`
   display: flex;
@@ -38,6 +39,7 @@ const IconTrigger: FC<IconTriggerProps> = ({
   open = false,
   readOnly = false,
 }) => {
+  const { t } = useTranslation();
   const [needOpen, setNeedOpen] = useState(false);
   return (
     <IconTriggerWrapper
@@ -57,7 +59,7 @@ const IconTrigger: FC<IconTriggerProps> = ({
     >
       {label && <span>{label}</span>}
       <Tooltip
-        title={!readOnly ? '更多颜色' : undefined}
+        title={!readOnly ? t('colorPicker.ui.moreColors') : undefined}
         open={!readOnly && open && needOpen}
         placement="bottom"
       >

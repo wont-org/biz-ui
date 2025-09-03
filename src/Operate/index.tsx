@@ -2,6 +2,7 @@ import { DownOutlined } from '@ant-design/icons';
 import { ButtonProps, Divider, Dropdown, DropDownProps, Space } from 'antd';
 import React from 'react';
 import AutoLoadingButton from '../AutoLoadingButton';
+import { useTranslation } from '../BizProvider';
 
 type OperateDataItem = ButtonProps & {
   title: string;
@@ -13,6 +14,7 @@ export interface OperateProps {
   dropDownProps?: Omit<DropDownProps, 'menu'>;
 }
 export default (props: OperateProps) => {
+  const { t } = useTranslation();
   const { data = [], showCount = 3, split = true, dropDownProps = {} } = props;
   const count = showCount === -1 ? data.length : Math.min(showCount, data.length);
   const getListRender = (_count: number) => {
@@ -52,7 +54,7 @@ export default (props: OperateProps) => {
               fontSize: 14,
             }}
           >
-            更多
+            {t('operate.ui.more')}
             <DownOutlined
               style={{
                 fontSize: 13,

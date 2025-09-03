@@ -1,13 +1,26 @@
 import { SettingOutlined } from '@ant-design/icons';
-import { ColorPicker } from '@wont/biz-ui';
+import { BizUIProvider, ColorPicker } from '@wont/biz-ui';
+import type { Language } from '@wont/biz-ui/BizProvider';
+import { getAntdLocale } from '@wont/biz-ui/BizProvider/hooks';
+import { useTranslation } from '@wont/biz-ui/BizProvider/index';
 import ConditionColor, { validator } from '@wont/biz-ui/ConditionColor';
 import SelectTemplate from '@wont/biz-ui/SelectTemplate';
 import { BAR_TEMPLATE_OPTIONS } from '@wont/biz-ui/SelectTemplate/constant/index';
-import { Button, Form, message, Radio, Space, Table } from 'antd';
+import {
+  Button,
+  ConfigProvider as AntdConfigProvider,
+  Form,
+  message,
+  Radio,
+  Space,
+  Table,
+} from 'antd';
+import { useLocale } from 'dumi';
 import React, { useState } from 'react';
 import { styled } from 'styled-components';
 import { getColumns } from './columns';
-import { FILL_TYPE_OPTIONS } from './constant';
+import { FILL_TYPE_OPTIONS, useFillTypeOptions } from './constant';
+import { indexDemoLang } from './locales/indexDemoLang';
 import { getFixedData } from './mock';
 import { DataSource, FormValues } from './type';
 
@@ -35,27 +48,32 @@ const StyledTable = styled(Table)`
 
 const INIT_NEGATIVE_COLOR = '#F54A45';
 const STYLE_TEMPLATE_NAME = 'styleTemplate';
-const customValue = {
-  negativeColor: '#F54A45',
-  positiveColor: '#7F3BF5',
-  styleTemplate: {
-    value: ['#7F3BF5'],
-    extraLabel: '纯色-绿色',
-    isGrading: true,
-  },
-  fillType: true,
-  conditions: [
-    {
-      valueType: 'number',
-      value: -10,
+
+const IndexDemoInner = () => {
+  const { t } = useTranslation();
+  const fillTypeOptions = useFillTypeOptions();
+
+  const customValue = {
+    negativeColor: '#F54A45',
+    positiveColor: '#7F3BF5',
+    styleTemplate: {
+      value: ['#7F3BF5'],
+      extraLabel: t('demo.template.solidGreen'),
+      isGrading: true,
     },
-    {
-      valueType: 'number',
-      value: 10,
-    },
-  ],
-};
-export default () => {
+    fillType: true,
+    conditions: [
+      {
+        valueType: 'number',
+        value: -10,
+      },
+      {
+        valueType: 'number',
+        value: 10,
+      },
+    ],
+  };
+
   const styleTemplate = BAR_TEMPLATE_OPTIONS[1].options[1];
   const initialValues: FormValues = {
     negativeColor: INIT_NEGATIVE_COLOR,
@@ -78,12 +96,12 @@ export default () => {
   const handleFinish = (values: FormValues) => {
     console.log('Success:', values);
     setFormValues(values);
-    message.success('提交成功');
+    message.success(t('demo.message.submitSuccess'));
   };
 
   const handleFinishFailed = (errorInfo: any) => {
     console.log('Failed:', errorInfo);
-    message.error('提交失败，请检查表单');
+    message.error(t('demo.message.submitFailed'));
   };
 
   return (
@@ -119,7 +137,7 @@ export default () => {
             const positiveColor = getFieldValue('positiveColor');
 
             return (
-              <Form.Item label="数据条" name={STYLE_TEMPLATE_NAME}>
+              <Form.Item label={t('demo.form.dataBar')} name={STYLE_TEMPLATE_NAME}>
                 <SelectTemplate
                   options={BAR_TEMPLATE_OPTIONS}
                   showOptionLabel={false}
@@ -135,9 +153,9 @@ export default () => {
             );
           }}
         </Form.Item>
-        <Form.Item label="填充方式" name="fillType">
+        <Form.Item label={t('demo.form.fillMethod')} name="fillType">
           <Radio.Group
-            options={Object.values(FILL_TYPE_OPTIONS)}
+            options={Object.values(fillTypeOptions)}
             onChange={(e) => {
               form.setFieldValue(STYLE_TEMPLATE_NAME, {
                 ...(form.getFieldValue(STYLE_TEMPLATE_NAME) || {}),
@@ -146,14 +164,14 @@ export default () => {
             }}
           />
         </Form.Item>
-        <Form.Item label="颜色配置">
+        <Form.Item label={t('demo.form.colorConfig')}>
           <div style={{ display: 'flex', gap: 16 }}>
             <Form.Item name="negativeColor">
-              <ColorPicker label="负值" trigger="icon" />
+              <ColorPicker label={t('demo.form.negativeValue')} trigger="icon" />
             </Form.Item>
             <Form.Item name="positiveColor">
               <ColorPicker
-                label="正值"
+                label={t('demo.form.positiveValue')}
                 trigger="icon"
                 onChange={(color) => {
                   form.setFieldValue(STYLE_TEMPLATE_NAME, {
@@ -187,11 +205,11 @@ export default () => {
         </Form.Item>
 
         <Form.Item wrapperCol={{ offset: 4 }}>
-          <Space>
+          <Space wrap>
             <Button type="primary" htmlType="submit">
-              提交
+              {t('demo.button.submit')}
             </Button>
-            <Button htmlType="reset">重置</Button>
+            <Button htmlType="reset">{t('demo.button.reset')}</Button>
             <Button
               type="primary"
               ghost
@@ -206,7 +224,7 @@ export default () => {
                 form.submit();
               }}
             >
-              表格随机
+              {t('demo.button.randomTable')}
             </Button>
             <Button
               type="dashed"
@@ -219,7 +237,7 @@ export default () => {
                 );
               }}
             >
-              正数
+              {t('demo.button.positiveNumbers')}
             </Button>
             <Button
               type="primary"
@@ -229,7 +247,7 @@ export default () => {
                 form.setFieldsValue(customValue);
               }}
             >
-              设置自定义模板
+              {t('demo.button.setCustomTemplate')}
             </Button>
             <Button
               danger
@@ -242,21 +260,21 @@ export default () => {
                 );
               }}
             >
-              负数
+              {t('demo.button.negativeNumbers')}
             </Button>
             <Button
               onClick={() => {
                 form
                   .validateFields()
                   .then((values: FormValues) => {
-                    console.log('验证通过:', values);
+                    console.log(t('demo.message.validationPassed'), values);
                   })
                   .catch((errorInfo: any) => {
-                    console.log('验证失败:', errorInfo);
+                    console.log(t('demo.message.validationFailed'), errorInfo);
                   });
               }}
             >
-              验证
+              {t('demo.button.validate')}
             </Button>
           </Space>
         </Form.Item>
@@ -277,9 +295,22 @@ export default () => {
           max: formValues.conditions?.[1]?.value,
           positiveGradient: [formValues.positiveColor, '#fff'],
           negativeGradient: [formValues.negativeColor, '#fff'],
+          t,
         })}
         dataSource={dataSource}
       />
     </div>
+  );
+};
+
+export default () => {
+  const { id: locale } = useLocale();
+
+  return (
+    <BizUIProvider locale={locale as Language} localeData={indexDemoLang}>
+      <AntdConfigProvider locale={getAntdLocale(locale as Language)}>
+        <IndexDemoInner />
+      </AntdConfigProvider>
+    </BizUIProvider>
   );
 };

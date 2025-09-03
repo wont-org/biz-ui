@@ -1,9 +1,14 @@
-import { MultiExpand } from '@wont/biz-ui';
+import { BizUIProvider, MultiExpand, useTranslation } from '@wont/biz-ui';
+import { useLocale } from 'dumi';
 import React from 'react';
-import { columns, icon } from './constant';
+import { getColumnsWithTranslation, icon } from './constant';
 import './index.less';
+import { demoLang } from './locales/demoLang';
 
-export default () => {
+const InlineDemoInner = () => {
+  const { t } = useTranslation();
+  const columns = getColumnsWithTranslation(t);
+
   return (
     <span
       style={{
@@ -18,5 +23,14 @@ export default () => {
         className="multi-expand-reset"
       />
     </span>
+  );
+};
+
+export default () => {
+  const { id: locale } = useLocale();
+  return (
+    <BizUIProvider locale={locale as any} localeData={demoLang}>
+      <InlineDemoInner />
+    </BizUIProvider>
   );
 };

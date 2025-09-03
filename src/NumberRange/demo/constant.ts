@@ -1,10 +1,10 @@
 export const RANGE_TYPE = {
   count: {
     value: 'count',
-    label: '区间数量',
+    labelKey: 'demo.rangeType.count',
   },
   step: {
     value: 'step',
-    label: '区间步长',
+    labelKey: 'demo.rangeType.step',
   },
 } as const;
