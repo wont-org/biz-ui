@@ -1,3 +1,9 @@
+# [1.4.0-beta.3](https://github.com/wont-org/biz-ui/compare/v1.4.0-beta.2...v1.4.0-beta.3) (2025-09-03)
+
+### Bug Fixes
+
+- **i18n:** translate func and FilterList options ([d993fd9](https://github.com/wont-org/biz-ui/commit/d993fd9af1c508f49e2f58be3d66db6310bbce85))
+
 # [1.4.0-beta.2](https://github.com/wont-org/biz-ui/compare/v1.4.0-beta.1...v1.4.0-beta.2) (2025-09-03)
 
 ### Bug Fixes
