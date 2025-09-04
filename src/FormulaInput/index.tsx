@@ -377,8 +377,9 @@ const FormulaInput = (props: FormulaInputProps) => {
           />
         )}
         <Select
-          style={{ width: 110 }}
+          style={{ width: 160 }}
           placeholder={t('formulaInput.ui.selectPlaceholder')}
+          dropdownMatchSelectWidth={false}
           {...precisionSelectProps}
           value={formulaPrecision}
           onChange={(_value) => updatePrecision(_value as number)}
