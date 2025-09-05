@@ -113,7 +113,7 @@ const getStyleByValue = ({
       direction: 'to left',
     });
     // 负值宽度百分比 = 值在负值范围的占比 * 负值范围在总范围的占比 * 100%
-    const valueWidth = (Math.min(absValue, absMax) / absMin) * (absMin / (absMin + absMax)) * 100;
+    const valueWidth = (Math.min(absValue, absMin) / absMin) * (absMin / (absMin + absMax)) * 100;
     return {
       right: 100 - zeroPosition + '%',
       width: valueWidth + '%',
@@ -208,15 +208,15 @@ export function getColumns({
     },
 
     {
-      title: t('demo.table.fixedNegativePure'),
+      title: t('demo.table.fixedNegativePure', { min, max }),
       dataIndex: 'negativeValue',
       render(value) {
-        // const curVal = calculateValues(dataSource, 'negativeValue');
+        const curVal = calculateValues(dataSource, 'negativeValue');
         const style = getStyleByValue({
           ...styleByValueParams,
           value,
-          max: -1,
-          min: -10,
+          max: max ?? curVal.max,
+          min: min ?? curVal.min,
           isGradient: false,
         });
         return (

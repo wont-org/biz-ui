@@ -95,8 +95,8 @@ export const indexDemoLang = {
         zhCN: '正负混合-根据配置',
       },
       fixedNegativePure: {
-        enUS: 'Fixed Negative -1~-10 - Solid Color',
-        zhCN: '-1~-10-写死-纯色',
+        enUS: 'Negative {min}~{max} - Solid Color - By Configuration',
+        zhCN: '负数{min}~{max}-纯色-根据配置',
       },
       positiveGradientByConfig: {
         enUS: 'Positive Gradient (By Configuration)',
