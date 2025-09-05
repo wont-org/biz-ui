@@ -21,16 +21,18 @@ const FormulaInput = (props: FormulaInputProps) => {
     nameInputProps = {},
     valueSelectProps = {},
     typeSelectProps = {},
-    precisionSelectProps = {
-      options: Object.values(DECIMAL_PLACES).map((item) => ({
-        ...item,
-        label: t(item.labelKey),
-      })),
-    },
+    precisionSelectProps = {},
     onChange,
     inputNumberProps = {},
     useValue = true,
   } = props;
+  const {
+    options: precisionOptions = Object.values(DECIMAL_PLACES).map((item) => ({
+      ...item,
+      label: t(item.labelKey),
+    })),
+    ...restPrecisionSelectProps
+  } = precisionSelectProps;
   const { useName = true } = nameInputProps;
   const [showValidation, setShowValidation] = useState(false);
   const [cursorIndex, setCursorIndex] = useState<undefined | number>(undefined);
@@ -380,7 +382,8 @@ const FormulaInput = (props: FormulaInputProps) => {
           style={{ width: 160 }}
           placeholder={t('formulaInput.ui.selectPlaceholder')}
           dropdownMatchSelectWidth={false}
-          {...precisionSelectProps}
+          options={precisionOptions}
+          {...restPrecisionSelectProps}
           value={formulaPrecision}
           onChange={(_value) => updatePrecision(_value as number)}
         />
