@@ -376,7 +376,7 @@ export default function FilterList(props: FilterListProps) {
                 options={
                   condition.fieldType
                     ? getOperatorsByFieldType(condition.fieldType).map((item) => ({
-                        label: t(item.labelKey),
+                        label: item.labelKey ? t(item.labelKey) : item.label,
                         value: item.value,
                       }))
                     : []

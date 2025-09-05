@@ -1,10 +1,10 @@
 import { ConditionColorValueItem } from '@wont/biz-ui/ConditionColor';
+import { getLinearGradientStyle } from '@wont/biz-ui/SelectTemplate/utils';
 import type { ColumnsType } from 'antd/es/table';
 import React, { CSSProperties } from 'react';
 import { styled } from 'styled-components';
 import { FILL_TYPE_OPTIONS } from './constant';
 import { DataSource, FormValues } from './type';
-import { getLinearGradientStyle } from './utils';
 
 // 计算数据中的最大正值和最小负值
 const calculateValues = (data: DataSource[], key: keyof DataSource = 'mixedValue') => {

@@ -1,3 +1,29 @@
+# [1.4.0-beta.5](https://github.com/wont-org/biz-ui/compare/v1.4.0-beta.4...v1.4.0-beta.5) (2025-09-05)
+
+### Features
+
+- 修改 MultipleSelect 组件的 dropdownMatchSelectWidth 属性为 260 ([b2acfaa](https://github.com/wont-org/biz-ui/commit/b2acfaaaf575e81595e0f4376eda6605e20f0640))
+- 优化 FormulaInput 组件的精度选择属性，分离选项和其他属性 ([f945dae](https://github.com/wont-org/biz-ui/commit/f945dae5f3174079c210846ec53a054cc83d51fc))
+
+# [1.4.0-beta.4](https://github.com/wont-org/biz-ui/compare/v1.4.0-beta.3...v1.4.0-beta.4) (2025-09-05)
+
+### Features
+
+- 调整 FormulaInput 组件的选择框宽度并设置 dropdownMatchSelectWidth 属性为 false ([f74c5fb](https://github.com/wont-org/biz-ui/commit/f74c5fbb5cfdede0149337dda63e3b31d4b66b60))
+- 修改 MultipleSelect 组件的 dropdownMatchSelectWidth 属性为 false ([6dfc1c8](https://github.com/wont-org/biz-ui/commit/6dfc1c8ed2ffb60029d866d9f0fccbfd1132e30b))
+
+# [1.4.0-beta.3](https://github.com/wont-org/biz-ui/compare/v1.4.0-beta.2...v1.4.0-beta.3) (2025-09-03)
+
+### Bug Fixes
+
+- **i18n:** translate func and FilterList options ([d993fd9](https://github.com/wont-org/biz-ui/commit/d993fd9af1c508f49e2f58be3d66db6310bbce85))
+
+# [1.4.0-beta.2](https://github.com/wont-org/biz-ui/compare/v1.4.0-beta.1...v1.4.0-beta.2) (2025-09-03)
+
+### Bug Fixes
+
+- getLinearGradientStyle 从组件内导入, 源码不可从 demo 导入 ([9f991c6](https://github.com/wont-org/biz-ui/commit/9f991c62f4af1375dec23cbc557c573a211b0efb))
+
 # [1.4.0-beta.1](https://github.com/wont-org/biz-ui/compare/v1.3.2...v1.4.0-beta.1) (2025-08-27)
 
 ### Features

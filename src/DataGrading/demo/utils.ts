@@ -1,6 +1,5 @@
 import { VALUE_TYPE } from '@wont/biz-ui/ConditionColor/constant';
 import chroma from 'chroma-js';
-import { CSSProperties } from 'react';
 import { FormValues } from './type';
 
 export const getColorGrading = ({
@@ -54,32 +53,4 @@ export const getColorByValue = (params: {
   const colorIndex = Math.min(Math.floor(normalizedValue * (steps - 1)), steps - 1);
   console.log('colorList :>> ', colorList, midPoint, colors, colorIndex, params);
   return colors[colorIndex];
-};
-
-/**
- * 生成CSS线性渐变字符串
- * @param options 配置项
- * @returns CSS线性渐变字符串
- */
-export const getLinearGradientStyle = ({
-  colors,
-  direction = 'to right',
-  positions = [0, 1],
-}: {
-  colors: string[];
-  direction?: 'to right' | 'to left';
-  positions?: number[];
-}): CSSProperties => {
-  if (!colors || colors.length < 2) {
-    throw new Error('至少需要两种颜色才能创建渐变');
-  }
-
-  const colorStops = positions
-    ? colors.map((color, index) => `${color} ${positions[index] * 100}%`)
-    : colors;
-
-  return {
-    background: `linear-gradient(${direction}, ${colorStops.join(', ')})`,
-    border: `1px solid ${colors[0]}`,
-  };
 };

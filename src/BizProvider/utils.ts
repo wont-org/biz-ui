@@ -66,6 +66,9 @@ export function getLangData<T extends Record<string, MultiLangText>>(
  * @returns 翻译后的文本
  */
 export function translate(messages: LocaleData, key: string, params?: Record<string, any>): string {
+  if (!key) {
+    return key;
+  }
   const keys = key.split('.');
   let value: any = messages;
 

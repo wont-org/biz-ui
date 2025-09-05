@@ -1,12 +1,12 @@
-import { FilterFieldMapType, FILTER_FIELD_MAP, OPERATORS } from './constant';
+import { FilterFieldMapItem, FilterFieldMapType, FILTER_FIELD_MAP, OPERATORS } from './constant';
 import { ConditionType, FilterValue } from './type';
 
-export type CustomOp = { value: string; label: string };
+export type CustomOp = { value: string; label?: string; labelKey?: string };
 
-export function updateOperatorsByFilterMap<
-  T extends Record<string, CustomOp>,
-  M extends Record<string, Array<CustomOp & { component?: any }>>,
->(operators: T, filterMap: M): T {
+export function updateOperatorsByFilterMap<T extends Record<string, FilterFieldMapItem>>(
+  operators: T,
+  filterMap: FilterFieldMapType,
+): T {
   // 先浅复制一份，免得改到原对象
   const newOps = { ...operators };
 
@@ -17,6 +17,9 @@ export function updateOperatorsByFilterMap<
   const seen = new Set<string>();
 
   for (const item of items) {
+    if (!item) {
+      continue;
+    }
     if (seen.has(item.label)) {
       continue;
     }

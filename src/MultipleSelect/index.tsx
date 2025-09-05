@@ -38,7 +38,7 @@ const MultipleSelect = ({
       filterOption={(input, option) =>
         String(option?.label).toLowerCase().includes(input.toLowerCase())
       }
-      dropdownMatchSelectWidth={200}
+      dropdownMatchSelectWidth={260}
       autoClearSearchValue={false}
       {...props}
       onChange={onChange}
