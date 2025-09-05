@@ -1,3 +1,10 @@
+# [1.4.0-beta.4](https://github.com/wont-org/biz-ui/compare/v1.4.0-beta.3...v1.4.0-beta.4) (2025-09-05)
+
+### Features
+
+- 调整 FormulaInput 组件的选择框宽度并设置 dropdownMatchSelectWidth 属性为 false ([f74c5fb](https://github.com/wont-org/biz-ui/commit/f74c5fbb5cfdede0149337dda63e3b31d4b66b60))
+- 修改 MultipleSelect 组件的 dropdownMatchSelectWidth 属性为 false ([6dfc1c8](https://github.com/wont-org/biz-ui/commit/6dfc1c8ed2ffb60029d866d9f0fccbfd1132e30b))
+
 # [1.4.0-beta.3](https://github.com/wont-org/biz-ui/compare/v1.4.0-beta.2...v1.4.0-beta.3) (2025-09-03)
 
 ### Bug Fixes
