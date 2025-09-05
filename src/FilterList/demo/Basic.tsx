@@ -1,41 +1,43 @@
 import { MinusOutlined } from '@ant-design/icons';
-import { FilterList } from '@wont/biz-ui';
+import { BizUIProvider, FilterList, useTranslation } from '@wont/biz-ui';
 import { FIELD_TYPES, RELATION } from '@wont/biz-ui/FilterList/constant';
 import { validator } from '@wont/biz-ui/FilterList/utils';
 import { Button, Card, Form, Space, Switch, Typography } from 'antd';
+import { useLocale } from 'dumi';
 import React, { useState } from 'react';
+import { basicDemoLang } from './locales/basicDemoLang';
 
 const { Title, Paragraph } = Typography;
 
-const OPTIONS = [
+const getOptionsWithTranslation = (t: any) => [
   {
     value: 'price',
-    label: '价格',
+    label: t('demo.fields.price'),
     fieldType: FIELD_TYPES.number.value,
   },
   {
     value: 'quantity',
-    label: '数量',
+    label: t('demo.fields.quantity'),
     fieldType: FIELD_TYPES.number.value,
   },
   {
     value: 'productName',
-    label: '产品名称',
+    label: t('demo.fields.productName'),
     fieldType: FIELD_TYPES.string.value,
   },
   {
     value: 'isActive',
-    label: '是否激活',
+    label: t('demo.fields.isActive'),
     fieldType: FIELD_TYPES.boolean.value,
   },
   {
     value: 'createDate',
-    label: '创建日期',
+    label: t('demo.fields.createDate'),
     fieldType: FIELD_TYPES.date.value,
   },
   {
     value: 'updateTime',
-    label: '更新时间',
+    label: t('demo.fields.updateTime'),
     fieldType: FIELD_TYPES.dateTime.value,
   },
 ];
@@ -84,13 +86,15 @@ const getInitialFilterValue = () => {
   };
 };
 
-export default () => {
+const BasicDemoInner = () => {
+  const { t } = useTranslation();
   const [form] = Form.useForm();
   const [filterValue, setFilterValue] = useState<any>(getInitialFilterValue());
   const [validateOnInit, setValidateOnInit] = useState(true);
+  const [showData, setShowData] = useState(false);
 
   const onFinish = (values: any) => {
-    console.log('提交的表单值:', values);
+    console.log(t('demo.messages.submitSuccess'), values);
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -109,10 +113,10 @@ export default () => {
   const handleValidate = () => {
     form.validateFields().then(
       (values) => {
-        console.log('校验通过:', values);
+        console.log(t('demo.messages.validateSuccess'), values);
       },
       (errorInfo) => {
-        console.log('校验失败:', errorInfo);
+        console.log(t('demo.messages.validateFailed'), errorInfo);
       },
     );
   };
@@ -120,14 +124,11 @@ export default () => {
   return (
     <div>
       <Typography>
-        <Title level={4}>筛选条件示例</Title>
-        <Paragraph>
-          这个示例展示了如何使用 FilterList 组件的校验功能。您可以设置是否在初始化时进行校验，
-          也可以手动触发校验。
-        </Paragraph>
+        <Title level={4}>{t('demo.pageTitle')}</Title>
+        <Paragraph>{t('demo.description')}</Paragraph>
 
         <div style={{ marginBottom: 16 }}>
-          <span style={{ marginRight: 8 }}>初始化时校验:</span>
+          <span style={{ marginRight: 8 }}>{t('demo.validateOnInitLabel')}</span>
           <Switch checked={validateOnInit} onChange={setValidateOnInit} />
         </div>
       </Typography>
@@ -143,7 +144,7 @@ export default () => {
         onValuesChange={onValuesChange}
       >
         <Form.Item
-          label="筛选条件-非必填"
+          label={t('demo.label')}
           name="filterConditions"
           rules={[
             {
@@ -157,7 +158,7 @@ export default () => {
                 if (isValid) {
                   return Promise.resolve();
                 }
-                return Promise.reject('请补全筛选条件');
+                return Promise.reject(t('demo.messages.incompleteConditions'));
               },
             },
           ]}
@@ -166,7 +167,7 @@ export default () => {
             minItem={1}
             maxItem={3}
             deleteIcon={<MinusOutlined />}
-            conditionSelectProps={{ options: OPTIONS }}
+            conditionSelectProps={{ options: getOptionsWithTranslation(t) }}
             conditionNumberValueProps={{
               min: 1,
               max: 10000,
@@ -177,22 +178,44 @@ export default () => {
         <Form.Item label=" " colon={false}>
           <Space>
             <Button type="primary" htmlType="submit">
-              提交
+              {t('common.operation.submit')}
             </Button>
-            <Button onClick={handleValidate}>校验</Button>
+            <Button onClick={handleValidate}>{t('common.operation.validate')}</Button>
             <Button htmlType="button" onClick={handleReset}>
-              重置
+              {t('common.operation.reset')}
             </Button>
           </Space>
         </Form.Item>
       </Form>
 
-      <Card title="当前筛选条件" style={{ marginTop: 16 }}>
+      <Card
+        title={t('demo.title')}
+        style={{ marginTop: 16 }}
+        bodyStyle={{ display: showData ? 'block' : 'none' }}
+        extra={
+          <Button type="link" onClick={() => setShowData(!showData)}>
+            {showData ? t('common.status.collapse') : t('common.status.expand')}
+          </Button>
+        }
+      >
         <div>
-          <strong>关系类型：</strong> {filterValue.relation === RELATION.and.value ? '且' : '或'}
+          <strong>{t('filterList.relation.label')}：</strong>{' '}
+          {filterValue.relation === RELATION.and.value
+            ? t('filterList.relation.and')
+            : t('filterList.relation.or')}
         </div>
         <pre>{JSON.stringify(filterValue, null, 2)}</pre>
       </Card>
     </div>
+  );
+};
+
+export default () => {
+  const { id: locale } = useLocale();
+
+  return (
+    <BizUIProvider locale={locale as any} localeData={basicDemoLang}>
+      <BasicDemoInner />
+    </BizUIProvider>
   );
 };

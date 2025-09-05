@@ -7,276 +7,276 @@ export const PRESET_COLORS = [
   // 第一行：原色
   {
     value: '#FFFFFF',
-    label: '白色',
+    labelKey: 'colorPicker.colors.white',
   },
   {
     value: '#4E83FD',
-    label: '蓝色',
+    labelKey: 'colorPicker.colors.blue',
   },
   {
     value: '#14C0FF',
-    label: '天蓝色',
+    labelKey: 'colorPicker.colors.skyBlue',
   },
   {
     value: '#00D6B9',
-    label: '青色',
+    labelKey: 'colorPicker.colors.cyan',
   },
   {
     value: '#34C724',
-    label: '绿色',
+    labelKey: 'colorPicker.colors.green',
   },
   {
     value: '#B3D600',
-    label: '柠檬绿',
+    labelKey: 'colorPicker.colors.limeGreen',
   },
   {
     value: '#FFF258',
-    label: '黄色',
+    labelKey: 'colorPicker.colors.yellow',
   },
   {
     value: '#FF8800',
-    label: '橙色',
+    labelKey: 'colorPicker.colors.orange',
   },
   {
     value: '#F54A45',
-    label: '红色',
+    labelKey: 'colorPicker.colors.red',
   },
   {
     value: '#F14BA9',
-    label: '粉色',
+    labelKey: 'colorPicker.colors.pink',
   },
   {
     value: '#7F3BF5',
-    label: '紫色',
+    labelKey: 'colorPicker.colors.purple',
   },
 
   // 第二行：浅色调
   {
     value: '#F8F9FA',
-    label: '浅灰色1',
+    labelKey: 'colorPicker.colors.lightGray1',
   },
   {
     value: '#E1EAFF',
-    label: '浅蓝色1',
+    labelKey: 'colorPicker.colors.lightBlue1',
   },
   {
     value: '#D9F3FD',
-    label: '浅天蓝色1',
+    labelKey: 'colorPicker.colors.lightSkyBlue1',
   },
   {
     value: '#D5F6F2',
-    label: '浅青色1',
+    labelKey: 'colorPicker.colors.lightCyan1',
   },
   {
     value: '#D9F5D6',
-    label: '浅绿色1',
+    labelKey: 'colorPicker.colors.lightGreen1',
   },
   {
     value: '#EEF6C6',
-    label: '浅柠檬绿1',
+    labelKey: 'colorPicker.colors.lightLimeGreen1',
   },
   {
     value: '#FAF1D1',
-    label: '浅黄色1',
+    labelKey: 'colorPicker.colors.lightYellow1',
   },
   {
     value: '#FED4A4',
-    label: '浅橙色1',
+    labelKey: 'colorPicker.colors.lightOrange1',
   },
   {
     value: '#FBBFBC',
-    label: '浅红色1',
+    labelKey: 'colorPicker.colors.lightRed1',
   },
   {
     value: '#FDDEEF',
-    label: '浅粉色1',
+    labelKey: 'colorPicker.colors.lightPink1',
   },
   {
     value: '#ECE2FE',
-    label: '浅紫色1',
+    labelKey: 'colorPicker.colors.lightPurple1',
   },
 
   // 第三行：中等色调
   {
     value: '#DEE0E3',
-    label: '浅灰色2',
+    labelKey: 'colorPicker.colors.lightGray2',
   },
   {
     value: '#BACEFD',
-    label: '浅蓝色2',
+    labelKey: 'colorPicker.colors.lightBlue2',
   },
   {
     value: '#7EDAFB',
-    label: '浅天蓝色2',
+    labelKey: 'colorPicker.colors.lightSkyBlue2',
   },
   {
     value: '#64E8D6',
-    label: '浅青色2',
+    labelKey: 'colorPicker.colors.lightCyan2',
   },
   {
     value: '#8EE085',
-    label: '浅绿色2',
+    labelKey: 'colorPicker.colors.lightGreen2',
   },
   {
     value: '#C3DD40',
-    label: '浅柠檬绿2',
+    labelKey: 'colorPicker.colors.lightLimeGreen2',
   },
   {
     value: '#FAD355',
-    label: '浅黄色2',
+    labelKey: 'colorPicker.colors.lightYellow2',
   },
   {
     value: '#FFBA6B',
-    label: '浅橙色2',
+    labelKey: 'colorPicker.colors.lightOrange2',
   },
   {
     value: '#F76964',
-    label: '浅红色2',
+    labelKey: 'colorPicker.colors.lightRed2',
   },
   {
     value: '#F57AC0',
-    label: '浅粉色2',
+    labelKey: 'colorPicker.colors.lightPink2',
   },
   {
     value: '#AD82F7',
-    label: '浅紫色2',
+    labelKey: 'colorPicker.colors.lightPurple2',
   },
 
   // 第四行：深色调
   {
     value: '#8F959E',
-    label: '中灰色',
+    labelKey: 'colorPicker.colors.mediumGray',
   },
   {
     value: '#3370FF',
-    label: '中蓝色',
+    labelKey: 'colorPicker.colors.mediumBlue',
   },
   {
     value: '#049FD7',
-    label: '中天蓝色',
+    labelKey: 'colorPicker.colors.mediumSkyBlue',
   },
   {
     value: '#04B49C',
-    label: '中青色',
+    labelKey: 'colorPicker.colors.mediumCyan',
   },
   {
     value: '#2EA121',
-    label: '中绿色',
+    labelKey: 'colorPicker.colors.mediumGreen',
   },
   {
     value: '#8FAC02',
-    label: '中柠檬绿',
+    labelKey: 'colorPicker.colors.mediumLimeGreen',
   },
   {
     value: '#FFC60A',
-    label: '中黄色',
+    labelKey: 'colorPicker.colors.mediumYellow',
   },
   {
     value: '#DE7802',
-    label: '中橙色',
+    labelKey: 'colorPicker.colors.mediumOrange',
   },
   {
     value: '#D83931',
-    label: '中红色',
+    labelKey: 'colorPicker.colors.mediumRed',
   },
   {
     value: '#F01D94',
-    label: '中粉色',
+    labelKey: 'colorPicker.colors.mediumPink',
   },
   {
     value: '#6425D0',
-    label: '中紫色',
+    labelKey: 'colorPicker.colors.mediumPurple',
   },
 
   // 第五行：更深色调
   {
     value: '#373C43',
-    label: '深灰色1',
+    labelKey: 'colorPicker.colors.darkGray1',
   },
   {
     value: '#245BDB',
-    label: '深蓝色1',
+    labelKey: 'colorPicker.colors.darkBlue1',
   },
   {
     value: '#037EAA',
-    label: '深天蓝色1',
+    labelKey: 'colorPicker.colors.darkSkyBlue1',
   },
   {
     value: '#036356',
-    label: '深青色1',
+    labelKey: 'colorPicker.colors.darkCyan1',
   },
   {
     value: '#186010',
-    label: '深绿色1',
+    labelKey: 'colorPicker.colors.darkGreen1',
   },
   {
     value: '#667901',
-    label: '深柠檬绿1',
+    labelKey: 'colorPicker.colors.darkLimeGreen1',
   },
   {
     value: '#DC9B04',
-    label: '深黄色1',
+    labelKey: 'colorPicker.colors.darkYellow1',
   },
   {
     value: '#8F4F04',
-    label: '深橙色1',
+    labelKey: 'colorPicker.colors.darkOrange1',
   },
   {
     value: '#812520',
-    label: '深红色1',
+    labelKey: 'colorPicker.colors.darkRed1',
   },
   {
     value: '#9E1361',
-    label: '深粉色1',
+    labelKey: 'colorPicker.colors.darkPink1',
   },
   {
     value: '#380D82',
-    label: '深紫色1',
+    labelKey: 'colorPicker.colors.darkPurple1',
   },
 
   // 第六行：最深色调
   {
     value: '#1F2329',
-    label: '深灰色2',
+    labelKey: 'colorPicker.colors.darkGray2',
   },
   {
     value: '#133C9A',
-    label: '深蓝色2',
+    labelKey: 'colorPicker.colors.darkBlue2',
   },
   {
     value: '#006185',
-    label: '深天蓝色2',
+    labelKey: 'colorPicker.colors.darkSkyBlue2',
   },
   {
     value: '#024B41',
-    label: '深青色2',
+    labelKey: 'colorPicker.colors.darkCyan2',
   },
   {
     value: '#124B0C',
-    label: '深绿色2',
+    labelKey: 'colorPicker.colors.darkGreen2',
   },
   {
     value: '#495700',
-    label: '深柠檬绿2',
+    labelKey: 'colorPicker.colors.darkLimeGreen2',
   },
   {
     value: '#795101',
-    label: '深黄色2',
+    labelKey: 'colorPicker.colors.darkYellow2',
   },
   {
     value: '#6B3900',
-    label: '深橙色2',
+    labelKey: 'colorPicker.colors.darkOrange2',
   },
   {
     value: '#621C18',
-    label: '深红色2',
+    labelKey: 'colorPicker.colors.darkRed2',
   },
   {
     value: '#7A0F4B',
-    label: '深粉色2',
+    labelKey: 'colorPicker.colors.darkPink2',
   },
   {
     value: '#270561',
-    label: '深紫色2',
+    labelKey: 'colorPicker.colors.darkPurple2',
   },
 ];

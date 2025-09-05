@@ -14,6 +14,7 @@ import {
 } from 'antd';
 import { DefaultOptionType, SelectProps } from 'antd/es/select';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from '../BizProvider';
 import './index.less';
 
 const { Option } = Select;
@@ -43,21 +44,30 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
   onAdd,
   operateFormItemName = 'editLabel',
   inputProps = {},
-  popconfirmProps = {
-    title: (
-      <>
-        <div>确认删除？</div>
-        <div>删除当前分组后，所属事件将被移入未分组中，确认删除吗？</div>
-      </>
-    ),
-    okText: '确认',
-    cancelText: '取消',
-  },
-  inputFormItemRules = [{ required: true, message: '该字段是必填字段' }],
+  popconfirmProps,
+  inputFormItemRules,
   isServer,
   mode,
   ...props
 }) => {
+  const { t } = useTranslation();
+
+  // 默认的 popconfirmProps
+  const defaultPopconfirmProps: PopconfirmProps = {
+    title: (
+      <>
+        <div>{t('common.message.confirm.delete.title')}</div>
+        <div>{t('editableSelect.ui.deleteConfirm.content')}</div>
+      </>
+    ),
+    okText: t('common.operation.confirm'),
+    cancelText: t('common.operation.cancel'),
+  };
+
+  // 默认的输入验证规则
+  const defaultInputFormItemRules: FormItemProps['rules'] = [
+    { required: true, message: t('common.form.required') },
+  ];
   const [form] = Form.useForm();
   const [submitting, setSubmitting] = useState(false);
   const [deletingIndex, setDeletingIndex] = useState(-1);
@@ -108,7 +118,7 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
         onChange?.(multiValue, optionList);
       }
       await afterDelete?.(item);
-      message.success(`删除成功`);
+      message.success(t('common.message.success.delete'));
     } finally {
       setDeletingIndex(-1);
     }
@@ -121,7 +131,7 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
 
   return (
     <Select
-      placeholder="请选择"
+      placeholder={t('common.form.select')}
       allowClear
       showSearch
       {...props}
@@ -208,12 +218,17 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
             <div style={{ display: 'flex' }}>
               <Form.Item
                 name={operateFormItemName}
-                rules={inputFormItemRules}
+                rules={inputFormItemRules || defaultInputFormItemRules}
                 style={{
                   flex: 1,
                 }}
               >
-                <Input placeholder="请输入" maxLength={10} showCount {...inputProps} />
+                <Input
+                  placeholder={t('common.form.input')}
+                  maxLength={10}
+                  showCount
+                  {...inputProps}
+                />
               </Form.Item>
 
               <Form.Item>
@@ -226,7 +241,7 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
                     marginRight: mode ? 12 : 0,
                   }}
                 >
-                  {editingItem ? '更新' : '添加'}
+                  {editingItem ? t('common.operation.update') : t('common.operation.add')}
                 </Button>
               </Form.Item>
             </div>
@@ -255,7 +270,7 @@ const EditableSelect: React.FC<EditableSelectProps> = ({
                   }}
                 />
                 <Popconfirm
-                  {...popconfirmProps}
+                  {...{ ...defaultPopconfirmProps, ...popconfirmProps }}
                   onConfirm={(e) => {
                     e?.stopPropagation();
                     deleteItem(item, index);

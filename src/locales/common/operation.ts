@@ -1,0 +1,110 @@
+export const operation = {
+  confirm: {
+    enUS: 'Ok',
+    zhCN: '确定',
+  },
+  cancel: {
+    enUS: 'Cancel',
+    zhCN: '取消',
+  },
+  delete: {
+    enUS: 'Delete',
+    zhCN: '删除',
+  },
+  edit: {
+    enUS: 'Edit',
+    zhCN: '编辑',
+  },
+  save: {
+    enUS: 'Save',
+    zhCN: '保存',
+  },
+  add: {
+    enUS: 'Add',
+    zhCN: '添加',
+  },
+  update: {
+    enUS: 'Update',
+    zhCN: '更新',
+  },
+  search: {
+    enUS: 'Search',
+    zhCN: '搜索',
+  },
+  reset: {
+    enUS: 'Reset',
+    zhCN: '重置',
+  },
+  submit: {
+    enUS: 'Submit',
+    zhCN: '提交',
+  },
+  close: {
+    enUS: 'Close',
+    zhCN: '关闭',
+  },
+  back: {
+    enUS: 'Back',
+    zhCN: '返回',
+  },
+  next: {
+    enUS: 'Next',
+    zhCN: '下一步',
+  },
+  previous: {
+    enUS: 'Previous',
+    zhCN: '上一步',
+  },
+  refresh: {
+    enUS: 'Refresh',
+    zhCN: '刷新',
+  },
+  export: {
+    enUS: 'Export',
+    zhCN: '导出',
+  },
+  import: {
+    enUS: 'Import',
+    zhCN: '导入',
+  },
+  copy: {
+    enUS: 'Copy',
+    zhCN: '复制',
+  },
+  move: {
+    enUS: 'Move',
+    zhCN: '移动',
+  },
+  rename: {
+    enUS: 'Rename',
+    zhCN: '重命名',
+  },
+  upload: {
+    enUS: 'Upload',
+    zhCN: '上传',
+  },
+  download: {
+    enUS: 'Download',
+    zhCN: '下载',
+  },
+  view: {
+    enUS: 'View',
+    zhCN: '查看',
+  },
+  preview: {
+    enUS: 'Preview',
+    zhCN: '预览',
+  },
+  print: {
+    enUS: 'Print',
+    zhCN: '打印',
+  },
+  retry: {
+    enUS: 'Retry',
+    zhCN: '重试',
+  },
+  validate: {
+    enUS: 'Validate',
+    zhCN: '校验',
+  },
+};

@@ -1,4 +1,4 @@
-import { FilterList } from '@wont/biz-ui';
+import { BizUIProvider, FilterList, useTranslation } from '@wont/biz-ui';
 import {
   COMPONENT,
   FIELD_TYPES,
@@ -8,26 +8,28 @@ import {
 } from '@wont/biz-ui/FilterList/constant';
 import { validator } from '@wont/biz-ui/FilterList/utils';
 import { Button, Card, Form, Space, Typography } from 'antd';
+import { useLocale } from 'dumi';
 import React, { useState } from 'react';
+import { customOperatorsDemoLang } from './locales/customOperatorsDemoLang';
 
 const { Title, Paragraph } = Typography;
 
-// 自定义操作符
+// Custom operators
 const CUSTOM_OPERATORS = {
   ...OPERATORS,
-  // 修改操作符的值，保持标签不变
-  equal: { value: 'eq', label: '等于' },
-  notEqual: { value: 'neq', label: '不等于' },
-  greaterThan: { value: 'gt', label: '大于' },
-  lessThan: { value: 'lt', label: '小于' },
-  greaterThanOrEqual: { value: 'gte', label: '大于等于' },
-  lessThanOrEqual: { value: 'lte', label: '小于等于' },
-  range: { value: 'between', label: '范围' },
-  contains: { value: 'includes', label: '包含' },
-  hasValue: { value: 'notEmpty', label: '有值' },
-  noValue: { value: 'empty', label: '无值' },
-  isTrue: { value: 'truly', label: '为真' },
-  isFalse: { value: 'falsely', label: '为假' },
+  // Modify operator values while keeping labelKey references unchanged
+  equal: { value: 'eq', labelKey: 'filterList.operator.equal' },
+  notEqual: { value: 'neq', labelKey: 'filterList.operator.notEqual' },
+  greaterThan: { value: 'gt', labelKey: 'filterList.operator.greaterThan' },
+  lessThan: { value: 'lt', labelKey: 'filterList.operator.lessThan' },
+  greaterThanOrEqual: { value: 'gte', labelKey: 'filterList.operator.greaterThanOrEqual' },
+  lessThanOrEqual: { value: 'lte', labelKey: 'filterList.operator.lessThanOrEqual' },
+  range: { value: 'between', labelKey: 'filterList.operator.range' },
+  contains: { value: 'includes', labelKey: 'filterList.operator.contains' },
+  hasValue: { value: 'notEmpty', labelKey: 'filterList.operator.hasValue' },
+  noValue: { value: 'empty', labelKey: 'filterList.operator.noValue' },
+  isTrue: { value: 'truly', labelKey: 'filterList.operator.isTrue' },
+  isFalse: { value: 'falsely', labelKey: 'filterList.operator.isFalse' },
 } as const;
 
 const OPTIONS = [
@@ -57,7 +59,7 @@ const OPTIONS = [
     fieldType: FIELD_TYPES.boolean.value,
   },
 ];
-// 自定义操作符和组件映射
+// Custom operators and component mapping
 const CUSTOM_FILTER_FIELD_MAP: FilterFieldMapType = {
   [FIELD_TYPES.string.value]: [
     {
@@ -116,7 +118,7 @@ const CUSTOM_FILTER_FIELD_MAP: FilterFieldMapType = {
       component: COMPONENT.inputNumber.value,
       componentProps: {
         precision: 2,
-        placeholder: '请输入价格',
+        placeholder: 'Enter price',
       },
     },
     {
@@ -131,7 +133,7 @@ const CUSTOM_FILTER_FIELD_MAP: FilterFieldMapType = {
       ...CUSTOM_OPERATORS.range,
       component: COMPONENT.inputNumberRange.value,
       componentProps: {
-        placeholder: ['最小值', '最大值'],
+        placeholder: ['Min', 'Max'],
       },
     },
   ],
@@ -140,7 +142,7 @@ const CUSTOM_FILTER_FIELD_MAP: FilterFieldMapType = {
       ...CUSTOM_OPERATORS.equal,
       component: COMPONENT.datePicker.value,
       componentProps: {
-        placeholder: '选择日期',
+        placeholder: 'Select date',
       },
     },
     {
@@ -227,12 +229,13 @@ const getInitialFilterValue = () => {
   };
 };
 
-export default () => {
+const CustomOperatorsDemoInner = () => {
+  const { t } = useTranslation();
   const [form] = Form.useForm();
   const [filterValue, setFilterValue] = useState<any>(getInitialFilterValue());
 
   const onFinish = (values: any) => {
-    console.log('提交的表单值:', values);
+    console.log(t('demo.messages.submitSuccess'), values);
   };
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -251,10 +254,10 @@ export default () => {
   const handleValidate = () => {
     form.validateFields().then(
       (values) => {
-        console.log('校验通过:', values);
+        console.log(t('demo.messages.validateSuccess'), values);
       },
       (errorInfo) => {
-        console.log('校验失败:', errorInfo);
+        console.log(t('demo.messages.validateFailed'), errorInfo);
       },
     );
   };
@@ -262,27 +265,23 @@ export default () => {
   return (
     <div>
       <Typography>
-        <Title level={4}>自定义操作符示例</Title>
+        <Title level={4}>{t('demo.pageTitle')}</Title>
+        <Paragraph>{t('demo.description')}</Paragraph>
         <Paragraph>
-          本示例展示了如何自定义操作符的值以适应不同的后端API需求。通过传入自定义的operators对象，
-          可以改变操作符的实际值，如将&quot;等于&quot;的值从&quot;equal&quot;改为&quot;eq&quot;，&quot;范围&quot;从&quot;range&quot;改为&quot;between&quot;等，
-          同时保持用户界面的标签不变。
-        </Paragraph>
-        <Paragraph>
-          自定义的操作符映射：
+          {t('demo.customMappingTitle')}
           <ul>
-            <li>等于: equal → eq</li>
-            <li>不等于: notEqual → neq</li>
-            <li>大于: greaterThan → gt</li>
-            <li>小于: lessThan → lt</li>
-            <li>大于等于: greaterThanOrEqual → gte</li>
-            <li>小于等于: lessThanOrEqual → lte</li>
-            <li>范围: range → between</li>
-            <li>包含: contains → includes</li>
-            <li>有值: hasValue → notEmpty</li>
-            <li>无值: noValue → empty</li>
-            <li>为真: isTrue → truly</li>
-            <li>为假: isFalse → falsely</li>
+            <li>{t('demo.operatorMappings.equal')}</li>
+            <li>{t('demo.operatorMappings.notEqual')}</li>
+            <li>{t('demo.operatorMappings.greaterThan')}</li>
+            <li>{t('demo.operatorMappings.lessThan')}</li>
+            <li>{t('demo.operatorMappings.greaterThanOrEqual')}</li>
+            <li>{t('demo.operatorMappings.lessThanOrEqual')}</li>
+            <li>{t('demo.operatorMappings.range')}</li>
+            <li>{t('demo.operatorMappings.contains')}</li>
+            <li>{t('demo.operatorMappings.hasValue')}</li>
+            <li>{t('demo.operatorMappings.noValue')}</li>
+            <li>{t('demo.operatorMappings.isTrue')}</li>
+            <li>{t('demo.operatorMappings.isFalse')}</li>
           </ul>
         </Paragraph>
       </Typography>
@@ -298,18 +297,18 @@ export default () => {
         onValuesChange={onValuesChange}
       >
         <Form.Item
-          label="筛选条件"
+          label={t('demo.label')}
           name="filterConditions"
           rules={[
             {
               required: true,
               validator: (_, value) => {
-                // 注意这里传入自定义的operators
+                // Note: passing custom operators here
                 const isValid = validator(value, CUSTOM_FILTER_FIELD_MAP);
                 if (isValid) {
                   return Promise.resolve();
                 }
-                return Promise.reject(new Error('请补全筛选条件'));
+                return Promise.reject(new Error(t('demo.messages.incompleteConditions')));
               },
             },
           ]}
@@ -327,22 +326,35 @@ export default () => {
         <Form.Item label=" " colon={false}>
           <Space>
             <Button type="primary" htmlType="submit">
-              提交
+              {t('common.operation.submit')}
             </Button>
-            <Button onClick={handleValidate}>校验</Button>
+            <Button onClick={handleValidate}>{t('common.operation.validate')}</Button>
             <Button htmlType="button" onClick={handleReset}>
-              重置
+              {t('common.operation.reset')}
             </Button>
           </Space>
         </Form.Item>
       </Form>
 
-      <Card title="当前筛选条件" style={{ marginTop: 16 }}>
+      <Card title={t('demo.title')} style={{ marginTop: 16 }}>
         <div>
-          <strong>关系类型：</strong> {filterValue.relation === RELATION.and.value ? '且' : '或'}
+          <strong>{t('filterList.relation.label')}：</strong>{' '}
+          {filterValue.relation === RELATION.and.value
+            ? t('filterList.relation.and')
+            : t('filterList.relation.or')}
         </div>
         <pre>{JSON.stringify(filterValue, null, 2)}</pre>
       </Card>
     </div>
+  );
+};
+
+export default () => {
+  const { id: locale } = useLocale();
+
+  return (
+    <BizUIProvider locale={locale as any} localeData={customOperatorsDemoLang}>
+      <CustomOperatorsDemoInner />
+    </BizUIProvider>
   );
 };

@@ -1,24 +1,26 @@
+import { DoubleRightOutlined, LoadingOutlined } from '@ant-design/icons';
+import { useLatest } from 'ahooks';
 import classnames from 'classnames';
 import React, { RefObject, useEffect, useRef, useState } from 'react';
-import { getImg, sleep, genRandomXY, isFirefox, drawGap } from './utils';
-import type { PuzzleCaptchaProps } from './types';
-import { useLatest } from 'ahooks';
-import { DoubleRightOutlined, LoadingOutlined } from '@ant-design/icons';
-import { ICON_TYPE, IconFont } from '../IconFont/icon';
+import { useTranslation } from '../BizProvider';
+import { IconFont, ICON_TYPE } from '../IconFont/icon';
 import './index.less';
+import type { PuzzleCaptchaProps } from './types';
+import { drawGap, genRandomXY, getImg, isFirefox, sleep } from './utils';
 
 const prefix = 'puzzle-captcha';
 
 export default (props: PuzzleCaptchaProps) => {
+  const { t } = useTranslation();
   const {
     width = 320,
     height = 180,
     useMask = false,
     visible = false,
-    title = '安全验证',
-    sliderTip = '滑动完成拼图',
-    successMsg = '验证通过',
-    failMsg = '验证失败，请重试',
+    title = t('puzzleCaptcha.ui.title'),
+    sliderTip = t('puzzleCaptcha.ui.sliderTip'),
+    successMsg = t('puzzleCaptcha.ui.successMsg'),
+    failMsg = t('puzzleCaptcha.ui.failMsg'),
     onSuccess,
     onFail,
     onClose,
@@ -340,7 +342,7 @@ export default (props: PuzzleCaptchaProps) => {
         >
           <div
             style={{
-              display: state.loading ? 'block' : 'none',
+              display: state.loading ? 'flex' : 'none',
             }}
             className="loading"
           >

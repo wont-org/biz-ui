@@ -1,13 +1,20 @@
-import { Col, Row } from 'antd';
+import { BizUIProvider } from '@wont/biz-ui';
+import type { Language } from '@wont/biz-ui/BizProvider';
+import { getAntdLocale } from '@wont/biz-ui/BizProvider/hooks';
+import { useTranslation } from '@wont/biz-ui/BizProvider/index';
+import { getLinearGradientStyle } from '@wont/biz-ui/SelectTemplate/utils';
+import { Col, ConfigProvider as AntdConfigProvider, Row } from 'antd';
+import { useLocale } from 'dumi';
 import React from 'react';
-import { getLinearGradientStyle } from './utils';
+import { basicDemoLang } from './locales/basicDemoLang';
 
-export default () => {
+const BasicDemoInner = () => {
+  const { t } = useTranslation();
   return (
     <div>
       <Row gutter={16}>
         <Col>
-          <h3>绿白</h3>
+          <h3>{t('demo.greenWhite')}</h3>
           <div
             style={{
               ...getLinearGradientStyle({ colors: ['green', '#fff'] }),
@@ -17,7 +24,7 @@ export default () => {
           />
         </Col>
         <Col>
-          <h3>二色渐变 红白</h3>
+          <h3>{t('demo.twoColorGradientRedWhite')}</h3>
           <div
             style={{
               ...getLinearGradientStyle({ colors: ['red', '#fff'] }),
@@ -28,5 +35,17 @@ export default () => {
         </Col>
       </Row>
     </div>
+  );
+};
+
+export default () => {
+  const { id: locale } = useLocale();
+
+  return (
+    <BizUIProvider locale={locale as Language} localeData={basicDemoLang}>
+      <AntdConfigProvider locale={getAntdLocale(locale as Language)}>
+        <BasicDemoInner />
+      </AntdConfigProvider>
+    </BizUIProvider>
   );
 };

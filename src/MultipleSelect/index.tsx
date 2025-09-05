@@ -1,15 +1,17 @@
 import { Button, Divider, Select, Space } from 'antd';
 import { SelectProps } from 'antd/lib/select';
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from '../BizProvider';
 
 const MultipleSelect = ({
-  placeholder = '请选择',
+  placeholder,
   fieldNames,
   options = [],
   value,
   onChange,
   ...props
 }: SelectProps) => {
+  const { t } = useTranslation();
   const labelField = fieldNames?.label || 'label';
   const valueField = fieldNames?.value || 'value';
 
@@ -30,13 +32,13 @@ const MultipleSelect = ({
       options={options}
       showSearch
       allowClear
-      placeholder={placeholder}
+      placeholder={placeholder || t('multipleSelect.ui.placeholder')}
       mode="multiple"
       maxTagCount={1}
       filterOption={(input, option) =>
         String(option?.label).toLowerCase().includes(input.toLowerCase())
       }
-      dropdownMatchSelectWidth={200}
+      dropdownMatchSelectWidth={260}
       autoClearSearchValue={false}
       {...props}
       onChange={onChange}
@@ -72,7 +74,7 @@ const MultipleSelect = ({
                 onChange?.(values, valueOptions);
               }}
             >
-              全选
+              {t('multipleSelect.ui.selectAll')}
             </Button>
             <Button
               size="small"
@@ -91,7 +93,7 @@ const MultipleSelect = ({
                 onChange(values, valueOptions);
               }}
             >
-              反选
+              {t('multipleSelect.ui.selectInverse')}
             </Button>
             <Button
               type="text"
@@ -100,7 +102,7 @@ const MultipleSelect = ({
                 onChange?.([], []);
               }}
             >
-              清空
+              {t('multipleSelect.ui.clear')}
             </Button>
           </Space>
         </>

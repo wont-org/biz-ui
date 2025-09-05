@@ -1,17 +1,17 @@
 export const PREFIX = {
   global: {
     value: 'global',
-    label: '全局',
+    labelKey: 'prefixInput.prefixTypes.global',
     getValue: (val: string) => `%${val}%`,
   },
   prefix: {
     value: 'prefix',
-    label: '前缀',
+    labelKey: 'prefixInput.prefixTypes.prefix',
     getValue: (val: string) => `${val}%`,
   },
   posfix: {
     value: 'posfix',
-    label: '后缀',
+    labelKey: 'prefixInput.prefixTypes.suffix',
     getValue: (val: string) => `%${val}`,
   },
 } as const;

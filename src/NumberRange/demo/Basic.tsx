@@ -1,12 +1,15 @@
-import { NumberRange } from '@wont/biz-ui';
+import { BizUIProvider, NumberRange, useTranslation } from '@wont/biz-ui';
 import { ValueOfConst } from '@wont/biz-ui/utils/types';
 import { Button, Form, Select, Space } from 'antd';
+import { useLocale } from 'dumi';
 import React from 'react';
 import { NumberRangeProps, validate } from '..';
 import { StyleInputNumber } from '../style';
 import { RANGE_TYPE } from './constant';
+import { demoLang } from './locales/demoLang';
 
-export default () => {
+const BasicDemoInner = () => {
+  const { t } = useTranslation();
   const MAX = 7966.319861650467;
   const MIN = 0;
   const MAX_DOT_RAW = 1000.5678;
@@ -21,7 +24,7 @@ export default () => {
     console.log('Failed:', errorInfo);
   };
   const validator = (
-    rule,
+    rule: any,
     val: NumberRangeProps['value'],
     options = {
       min: MIN,
@@ -29,16 +32,25 @@ export default () => {
     },
   ) => {
     if (!val) {
-      return Promise.reject('请补全区间');
+      return Promise.reject(t('demo.validation.rangeRequired'));
     }
     const { message, isValid } = validate({
       ...options,
       ranges: val,
+      t,
     });
     if (!isValid) {
       return Promise.reject(message);
     }
     return Promise.resolve();
+  };
+
+  // 生成选项数据
+  const getRangeTypeOptions = () => {
+    return Object.values(RANGE_TYPE).map((item) => ({
+      ...item,
+      label: t(item.labelKey),
+    }));
   };
 
   return (
@@ -64,17 +76,17 @@ export default () => {
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
     >
-      <h1>联动案例</h1>
-      <Form.Item label="最大值" name="max">
+      <h1>{t('demo.titles.linkedExample')}</h1>
+      <Form.Item label={t('demo.labels.maxValue')} name="max">
         <StyleInputNumber />
       </Form.Item>
-      <Form.Item label="最小值" name="min">
+      <Form.Item label={t('demo.labels.minValue')} name="min">
         <StyleInputNumber />
       </Form.Item>
-      <Form.Item label="区间单位" name="rangeUnit">
-        <Select options={Object.values(RANGE_TYPE)} />
+      <Form.Item label={t('demo.labels.rangeUnit')} name="rangeUnit">
+        <Select options={getRangeTypeOptions()} />
       </Form.Item>
-      <Form.Item label="区间值" name="rangeNum">
+      <Form.Item label={t('demo.labels.rangeValue')} name="rangeNum">
         <StyleInputNumber />
       </Form.Item>
       <Form.Item
@@ -87,8 +99,8 @@ export default () => {
           const rangeNum = getFieldValue('rangeNum');
           return (
             <Form.Item
-              label={RANGE_TYPE[rangeUnit].label}
-              extra="大数据量时，通过rangeLimit设置最大值，默认1000，避免计算太多导致浏览器卡死。默认开启虚拟滚动"
+              label={t(RANGE_TYPE[rangeUnit].labelKey)}
+              extra={t('demo.descriptions.bigDataExtra')}
               name="numberRange1"
               rules={[
                 {
@@ -109,9 +121,9 @@ export default () => {
           );
         }}
       </Form.Item>
-      <h1>其他案例</h1>
+      <h1>{t('demo.titles.otherExamples')}</h1>
       <Form.Item
-        label="传入具体区间"
+        label={t('demo.labels.passSpecificRange')}
         name="numberRange3"
         rules={[
           {
@@ -128,7 +140,7 @@ export default () => {
       </Form.Item>
 
       <Form.Item
-        label="异常情况，max===min"
+        label={t('demo.labels.abnormalMaxEqualsMin')}
         name="numberRange4"
         rules={[
           {
@@ -144,7 +156,7 @@ export default () => {
         <NumberRange max={1} min={1} step={111} />
       </Form.Item>
       <Form.Item
-        label="异常情况，max<min"
+        label={t('demo.labels.abnormalMaxLessThanMin')}
         name="numberRange5"
         rules={[
           {
@@ -160,7 +172,10 @@ export default () => {
         <NumberRange max={0} min={1} step={111} />
       </Form.Item>
       <Form.Item
-        label={`最大值：${MAX_DOT_RAW}；最小值：${MIN_DOT_RAW}`}
+        label={`${t('demo.descriptions.maxValue', { value: MAX_DOT_RAW })}；${t(
+          'demo.descriptions.minValue',
+          { value: MIN_DOT_RAW },
+        )}`}
         name="numberRange6"
         rules={[
           {
@@ -176,7 +191,9 @@ export default () => {
         <NumberRange max={MAX_DOT} min={MIN_DOT} step={10} />
       </Form.Item>
       <Form.Item
-        label={`区间计算向上取整案例。最大值：${1027}；最小值：${1}`}
+        label={`${t('demo.labels.roundUpExample')}。${t('demo.descriptions.maxValue', {
+          value: 1027,
+        })}；${t('demo.descriptions.minValue', { value: 1 })}`}
         name="numberRange7"
         rules={[
           {
@@ -195,11 +212,20 @@ export default () => {
       <Form.Item label=" " colon={false}>
         <Space>
           <Button type="primary" htmlType="submit">
-            Submit
+            {t('demo.buttons.submit')}
           </Button>
-          <Button htmlType="reset">Reset</Button>
+          <Button htmlType="reset">{t('demo.buttons.reset')}</Button>
         </Space>
       </Form.Item>
     </Form>
+  );
+};
+
+export default () => {
+  const { id: locale } = useLocale();
+  return (
+    <BizUIProvider locale={locale as any} localeData={demoLang}>
+      <BasicDemoInner />
+    </BizUIProvider>
   );
 };

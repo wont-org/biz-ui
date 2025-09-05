@@ -1,6 +1,6 @@
 ---
 title: MultiExpand
-path: component/block-header
+path: component/MultiExpand
 group: 数据展示
 ---
 

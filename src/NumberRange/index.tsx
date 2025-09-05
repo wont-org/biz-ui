@@ -4,6 +4,7 @@ import { Button, InputNumberProps } from 'antd';
 import { produce } from 'immer';
 import { isEmpty, isEqual } from 'lodash';
 import React, { CSSProperties, FC, useEffect, useMemo, useRef } from 'react';
+import { useTranslation } from '../BizProvider';
 import { StyleContainer, StyleInputNumber } from './style';
 
 type Ranges = { min: number; max: number }[];
@@ -45,34 +46,40 @@ export const validate = ({
   ranges,
   min,
   max,
+  t,
 }: {
   ranges: Ranges;
   min: number;
   max: number;
+  t?: (key: string, params?: any) => string;
 }): { message?: string; isValid: boolean } => {
   for (let i = 0; i < ranges.length; i++) {
     const { min: start, max: end } = ranges[i];
     if (i === 0 && start < min) {
       return {
-        message: `第一个区间的起始值不能小于${min}`,
+        message: t
+          ? t('numberRange.validation.minRangeStart', { min })
+          : `第一个区间的起始值不能小于${min}`,
         isValid: false,
       };
     }
     if (i === ranges.length - 1 && end > max) {
       return {
-        message: `最后一个区间的结束值不能大于${max}`,
+        message: t
+          ? t('numberRange.validation.maxRangeEnd', { max })
+          : `最后一个区间的结束值不能大于${max}`,
         isValid: false,
       };
     }
     if (end < start) {
       return {
-        message: '起始值不能大于结束值',
+        message: t ? t('numberRange.validation.startGreaterThanEnd') : '起始值不能大于结束值',
         isValid: false,
       };
     }
     if (i > 0 && start !== ranges[i - 1].max) {
       return {
-        message: '区间不连续',
+        message: t ? t('numberRange.validation.rangeNotContinuous') : '区间不连续',
         isValid: false,
       };
     }
@@ -136,6 +143,7 @@ export const getDefaultRangesByStep = (
 };
 
 const NumberRange: FC<NumberRangeProps> = (props) => {
+  const { t } = useTranslation();
   const {
     value = [],
     max,
@@ -273,7 +281,7 @@ const NumberRange: FC<NumberRangeProps> = (props) => {
 
               {showDelButton && (
                 <Button type="link" danger onClick={() => deleteRange(index)}>
-                  删除
+                  {t('numberRange.ui.delete')}
                 </Button>
               )}
             </div>
@@ -282,7 +290,7 @@ const NumberRange: FC<NumberRangeProps> = (props) => {
       </StyleContainer>
       {showAddButton && (
         <Button block icon={<PlusOutlined />} onClick={addRange}>
-          添加区间
+          {t('numberRange.ui.addRange')}
         </Button>
       )}
     </>

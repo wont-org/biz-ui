@@ -2,26 +2,26 @@ export const FORMULA = {
   text: {
     value: 'text',
     valueType: 'text',
-    label: '对象',
+    labelKey: 'formulaInput.formula.object',
   },
   number: {
     value: 'number',
     valueType: 'number',
-    label: '常数',
+    labelKey: 'formulaInput.formula.constant',
   },
 } as const;
 
 export const DECIMAL_PLACES = {
   integer: {
-    label: '整数',
+    labelKey: 'formulaInput.decimalPlaces.integer',
     value: 0,
   },
   four: {
-    label: '四位小数',
+    labelKey: 'formulaInput.decimalPlaces.four',
     value: 4,
   },
   percent: {
-    label: '百分数',
+    labelKey: 'formulaInput.decimalPlaces.percent',
     value: 2,
   },
 } as const;

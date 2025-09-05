@@ -2,20 +2,20 @@
 
 ## 安装
 
+### pnpm
+
+```bash
+pnpm add @wont/biz-ui
+```
+
 ### npm
 
 ```bash
-npm install antd --save
+npm install @wont/biz-ui --save
 ```
 
 ### yarn
 
 ```bash
-yarn add antd
-```
-
-### pnpm
-
-```bash
-pnpm add antd
+yarn add @wont/biz-ui
 ```
