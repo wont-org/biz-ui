@@ -42,7 +42,7 @@ const MultipleSelect = ({
       dropdownMatchSelectWidth={260}
       // 兜底宽度，不可删除
       style={{
-        minWidth: 260,
+        minWidth: 210,
       }}
       autoClearSearchValue={false}
       {...props}
