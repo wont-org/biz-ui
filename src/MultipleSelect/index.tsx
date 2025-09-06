@@ -38,7 +38,9 @@ const MultipleSelect = ({
         String(option?.[labelField]).toLowerCase().includes(input.toLowerCase())
       }
       fieldNames={fieldNames}
-      // dropdownMatchSelectWidth={260}
+      // 英文全选、反选最小宽度，必须
+      dropdownMatchSelectWidth={260}
+      // 兜底宽度，不可删除
       style={{
         minWidth: 260,
       }}
