@@ -1,6 +1,6 @@
 import { Button, Divider, Select, Space } from 'antd';
 import { SelectProps } from 'antd/lib/select';
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from '../BizProvider';
 
 const MultipleSelect = ({
@@ -16,14 +16,13 @@ const MultipleSelect = ({
   const valueField = fieldNames?.value || 'value';
 
   const [searchValue, setSearchValue] = useState('');
-  const [searchOption, setSearchOption] = useState<SelectProps['options']>([]);
 
-  useEffect(() => {
+  const searchOption = useMemo(() => {
     const filterOption = options?.filter(
       (e) =>
         !!e && String(e?.[labelField]).toLowerCase().indexOf(searchValue.trim().toLowerCase()) >= 0,
     );
-    setSearchOption(filterOption);
+    return filterOption;
   }, [labelField, options, searchValue]);
 
   return (
@@ -36,9 +35,13 @@ const MultipleSelect = ({
       mode="multiple"
       maxTagCount={1}
       filterOption={(input, option) =>
-        String(option?.label).toLowerCase().includes(input.toLowerCase())
+        String(option?.[labelField]).toLowerCase().includes(input.toLowerCase())
       }
-      dropdownMatchSelectWidth={260}
+      fieldNames={fieldNames}
+      // dropdownMatchSelectWidth={260}
+      style={{
+        minWidth: 260,
+      }}
       autoClearSearchValue={false}
       {...props}
       onChange={onChange}
