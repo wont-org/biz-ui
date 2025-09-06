@@ -1,3 +1,14 @@
+# [1.4.0-beta.6](https://github.com/wont-org/biz-ui/compare/v1.4.0-beta.5...v1.4.0-beta.6) (2025-09-06)
+
+### Bug Fixes
+
+- 数据条, 支持大于最大值填充 ([d8495c4](https://github.com/wont-org/biz-ui/commit/d8495c4e389c93e4ed1174f94fc875950012d283))
+- **MultipleSelect:** fieldNames and search not effect ([77719a8](https://github.com/wont-org/biz-ui/commit/77719a83cec0f417517ddd7feb4e8c2b44798279))
+
+### Features
+
+- **DataBar:** 支持大于最大值,小于最小值 ([fea239d](https://github.com/wont-org/biz-ui/commit/fea239d5588957847c59b4cc3d8c68bc900b162c))
+
 # [1.4.0-beta.5](https://github.com/wont-org/biz-ui/compare/v1.4.0-beta.4...v1.4.0-beta.5) (2025-09-05)
 
 ### Features
