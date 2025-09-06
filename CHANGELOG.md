@@ -1,3 +1,17 @@
+# [1.4.0-beta.7](https://github.com/wont-org/biz-ui/compare/v1.4.0-beta.6...v1.4.0-beta.7) (2025-09-06)
+
+### Bug Fixes
+
+- **MultipleSelect:** dropdownMatchSelectWidth 260，确保英文全选反选清空完整展示 ([b84228b](https://github.com/wont-org/biz-ui/commit/b84228b5c3e456f7c8dbecafb58f0d4ebd7e2ca3))
+
+### Features
+
+- **MultipleSelect:** 将最小宽度从 260 调整为 210，兼容历史场景 ([b900aab](https://github.com/wont-org/biz-ui/commit/b900aab5de50560d19a0c0be8db2b12812270081))
+
+### Reverts
+
+- Revert "chore: release v1.4.0-beta.7" ([3b0e28a](https://github.com/wont-org/biz-ui/commit/3b0e28a76669ccc608535dd662704205c28e868a))
+
 # [1.4.0-beta.6](https://github.com/wont-org/biz-ui/compare/v1.4.0-beta.5...v1.4.0-beta.6) (2025-09-06)
 
 ### Bug Fixes
