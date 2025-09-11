@@ -1,6 +1,6 @@
 import { Button, Divider, Select, Space } from 'antd';
 import { SelectProps } from 'antd/lib/select';
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from '../BizProvider';
 
 const MultipleSelect = ({
@@ -16,14 +16,13 @@ const MultipleSelect = ({
   const valueField = fieldNames?.value || 'value';
 
   const [searchValue, setSearchValue] = useState('');
-  const [searchOption, setSearchOption] = useState<SelectProps['options']>([]);
 
-  useEffect(() => {
+  const searchOption = useMemo(() => {
     const filterOption = options?.filter(
       (e) =>
         !!e && String(e?.[labelField]).toLowerCase().indexOf(searchValue.trim().toLowerCase()) >= 0,
     );
-    setSearchOption(filterOption);
+    return filterOption;
   }, [labelField, options, searchValue]);
 
   return (
@@ -36,9 +35,15 @@ const MultipleSelect = ({
       mode="multiple"
       maxTagCount={1}
       filterOption={(input, option) =>
-        String(option?.label).toLowerCase().includes(input.toLowerCase())
+        String(option?.[labelField]).toLowerCase().includes(input.toLowerCase())
       }
+      fieldNames={fieldNames}
+      // 英文全选、反选最小宽度，必须
       dropdownMatchSelectWidth={260}
+      // 兜底宽度，不可删除
+      style={{
+        minWidth: 210,
+      }}
       autoClearSearchValue={false}
       {...props}
       onChange={onChange}
@@ -85,8 +90,9 @@ const MultipleSelect = ({
                 const values: Parameters<typeof onChange>['0'] = [];
                 const valueOptions: Parameters<typeof onChange>['1'] = [];
                 searchOption.forEach((e) => {
-                  if (!value?.includes(e[valueField]) && !e.disabled) {
-                    values.push(e.value);
+                  const _value = e[valueField];
+                  if (!value?.includes(_value) && !e.disabled) {
+                    values.push(_value);
                     valueOptions.push(e);
                   }
                 });

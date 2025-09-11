@@ -97,36 +97,6 @@ export const dataBar = {
       zhCN: '验证失败',
     },
   },
-  // 表格列标题
-  table: {
-    fixedRange: {
-      enUS: 'Fixed Range -10~10',
-      zhCN: '-10~10写死',
-    },
-    mixedByConfig: {
-      enUS: 'Mixed Values - By Configuration',
-      zhCN: '正负混合-根据配置',
-    },
-    fixedNegativePure: {
-      enUS: 'Fixed Negative -1~-10 - Solid Color',
-      zhCN: '-1~-10-写死-纯色',
-    },
-    positiveGradientByConfig: {
-      enUS: 'Positive Gradient (By Configuration)',
-      zhCN: '正数渐变（根据配置）',
-    },
-  },
-  // Basic demo 标题
-  demo: {
-    greenWhite: {
-      enUS: 'Green White',
-      zhCN: '绿白',
-    },
-    twoColorGradientRedWhite: {
-      enUS: 'Two-color Gradient Red White',
-      zhCN: '二色渐变 红白',
-    },
-  },
   // 模板相关
   template: {
     solidGreen: {

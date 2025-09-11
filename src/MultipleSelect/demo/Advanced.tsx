@@ -28,11 +28,11 @@ const AdvancedDemoInner = () => {
   // 生成部门选项（自定义字段名）
   const getDepartmentOptions = () => {
     const departments = t('demo.dataSource.departments') as unknown as Record<string, string>;
-    return Object.keys(departments).map((key) => ({
-      name: departments[key], // 使用 name 作为 label 字段
-      label: departments[key], // 添加 label 属性以满足类型要求
+    return Object.keys(departments).map((key, index) => ({
+      name: departments[key] + '_label_' + index, // 使用 name 作为 label 字段
+      // label: departments[key] + '_label', // 添加 label 属性以满足类型要求
       id: key, // 使用 id 作为 value 字段
-      value: key, // 添加 value 属性以满足类型要求
+      // value: key, // 添加 value 属性以满足类型要求
       description: `Department: ${departments[key]}`,
     }));
   };

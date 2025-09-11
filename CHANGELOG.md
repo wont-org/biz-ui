@@ -1,3 +1,34 @@
+# [1.4.0-beta.8](https://github.com/wont-org/biz-ui/compare/v1.4.0-beta.7...v1.4.0-beta.8) (2025-09-11)
+
+### Bug Fixes
+
+- **MultipleSelect:** 反选+fieldNames ([77541e5](https://github.com/wont-org/biz-ui/commit/77541e5d173be4e943a4afd387222a0726f2a89d))
+
+# [1.4.0-beta.7](https://github.com/wont-org/biz-ui/compare/v1.4.0-beta.6...v1.4.0-beta.7) (2025-09-06)
+
+### Bug Fixes
+
+- **MultipleSelect:** dropdownMatchSelectWidth 260，确保英文全选反选清空完整展示 ([b84228b](https://github.com/wont-org/biz-ui/commit/b84228b5c3e456f7c8dbecafb58f0d4ebd7e2ca3))
+
+### Features
+
+- **MultipleSelect:** 将最小宽度从 260 调整为 210，兼容历史场景 ([b900aab](https://github.com/wont-org/biz-ui/commit/b900aab5de50560d19a0c0be8db2b12812270081))
+
+### Reverts
+
+- Revert "chore: release v1.4.0-beta.7" ([3b0e28a](https://github.com/wont-org/biz-ui/commit/3b0e28a76669ccc608535dd662704205c28e868a))
+
+# [1.4.0-beta.6](https://github.com/wont-org/biz-ui/compare/v1.4.0-beta.5...v1.4.0-beta.6) (2025-09-06)
+
+### Bug Fixes
+
+- 数据条, 支持大于最大值填充 ([d8495c4](https://github.com/wont-org/biz-ui/commit/d8495c4e389c93e4ed1174f94fc875950012d283))
+- **MultipleSelect:** fieldNames and search not effect ([77719a8](https://github.com/wont-org/biz-ui/commit/77719a83cec0f417517ddd7feb4e8c2b44798279))
+
+### Features
+
+- **DataBar:** 支持大于最大值,小于最小值 ([fea239d](https://github.com/wont-org/biz-ui/commit/fea239d5588957847c59b4cc3d8c68bc900b162c))
+
 # [1.4.0-beta.5](https://github.com/wont-org/biz-ui/compare/v1.4.0-beta.4...v1.4.0-beta.5) (2025-09-05)
 
 ### Features
