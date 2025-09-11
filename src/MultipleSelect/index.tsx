@@ -90,8 +90,9 @@ const MultipleSelect = ({
                 const values: Parameters<typeof onChange>['0'] = [];
                 const valueOptions: Parameters<typeof onChange>['1'] = [];
                 searchOption.forEach((e) => {
-                  if (!value?.includes(e[valueField]) && !e.disabled) {
-                    values.push(e.value);
+                  const _value = e[valueField];
+                  if (!value?.includes(_value) && !e.disabled) {
+                    values.push(_value);
                     valueOptions.push(e);
                   }
                 });
