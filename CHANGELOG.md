@@ -1,3 +1,9 @@
+# [1.4.0-beta.8](https://github.com/wont-org/biz-ui/compare/v1.4.0-beta.7...v1.4.0-beta.8) (2025-09-11)
+
+### Bug Fixes
+
+- **MultipleSelect:** 反选+fieldNames ([77541e5](https://github.com/wont-org/biz-ui/commit/77541e5d173be4e943a4afd387222a0726f2a89d))
+
 # [1.4.0-beta.7](https://github.com/wont-org/biz-ui/compare/v1.4.0-beta.6...v1.4.0-beta.7) (2025-09-06)
 
 ### Bug Fixes
